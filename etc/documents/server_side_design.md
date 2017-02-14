@@ -2,7 +2,7 @@
 
 # 概要
 Perlで作成  
-OOP : Mouse
+OOP : Mouse + Smart::Args
 WAF : Mojolicious  
 DB  : Postgresql
 ORM : Aniki + Anego  
