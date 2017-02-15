@@ -1,7 +1,7 @@
 package HirakataPapark::DB {
 
-  use 5.014002;
-  use Mouse v2.4.5;
+  use Mouse;
+  use HirakataPapark;
   extends qw( Aniki );
 
   __PACKAGE__->setup(
