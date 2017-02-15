@@ -2,10 +2,12 @@
 
 # 概要
 Perlで作成  
-OOP : Mouse + Smart::Args
+OOP : Mouse
+Argments validator : Smart::Args
 WAF : Mojolicious  
 DB  : Postgresql
-ORM : Aniki + Anego  
+ORM : Aniki
+Migration tool : Anego  
 
 # モジュール構造
 

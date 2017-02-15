@@ -5,8 +5,27 @@ package HirakataPapark 0.01 {
   use utf8;
   use feature qw( :5.24 );
 
+  use Data::Dumper;
+  use Module::Load 'autoload_remote';
+
+  # Data::Dumper utf8対応
+  {
+    no warnings 'redefine';
+    *Data::Dumper::qquote = sub { shift };
+  }
+  $Data::Dumper::Useperl = 1;
+
   sub import {
     my ($class, $option) = @_;
+    $option //= '';
+
+    if ($option eq 'test') {
+      unshift @INC, './t/lib'; # テストの時パス追加
+      my $pkg = caller;
+      my @load = qw( Test::More Test::Exception Test::Name::FromLine );
+      autoload_remote($pkg, $_) for @load;
+    }
+
     $class->import_pragma;
   }
   

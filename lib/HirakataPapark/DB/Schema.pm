@@ -7,24 +7,24 @@ package HirakataPapark::DB::Schema {
   database 'PostgreSQL';
 
   create_table park => columns {
-    integer id => (primary_key, auto_increment);
-    string name => (unique);
-    integer good_count => (default => 0);
+    integer 'id' => (primary_key, auto_increment);
+    string 'name' => (unique);
+    string 'addres';
+    integer 'good_count' => (default => 0);
     double 'x_coordinate';
     double 'y_coordinate';
     double 'area';
 
-    add_index name_index => ['name'];
+    add_index 'name_index' => ['name'];
   };
 
   create_table park_equipment => columns {
     integer 'park_id';
     string 'name';
-    integer 'num';
+    integer 'num' => (default => 1);
     string 'comment';
 
-    belongs_to 'park';
-    foreign_key park_id => (park => 'id');
+    foreign_key 'park_id' => (park => 'id');
   };
 
   create_table park_tag => columns {
@@ -32,8 +32,7 @@ package HirakataPapark::DB::Schema {
     string 'name';
 
     set_primary_key qw( park_id name );
-    belongs_to 'park';
-    foreign_key park_id => (park => 'id');
+    foreign_key 'park_id' => (park => 'id');
   };
 
   create_table park_event => columns {
@@ -42,8 +41,7 @@ package HirakataPapark::DB::Schema {
     string 'title';
     text 'explain';
 
-    belongs_to 'park';
-    foreign_key park_id => (park => 'id');
+    foreign_key 'park_id' => (park => 'id');
   };
 
   create_table park_comment => columns {
@@ -52,8 +50,7 @@ package HirakataPapark::DB::Schema {
     string 'name';
     text 'message';
 
-    belongs_to 'park';
-    foreign_key park_id => (park => 'id');
+    foreign_key 'park_id' => (park => 'id');
   };
 
   create_table park_news => columns {
@@ -62,8 +59,7 @@ package HirakataPapark::DB::Schema {
     string 'title';
     text 'message';
 
-    belongs_to 'park';
-    foreign_key park_id => (park => 'id');
+    foreign_key 'park_id' => (park => 'id');
   };
 
 }
