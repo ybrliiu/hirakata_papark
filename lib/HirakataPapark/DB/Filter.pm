@@ -1,7 +1,9 @@
-package HirakataPapark::DB::Filter;
-use 5.014002;
+package HirakataPapark::DB::Filter {
 
-use Aniki::Filter::Declare;
+  use HirakataPapark;
+  use Aniki::Filter::Declare;
+
+}
 
 1;
 

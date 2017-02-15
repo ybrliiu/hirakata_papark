@@ -3,9 +3,11 @@
 # 概要
 Perlで作成  
 OOP : Mouse
+Argments validator : Smart::Args
 WAF : Mojolicious  
 DB  : Postgresql
-ORM : Aniki + Anego  
+ORM : Aniki
+Migration tool : Anego  
 
 # モジュール構造
 
