@@ -11,14 +11,14 @@ package HirakataPapark::Model::Parks {
   with 'HirakataPapark::Model::Role::DB';
 
   sub add_row {
-    args my $self, my $name => 'Str', my $addres => 'Str',
-      my $x_coordinate => 'Num', my $y_coordinate => 'Num', my $area => 'Num';
+    args my $self, my $name => 'Str',
+      my $address => 'Str', my $x => 'Num', my $y => 'Num', my $area => 'Num';
     $self->insert({
-      name         => $name,
-      addres       => $addres,
-      x_coordinate => $x_coordinate,
-      y_coordinate => $y_coordinate,
-      area         => $area,
+      name    => $name,
+      address => $address,
+      x       => $x,
+      y       => $y,
+      area    => $area,
     });
   }
 
