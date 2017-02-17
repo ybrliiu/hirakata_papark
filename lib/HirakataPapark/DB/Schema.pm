@@ -9,10 +9,10 @@ package HirakataPapark::DB::Schema {
   create_table park => columns {
     integer 'id' => (primary_key, auto_increment);
     string 'name' => (unique);
-    string 'addres';
+    string 'address';
     integer 'good_count' => (default => 0);
-    double 'x_coordinate';
-    double 'y_coordinate';
+    double 'x';
+    double 'y';
     double 'area';
 
     add_index 'name_index' => ['name'];
