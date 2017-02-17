@@ -8,7 +8,8 @@ package HirakataPapark::Web {
     $self->plugin('PODRenderer');
   
     my $r = $self->routes;
-    $r->get('/')->to('example#welcome');
+    $r->namespaces(['HirakataPapark::Web::Controller']);
+    $r->get('/')->to('Root#root');
   }
 
 }

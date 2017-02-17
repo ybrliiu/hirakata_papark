@@ -5,6 +5,7 @@ use Encode;
 use lib './lib';
 
 use Spreadsheet::ParseXLSX;
+use HirakataPapark::Model::Parks;
 
 my @COLUMNS = qw( id type1 type2 name x y area address );
 
@@ -19,7 +20,7 @@ my @parks = map {
   my @row_values = map {
     my $col  = $_;
     my $cell = $worksheet->get_cell($row, $col);
-    Encode::encode_utf8($cell->value);
+    $cell->value;
   } $col_min .. $col_max;
   my %hash;
   @hash{@COLUMNS} = @row_values;
@@ -29,4 +30,7 @@ my @parks = map {
 
 use Data::Dumper;
 say Dumper \@parks;
+
+my $model = HirakataPapark::Model::Parks->new;
+$model->add_rows(\@parks);
 

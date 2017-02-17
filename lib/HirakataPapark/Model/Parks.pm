@@ -3,7 +3,6 @@ package HirakataPapark::Model::Parks {
   use Mouse;
   use HirakataPapark;
 
-  use Option;
   use Smart::Args qw( args args_pos );
   
   use constant TABLE => 'park';
