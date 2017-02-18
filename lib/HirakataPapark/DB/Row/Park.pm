@@ -6,7 +6,7 @@ package HirakataPapark::DB::Row::Park {
 
   sub to_json_for_marker {
     my $self = shift;
-    qq!{ "name": "@{[ $self->name ]}", "x": @{[ $self->x ]}, "y": @{[ $self->y ]} }!;
+    qq!{ "id": @{[ $self->id ]}, "name": "@{[ $self->name ]}", "x": @{[ $self->x ]}, "y": @{[ $self->y ]} }!;
   }
 
   __PACKAGE__->meta->make_immutable;

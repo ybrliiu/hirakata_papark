@@ -37,7 +37,7 @@
 
   PROTOTYPE.registParkMarkers = function (parks) {
     parks.forEach(function (park) {
-      L.marker([park.y, park.x]).addTo(this.parkMap).bindPopup(park.name + '公園');
+      L.marker([park.y, park.x]).addTo(this.parkMap).bindPopup('<a href="/park/' + park.id + '">' + park.name + '公園</a>');
     }.bind(this));
   };
 

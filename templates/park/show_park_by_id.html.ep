@@ -1,5 +1,12 @@
 % layout 'default';
 
-<%= $park->name %>公園
-住所 : <%= $park->address %>
+<div class="container">
+  <div class="row">
+    <div class="col s12">
+      <h2><%= $park->name %>公園</h2>
+      <p>住所 : <%= $park->address %></p>
+      <p>緯度 : <%= $park->y %>, 経度 : <%= $park->x %>
+    </div>
+  </div>
+</div>
 
