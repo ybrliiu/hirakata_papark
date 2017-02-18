@@ -1,6 +1,6 @@
 package HirakataPapark::Web::Controller::Root {
 
-  use Mojo::Base 'Mojolicious::Controller';
+  use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
   use HirakataPapark::Service::Root;
 
@@ -8,11 +8,8 @@ package HirakataPapark::Web::Controller::Root {
 
   sub root {
     my $self = shift;
-    $self->stash(
-      $self->service->root->%*,
-      msg => 'test',
-    );
-    $self->render(msg => 'Welcome to the Mojolicious real-time web framework!');
+    $self->stash($self->service->root);
+    $self->render;
   }
 
 }

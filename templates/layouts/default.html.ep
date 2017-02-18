@@ -1,5 +1,7 @@
 % # htmlの外側(default)
 % extends 'layouts/wrapper';
+% push @$JS_FILES, 'js/hirakata-papark/menu.js';
+
 % content container => begin
   <nav>
     <div class="nav-wrapper green darken-3">
@@ -25,34 +27,6 @@
         <li><a href="/search/news">ニュースから検索</a></li>
         <li><a href="/about">about</a></li>
       </ul>
-      
-      <style>
-        .side-nav {
-          transform: none;
-          -webkit-transform: none;
-        }
-        .in-side-nav {
-          height: auto;
-        }
-        .in-side-nav .input-field input[type=search] {
-          display: inline !important;
-        }
-        .in-side-nav i {
-          color: rgba(60, 60, 60, 0.7) !important;
-        }
-        .side-nav span {
-          color: rgba(222, 222, 222, 1.0);
-          display: block;
-          font-size: 14px;
-          font-weight: 500;
-          height: 48px;
-          line-height: 48px;
-          padding: 0 32px;
-        }
-        .side-nav span.title {
-          font-size: 22px;
-        }
-      </style>
     </div>
   </nav>
   <%= content %>

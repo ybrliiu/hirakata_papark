@@ -3,9 +3,14 @@
 <html>
   <head>
     <meta charser="UTF-8">
+    <meta name="description" content="枚方市の公園の情報が見れます。">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/materialize.min.css">
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    %= asset 'base.css';
+    % for (@$SCSS_FILES) {
+      %= asset $_;
+    % }
     <script src="js/vue.js"></script>
     <script src="js/hirakata-papark.js"></script>
     <title><%= $config->{site}{name} %></title>
@@ -16,6 +21,8 @@
     % end
     %= content 'container'
 
-    <script src="js/hirakata-papark/menu.js"></script>
+    % for (@$JS_FILES) {
+      %= javascript $_;
+    % }
   </body>
 </html>

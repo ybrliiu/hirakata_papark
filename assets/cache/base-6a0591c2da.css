@@ -1,0 +1,24 @@
+.side-nav {
+  transform: none;
+  -webkit-transform: none; }
+
+.in-side-nav {
+  height: auto; }
+
+.in-side-nav .input-field input[type=search] {
+  display: inline !important; }
+
+.in-side-nav i {
+  color: rgba(60, 60, 60, 0.7) !important; }
+
+.side-nav span {
+  color: #dedede;
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  height: 48px;
+  line-height: 48px;
+  padding: 0 32px; }
+
+.side-nav span.title {
+  font-size: 22px; }
