@@ -6,6 +6,8 @@ package HirakataPapark::DB::Schema {
 
   database 'PostgreSQL';
 
+  default_not_null;
+
   create_table park => columns {
     integer 'id' => (primary_key, auto_increment);
     string 'name' => (unique);
@@ -21,8 +23,9 @@ package HirakataPapark::DB::Schema {
   create_table park_equipment => columns {
     integer 'park_id';
     string 'name';
-    integer 'num' => (default => 1);
+    integer 'recommended_age' => (default => 0);
     string 'comment';
+    integer 'num' => (default => 1);
 
     foreign_key 'park_id' => (park => 'id');
   };

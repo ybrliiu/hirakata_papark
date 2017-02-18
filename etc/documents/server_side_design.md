@@ -14,4 +14,4 @@ Migration tool : Anego
 # URL設計
 
 # データベース設計
-
+HirakataPapark::DB::Schema を参照

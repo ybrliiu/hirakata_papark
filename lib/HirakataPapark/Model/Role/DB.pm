@@ -3,7 +3,6 @@ package HirakataPapark::Model::Role::DB {
   use Mouse::Role;
   use HirakataPapark;
 
-  use Option;
   use HirakataPapark::DB;
   use HirakataPapark::Model::Config;
 

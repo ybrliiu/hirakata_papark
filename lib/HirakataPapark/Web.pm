@@ -4,8 +4,8 @@ package HirakataPapark::Web {
 
   sub startup {
     my $self = shift;
-  
-    $self->plugin('PODRenderer');
+
+    $self->plugin('Config', { file => "etc/config/$_.conf" }) for qw( site );
   
     my $r = $self->routes;
     $r->namespaces(['HirakataPapark::Web::Controller']);

@@ -1,5 +1,91 @@
-<!DOCTYPE html>
-<html>
-  <head><title><%= title %></title></head>
-  <body><%= content %></body>
-</html>
+% # htmlの外側(default)
+% extends 'layouts/wrapper';
+% content container => begin
+  <nav>
+    <div class="nav-wrapper green darken-3">
+      <a href="#" class="brand-logo center"><%= $config->{site}{name} %></a>
+      <ul class="left">
+        <li id="show-menu-button" v-on:click="showSideMenu"><a><i class="material-icons right">more_vert</i>メニュー</a></li>
+      </ul>
+      <ul class="side-nav" id="side-menu" v-if="isShow" v-on:click="stopClose">
+        <li><span class="title center green darken-3"><%= $config->{site}{name} %></span></li>
+        <form class="in-side-nav">
+          <div class="input-field">
+            <input id="search" type="search" placeholder="公園を検索">
+            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+          </div>
+        </form>
+        <li><a href="/">公園マップ</a></li>
+        <li><a href="/search/current-location">現在地周辺の公園を検索</a></li>
+        <li><a href="/search/equipment">遊具・施設から検索</a></li>
+        <li><a href="/search/surrounding-facilities">周辺施設から検索</a></li>
+        <li><a href="/search/tag">タグから検索</a></li>
+        <li><a href="/search/event">イベントから検索</a></li>
+        <li><a href="/search/comment">コメントから検索</a></li>
+        <li><a href="/search/news">ニュースから検索</a></li>
+        <li><a href="/about">about</a></li>
+      </ul>
+      
+      <style>
+        .side-nav {
+          transform: none;
+          -webkit-transform: none;
+        }
+        .in-side-nav {
+          height: auto;
+        }
+        .in-side-nav .input-field input[type=search] {
+          display: inline !important;
+        }
+        .in-side-nav i {
+          color: rgba(60, 60, 60, 0.7) !important;
+        }
+        .side-nav span {
+          color: rgba(222, 222, 222, 1.0);
+          display: block;
+          font-size: 14px;
+          font-weight: 500;
+          height: 48px;
+          line-height: 48px;
+          padding: 0 32px;
+        }
+        .side-nav span.title {
+          font-size: 22px;
+        }
+      </style>
+
+      <script>
+      (function () {
+
+        var sideMenu = new Vue({
+          el: '#side-menu',
+          data: {
+            isShow: false,
+          },
+          methods: {
+            show: function () { this.isShow = true; },
+            close: function () { this.isShow = false; },
+            stopClose: function (eve) { eve.stopPropagation(); },
+          },
+          created: function () { window.addEventListener('click', this.close.bind(this)); },
+          destroyed: function () { window.removeEventListener('click', this.close.bind(this)); },
+        });
+
+        var showMenuButton = new Vue({
+          el: '#show-menu-button',
+          methods: {
+            showSideMenu: function (eve) {
+              eve.stopPropagation();
+              sideMenu.show();
+            },
+          },
+        });
+
+      }());
+      </script>
+
+    </div>
+  </nav>
+  <%= content %>
+% end
+%= content 'container'

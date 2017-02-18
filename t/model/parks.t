@@ -37,9 +37,9 @@ subtest add_rows => sub {
         y       => 1.3030,
         area    => 1000
       },
-    ])
+    ]);
   };
-  my @rows = $model->get_rows_all;
+  my @rows = $model->get_rows_all->@*;
   is scalar @rows, 3;
 };
 

@@ -1,7 +1,4 @@
 % layout 'default';
-% title 'Welcome';
-<h2><%= 1 + 1 %></h2>
-<%= $msg %>
 <ul>
 % for (@$parks) {
   <li><%= $_->name %></li>

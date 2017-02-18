@@ -28,12 +28,12 @@ package HirakataPapark::Model::Parks {
 
   sub get_row_by_id {
     args_pos my $self, my $id => 'Int';
-    Option->new( $self->select({id => $id})->first );
+    $self->select({id => $id})->first_with_option;
   }
 
   sub get_row_by_name {
     args_pos my $self, my $name => 'Str';
-    Option->new( $self->select({name => $name})->first );
+    $self->select({name => $name})->first_with_option;
   }
 
 }
