@@ -11,6 +11,7 @@
     "use strict";
     var parkMap = new hirakataPapark.ParkMap();
     parkMap.registParkMarkers( JSON.parse('<%== $parks_json %>') );
+    parkMap.registCurrentLocation();
   });
 </script>
 

@@ -1,6 +1,6 @@
-'use strict';
-
 (function () {
+
+  'use strict';
 
   hirakataPapark.namespace('menu');
   hirakataPapark.menu = {};

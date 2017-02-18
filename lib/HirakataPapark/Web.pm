@@ -12,6 +12,9 @@ package HirakataPapark::Web {
     my $r = $self->routes;
     $r->namespaces(['HirakataPapark::Web::Controller']);
     $r->get('/')->to('Root#root');
+    $r->get('/current-location')->to('Root#current_location');
+
+    $r->get('/park/:park_id')->to('Park#show_park_by_id');
   }
 
 }

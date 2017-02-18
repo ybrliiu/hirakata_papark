@@ -7,8 +7,10 @@ package HirakataPapark::Service::Root {
 
   sub root {
     my $self = shift;
+    my $park_model = $self->model('Parks')->new;
+    $park_model->get_rows_all;
     return +{
-      parks => $self->model('Parks')->new->get_rows_all,
+      parks_json => $park_model->to_json_for_marker,
     };
   }
 

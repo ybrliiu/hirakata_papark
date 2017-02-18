@@ -41,6 +41,7 @@ subtest add_rows => sub {
   };
   my @rows = $model->get_rows_all->@*;
   is scalar @rows, 3;
+  diag $model->to_json_for_marker;
 };
 
 done_testing;

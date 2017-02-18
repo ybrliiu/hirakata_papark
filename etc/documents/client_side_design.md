@@ -1,7 +1,7 @@
 # ひらかたパパーク クライアントサイド 設計
 
 # 概要
-CSS frame work : Foundation
+CSS frame work : Materialize
 JS frame work : Vue.js
 Ajax : SuperAgent.js
 Others : 

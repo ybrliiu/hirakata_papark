@@ -1,18 +1,21 @@
-%# サイト共通の外枠
 <!DOCTYPE html>
 <html>
   <head>
     <meta charser="UTF-8">
     <meta name="description" content="枚方市の公園の情報が見れます。">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="/css/materialize.min.css">
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     %= asset 'base.css';
+    %# レイアウトを使用するテンプレート側で指定したscssファイルを読み込む
     % for (@$SCSS_FILES) {
       %= asset $_;
     % }
-    <script src="js/vue.js"></script>
-    <script src="js/hirakata-papark.js"></script>
+    % for (@$CSS_FILES) {
+      %= stylesheet $_;
+    % }
+    <script src="/js/vue.js"></script>
+    <script src="/js/hirakata-papark.js"></script>
     <title><%= $config->{site}{name} %></title>
   </head>
   <body>
@@ -22,7 +25,7 @@
     %= content 'container'
 
     % for (@$JS_FILES) {
-      %= javascript $_;
+      %= javascript "/$_";
     % }
   </body>
 </html>
