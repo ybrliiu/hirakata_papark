@@ -1,0 +1,9 @@
+% layout 'default';
+
+<ul>
+% for (@$parks) {
+  <li><%= $_->name %></li>
+% }
+</ul>
+
+

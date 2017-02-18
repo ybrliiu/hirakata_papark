@@ -8,9 +8,10 @@ package HirakataPapark::Model::Role::DB {
 
   requires 'TABLE';
 
+  has 'db'     => ( is => 'ro', isa => 'HirakataPapark::DB', default => \&default_db );
   has 'result' => ( is => 'rw', isa => 'HirakataPapark::DB::Result' );
 
-  sub db {
+  sub default_db {
     my $class = shift;
     
     state $db;
@@ -43,7 +44,7 @@ package HirakataPapark::Model::Role::DB {
 
   sub get_rows_all {
     my $self = shift;
-    $self->db->select($self->TABLE => {})->all;
+    [ $self->db->select($self->TABLE => {})->all ];
   }
 
 }
