@@ -44,7 +44,8 @@ package HirakataPapark::Model::Role::DB {
 
   sub get_rows_all {
     my $self = shift;
-    [ $self->db->select($self->TABLE => {})->all ];
+    $self->result( $self->db->select($self->TABLE => {}) );
+    [ $self->result->all ];
   }
 
 }

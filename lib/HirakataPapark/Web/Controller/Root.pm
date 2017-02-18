@@ -12,6 +12,11 @@ package HirakataPapark::Web::Controller::Root {
     $self->render;
   }
 
+  sub current_location {
+    my $self = shift;
+    $self->root;
+  }
+
 }
 
 1;

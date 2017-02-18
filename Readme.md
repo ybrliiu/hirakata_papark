@@ -1,6 +1,7 @@
 # ひらかたパパーク
 
 ## 予定
-* トップページ, URL設計
-* 公園一覧のマップ表示(openpark.jp 参考に, フレームワークにはVue.js使用)
+* VPSでも動かせるように(proxy, cpanfile, perl version)
+* URL設計
+* 周辺検索はフォームの値で切り替えても良いかも
 

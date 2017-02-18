@@ -6,7 +6,7 @@ package HirakataPapark::Web::Controller {
   # override
   sub render {
     my $self = shift;
-    $self->SUPER::render(@_, JS_FILES => [], SCSS_FILES => []);
+    $self->SUPER::render(@_, JS_FILES => [], SCSS_FILES => [], CSS_FILES => []);
   }
 
 }

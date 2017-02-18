@@ -1,0 +1,5 @@
+% layout 'default';
+
+<%= $park->name %>公園
+住所 : <%= $park->address %>
+

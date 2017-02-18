@@ -1,4 +1,3 @@
-% # htmlの外側(default)
 % extends 'layouts/wrapper';
 % push @$JS_FILES, 'js/hirakata-papark/menu.js';
 
@@ -14,11 +13,11 @@
         <form class="in-side-nav">
           <div class="input-field">
             <input id="search" type="search" placeholder="公園を検索">
-            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+            <i class="material-icons">search</i>
           </div>
         </form>
         <li><a href="/">公園マップ</a></li>
-        <li><a href="/search/current-location">現在地周辺の公園を検索</a></li>
+        <li><a href="/current-location">現在地周辺の公園を検索</a></li>
         <li><a href="/search/equipment">遊具・施設から検索</a></li>
         <li><a href="/search/surrounding-facilities">周辺施設から検索</a></li>
         <li><a href="/search/tag">タグから検索</a></li>

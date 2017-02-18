@@ -36,6 +36,13 @@ package HirakataPapark::Model::Parks {
     $self->select({name => $name})->first_with_option;
   }
 
+  # 結果を park map の marker のための json にするので、 先に何らかのメソッドで結果を取得しておくこと
+  sub to_json_for_marker {
+    my $self = shift;
+    return '[]' unless $self->result;
+    "[ " . (join ", ", map { $_->to_json_for_marker } $self->result->all) . " ]";
+  }
+
 }
 
 1;
