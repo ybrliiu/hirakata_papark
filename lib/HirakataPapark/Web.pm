@@ -17,6 +17,10 @@ package HirakataPapark::Web {
     $r->get('/current-location')->to('Root#current_location');
 
     $r->get('/park/:park_id')->to('Park#show_park_by_id');
+
+    $r->get('/searcher/equipment')->to('Searcher#equipment');
+
+    $r->get('/search/by-equipments')->to('Search#by_equipments');
   }
 
 }

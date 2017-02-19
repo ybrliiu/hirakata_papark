@@ -1,0 +1,18 @@
+% layout 'default';
+
+% my $check_box = begin
+% my $name = shift;
+<p>
+  <input type="checkbox" class="filled-in" id="<%= $name %>">
+  <label for="<%= $name %>"><%= $name %></label>
+</p>
+% end
+
+
+<div class="container">
+  <h2>遊具・施設から検索</h2>
+  % for (@$equipment_list) {
+    <%= $check_box->($_) %>
+  % }
+</div>
+
