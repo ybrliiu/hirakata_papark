@@ -19,7 +19,8 @@
     shadowAnchor: [0, 0]
   });
   
-  hirakataPapark.ParkMap = function () {
+  hirakataPapark.ParkMap = function (url) {
+    this.url = url === undefined ? '' : url;
     this.parkMap = L.map('park-map').setView([DEFAULT_Y, DEFAULT_X], DEFAULT_ZOOM);
     L.tileLayer(TILE_MAP_URL, {
       maxZoom: MAX_ZOOM,
@@ -37,7 +38,7 @@
 
   PROTOTYPE.registParkMarkers = function (parks) {
     parks.forEach(function (park) {
-      L.marker([park.y, park.x]).addTo(this.parkMap).bindPopup('<a href="/park/' + park.id + '">' + park.name + '公園</a>');
+      L.marker([park.y, park.x]).addTo(this.parkMap).bindPopup('<a href="' + this.url + 'park/' + park.id + '">' + park.name + '公園</a>');
     }.bind(this));
   };
 
