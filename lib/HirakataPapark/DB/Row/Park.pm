@@ -9,6 +9,17 @@ package HirakataPapark::DB::Row::Park {
     qq!{ "id": @{[ $self->id ]}, "name": "@{[ $self->name ]}", "x": @{[ $self->x ]}, "y": @{[ $self->y ]} }!;
   }
 
+  sub size {
+    my $self = shift;
+    if ($self->area >= 0.6) {
+      '大';
+    } elsif ($self->area >= 0.1) {
+      '中';
+    } else {
+      '小';
+    }
+  }
+
   __PACKAGE__->meta->make_immutable;
 
 }

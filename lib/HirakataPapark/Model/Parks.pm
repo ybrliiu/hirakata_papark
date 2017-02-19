@@ -43,6 +43,8 @@ package HirakataPapark::Model::Parks {
     "[ " . (join ", ", map { $_->to_json_for_marker } $self->result->all) . " ]";
   }
 
+  __PACKAGE__->meta->make_immutable;
+
 }
 
 1;
