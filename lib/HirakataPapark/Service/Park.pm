@@ -13,6 +13,8 @@ package HirakataPapark::Service::Park {
     { park => $park };
   }
 
+  __PACKAGE__->meta->make_immutable;
+
 }
 
 1;

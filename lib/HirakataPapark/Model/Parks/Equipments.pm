@@ -3,6 +3,8 @@ package HirakataPapark::Model::Parks::Equipments {
   use Mouse;
   use HirakataPapark;
 
+  use Encode;
+  use Set::Object;
   use Smart::Args qw( args args_pos );
 
   use constant TABLE => 'park_equipment';
@@ -26,6 +28,18 @@ package HirakataPapark::Model::Parks::Equipments {
   sub get_rows_by_name {
     args_pos my $self, my $name => 'Str';
     [ $self->select({name => $name})->all ];
+  }
+
+  sub get_rows_by_names {
+    args_pos my $self, my $names => 'ArrayRef[Str]';
+    my @ary = map { ('=', $_) } @$names;
+    [ $self->select({ name => \@ary })->all ];
+  }
+
+  sub get_equipment_list {
+    my $self = shift;
+    my @tag_list = map { $_->name } $self->select({}, {columns => ['name']})->all;
+    [ map { Encode::decode_utf8 $_ } Set::Object::set(@tag_list)->elements ];
   }
 
   __PACKAGE__->meta->make_immutable;

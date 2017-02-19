@@ -4,6 +4,8 @@ package HirakataPapark::DB {
   use HirakataPapark;
   extends qw( Aniki );
 
+  override use_strict_query_builder => sub { 0 };
+
   __PACKAGE__->setup(
     schema => 'HirakataPapark::DB::Schema',
     filter => 'HirakataPapark::DB::Filter',

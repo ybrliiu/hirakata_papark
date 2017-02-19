@@ -18,12 +18,12 @@
         </form>
         <li><a href="<%= url_for '/' %>">公園マップ</a></li>
         <li><a href="<%= url_for '/current-location' %>">現在地周辺の公園を検索</a></li>
-        <li><a href="<%= url_for '/search/equipment' %>">遊具・施設から検索</a></li>
-        <li><a href="<%= url_for '/search/surrounding-facilities' %>">周辺施設から検索</a></li>
-        <li><a href="<%= url_for '/search/tag' %>">タグから検索</a></li>
-        <li><a href="<%= url_for '/search/event' %>">イベントから検索</a></li>
-        <li><a href="<%= url_for '/search/comment' %>">コメントから検索</a></li>
-        <li><a href="<%= url_for '/search/news' %>">ニュースから検索</a></li>
+        <li><a href="<%= url_for '/searcher/equipment' %>">遊具・施設から検索</a></li>
+        <li><a href="<%= url_for '/searcher/surrounding-facilities' %>">周辺施設から検索</a></li>
+        <li><a href="<%= url_for '/searcher/tag' %>">タグから検索</a></li>
+        <li><a href="<%= url_for '/searcher/event' %>">イベントから検索</a></li>
+        <li><a href="<%= url_for '/searcher/comment' %>">コメントから検索</a></li>
+        <li><a href="<%= url_for '/searcher/news' %>">ニュースから検索</a></li>
         <li><a href="<%= url_for '/about' %>">about</a></li>
       </ul>
     </div>

@@ -26,12 +26,22 @@ subtest 'add_row' => sub {
       park_id => $park->id,
       name    => 'ブランコ',
     });
+    $model->add_row({
+      park_id => $park->id,
+      name    => '鉄棒',
+    });
   };
   my @equipments = $model->get_rows_by_name('ブランコ')->@*;
   is @equipments, 1;
   # relation ship test
   diag $equipments[0]->park->name;
   # diag explain [$park->park_equipments];
+};
+
+subtest 'get_rows_by_names' => sub {
+  my $rows = $model->get_rows_by_names([qw/ブランコ 鉄棒/]);
+  diag explain $rows;
+  ok 1;
 };
 
 done_testing;
