@@ -45,4 +45,8 @@
     this.parkMap.locate({setView: true, maxZoom: DEFAULT_ZOOM});
   };
 
+  PROTOTYPE.setView = function (y, x) {
+    this.parkMap.setView([y, x], MAX_ZOOM);
+  };
+
 }());

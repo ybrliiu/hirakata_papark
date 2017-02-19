@@ -1,4 +1,6 @@
 % layout 'default';
+% push @$JS_FILES, ('js/leaflet.js', 'js/hirakata-papark/park-map.js');
+% push @$CSS_FILES, 'css/leaflet.css';
 
 <div class="container">
 
@@ -22,6 +24,15 @@
     </div>
     <div class="col l6 s12">
       <h3>マップ</h3>
+      <div id="park-map" class="card-content"></div>
+<script>
+  window.addEventListener('load', function () {
+    "use strict";
+    var parkMap = new hirakataPapark.ParkMap();
+    parkMap.setView(<%= $park->y %>, <%= $park->x %>);
+    parkMap.registParkMarkers( [ JSON.parse('<%== $park->to_json_for_marker %>') ] );
+  });
+</script>
     </div>
   </div>
 
