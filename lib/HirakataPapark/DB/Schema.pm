@@ -12,6 +12,7 @@ package HirakataPapark::DB::Schema {
     integer 'id' => (primary_key, auto_increment);
     string 'name' => (unique);
     string 'address';
+    string 'explain' => (default => '');
     integer 'good_count' => (default => 0);
     double 'x';
     double 'y';

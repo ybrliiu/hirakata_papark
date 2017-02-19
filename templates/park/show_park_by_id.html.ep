@@ -1,5 +1,35 @@
 % layout 'default';
 
-<%= $park->name %>公園
-住所 : <%= $park->address %>
+<div class="container">
+
+  <div class="row">
+    <div class="col s12">
+      <h2><%= $park->name %>公園</h2>
+      <p>住所 : <%= $park->address %></p>
+      <p>面積 : <%= $park->area %> ha (広さ : <%= $park->size %>)</p>
+      <p>緯度 : <%= $park->y %>, 経度 : <%= $park->x %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col l6 s12">
+      <h3>遊具・施設</h3>
+      <ul>
+        <li>トイレ 1台</li>
+        <li>ブランコ 1台</li>
+        <li>滑り台 1台</li>
+      </ul>
+    </div>
+    <div class="col l6 s12">
+      <h3>マップ</h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12">
+      <h3>コメント</h3>
+    </div>
+  </div>
+
+</div>
 
