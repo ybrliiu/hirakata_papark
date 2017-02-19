@@ -28,7 +28,7 @@
 <script>
   window.addEventListener('load', function () {
     "use strict";
-    var parkMap = new hirakataPapark.ParkMap();
+    var parkMap = new hirakataPapark.ParkMap('<%= url_for("/")->to_abs %>');
     parkMap.setView(<%= $park->y %>, <%= $park->x %>);
     parkMap.registParkMarkers( [ JSON.parse('<%== $park->to_json_for_marker %>') ] );
   });
