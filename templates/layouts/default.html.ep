@@ -6,7 +6,7 @@
     <div class="nav-wrapper green darken-3">
       <a href="#" class="brand-logo center"><%= $config->{site}{name} %></a>
       <ul class="left">
-        <li id="show-menu-button" v-on:click="showSideMenu"><a><i class="material-icons right">more_vert</i>メニュー</a></li>
+        <li id="show-menu-button" v-on:click="showSideMenu"><a><i class="material-icons">menu</i></a></li>
       </ul>
       <ul class="side-nav" id="side-menu" v-if="isShow" v-on:click="stopClose">
         <li><span class="title center green darken-3"><%= $config->{site}{name} %></span></li>
