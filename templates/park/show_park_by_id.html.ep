@@ -17,9 +17,9 @@
     <div class="col l6 s12">
       <h3>遊具・施設</h3>
       <ul>
-        <li>トイレ 1台</li>
-        <li>ブランコ 1台</li>
-        <li>滑り台 1台</li>
+      % for my $equipment ($park->park_equipments) {
+        <li><%= $equipment->name %></li>
+      % }
       </ul>
     </div>
     <div class="col l6 s12">
@@ -28,7 +28,7 @@
 <script>
   window.addEventListener('load', function () {
     "use strict";
-    var parkMap = new hirakataPapark.ParkMap('<%= url_for("/")->to_abs %>');
+    var parkMap = new hirakataPapark.ParkMap('<%= url_for("/park/")->to_abs %>');
     parkMap.setView(<%= $park->y %>, <%= $park->x %>);
     parkMap.registParkMarkers( [ JSON.parse('<%== $park->to_json_for_marker %>') ] );
   });

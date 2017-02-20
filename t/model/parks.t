@@ -44,5 +44,9 @@ subtest add_rows => sub {
   diag $model->to_json_for_marker;
 };
 
+subtest get_rows_has_equipments_names => sub {
+  $model->get_rows_has_equipments_names('');
+};
+
 done_testing;
 

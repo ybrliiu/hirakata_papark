@@ -28,7 +28,7 @@ my @parks = map {
   } $col_min .. $col_max;
   my %hash;
   @hash{@COLUMNS} = @row_values;
-  delete $hash{$_}  for qw( nothing );
+  delete $hash{$_} for qw( nothing );
   \%hash;
 } $row_min + 1 .. $row_max;
 
@@ -36,5 +36,15 @@ use Data::Dumper;
 say Dumper \@parks;
 
 use HirakataPapark::Model::Parks::Equipments;
-
+my $model = HirakataPapark::Model::Parks::Equipments->new;
+for my $info (@parks) {
+  my $park_id = $info->{id};
+  my @equipments = map { $info->{$_} eq '有' ? $_ : () } keys %$info;
+  for my $equipment_name (@equipments) {
+    $model->add_row({
+      park_id => $park_id,
+      name    => $equipment_name,
+    });
+  }
+}
 
