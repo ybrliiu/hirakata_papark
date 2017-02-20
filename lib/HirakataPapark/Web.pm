@@ -21,6 +21,7 @@ package HirakataPapark::Web {
     $r->get('/searcher/equipment')->to('Searcher#equipment');
 
     $r->get('/search/by-equipments')->to('Search#by_equipments');
+    $r->get('/search/has-equipments')->to('Search#has_equipments');
   }
 
 }

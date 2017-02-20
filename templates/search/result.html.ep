@@ -1,0 +1,8 @@
+<ul class="park-list">
+% for my $park (@$parks) {
+  <li>
+    <a href="<%= url_for '/park/' . $park->id %>"><%= $park->name %>公園</a>
+    (<%= $park->address %>)
+  </li>
+% }
+</ul>
