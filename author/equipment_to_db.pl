@@ -20,12 +20,12 @@ my @parks = map {
   my @row_values = map {
     my $col  = $_;
     my $cell = $worksheet->get_cell($row, $col);
-    if (defined $cell) {
+    if (defined $cell) { 
       $cell->value;
     } else {
-      ();
+      '';
     }
-  } $col_min .. $col_max;
+  } $col_min .. $col_max - 1;
   my %hash;
   @hash{@COLUMNS} = @row_values;
   delete $hash{$_} for qw( nothing );
