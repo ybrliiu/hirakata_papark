@@ -62,7 +62,6 @@ package HirakataPapark::Model::Parks::Equipments {
                       ->add_where(name => $name);
     } @$names;
     my $sql = intersect(@sql_list)->as_sql;
-    warn $sql;
     my $result = $dbh->selectall_arrayref($sql, undef, @$names);
     [ map { @$_ } @$result ];
   }

@@ -18,12 +18,8 @@
   % }
   </div>
   <div class="row">
-    <div class="col l6 s0"></div>
-    <div class="col l3 s6 right">
-      <button class="waves-effect btn right" v-on:click="send('<%= url_for '/search/has-equipments' %>')">AND 検索</button>
-    </div>
-    <div class="col l3 s6 right">
-      <button class="waves-effect btn right" v-on:click="send('<%= url_for '/search/by-equipments' %>')">OR 検索</button>
+    <div class="col s12 right">
+      <button class="waves-effect btn right" v-on:click="send('<%= url_for '/search/has-equipments' %>')">検索</button>
     </div>
   </div>
   <div class="row">
