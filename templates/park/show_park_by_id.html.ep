@@ -24,11 +24,14 @@
     </div>
     <div class="col l6 s12">
       <h3>マップ</h3>
-      <div id="park-map" class="card-content"></div>
+      <div id="park-map-small" class="card-content"></div>
 <script>
   window.addEventListener('load', function () {
     "use strict";
-    var parkMap = new hirakataPapark.ParkMap('<%= url_for("/park/")->to_abs %>');
+    var parkMap = new hirakataPapark.ParkMap({
+      url: '<%= url_for("/park/")->to_abs %>',
+      mapId: 'park-map-small',
+    });
     parkMap.setView(<%= $park->y %>, <%= $park->x %>);
     parkMap.registParkMarkers( [ JSON.parse('<%== $park->to_json_for_marker %>') ] );
   });
