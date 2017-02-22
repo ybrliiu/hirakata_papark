@@ -13,6 +13,15 @@ package HirakataPapark::Service::Park {
     { park => $park };
   }
 
+  sub add_comment_by_id {
+    args my $self, my $park_id => 'Int', my $name => 'Str', my $message => 'Str';
+    $self->model('Parks::Comments')->new->add_row({
+      park_id => $park_id,
+      name    => $name,
+      message => $message,
+    });
+  }
+
   __PACKAGE__->meta->make_immutable;
 
 }

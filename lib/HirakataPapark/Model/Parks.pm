@@ -47,7 +47,6 @@ package HirakataPapark::Model::Parks {
   sub get_rows_has_equipments_names {
     args_pos my $self, my $names => 'ArrayRef[Str]';
     my $id_list = HirakataPapark::Model::Parks::Equipments->get_park_id_list_has_names($names);
-    warn join ', ', @$id_list;
     [ $self->select({id => {IN => $id_list}})->all ];
   }
 

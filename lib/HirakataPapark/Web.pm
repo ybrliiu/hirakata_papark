@@ -16,7 +16,12 @@ package HirakataPapark::Web {
 
     $r->get('/')->to('Root#root');
     $r->get('/current-location')->to('Root#current_location');
-    $r->get('/park/:park_id')->to('Park#show_park_by_id');
+
+    {
+      my $park = $r->any('/park')->to(controller => 'Park');
+      $park->get( '/:park_id'            )->to(action => 'show_park_by_id');
+      $park->post('/add-comment/:park_id')->to(action => 'add_comment_by_id');
+    }
 
     {
       my $searcher = $r->any('/searcher')->to(controller => 'Searcher');
@@ -25,7 +30,7 @@ package HirakataPapark::Web {
 
     {
       my $search = $r->any('/search')->to(controller => 'Search');
-      $search->get('/by-equipments')->to(action => 'by_equipments');
+      $search->get('/by-equipments' )->to(action => 'by_equipments');
       $search->get('/has-equipments')->to(action => 'has_equipments');
     }
 
