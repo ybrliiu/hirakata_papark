@@ -52,6 +52,7 @@ package HirakataPapark::DB::Schema {
     integer 'park_id';
     integer 'id', primary_key, auto_increment;
     string 'name';
+    bigint 'time';
     text 'message';
 
     foreign_key 'park_id' => (park => 'id');

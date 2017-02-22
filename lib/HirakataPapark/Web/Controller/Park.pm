@@ -13,6 +13,16 @@ package HirakataPapark::Web::Controller::Park {
     $self->render;
   }
 
+  sub add_comment_by_id {
+    my $self = shift;
+    my $result = $self->service->add_comment_by_id({
+      park_id => $self->param('park_id'),
+      name    => $self->param('name'),
+      message => $self->param('message'),
+    });
+    $self->render(text => $result);
+  }
+
 }
 
 1;

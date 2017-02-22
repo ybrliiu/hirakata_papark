@@ -32,10 +32,33 @@
   height: 500px;
 }
 
+#park-map-small {
+  width: 100%;
+  height: 350px;
+}
+
 .park-list {
   li {
     list-style-type: disc !important;
     margin: 5px;
   }
+}
+
+textarea {
+  height: initial;
+}
+
+.original-textarea {
+  box-sizing: content-box;
+  border: 2px solid #9e9e9e;
+  border-radius: 2px;
+  padding: 15px;
+  margin-top: 10px;
+  transition: border 800ms 0s ease;
+}
+
+.original-textarea:focus {
+  box-sizing: content-box;
+  border: 2px solid #26a69a;
 }
 

@@ -19,9 +19,17 @@
     shadowAnchor: [0, 0]
   });
   
-  hirakataPapark.ParkMap = function (url) {
-    this.url = url === undefined ? '' : url;
-    this.parkMap = L.map('park-map').setView([DEFAULT_Y, DEFAULT_X], DEFAULT_ZOOM);
+  /*
+    args : {
+      id: map element id,
+      url: park url,
+    }
+  */
+
+  hirakataPapark.ParkMap = function (args) {
+    this.url = args.url;
+    this.mapId  = args.mapId;
+    this.parkMap = L.map(this.mapId).setView([DEFAULT_Y, DEFAULT_X], DEFAULT_ZOOM);
     L.tileLayer(TILE_MAP_URL, {
       maxZoom: MAX_ZOOM,
       attribution: 'Map data by <a href="http://maps.gsi.go.jp/development/ichiran.html" target="_blank">地理院タイル</a>',
