@@ -16,6 +16,7 @@ package HirakataPapark::Web {
 
     $r->get('/')->to('Root#root');
     $r->get('/current-location')->to('Root#current_location');
+    $r->get('/about')->to('Root#about');
 
     {
       my $park = $r->any('/park')->to(controller => 'Park');

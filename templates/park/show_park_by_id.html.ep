@@ -49,10 +49,10 @@
         <div class="col s12">
           <h3>コメント</h3>
           % for my $comment ($park->park_comments) {
-            <div class="card light-green lighten-3">
+            <div class="card grey lighten-3">
               <div class="card-content">
-                <span class="card-title"><%= $comment->name %></span>
-                <p><%= $comment->message %></p>
+                <span class="card-title"><%= $comment->name %></span><%= $comment->time %>
+                <p><%== $comment->message %></p>
               </div>
               <div class="card-action right-align">
                 <a href="#">返信</a>

@@ -17,8 +17,8 @@ package HirakataPapark::Web::Controller::Park {
     my $self = shift;
     my $result = $self->service->add_comment_by_id({
       park_id => $self->param('park_id'),
-      name    => $self->param('name'),
-      message => $self->param('message'),
+      name    => $self->param('name') || '名無し',
+      message => $self->param('message') =~ s/(\n|\r\n|\r)/<br>/gr,
     });
     $self->render(text => $result);
   }
