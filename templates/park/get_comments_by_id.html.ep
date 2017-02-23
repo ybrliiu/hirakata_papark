@@ -1,0 +1,13 @@
+% for my $comment (@$comments) {
+  <div class="card grey lighten-3">
+    <div class="card-content">
+      <p><strong><%= $comment->name %></strong> <%= $comment->datetime %></p>
+      <pre><%= $comment->message %></pre>
+    </div>
+<!--
+    <div class="card-action right-align">
+      <a href="#">返信</a>
+    </div>
+-->
+  </div>
+% }

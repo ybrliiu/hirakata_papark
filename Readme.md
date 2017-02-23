@@ -2,7 +2,6 @@
 
 ## 予定
 * 公園コメント機能追加中
-  - message escape unescape
   - reloadボタン, 投稿時リロード
   - 色, デザイン変更
   - 返信機能

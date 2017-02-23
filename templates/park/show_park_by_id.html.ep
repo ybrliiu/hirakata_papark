@@ -44,49 +44,36 @@
   </div>
 
   <div class="row">
-    <div class="col l6 s12">
+    <div id="comment-form" class="col l6 s12">
       <div class="row">
         <div class="col s12">
-          <h3>コメント</h3>
-          % for my $comment ($park->park_comments) {
-            <div class="card grey lighten-3">
-              <div class="card-content">
-                <span class="card-title"><%= $comment->name %></span><%= $comment->time %>
-                <p><%== $comment->message %></p>
-              </div>
-              <div class="card-action right-align">
-                <a href="#">返信</a>
-              </div>
-            </div>
-          % }
-          </ul>
+          <h3>コメントを投稿する</h3>
+          {{ result }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <label for="name">名前</label>
+          <input id="name" type="text" v-model="name">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <label for="name">本文</label>
+          <textarea class="original-textarea" rows="6" v-model="message"></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 right">
+          <button class="waves-effect btn right" v-on:click="send('<%= url_for '/park/add-comment/' . $park->id %>')">投稿</button>
         </div>
       </div>
     </div>
-    <div class="col l6 s12">
-      <div id="comment-form">
+    <div id="comment" class="col l6 s12">
+      <div class="row">
         <div class="col s12">
-          <h3>コメントを投稿する</h3>
-        </div>
-        <div class="row">
-          <div class="col s12">{{ result }}</div>
-        </div>
-        <div class="row">
-          <div class="col s12">
-            <label for="name">名前</label>
-            <input id="name" type="text" v-model="name">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12">
-            <label for="name">本文</label>
-            <textarea class="original-textarea" rows="6" v-model="message"></textarea>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 right">
-            <button class="waves-effect btn right" v-on:click="send('<%= url_for '/park/add-comment/' . $park->id %>')">投稿</button>
-          </div>
+          <h3>コメント</h3>
+          <div v-html="comments"></div>
         </div>
       </div>
     </div>
@@ -95,6 +82,26 @@
 <script>
 (function () {
   'use strict';
+  
+  var comment = new Vue({
+    el: '#comment',
+    data: {
+      comments: '',
+    },
+    created: function () {
+      window.addEventListener('load', this.getComments);
+    },
+    methods: {
+      getComments: function () {
+        window.superagent
+          .get('<%= url_for '/park/get-comments/' . $park->id %>')
+          .end( function (err, res) {
+            this.comments = res.text;
+          }.bind(this) );
+      },
+    },
+  });
+
   var commentForm = new Vue({
     el: '#comment-form',
     data: {
@@ -115,6 +122,7 @@
             this.result = err === undefined
               ? 'コメントを追加しました。'
               : 'コメントの追加に失敗しました。';
+            comment.getComments();
           }.bind(this));
       },
     },

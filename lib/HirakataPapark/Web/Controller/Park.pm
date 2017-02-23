@@ -15,13 +15,20 @@ package HirakataPapark::Web::Controller::Park {
 
   sub add_comment_by_id {
     my $self = shift;
-    my $result = $self->service->add_comment_by_id({
+    $self->service->add_comment_by_id({
       park_id => $self->param('park_id'),
       name    => $self->param('name') || '名無し',
-      message => $self->param('message') =~ s/(\n|\r\n|\r)/<br>/gr,
+      message => $self->param('message'),
     });
-    $self->render(text => $result);
+    $self->render(text => 'add comment success');
   }
+
+  sub get_comments_by_id {
+    my $self = shift;
+    my $comments = $self->service->get_comments_by_id( $self->param('park_id') );
+    $self->render(comments => $comments);
+  }
+
 
 }
 
