@@ -119,9 +119,6 @@
             message: this.message,
           })
           .end(function (err, res) {
-            this.result = err === undefined
-              ? 'コメントを追加しました。'
-              : 'コメントの追加に失敗しました。';
             comment.getComments();
           }.bind(this));
       },

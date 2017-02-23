@@ -35,11 +35,6 @@
       attribution: 'Map data by <a href="http://maps.gsi.go.jp/development/ichiran.html" target="_blank">地理院タイル</a>',
       id: '',
     }).addTo(this.parkMap);
-    this.parkMap.on('locationfound', function (e) {
-      L.marker(e.latlng).addTo(this.parkMap).setIcon(CURRENT_LOCATION_ICON).bindPopup('現在地').openPopup();
-      this.parkMap.setView(e.latlng, 13);
-  	}.bind(this));
-    this.parkMap.on('locationerror', function (e) { alert("現在地の取得ができませんでした。"); });
   };
 
   var PROTOTYPE = hirakataPapark.ParkMap.prototype;
@@ -51,11 +46,26 @@
   };
 
   PROTOTYPE.registCurrentLocation = function () {
-    this.parkMap.locate({setView: true, maxZoom: DEFAULT_ZOOM});
+    if (navigator.geolocation) {
+      L.marker(e.latlng).addTo(this.parkMap).setIcon(CURRENT_LOCATION_ICON).bindPopup('現在地').openPopup();
+      this.parkMap.setView(e.latlng, 13);
+    } else {
+      alert("お使いの ブラウザ / 端末 では位置情報の取得ができません。");
+    }
   };
 
   PROTOTYPE.setView = function (y, x) {
     this.parkMap.setView([y, x], MAX_ZOOM);
   };
+
+  /*
+    leafret 搭載機能の現在地取得関数
+            Android chrome では機能しなかった
+    this.parkMap.on('locationfound', function (e) {
+      L.marker(e.latlng).addTo(this.parkMap).setIcon(CURRENT_LOCATION_ICON).bindPopup('現在地').openPopup();
+      this.parkMap.setView(e.latlng, 13);
+  	}.bind(this));
+    this.parkMap.on('locationerror', function (e) { alert("現在地の取得ができませんでした。"); });
+  */
 
 }());
