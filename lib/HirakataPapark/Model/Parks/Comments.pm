@@ -4,6 +4,8 @@ package HirakataPapark::Model::Parks::Comments {
   use HirakataPapark;
 
   use Smart::Args qw( args );
+  use HTML::Escape qw( escape_html );
+  use HirakataPapark::Util qw( escape_indention );
 
   use constant TABLE => 'park_comment';
 
@@ -16,8 +18,16 @@ package HirakataPapark::Model::Parks::Comments {
       park_id => $park_id,
       message => $message,
       name    => $name,
-      time    => join '', localtime(),
+      time    => time(),
     });
+  }
+
+  sub get_rows_by_park_id {
+    args my $self, my $park_id => 'Int', my $num => 'Int';
+    [ $self->select(
+      {park_id => $park_id},
+      {limit => $num, order_by => {id => 'DESC'}},
+    )->all ];
   }
   
   __PACKAGE__->meta->make_immutable;

@@ -17,6 +17,11 @@ package HirakataPapark::Web::Controller::Root {
     $self->root;
   }
 
+  sub about {
+    my $self = shift;
+    $self->render();
+  }
+
 }
 
 1;

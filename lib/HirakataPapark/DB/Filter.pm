@@ -6,4 +6,3 @@ package HirakataPapark::DB::Filter {
 }
 
 1;
-

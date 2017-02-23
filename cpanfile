@@ -5,6 +5,6 @@ requires 'Mojolicious';
 requires 'Aniki';
 requires 'Anego', '== 0.01_02';
 requires 'Config::PL';
-requires 'Set::Object';
+requires 'HTML::Escape';
 requires 'Mojolicious::Plugin::AssetPack';
 requires 'Mojolicious::Plugin::ProxyPassReverse::SubDir';

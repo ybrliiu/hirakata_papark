@@ -1,0 +1,8 @@
+% layout 'default';
+
+<div class="container">
+<ul>
+  <li>このアプリケーションアプリは<a href="http://openhirakata2016.jp/">枚方市オープンデータイベント2016</a>で制作されました。</li>
+  <li>制作チーム : 公園育Day</li>
+</ul>
+</div>

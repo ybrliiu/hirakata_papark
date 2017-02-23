@@ -49,7 +49,6 @@ textarea {
 }
 
 .original-textarea {
-  box-sizing: content-box;
   border: 2px solid #9e9e9e;
   border-radius: 2px;
   padding: 15px;
@@ -58,7 +57,19 @@ textarea {
 }
 
 .original-textarea:focus {
-  box-sizing: content-box;
   border: 2px solid #26a69a;
 }
+
+h2 {
+  font-size: 2.8rem;
+}
+
+h3 {
+  font-size: 2.1rem;
+}
+
+strong {
+  font-weight: bold;
+}
+
 
