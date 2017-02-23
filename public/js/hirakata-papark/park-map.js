@@ -47,8 +47,11 @@
 
   PROTOTYPE.registCurrentLocation = function () {
     if (navigator.geolocation) {
-      L.marker(e.latlng).addTo(this.parkMap).setIcon(CURRENT_LOCATION_ICON).bindPopup('現在地').openPopup();
-      this.parkMap.setView(e.latlng, 13);
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var coords = position.coords;
+        L.marker([coords.latitude, coords.longitude]).addTo(this.parkMap).setIcon(CURRENT_LOCATION_ICON).bindPopup('現在地').openPopup();
+        this.parkMap.setView(e.latlng, 13);
+      }.bind(this));
     } else {
       alert("お使いの ブラウザ / 端末 では位置情報の取得ができません。");
     }
