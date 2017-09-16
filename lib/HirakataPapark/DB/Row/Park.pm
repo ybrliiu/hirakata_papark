@@ -11,9 +11,9 @@ package HirakataPapark::DB::Row::Park {
 
   sub size {
     my $self = shift;
-    if ($self->area >= 0.6) {
+    if ($self->area >= 600) {
       '大';
-    } elsif ($self->area >= 0.1) {
+    } elsif ($self->area >= 100) {
       '中';
     } else {
       '小';
