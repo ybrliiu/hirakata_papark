@@ -1,4 +1,6 @@
 # data/kouen_jyouhou.csv の公園の住所データを自動的に補完するプログラム
+# google map API を利用
+# https://developers.google.com/maps/documentation/geocoding/start?hl=ja#get-a-key
 
 use lib './lib';
 use HirakataPapark;
