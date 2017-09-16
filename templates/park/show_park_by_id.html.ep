@@ -22,7 +22,7 @@
       <h3>遊具・施設</h3>
       <ul>
       % for my $equipment ($park->park_equipments) {
-        <li><%= $equipment->name %></li>
+        <li><%= $equipment->name %> (<%= $equipment->num %>)</li>
       % }
       </ul>
     </div>
