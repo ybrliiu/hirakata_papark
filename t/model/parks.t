@@ -45,7 +45,7 @@ subtest add_rows => sub {
 };
 
 subtest get_rows_has_equipments_names => sub {
-  $model->get_rows_has_equipments_names('');
+  lives_ok { $model->get_rows_has_equipments_names(['すべり台']) };
 };
 
 done_testing;

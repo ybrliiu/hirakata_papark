@@ -4,11 +4,10 @@
 % my $check_box = begin
 % my $name = shift;
 <div class="col l3 s6">
-  <input type="checkbox" class="filled-in" id="<%= $name %>" v-model="items.<%= $name %>">
+  <input type="checkbox" class="filled-in" id="<%= $name %>" v-model="items['<%= $name %>']">
   <label for="<%= $name %>"><%= $name %></label>
 </div>
 % end
-
 
 <div class="container" id="search-form">
   <h2>遊具・施設から検索</h2>

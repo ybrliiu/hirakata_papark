@@ -10,7 +10,7 @@ use HirakataPapark::Model::Parks;
 my @COLUMNS = qw( id type1 type2 name x y area address );
 
 my $parser = Spreadsheet::ParseXLSX->new;
-my $workbook = $parser->parse('公園データ.xlsx');
+my $workbook = $parser->parse('./data/公園データ.xlsx');
 my $worksheet = ($workbook->worksheets)[0];
 my ($row_min, $row_max) = $worksheet->row_range;
 my ($col_min, $col_max) = $worksheet->col_range;
@@ -30,6 +30,8 @@ my @parks = map {
 
 use Data::Dumper;
 say Dumper \@parks;
+
+__END__
 
 my $model = HirakataPapark::Model::Parks->new;
 $model->add_rows(\@parks);

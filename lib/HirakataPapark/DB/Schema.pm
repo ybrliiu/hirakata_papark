@@ -17,6 +17,8 @@ package HirakataPapark::DB::Schema {
     double 'x';
     double 'y';
     double 'area';
+    smallint 'is_nice_scenery' => (default => 0);
+    smallint 'is_evacuation_area' => (default => 0);
 
     add_index 'name_index' => ['name'];
   };
