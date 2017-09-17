@@ -12,8 +12,10 @@
     <div class="col s12">
       <h2><%= $park->name %></h2>
       <p>住所 : <%= $park->address %></p>
-      <p>面積 : <%= $park->area %> ㎡ (広さ : <%= $park->size %>)</p>
       <p>緯度 : <%= $park->y %>, 経度 : <%= $park->x %>
+      <p>面積 : <%= $park->area %> ㎡ (広さ : <%= $park->size %>)</p>
+      <p>景観 : <%= $park->is_nice_scenery ? '良い' : '' %></p>
+      <p>一時避難場所 : <%= $park->is_evacuation_area ? '○' : '×' %></p>
     </div>
   </div>
 
