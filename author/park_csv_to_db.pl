@@ -7,15 +7,25 @@ use Text::CSV_XS;
 use List::Util qw( sum );
 use HirakataPapark::Model::Parks;
 use HirakataPapark::Model::Parks::Equipments;
+use HirakataPapark::Model::Parks::Plants;
+use HirakataPapark::Model::Parks::SurroundingFacilities;
 
-my @COLUMNS = qw(
-  id name y x address area area_ha is_evacuation_area
-  ブランコ_2 ブランコ_3 ブランコ_4 すべり台
-  鉄棒_1 鉄棒_2 鉄棒_3 鉄棒_4 鉄棒_5
-  シーソー ジャングルジム 複合遊具 砂場 ラダー 健康遊具 プレイスカルプチャー(遊戯彫刻)
-  トイレ 水飲場 ベンチ 四阿・シェルター 有料駐車場 無料駐車場 
-  ソメイヨシノ オオシマザクラ カンヒザクラ シダレザクラ カワズザクラ ヤマザクラ 桜_その他 桜_合計 桜_その他_品種
-  is_nice_scenery
+my @FACILITIES = qw( 有料駐車場 無料駐車場 );
+my @PLANTS = qw( ソメイヨシノ オオシマザクラ カンヒザクラ シダレザクラ カワズザクラ ヤマザクラ );
+my @COLUMNS = (
+  qw(
+    id name y x address area area_ha is_evacuation_area
+    ブランコ_2 ブランコ_3 ブランコ_4 すべり台
+    鉄棒_1 鉄棒_2 鉄棒_3 鉄棒_4 鉄棒_5
+    シーソー ジャングルジム 複合遊具 砂場 ラダー 健康遊具 プレイスカルプチャー(遊戯彫刻)
+    トイレ 水飲場 ベンチ 四阿・シェルター
+  ),
+  @FACILITIES,
+  @PLANTS,
+  qw(
+    桜_その他 桜_合計 桜_その他_品種
+    is_nice_scenery
+  ),
 );
 
 sub get_csv_data {
@@ -51,11 +61,15 @@ my @parks = map {
   \%new_park;
 } @$park_data_list_orig;
 
-my @EQUIPMENT_FIELD = qw(
-  id
-  ブランコ すべり台 鉄棒 シーソー ジャングルジム
-  複合遊具 砂場 ラダー 健康遊具 プレイスカルプチャー(遊戯彫刻)
-  トイレ 水飲場 ベンチ 四阿・シェルター
+my @EQUIPMENT_FIELD = (
+  qw(
+    id
+    ブランコ すべり台 鉄棒 シーソー ジャングルジム
+    複合遊具 砂場 ラダー 健康遊具 プレイスカルプチャー(遊戯彫刻)
+    トイレ 水飲場 ベンチ 四阿・シェルター
+  ),
+  @FACILITIES,
+  @PLANTS,
 );
 my @parks_equipment = map {
   my $park = $_;
@@ -67,18 +81,35 @@ my @parks_equipment = map {
 my $model = HirakataPapark::Model::Parks->new;
 $model->add_rows(\@parks);
 
-my $model = HirakataPapark::Model::Parks::Equipments->new;
+my $equipments_model = HirakataPapark::Model::Parks::Equipments->new;
+my $facilities_model = HirakataPapark::Model::Parks::SurroundingFacilities->new;
+my $plants_model     = HirakataPapark::Model::Parks::Plants->new;
 for my $info (@parks_equipment) {
   my $park_id = $info->{id};
   my @equipments = map { $info->{$_} ? $_ : () } grep { $_ ne 'id' } keys %$info;
   say "id => $park_id";
   for my $equipment_name (@equipments) {
-    print Encode::encode_utf8("$equipment_name => $info->{$equipment_name},");
-    $model->add_row({
-      park_id => $park_id,
-      name    => $equipment_name,
-      num     => $info->{$equipment_name},
-    });
+    if ( grep { $equipment_name eq $_ } @FACILITIES ) {
+      $facilities_model->add_row({
+        park_id => $park_id,
+        name    => $equipment_name,
+      });
+    }
+    elsif ( grep { $equipment_name eq $_ } @PLANTS ) {
+      $plants_model->add_row({
+        park_id  => $park_id,
+        name     => $equipment_name,
+        category => '桜',
+        num      => $info->{$equipment_name},
+      });
+    }
+    else {
+      $equipments_model->add_row({
+        park_id => $park_id,
+        name    => $equipment_name,
+        num     => $info->{$equipment_name},
+      });
+    }
   }
   print "\n";
 }
