@@ -13,6 +13,7 @@ package HirakataPapark::DB::Schema {
     string 'name' => (unique);
     string 'address';
     string 'explain' => (default => '');
+    string 'remarks_about_plants' => (default => '');
     integer 'good_count' => (default => 0);
     double 'x';
     double 'y';
@@ -29,6 +30,24 @@ package HirakataPapark::DB::Schema {
     integer 'recommended_age' => (default => 0);
     string 'comment';
     integer 'num' => (default => 1);
+
+    foreign_key 'park_id' => (park => 'id');
+  };
+
+  create_table park_surrounding_facility => columns {
+    integer 'park_id';
+    string 'name';
+    string 'comment';
+
+    foreign_key 'park_id' => (park => 'id');
+  };
+
+  create_table park_plants => columns {
+    integer 'park_id';
+    string 'name';
+    string 'category';
+    integer 'num' => (default => 1);
+    string 'comment';
 
     foreign_key 'park_id' => (park => 'id');
   };

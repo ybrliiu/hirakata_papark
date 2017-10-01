@@ -1,4 +1,4 @@
-requires 'perl', '5.024000';
+requires 'perl', '5.024001';
 requires 'Mouse';
 requires 'Smart::Args';
 requires 'Mojolicious';
@@ -8,3 +8,11 @@ requires 'Config::PL';
 requires 'HTML::Escape';
 requires 'Mojolicious::Plugin::AssetPack';
 requires 'Mojolicious::Plugin::ProxyPassReverse::SubDir';
+
+on 'test' => sub {
+  requires 'Path::Tiny';
+};
+
+on 'develop' => sub {
+  requires 'Path::Tiny';
+};
