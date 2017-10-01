@@ -46,7 +46,7 @@ package HirakataPapark::DB::Schema {
     integer 'park_id';
     string 'name';
     string 'category';
-    integer 'num';
+    integer 'num' => (default => 1);
     string 'comment';
 
     foreign_key 'park_id' => (park => 'id');
