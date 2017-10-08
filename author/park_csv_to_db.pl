@@ -3,6 +3,7 @@
 use lib './lib';
 use HirakataPapark;
 use Data::Dumper;
+use Try::Tiny;
 use Text::CSV_XS;
 use List::Util qw( sum );
 use HirakataPapark::Model::Parks;
@@ -10,8 +11,9 @@ use HirakataPapark::Model::Parks::Equipments;
 use HirakataPapark::Model::Parks::Plants;
 use HirakataPapark::Model::Parks::SurroundingFacilities;
 
-my @FACILITIES = qw( 有料駐車場 無料駐車場 );
-my @PLANTS = qw( ソメイヨシノ オオシマザクラ カンヒザクラ シダレザクラ カワズザクラ ヤマザクラ );
+my @FACILITIES     = qw( 有料駐車場 無料駐車場 );
+my @PLANTS         = qw( ソメイヨシノ オオシマザクラ カンヒザクラ シダレザクラ カワズザクラ ヤマザクラ );
+my @ANOTHER_PLANTS = qw( 桜_その他 桜_合計 桜_その他_品種 );
 my @COLUMNS = (
   qw(
     id name y x address area area_ha is_evacuation_area
@@ -22,8 +24,8 @@ my @COLUMNS = (
   ),
   @FACILITIES,
   @PLANTS,
+  @ANOTHER_PLANTS,
   qw(
-    桜_その他 桜_合計 桜_その他_品種
     is_nice_scenery
   ),
 );
@@ -61,15 +63,17 @@ my @parks = map {
   \%new_park;
 } @$park_data_list_orig;
 
+my @EQUIPMENTS = qw(
+  id
+  ブランコ すべり台 鉄棒 シーソー ジャングルジム
+  複合遊具 砂場 ラダー 健康遊具 プレイスカルプチャー(遊戯彫刻)
+  トイレ 水飲場 ベンチ 四阿・シェルター
+);
 my @EQUIPMENT_FIELD = (
-  qw(
-    id
-    ブランコ すべり台 鉄棒 シーソー ジャングルジム
-    複合遊具 砂場 ラダー 健康遊具 プレイスカルプチャー(遊戯彫刻)
-    トイレ 水飲場 ベンチ 四阿・シェルター
-  ),
+  @EQUIPMENTS,
   @FACILITIES,
   @PLANTS,
+  @ANOTHER_PLANTS,
 );
 my @parks_equipment = map {
   my $park = $_;
@@ -103,7 +107,7 @@ for my $info (@parks_equipment) {
         num      => $info->{$equipment_name},
       });
     }
-    else {
+    elsif ( grep { $equipment_name eq $_ } @EQUIPMENTS ) {
       $equipments_model->add_row({
         park_id => $park_id,
         name    => $equipment_name,
@@ -111,6 +115,24 @@ for my $info (@parks_equipment) {
       });
     }
   }
-  print "\n";
+  my @blossoms = split /,/, $info->{'桜_その他_品種'};
+  for my $blossom (@blossoms) {
+    $plants_model->add_row({
+      park_id  => $park_id,
+      category => '桜',
+      name     => ($blossom eq '薄墨桜' ? 'エドヒガン' : $blossom),
+      num      => (@blossoms == 1 ? $info->{'桜_その他'} : 0),
+      comment  => do {
+        my $comment = '';
+        if ($blossom eq '薄墨桜') {
+          $comment .= '薄墨桜。';
+        }
+        unless (@blossoms == 1) {
+          $comment .= '個数不明。';
+        }
+        $comment;
+      },
+    });
+  }
 }
 
