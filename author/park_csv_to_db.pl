@@ -120,12 +120,12 @@ for my $info (@parks_equipment) {
     $plants_model->add_row({
       park_id  => $park_id,
       category => '桜',
-      name     => ($blossom eq '薄墨桜' ? 'エドヒガン' : $blossom),
+      name     => ($blossom eq '淡墨桜' ? 'エドヒガン' : $blossom),
       num      => (@blossoms == 1 ? $info->{'桜_その他'} : 0),
       comment  => do {
         my $comment = '';
-        if ($blossom eq '薄墨桜') {
-          $comment .= '薄墨桜。';
+        if ($blossom eq '淡墨桜') {
+          $comment .= '淡墨桜。';
         }
         unless (@blossoms == 1) {
           $comment .= '個数不明。';
