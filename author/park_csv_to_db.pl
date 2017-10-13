@@ -125,7 +125,7 @@ for my $info (@parks_equipment) {
       comment  => do {
         my $comment = '';
         if ($blossom eq '淡墨桜') {
-          $comment .= '淡墨桜。';
+          $comment .= '古木(淡墨桜)。';
         }
         unless (@blossoms == 1) {
           $comment .= '個数不明。';
