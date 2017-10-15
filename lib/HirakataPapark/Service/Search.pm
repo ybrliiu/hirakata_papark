@@ -28,6 +28,10 @@ package HirakataPapark::Service::Search {
     return +{ parks => $self->parks_model->get_rows_has_equipments_names($names) };
   }
 
+  sub has_surrounding_facilities($self, $names = []) {
+    return +{ parks => $self->parks_model->get_rows_has_surrounding_facilities_names($names) };
+  }
+
   __PACKAGE__->meta->make_immutable;
 
 }

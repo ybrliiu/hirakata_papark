@@ -1,0 +1,61 @@
+% layout 'default';
+% push @$JS_FILES, 'js/superagent.js';
+
+% my $check_box = begin
+% my $name = shift;
+<div class="col l3 s6">
+  <input type="checkbox" class="filled-in" id="<%= $name %>" v-model="items['<%= $name %>']">
+  <label for="<%= $name %>"><%= $name %></label>
+</div>
+% end
+
+<div class="container" id="search-form">
+  <h2>周辺施設から検索</h2>
+  <div class="row" id="check-boxes">
+  % for (@$surrounding_facility_list) {
+    <%= $check_box->($_) %>
+  % }
+  </div>
+  <div class="row">
+    <div class="col s12 right">
+      <button class="waves-effect btn right" v-on:click="send('<%= url_for '/search/has-surrounding-facilities' %>')">検索</button>
+    </div>
+  </div>
+  <div class="row">
+    <h3 v-if="showResult">検索結果</h3>
+    <div class="col s12" v-html="result"></div>
+  </div>
+</div>
+
+<script>
+  var items = {};
+  Array.prototype.forEach.call(document.getElementById('check-boxes').children, function (checkBox) {
+    items[checkBox] = false;
+  });
+
+  var searchForm = new Vue({
+    el: '#search-form',
+    data: {
+      items: items,
+      showResult: false,
+      result: '',
+    },
+    methods: {
+      getSendItems: function () {
+        return Object.keys(this.items).filter(function (key) {
+          return this.items[key];
+        }.bind(this));
+      },
+      send: function (url) {
+        window.superagent
+          .get(url)
+          .query({surrounding_facilities: this.getSendItems()})
+          .end(function (err, res) {
+            this.showResult = true;
+            this.result = res.text;
+          }.bind(this));
+      },
+    },
+  });
+</script>
+

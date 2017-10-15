@@ -24,6 +24,12 @@ package HirakataPapark::Web::Controller::Searcher {
     $self->render;
   }
 
+  sub surrounding_facility($self) {
+    my $result = $self->service->surrounding_facility;
+    $self->stash($result);
+    $self->render;
+  }
+
 }
 
 1;

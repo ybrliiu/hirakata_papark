@@ -20,7 +20,7 @@ subtest 'add_row' => sub {
 };
 
 subtest 'get_lists' => sub {
-  ok my $category_list = $model->get_facility_list;
+  ok my $category_list = $model->get_surrounding_facility_list;
   is $category_list->[0], '駐車場';
 };
 

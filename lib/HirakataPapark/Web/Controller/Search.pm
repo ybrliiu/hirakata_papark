@@ -34,6 +34,13 @@ package HirakataPapark::Web::Controller::Search {
     $self->render(template => 'search/result');
   }
 
+  sub has_surrounding_facilities {
+    my $self = shift;
+    my $result = $self->service->has_surrounding_facilities( $self->every_param('surrounding_facilities') );
+    $self->stash($result);
+    $self->render(template => 'search/result');
+  }
+
 }
 
 1;

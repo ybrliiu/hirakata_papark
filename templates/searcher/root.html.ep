@@ -19,7 +19,7 @@
       </a>
     </div>
     <div class="col l4 m6 s8">
-      <a class="waves-effect btn-large search-park-btn">
+      <a class="waves-effect btn-large search-park-btn" href="/searcher/surrounding-facility">
         <i class="material-icons right">arrow_forward</i>周辺施設から検索
       </a>
     </div>
