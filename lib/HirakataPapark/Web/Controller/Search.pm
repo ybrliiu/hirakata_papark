@@ -13,6 +13,13 @@ package HirakataPapark::Web::Controller::Search {
     $self->render(template => 'search/result');
   }
 
+  sub like_address {
+    my $self = shift;
+    my $result = $self->service->like_address( $self->param('park_address') );
+    $self->stash($result);
+    $self->render(template => 'search/result');
+  }
+
   sub by_equipments {
     my $self = shift;
     my $result = $self->service->by_equipments( $self->every_param('equipments') );

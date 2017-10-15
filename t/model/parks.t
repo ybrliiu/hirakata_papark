@@ -54,5 +54,11 @@ subtest get_rows_like_name => sub {
   is $parks->@*, 3;
 };
 
+subtest get_rows_like_address => sub {
+  my $parks;
+  lives_ok { $parks = $model->get_rows_like_address('A市') };
+  is $parks->@*, 3;
+};
+
 done_testing;
 

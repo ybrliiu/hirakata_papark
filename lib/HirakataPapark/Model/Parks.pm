@@ -41,6 +41,10 @@ package HirakataPapark::Model::Parks {
     [ $self->select({name => {like => "%${name}%"}})->all ];
   }
 
+  sub get_rows_like_address($self, $address) {
+    [ $self->select({address => {like => "%${address}%"}})->all ];
+  }
+
   sub get_rows_by_equipments_names {
     args_pos my $self, my $names => 'ArrayRef[Str]';
     my @name_condition = map { ('=', $_) } @$names;

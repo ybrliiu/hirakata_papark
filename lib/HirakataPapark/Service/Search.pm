@@ -16,6 +16,10 @@ package HirakataPapark::Service::Search {
     return +{ parks => $self->parks_model->get_rows_like_name($name) };
   }
 
+  sub like_address($self, $address) {
+    return +{ parks => $self->parks_model->get_rows_like_address($address) };
+  }
+
   sub by_equipments($self, $names = []) {
     return +{ parks => $self->parks_model->get_rows_by_equipments_names($names) };
   }

@@ -14,6 +14,10 @@ package HirakataPapark::Web::Controller::Searcher {
     $self->render;
   }
 
+  sub address($self) {
+    $self->render;
+  }
+
   sub equipment($self) {
     my $result = $self->service->equipment;
     $self->stash($result);
