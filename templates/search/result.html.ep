@@ -1,8 +1,12 @@
 <ul class="park-list">
-% for my $park (@$parks) {
-  <li>
-    <a href="<%= url_for '/park/' . $park->id %>"><%= $park->name %></a>
-    (<%= $park->address %>)
-  </li>
+% if (@$parks > 0 ) {
+  % for my $park (@$parks) {
+    <li>
+      <a href="<%= url_for '/park/' . $park->id %>"><%= $park->name %></a>
+      (<%= $park->address %>)
+    </li>
+  % }
+% } else {
+  <span class="red-text">該当する公園が見つかりませんでした。</span>
 % }
 </ul>

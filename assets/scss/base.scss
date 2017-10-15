@@ -60,6 +60,8 @@ textarea {
   border: 2px solid #26a69a;
 }
 
+// override
+
 h2 {
   font-size: 2.8rem;
 }
@@ -72,4 +74,10 @@ strong {
   font-weight: bold;
 }
 
+.search-park-btn {
+  $margin: 9px;
+  width: 230px;
+  margin-top: $margin;
+  margin-bottom: $margin;
+}
 

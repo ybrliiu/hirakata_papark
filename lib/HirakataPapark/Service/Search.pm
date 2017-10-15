@@ -5,22 +5,23 @@ package HirakataPapark::Service::Search {
 
   with 'HirakataPapark::Service::Service';
 
-  sub by_equipments {
-    my ($self, $names) = @_;
-    $names //= [];
-    my $parks_model = $self->model('Parks')->new;
-    return +{
-      parks => $parks_model->get_rows_by_equipments_names($names),
-    };
+  has 'parks_model' => (
+    is      => 'ro',
+    isa     => 'HirakataPapark::Model::Parks',
+    lazy    => 1,
+    default => sub ($self) { $self->model('Parks')->new },
+  );
+
+  sub like_name($self, $name) {
+    return +{ parks => $self->parks_model->get_rows_like_name($name) };
   }
 
-  sub has_equipments {
-    my ($self, $names) = @_;
-    $names //= [];
-    my $parks_model = $self->model('Parks')->new;
-    return +{
-      parks => $parks_model->get_rows_has_equipments_names($names),
-    };
+  sub by_equipments($self, $names = []) {
+    return +{ parks => $self->parks_model->get_rows_by_equipments_names($names) };
+  }
+
+  sub has_equipments($self, $names = []) {
+    return +{ parks => $self->parks_model->get_rows_has_equipments_names($names) };
   }
 
   __PACKAGE__->meta->make_immutable;

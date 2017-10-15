@@ -27,11 +27,14 @@ package HirakataPapark::Web {
 
     {
       my $searcher = $r->any('/searcher')->to(controller => 'Searcher');
+      $searcher->get('/'         )->to(action => 'root');
+      $searcher->get('/name'     )->to(action => 'name');
       $searcher->get('/equipment')->to(action => 'equipment');
     }
 
     {
       my $search = $r->any('/search')->to(controller => 'Search');
+      $search->get('/like-name'     )->to(action => 'like_name');
       $search->get('/by-equipments' )->to(action => 'by_equipments');
       $search->get('/has-equipments')->to(action => 'has_equipments');
     }
