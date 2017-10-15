@@ -24,18 +24,22 @@ package HirakataPapark::Model::Role::DB::RelatedToPark {
 
   # and (?)
   sub get_park_id_list_has_names($class, $names) {
-    my $maker = $class->default_db->query_builder->select_class;
-    my $dbh   = $class->default_db->dbh;
-    my @sql_list = map {
-      my $name = $_;
-      my $sql = $maker->new
-                      ->add_from($class->TABLE)
-                      ->add_select('park_id')
-                      ->add_where(name => $name);
-    } @$names;
-    my $sql = SQL::Maker::SelectSet::intersect(@sql_list)->as_sql;
-    my $result = $dbh->selectall_arrayref($sql, undef, @$names);
-    [ map { @$_ } @$result ];
+    if (@$names) {
+      my $maker = $class->default_db->query_builder->select_class;
+      my $dbh   = $class->default_db->dbh;
+      my @sql_list = map {
+        my $name = $_;
+        my $sql = $maker->new
+          ->add_from($class->TABLE)
+          ->add_select('park_id')
+          ->add_where(name => $name);
+      } @$names;
+      my $sql = SQL::Maker::SelectSet::intersect(@sql_list)->as_sql;
+      my $result = $dbh->selectall_arrayref($sql, undef, @$names);
+      [ map { @$_ } @$result ];
+    } else {
+      [];
+    }
   }
 
 }

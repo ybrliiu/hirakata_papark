@@ -11,7 +11,10 @@
     全ての条件を複合的に合わせて調べるページも作る
 
 * 検索系のModel, template まとめられるものはまとめる
+  Model 処理の統一化(Tag, plant)
+  template
 * Model::Parks get_rows_has_equipments_names などはservice側で定義すべき, renameも考慮
+
 * 英語のデータを作る
 * 桜の木は別ページで表示
 * 公園コメント機能追加中
