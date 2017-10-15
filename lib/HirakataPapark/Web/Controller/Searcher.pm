@@ -6,8 +6,15 @@ package HirakataPapark::Web::Controller::Searcher {
 
   has 'service' => sub { HirakataPapark::Service::Searcher->new };
 
-  sub equipment {
-    my $self = shift;
+  sub root($self) {
+    $self->render;
+  }
+
+  sub name($self) {
+    $self->render;
+  }
+
+  sub equipment($self) {
     my $result = $self->service->equipment;
     $self->stash($result);
     $self->render;

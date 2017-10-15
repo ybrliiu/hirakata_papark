@@ -6,6 +6,13 @@ package HirakataPapark::Web::Controller::Search {
 
   has 'service' => sub { HirakataPapark::Service::Search->new };
 
+  sub like_name {
+    my $self = shift;
+    my $result = $self->service->like_name( $self->param('park_name') );
+    $self->stash($result);
+    $self->render(template => 'search/result');
+  }
+
   sub by_equipments {
     my $self = shift;
     my $result = $self->service->by_equipments( $self->every_param('equipments') );

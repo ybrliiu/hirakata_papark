@@ -1,0 +1,43 @@
+% layout 'default';
+% push @$JS_FILES, 'js/superagent.js';
+
+<div class="container" id="search-form">
+  <h2>名前から検索</h2>
+  <div class="row">
+    <div class="input-field col s6">
+      <input v-model="parkName" placeholder="公園の名前を入力して下さい" type="text" value="{{ parkName }}">
+    </div>
+    <div class="col s6">
+      <button class="waves-effect btn-large" v-on:click="send('<%= url_for '/search/like-name' %>')">検索</button>
+    </div>
+  </div>
+  <div class="row">
+    <h3 v-if="showResult">検索結果</h3>
+    <div class="col s12" v-html="result"></div>
+  </div>
+</div>
+
+<script>
+  'use strict';
+
+  new Vue({
+    el: '#search-form',
+    data: {
+      showResult: false,
+      parkName: '',
+      result: '',
+    },
+    methods: {
+      send: function (url) {
+        window.superagent
+          .get(url)
+          .query({park_name: this.parkName})
+          .end(function (err, res) {
+            this.showResult = true;
+            this.result = res.text;
+          }.bind(this));
+      },
+    },
+  });
+</script>
+

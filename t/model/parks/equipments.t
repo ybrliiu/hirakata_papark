@@ -1,26 +1,14 @@
 use HirakataPapark 'test';
 use Test::HirakataPapark::PostgreSQL;
 my $PSQL = Test::HirakataPapark::PostgreSQL->new;
-
 use HirakataPapark::Model::Parks::Equipments;
 my $model = HirakataPapark::Model::Parks::Equipments->new;
-
-use HirakataPapark::Model::Parks;
-my $parks_model = HirakataPapark::Model::Parks->new;
-
-# init
-do {
-  $parks_model->add_row({
-    name    => 'ほげ公園',
-    address => 'A市B町20',
-    x       => 0.0000,
-    y       => 1.3030,
-    area    => 1000
-  });
-};  
+use Test::HirakataPapark::Model::Parks;
+my $tester = Test::HirakataPapark::Model::Parks->new;
+$tester->add_test_park;
     
 subtest 'add_row' => sub {
-  my $park = $parks_model->get_row_by_name('ほげ公園')->get;
+  my $park = $tester->parks_model->get_row_by_name( $tester->TEST_PARK_PARMS->{name} )->get;
   lives_ok {
     $model->add_row({
       park_id => $park->id,
