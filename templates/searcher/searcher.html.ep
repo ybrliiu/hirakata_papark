@@ -1,0 +1,12 @@
+% layout 'default';
+% push @$JS_FILES, 'js/superagent.js', 'js/hirakata-papark/searcher.js', "js/hirakata-papark/searcher/${js_file}.js";
+
+<div class="container" id="search-form">
+  <h2><%= $title %>から検索</h2>
+  %= content search_form => begin
+  %= end
+  <div class="row">
+    <h3 v-if="showResult">検索結果</h3>
+    <div class="col s12" v-html="result"></div>
+  </div>
+</div>

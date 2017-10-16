@@ -36,11 +36,11 @@ package HirakataPapark::Web {
 
     {
       my $search = $r->any('/search')->to(controller => 'Search');
-      $search->get('/like-name'                 )->to(action => 'like_name');
-      $search->get('/like-address'              )->to(action => 'like_address');
-      $search->get('/by-equipments'             )->to(action => 'by_equipments');
-      $search->get('/has-equipments'            )->to(action => 'has_equipments');
-      $search->get('/has-surrounding-facilities')->to(action => 'has_surrounding_facilities');
+      $search->post('/like-name'                 )->to(action => 'like_name');
+      $search->post('/like-address'              )->to(action => 'like_address');
+      $search->post('/by-equipments'             )->to(action => 'by_equipments');
+      $search->post('/has-equipments'            )->to(action => 'has_equipments');
+      $search->post('/has-surrounding-facilities')->to(action => 'has_surrounding_facilities');
     }
 
   }

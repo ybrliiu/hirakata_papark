@@ -44,10 +44,6 @@ subtest add_rows => sub {
   diag $model->to_json_for_marker;
 };
 
-subtest get_rows_has_equipments_names => sub {
-  lives_ok { $model->get_rows_has_equipments_names(['すべり台']) };
-};
-
 subtest get_rows_like_name => sub {
   my $parks;
   lives_ok { $parks = $model->get_rows_like_name('公園') };
