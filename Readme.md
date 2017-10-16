@@ -7,10 +7,9 @@
   * タグ
   * 全ての条件を複合的に合わせて調べるページも作る
 
-* Model::Parks get_rows_has_equipments_names などはservice側で定義すべき, renameも考慮
+* 桜の木は別ページで表示
 
 * 英語のデータを作る
-* 桜の木は別ページで表示
 * 公園コメント機能追加中
   - reloadボタン
   - 返信機能

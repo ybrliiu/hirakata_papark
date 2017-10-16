@@ -12,6 +12,20 @@ package HirakataPapark::Service::Search {
     default => sub ($self) { $self->model('Parks')->new },
   );
 
+  has 'park_equipments_model' => (
+    is      => 'ro',
+    isa     => 'HirakataPapark::Model::Parks::Equipments',
+    lazy    => 1,
+    default => sub ($self) { $self->model('Parks::Equipments')->new },
+  );
+
+  has 'park_surrounding_facilities_model' => (
+    is      => 'ro',
+    isa     => 'HirakataPapark::Model::Parks::SurroundingFacilities',
+    lazy    => 1,
+    default => sub ($self) { $self->model('Parks::SurroundingFacilities')->new },
+  );
+
   sub like_name($self, $name) {
     return +{ parks => $self->parks_model->get_rows_like_name($name) };
   }
@@ -25,11 +39,15 @@ package HirakataPapark::Service::Search {
   }
 
   sub has_equipments($self, $names = []) {
-    return +{ parks => $self->parks_model->get_rows_has_equipments_names($names) };
+    my $id_list = $self->park_equipments_model->get_park_id_list_has_names($names);
+    my $parks   = [ $self->parks_model->select({id => {IN => $id_list}})->all ];
+    return +{ parks => $parks };
   }
 
   sub has_surrounding_facilities($self, $names = []) {
-    return +{ parks => $self->parks_model->get_rows_has_surrounding_facilities_names($names) };
+    my $id_list = $self->park_surrounding_facilities_model->get_park_id_list_has_names($names);
+    my $parks   = [ $self->parks_model->select({id => {IN => $id_list}})->all ];
+    return +{ parks => $parks };
   }
 
   __PACKAGE__->meta->make_immutable;

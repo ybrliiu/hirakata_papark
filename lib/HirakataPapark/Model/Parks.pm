@@ -4,8 +4,6 @@ package HirakataPapark::Model::Parks {
   use HirakataPapark;
 
   use Smart::Args qw( args args_pos );
-  use HirakataPapark::Model::Parks::Equipments;
-  use HirakataPapark::Model::Parks::SurroundingFacilities;
   
   use constant TABLE => 'park';
 
@@ -46,22 +44,12 @@ package HirakataPapark::Model::Parks {
     [ $self->select({address => {like => "%${address}%"}})->all ];
   }
 
+  # いらない or いるとしたらここにあるべきメソッドでない(park_equipment)
   sub get_rows_by_equipments_names {
     args_pos my $self, my $names => 'ArrayRef[Str]';
     my @name_condition = map { ('=', $_) } @$names;
     my @equipments = $self->db->select('park_equipment', {name => \@name_condition}, {prefetch => ['park']})->all;
     [ map { $_->park } @equipments ];
-  }
-
-  sub get_rows_has_equipments_names {
-    args_pos my $self, my $names => 'ArrayRef[Str]';
-    my $id_list = HirakataPapark::Model::Parks::Equipments->get_park_id_list_has_names($names);
-    [ $self->select({id => {IN => $id_list}})->all ];
-  }
-
-  sub get_rows_has_surrounding_facilities_names($self, $names) {
-    my $id_list = HirakataPapark::Model::Parks::SurroundingFacilities->get_park_id_list_has_names($names);
-    [ $self->select({id => {IN => $id_list}})->all ];
   }
 
   # 結果を park map の marker のための json にするので、 先に何らかのメソッドで結果を取得しておくこと
