@@ -4,11 +4,11 @@ package HirakataPapark::Model::Parks::Plants {
   use HirakataPapark;
 
   use Set::Object;
-  use Smart::Args qw( args args_pos );
+  use Smart::Args qw( args );
 
   use constant TABLE => 'park_plants';
 
-  with 'HirakataPapark::Model::Role::DB';
+  with 'HirakataPapark::Model::Role::DB::RelatedToPark';
 
   sub add_row {
     args my $self, my $park_id => 'Int',
@@ -25,36 +25,16 @@ package HirakataPapark::Model::Parks::Plants {
     });
   }
 
-  sub get_rows_by_name {
-    args_pos my $self, my $name => 'Str';
-    [ $self->select({name => $name})->all ];
-  }
-
-  sub get_rows_by_names {
-    args_pos my $self, my $names => 'ArrayRef[Str]';
-    my @ary = map { ('=', $_) } @$names;
-    [ $self->select({ name => \@ary })->all ];
-  }
-
-  sub get_rows_by_names_with_prefetch {
-    args_pos my $self, my $names => 'ArrayRef[Str]';
-    my @ary = map { ('=', $_) } @$names;
-    [ $self->select( { name => \@ary }, { prefetch => ['park'] } )->all ];
-  }
-
-  sub get_rows_by_category {
-    args_pos my $self, my $category => 'Str';
+  sub get_rows_by_category($self, $category) {
     [ $self->select({category => $category})->all ];
   }
 
-  sub get_rows_by_categorys {
-    args_pos my $self, my $categorys => 'ArrayRef[Str]';
-    my @ary = map { ('=', $_) } @$categorys;
+  sub get_rows_by_categories($self, $categories) {
+    my @ary = map { ('=', $_) } @$categories;
     [ $self->select({ category => \@ary })->all ];
   }
 
-  sub get_category_list {
-    my $self = shift;
+  sub get_category_list($self) {
     my @category_list =
       map { $_->category } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['category']  } )->all;
     \@category_list;
@@ -69,8 +49,7 @@ package HirakataPapark::Model::Parks::Plants {
     \@category_list;
   }
 
-  sub get_plants_list {
-    my $self = shift;
+  sub get_plants_list($self) {
     my @plants_list =
       map { $_->name } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['name'] } )->all;
     \@plants_list;

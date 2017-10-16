@@ -5,6 +5,7 @@ package HirakataPapark::Model::Parks {
 
   use Smart::Args qw( args args_pos );
   use HirakataPapark::Model::Parks::Equipments;
+  use HirakataPapark::Model::Parks::SurroundingFacilities;
   
   use constant TABLE => 'park';
 
@@ -41,6 +42,10 @@ package HirakataPapark::Model::Parks {
     [ $self->select({name => {like => "%${name}%"}})->all ];
   }
 
+  sub get_rows_like_address($self, $address) {
+    [ $self->select({address => {like => "%${address}%"}})->all ];
+  }
+
   sub get_rows_by_equipments_names {
     args_pos my $self, my $names => 'ArrayRef[Str]';
     my @name_condition = map { ('=', $_) } @$names;
@@ -51,6 +56,11 @@ package HirakataPapark::Model::Parks {
   sub get_rows_has_equipments_names {
     args_pos my $self, my $names => 'ArrayRef[Str]';
     my $id_list = HirakataPapark::Model::Parks::Equipments->get_park_id_list_has_names($names);
+    [ $self->select({id => {IN => $id_list}})->all ];
+  }
+
+  sub get_rows_has_surrounding_facilities_names($self, $names) {
+    my $id_list = HirakataPapark::Model::Parks::SurroundingFacilities->get_park_id_list_has_names($names);
     [ $self->select({id => {IN => $id_list}})->all ];
   }
 

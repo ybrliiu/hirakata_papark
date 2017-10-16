@@ -2,13 +2,11 @@ package HirakataPapark::Model::Parks::SurroundingFacilities {
 
   use Mouse;
   use HirakataPapark;
-
-  use Set::Object;
-  use Smart::Args qw( args args_pos );
+  use Smart::Args qw( args );
 
   use constant TABLE => 'park_surrounding_facility';
 
-  with 'HirakataPapark::Model::Role::DB';
+  with 'HirakataPapark::Model::Role::DB::RelatedToPark';
 
   sub add_row {
     args my $self,
@@ -22,19 +20,7 @@ package HirakataPapark::Model::Parks::SurroundingFacilities {
     });
   }
 
-  sub get_rows_by_name {
-    args_pos my $self, my $name => 'Str';
-    [ $self->select({name => $name})->all ];
-  }
-
-  sub get_rows_by_names_with_prefetch {
-    args_pos my $self, my $names => 'ArrayRef[Str]';
-    my @ary = map { ('=', $_) } @$names;
-    [ $self->select( { name => \@ary }, { prefetch => ['park'] } )->all ];
-  }
-
-  sub get_facility_list {
-    my $self = shift;
+  sub get_surrounding_facility_list($self) {
     my @facility_list =
       map { $_->name } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['name'] } )->all;
     \@facility_list;
