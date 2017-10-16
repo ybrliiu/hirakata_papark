@@ -2,17 +2,11 @@
 
 ## 予定
 
-どうするか
-  検索ページの改良をしたい
-    検索めにゅー
-      植物
-      タグ
-      コメント
-    全ての条件を複合的に合わせて調べるページも作る
+* 検索ページの作成中
+  * 植物
+  * タグ
+  * 全ての条件を複合的に合わせて調べるページも作る
 
-* 検索系のModel, template まとめられるものはまとめる
-  Model 処理の統一化(Tag, plant)
-  template
 * Model::Parks get_rows_has_equipments_names などはservice側で定義すべき, renameも考慮
 
 * 英語のデータを作る
