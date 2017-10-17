@@ -2,10 +2,10 @@
 
 % content search_form => begin
   <div class="row">
-    <div class="input-field col s6">
+    <div class="input-field col s8">
       <input v-model="<%= $v_model %>" placeholder="<%= $placeholder %>" type="text">
     </div>
-    <div class="col s6">
+    <div class="col s4">
       <button class="waves-effect btn-large" v-on:click="send('<%= url_for $url %>')">検索</button>
     </div>
   </div>

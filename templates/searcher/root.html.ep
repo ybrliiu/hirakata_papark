@@ -3,32 +3,32 @@
 <div class="container">
   <h2>公園を検索</h2>
   <div class="row">
-    <div class="col l4 m6 s8">
+    <div class="col l4 m6 s12 center-align">
       <a class="waves-effect btn-large search-park-btn" href="/searcher/name">
         <i class="material-icons right">arrow_forward</i>名前から検索
       </a>
     </div>
-    <div class="col l4 m6 s8">
+    <div class="col l4 m6 s12 center-align">
       <a class="waves-effect btn-large search-park-btn" href="/searcher/equipment">
         <i class="material-icons right">arrow_forward</i>遊具・施設から検索
       </a>
     </div>
-    <div class="col l4 m6 s8">
+    <div class="col l4 m6 s12 center-align">
       <a class="waves-effect btn-large search-park-btn" href="/searcher/address">
         <i class="material-icons right">arrow_forward</i>住所から検索
       </a>
     </div>
-    <div class="col l4 m6 s8">
+    <div class="col l4 m6 s12 center-align">
       <a class="waves-effect btn-large search-park-btn" href="/searcher/surrounding-facility">
         <i class="material-icons right">arrow_forward</i>周辺施設から検索
       </a>
     </div>
-    <div class="col l4 m6 s8">
+    <div class="col l4 m6 s12 center-align">
       <a class="waves-effect btn-large search-park-btn" href="/searcher/plants">
         <i class="material-icons right">arrow_forward</i>植物から検索
       </a>
     </div>
-    <div class="col l4 m6 s8">
+    <div class="col l4 m6 s12 center-align">
       <a class="waves-effect btn-large search-park-btn" href="/searcher/tag">
         <i class="material-icons right">arrow_forward</i>タグから検索
       </a>
