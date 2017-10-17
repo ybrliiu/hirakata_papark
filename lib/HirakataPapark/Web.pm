@@ -21,6 +21,7 @@ package HirakataPapark::Web {
     {
       my $park = $r->any('/park')->to(controller => 'Park');
       $park->get( '/:park_id'             )->to(action => 'show_park_by_id');
+      $park->get( '/plants/:park_id'      )->to(action => 'show_park_plants_by_id');
       $park->post('/add-comment/:park_id' )->to(action => 'add_comment_by_id');
       $park->get( '/get-comments/:park_id')->to(action => 'get_comments_by_id');
     }
