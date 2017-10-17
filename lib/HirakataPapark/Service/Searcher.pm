@@ -5,6 +5,21 @@ package HirakataPapark::Service::Searcher {
 
   with 'HirakataPapark::Service::Service';
 
+  sub tag {
+    my $self = shift;
+    my $tags_model = $self->model('Parks::Tags')->new;
+    return +{ tag_list => $tags_model->get_tag_list };
+  }
+
+  sub plants {
+    my $self = shift;
+    my $plants_model = $self->model('Parks::Plants')->new;
+    return +{
+      plants_categories  => $plants_model->get_category_list,
+      categoryzed_plants => $plants_model->get_categoryzed_plants_list,
+    };
+  }
+
   sub equipment {
     my $self = shift;
     my $equipments_model = $self->model('Parks::Equipments')->new;

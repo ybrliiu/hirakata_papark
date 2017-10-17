@@ -27,6 +27,27 @@ package HirakataPapark::Web::Controller::Search {
     $self->render(template => 'search/result');
   }
 
+  sub has_tags {
+    my $self = shift;
+    my $result = $self->service->has_tags( $self->every_param('tags') );
+    $self->stash($result);
+    $self->render(template => 'search/result');
+  }
+
+  sub has_plants {
+    my $self = shift;
+    my $result = $self->service->has_plants( $self->every_param('plants') );
+    $self->stash($result);
+    $self->render(template => 'search/result');
+  }
+
+  sub has_plants_categories {
+    my $self = shift;
+    my $result = $self->service->has_plants_categories( $self->every_param('plants_categories') );
+    $self->stash($result);
+    $self->render(template => 'search/result');
+  }
+
   sub has_equipments {
     my $self = shift;
     my $result = $self->service->has_equipments( $self->every_param('equipments') );

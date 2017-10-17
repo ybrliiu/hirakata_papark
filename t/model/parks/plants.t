@@ -33,4 +33,10 @@ subtest 'get_lists' => sub {
   is $plants_list->[0], 'ソメイヨシノ';
 };
 
+subtest 'categoryzed_plants_list' => sub {
+  my $categoryzed_plants_list;
+  lives_ok { $categoryzed_plants_list = $model->get_categoryzed_plants_list };
+  is_deeply $categoryzed_plants_list, +{'桜' => ['ソメイヨシノ']};
+};
+
 done_testing;

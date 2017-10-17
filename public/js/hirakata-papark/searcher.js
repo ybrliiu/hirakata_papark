@@ -28,24 +28,11 @@
 
   PACKAGE.checkBoxesFormMixin = {
     data: {
-      items: (function () {
-        var items = {};
-        Array.prototype.forEach.call(document.getElementById('check-boxes').children, function (checkBox) {
-          items[checkBox] = false;
-        });
-        return items;
-      }()),
-      sendItems: [],
+      items: [],
     },
     methods: {
-      getSendItems: function () {
-        return Object.keys(this.items).filter(function (key) {
-          return this.items[key];
-        }.bind(this));
-      },
       isFormEmpty: function () {
-        this.sendItems = this.getSendItems();
-        return this.sendItems.length === 0;
+        return this.items.length === 0;
       },
     },
   };

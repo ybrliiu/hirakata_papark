@@ -3,13 +3,13 @@
 % my $check_box = begin
   % my $name = shift;
   <div class="col l3 s6">
-    <input type="checkbox" class="filled-in" id="<%= $name %>" v-model="items['<%= $name %>']">
+    <input type="checkbox" class="filled-in" id="<%= $name %>" value="<%= $name %>" v-model="items">
     <label for="<%= $name %>"><%= $name %></label>
   </div>
 % end
 
 % content search_form => begin
-  <div class="row" id="check-boxes">
+  <div class="row">
   % for (@$check_boxes) {
     <%= $check_box->($_) %>
   % }
@@ -20,3 +20,4 @@
     </div>
   </div>
 % end
+

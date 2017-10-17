@@ -28,7 +28,9 @@ package HirakataPapark::Web {
     {
       my $searcher = $r->any('/searcher')->to(controller => 'Searcher');
       $searcher->get('/'                    )->to(action => 'root');
+      $searcher->get('/tag'                 )->to(action => 'tags');
       $searcher->get('/name'                )->to(action => 'name');
+      $searcher->get('/plants'              )->to(action => 'plants');
       $searcher->get('/address'             )->to(action => 'address');
       $searcher->get('/equipment'           )->to(action => 'equipment');
       $searcher->get('/surrounding-facility')->to(action => 'surrounding_facility');
@@ -39,7 +41,10 @@ package HirakataPapark::Web {
       $search->post('/like-name'                 )->to(action => 'like_name');
       $search->post('/like-address'              )->to(action => 'like_address');
       $search->post('/by-equipments'             )->to(action => 'by_equipments');
+      $search->post('/has-tags'                  )->to(action => 'has_tags');
+      $search->post('/has-plants'                )->to(action => 'has_plants');
       $search->post('/has-equipments'            )->to(action => 'has_equipments');
+      $search->post('/has-plants-categories'     )->to(action => 'has_plants_categories');
       $search->post('/has-surrounding-facilities')->to(action => 'has_surrounding_facilities');
     }
 
