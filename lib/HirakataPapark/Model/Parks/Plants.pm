@@ -55,6 +55,34 @@ package HirakataPapark::Model::Parks::Plants {
     \@plants_list;
   }
 
+  sub get_categoryzed_plants_list($self) {
+    my @rows = $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => [qw/ name category /] } )->all;
+    my $result = +{ map { $_->category => [] } @rows };
+    for my $row (@rows) {
+      push $result->{$row->category}->@*, $row->name;
+    }
+    $result;
+  }
+
+  sub get_park_id_list_has_category_names($class, $category_names) {
+    if (@$category_names) {
+      my $maker = $class->default_db->query_builder->select_class;
+      my $dbh   = $class->default_db->dbh;
+      my @sql_list = map {
+        my $category = $_;
+        my $sql = $maker->new
+          ->add_from($class->TABLE)
+          ->add_select('park_id')
+          ->add_where(category => $category);
+      } @$category_names;
+      my $sql = SQL::Maker::SelectSet::intersect(@sql_list)->as_sql;
+      my $result = $dbh->selectall_arrayref($sql, undef, @$category_names);
+      [ map { @$_ } @$result ];
+    } else {
+      [];
+    }
+  }
+
   __PACKAGE__->meta->make_immutable;
 
 }

@@ -1,9 +1,0 @@
-Perltidy version is 20160302
-
-1: <%= include 'searcher/related_to_park' => (
-     ----------------------------------------^
-found ( where operator expected (previous token underlined)
-
-6: ) %>
-     -^
-found > where term expected (previous token underlined)

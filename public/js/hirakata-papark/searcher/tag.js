@@ -6,7 +6,7 @@
     mixins: [hirakataPapark.searcher.searchFormMixin, hirakataPapark.searcher.checkBoxesFormMixin],
     el: '#search-form',
     methods: {
-      query: function () { return {equipments: this.items} },
+      query: function () { return {tags: this.items} },
     },
   });
 

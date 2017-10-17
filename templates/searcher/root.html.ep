@@ -24,12 +24,12 @@
       </a>
     </div>
     <div class="col l4 m6 s8">
-      <a class="waves-effect btn-large search-park-btn">
+      <a class="waves-effect btn-large search-park-btn" href="/searcher/plants">
         <i class="material-icons right">arrow_forward</i>植物から検索
       </a>
     </div>
     <div class="col l4 m6 s8">
-      <a class="waves-effect btn-large search-park-btn">
+      <a class="waves-effect btn-large search-park-btn" href="/searcher/tag">
         <i class="material-icons right">arrow_forward</i>タグから検索
       </a>
     </div>

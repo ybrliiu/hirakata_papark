@@ -1,0 +1,43 @@
+% extends 'searcher/searcher' => (title => '植物', js_file => 'plants');
+
+% my $check_box = begin
+  % my $v_model = shift;
+  % return begin
+    % my $name = shift;
+    <div class="col l3 s6">
+      <input type="checkbox" class="filled-in" id="<%= $name %>" value="<%= $name %>" v-model="<%= $v_model %>">
+      <label for="<%= $name %>"><%= $name %></label>
+    </div>
+  % end
+% end
+
+% my $plants_check_box   = $check_box->('plants');
+% my $category_check_box = $check_box->('plantsCategories');
+
+% content search_form => begin
+  <div class="row">
+  % for my $category (@$plants_categories) {
+    <%= $category_check_box->($category) %>
+  % }
+  </div>
+  <div class="row">
+    <div class="col s12 right">
+      <button class="waves-effect btn right" v-on:click="sendToPlantsCategoriesSearcher('<%= url_for '/search/has-plants-categories' %>')">検索</button>
+    </div>
+  </div>
+  <h2>品種から検索</h2>
+  % for my $category (@$plants_categories) {
+    <h3><i class="small material-icons">expand_more</i><%= $category %></h3>
+    <div class="row">
+    % for my $plants ($categoryzed_plants->{$category}->@*) {
+      <%= $plants_check_box->($plants) %>
+    % }
+    </div>
+  % }
+  <div class="row">
+    <div class="col s12 right">
+      <button class="waves-effect btn right" v-on:click="sendToPlantsSearcher('<%= url_for '/search/has-plants' %>')">検索</button>
+    </div>
+  </div>
+% end
+
