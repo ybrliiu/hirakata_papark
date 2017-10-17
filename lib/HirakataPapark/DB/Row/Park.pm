@@ -20,6 +20,18 @@ package HirakataPapark::DB::Row::Park {
     }
   }
 
+  sub plants_categories {
+    my $self = shift;
+    [
+      map { $_->category } 
+      $self->handler->select(
+        'park_plants',
+        {park_id => $self->id},
+        {prefix => 'SELECT DISTINCT ', columns => ['category'] },
+      )->all
+    ];
+  }
+
   __PACKAGE__->meta->make_immutable;
 
 }

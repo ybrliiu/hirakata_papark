@@ -8,25 +8,16 @@
 
 <div class="container">
 
+  <h2><%= $park->name %></h2>
+
   <div class="row">
-    <div class="col s12">
-      <h2><%= $park->name %></h2>
+    <div class="col l6 s12">
+      <h3>データ</h3>
       <p>住所 : <%= $park->address %></p>
       <p>緯度 : <%= $park->y %>, 経度 : <%= $park->x %>
       <p>面積 : <%= $park->area %> ㎡ (広さ : <%= $park->size %>)</p>
       <p>景観 : <%= $park->is_nice_scenery ? '良い' : '' %></p>
       <p>一時避難場所 : <%= $park->is_evacuation_area ? '○' : '×' %></p>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col l6 s12">
-      <h3>遊具・施設</h3>
-      <ul>
-      % for my $equipment ($park->park_equipments) {
-        <li><%= $equipment->name %> (<%= $equipment->num %>)</li>
-      % }
-      </ul>
     </div>
     <div class="col l6 s12">
       <h3>マップ</h3>
@@ -35,13 +26,48 @@
   window.addEventListener('load', function () {
     "use strict";
     var parkMap = new hirakataPapark.ParkMap({
-      url: '<%= url_for("/park/")->to_abs %>',
+      url: '<%= url_for("/park/") %>',
       mapId: 'park-map-small',
     });
     parkMap.setView(<%= $park->y %>, <%= $park->x %>);
     parkMap.registParkMarkers( [ JSON.parse('<%== $park->to_json_for_marker %>') ] );
   });
 </script>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col l6 s12">
+      <h3>遊具・施設</h3>
+      <table>
+        <thread>
+          <tr>
+            <th style="max-width: 33%">名前</th>
+            <th>個数</th>
+            <th>備考</th>
+          </tr>
+        </thread>
+        <tbody>
+        % for my $equipment ($park->park_equipments) {
+          <tr>
+            <td><%= $equipment->name %></td>
+            <td><%= $equipment->num %></td>
+            <td><%= $equipment->comment %></td>
+          </tr>
+        % }
+        </tbody>
+      </table>
+    </div>
+    <div class="col l6 s12">
+      <h3>植物</h3>
+      <ul>
+      % for my $category ($park->plants_categories->@*) {
+        <li><%= $category %></li>
+      % }
+      </ul>
+      <a class="waves-effect btn" href="/park/plants/<%= $park->id %>">
+        <i class="material-icons right">arrow_forward</i>詳細
+      </a>
     </div>
   </div>
 
