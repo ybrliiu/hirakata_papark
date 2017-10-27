@@ -21,7 +21,6 @@ package HirakataPapark::Web::Controller::Searcher {
   # Mojolicious::Plugin::AssetPack で tag というメソッド(helper?)が登録されているため,
   # Controllerでtag というmethodが定義できない
   sub tags($self) {
-    my $self = shift;
     my $result = $self->service->tag;
     $self->stash($result);
     $self->render(template => 'searcher/tag');

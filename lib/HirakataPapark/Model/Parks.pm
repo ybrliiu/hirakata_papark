@@ -10,14 +10,35 @@ package HirakataPapark::Model::Parks {
   with 'HirakataPapark::Model::Role::DB';
 
   sub add_row {
-    args my $self, my $name => 'Str',
-      my $address => 'Str', my $x => 'Num', my $y => 'Num', my $area => 'Num';
+    args my $self,
+      my $name                 => 'Str',
+      my $english_name         => 'Str',
+      my $address              => 'Str',
+      my $english_address      => 'Str',
+      my $explain              => { isa => 'Str', default => '' },
+      my $english_explain      => { isa => 'Str', default => '' },
+      my $remarks_about_plants => { isa => 'Str', default => '' },
+      my $good_count           => { isa => 'Int', default => 0 },
+      my $x                    => 'Num',
+      my $y                    => 'Num',
+      my $area                 => 'Num',
+      my $is_nice_scenery      => { isa => 'Int', default => 0 },
+      my $is_evacuation_area   => { isa => 'Int', default => 0 };
+
     $self->insert({
-      name    => $name,
-      address => $address,
-      x       => $x,
-      y       => $y,
-      area    => $area,
+      name                 => $name,
+      english_name         => $english_name,
+      address              => $address,
+      english_address      => $english_address,
+      explain              => $explain,
+      english_explain      => $english_explain,
+      remarks_about_plants => $remarks_about_plants,
+      good_count           => $good_count,
+      x                    => $x,
+      y                    => $y,
+      area                 => $area,
+      is_nice_scenery      => $is_nice_scenery,
+      is_evacuation_area   => $is_evacuation_area,
     });
   }
 
