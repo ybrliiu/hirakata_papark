@@ -10,14 +10,14 @@ package HirakataPapark::Web::Controller::Park {
     my $self = shift;
     my $result = $self->service->get_park_by_id( $self->param('park_id') );
     $self->stash($result);
-    $self->render;
+    $self->render_to_multiple_lang();
   }
 
   sub show_park_plants_by_id {
     my $self = shift;
     my $result = $self->service->get_park_plants_by_id( $self->param('park_id') );
     $self->stash($result);
-    $self->render;
+    $self->render_to_multiple_lang();
   }
 
   sub add_comment_by_id {

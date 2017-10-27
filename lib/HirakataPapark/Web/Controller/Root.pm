@@ -9,17 +9,17 @@ package HirakataPapark::Web::Controller::Root {
   sub root {
     my $self = shift;
     $self->stash($self->service->root);
-    $self->render;
+    $self->render_to_multiple_lang();
   }
 
   sub current_location {
     my $self = shift;
-    $self->root;
+    $self->root();
   }
 
   sub about {
     my $self = shift;
-    $self->render();
+    $self->render_to_multiple_lang();
   }
 
 }
