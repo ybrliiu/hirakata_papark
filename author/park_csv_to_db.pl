@@ -120,7 +120,7 @@ my @parks_equipment = map {
 } @$park_data_list_orig;
 
 my $model = HirakataPapark::Model::Parks->new;
-my $txn = $model->db->handler->txn_manager->txn_scope;
+my $txn = $model->txn_scope;
 $model->add_rows(\@parks);
 
 my $equipments_model = HirakataPapark::Model::Parks::Equipments->new;

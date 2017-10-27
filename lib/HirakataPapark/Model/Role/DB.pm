@@ -48,6 +48,11 @@ package HirakataPapark::Model::Role::DB {
     [ $self->result->all ];
   }
 
+  sub txn_scope {
+    my $self = shift;
+    $self->db->handler->txn_manager->txn_scope;
+  }
+
 }
 
 1;
