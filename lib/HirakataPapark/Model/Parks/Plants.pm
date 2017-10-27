@@ -11,17 +11,25 @@ package HirakataPapark::Model::Parks::Plants {
   with 'HirakataPapark::Model::Role::DB::RelatedToPark';
 
   sub add_row {
-    args my $self, my $park_id => 'Int',
-      my $name     => 'Str',
-      my $category => 'Str',
-      my $num      => { isa => 'Int', default => 0 },
-      my $comment  => { isa => 'Str', default => '' };
+    args my $self,
+      my $park_id          => 'Int',
+      my $name             => 'Str',
+      my $english_name     => 'Str',
+      my $category         => 'Str',
+      my $english_category => 'Str',
+      my $comment          => { isa => 'Str', default => '' },
+      my $english_comment  => { isa => 'Str', default => '' },
+      my $num              => { isa => 'Int', default => 0 };
+
     $self->insert({
-      park_id  => $park_id,
-      name     => $name,
-      category => $category,
-      num      => $num,
-      comment  => $comment,
+      park_id          => $park_id,
+      name             => $name,
+      english_name     => $english_name,
+      category         => $category,
+      english_category => $english_category,
+      num              => $num,
+      comment          => $comment,
+      english_comment  => $english_comment,
     });
   }
 

@@ -2,12 +2,9 @@
 # google map API を利用
 # https://developers.google.com/maps/documentation/geocoding/start?hl=ja#get-a-key
 
-use lib './lib';
+use lib './lib', './author';
 use HirakataPapark;
-use Path::Tiny;
-use Data::Dumper;
-use Encode qw( decode );
-use Text::CSV_XS;
+use CSVEditer;
 use LWP::UserAgent;
 use JSON qw( decode_json );
 
@@ -21,30 +18,11 @@ my @COLUMNS = qw(
   is_nice_scenery
 );
 
-sub get_csv_data {
-  open my $fh, '<', './data/kouen_jyouhou.csv';
-  my $parser = Text::CSV_XS->new({
-    binary       => 1,
-    always_quote => 1,
-  });
-  my @park_data;
-  while (my $columns = $parser->getline($fh)) {
-    my %park;
-    @park{@COLUMNS} = map { decode('shift-jis', $_) } @$columns;
-    push @park_data, \%park;
-  }
-  $fh->close;
-  \@park_data;
-}
-
-sub save_csv_data {
-  my $park_data = shift;
-  my @data = map {
-    my %park = %{$_};
-    join(',', map { qq{"$park{$_}"} } @COLUMNS) . "\n";
-  } @$park_data;
-  Path::Tiny::path('data/fix_park_data.csv')->touch->spew(\@data);
-}
+my $editer = CSVEditer->new({
+  columns        => \@COLUMNS,
+  get_file_name  => 'data/kouen_jyouhou.csv',
+  save_file_name => 'data/fix_park_data.csv',
+});
 
 my $API_KEY = 'AIzaSyC-i9RCrsO4yuqMBaNA0EAqJ8mNeCzx-8g';
 my $ua = LWP::UserAgent->new;
@@ -58,12 +36,11 @@ sub get_addres {
   (split /大阪府/, $json->{results}[0]{formatted_address})[-1];
 }
 
-my $park_data = get_csv_data;
+my $park_data = $editer->get_csv_data();
 =head1
 for my $park (@$park_data) {
   $park->{address} = get_addres($park->{y}, $park->{x}) // '住所';
 }
 =cut
-
-save_csv_data($park_data);
+$editer->save_csv_data($park_data);
 

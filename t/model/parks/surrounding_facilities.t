@@ -11,8 +11,9 @@ subtest 'add_row' => sub {
   my $park = $tester->parks_model->get_row_by_name( $tester->TEST_PARK_PARMS->{name} )->get;
   lives_ok {
     $model->add_row({
-      park_id  => $park->id,
-      name     => '駐車場',
+      park_id      => $park->id,
+      name         => '駐車場',
+      english_name => 'Parking lot        ',
     });
   };
   my @equipments = $model->get_rows_by_name('駐車場')->@*;

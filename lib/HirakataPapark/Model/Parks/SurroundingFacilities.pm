@@ -10,13 +10,18 @@ package HirakataPapark::Model::Parks::SurroundingFacilities {
 
   sub add_row {
     args my $self,
-      my $park_id => 'Int',
-      my $name    => 'Str',
-      my $comment => { isa => 'Int', default => '' };
+      my $park_id         => 'Int',
+      my $name            => 'Str',
+      my $english_name    => 'Str',
+      my $comment         => { isa => 'Str', default => '' },
+      my $english_comment => { isa => 'Str', default => '' };
+
     $self->insert({
-      park_id => $park_id,
-      name    => $name,
-      comment => $comment,
+      park_id         => $park_id,
+      name            => $name,
+      english_name    => $english_name,
+      comment         => $comment,
+      english_comment => $english_comment,
     });
   }
 

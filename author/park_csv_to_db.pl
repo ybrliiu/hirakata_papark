@@ -12,7 +12,7 @@ use HirakataPapark::Model::Parks::Plants;
 use HirakataPapark::Model::Parks::SurroundingFacilities;
 
 my @FACILITIES     = qw( 有料駐車場 無料駐車場 );
-my @PLANTS         = qw( ソメイヨシノ オオシマザクラ カンヒザクラ シダレザクラ カワズザクラ ヤマザクラ );
+my @PLANTS         = qw( ソメイヨシノ オオシマザクラ カンヒザクラ シダレザクラ カワヅザクラ ヤマザクラ );
 my @ANOTHER_PLANTS = qw( 桜_その他 桜_合計 桜_その他_品種 );
 my @COLUMNS = (
   qw(
@@ -25,10 +25,46 @@ my @COLUMNS = (
   @FACILITIES,
   @PLANTS,
   @ANOTHER_PLANTS,
-  qw(
-    is_nice_scenery
-  ),
+  qw( is_nice_scenery english_name english_address ),
 );
+
+my $english_dict = {
+  '有料駐車場'                     => 'Toll parking',
+  '無料駐車場'                     => 'Free parking',
+  '桜'                             => 'Cherry Blossoms',
+  'ソメイヨシノ'                   => 'Yoshino cherry',
+  'オオシマザクラ'                 => 'Oshima cherry',
+  'カンヒザクラ'                   => 'Kanhizakura',
+  'シダレザクラ'                   => 'Shidarezakura',
+  'カワヅザクラ'                   => 'Kawaduzakura',
+  'ヤマザクラ'                     => 'Yamazakura',
+  'サトザクラ'                     => 'Satozakura',
+  'ヤエザクラ'                     => 'Yaezakura',
+  'アマノガワ'                     => 'Amanogawa',
+  'ヤエアケボノ'                   => 'Yaeakebono',
+  'ハクサンオオデマリ'             => 'Hakusamoodemari',
+  'コウヨウザクラ'                 => 'Kouyouzakura',
+  'オオヤマザクラ'                 => 'Ooyamazakura',
+  'ヤエベニシダレ'                 => 'Yaebenishidare',
+  'ブランコ'                       => 'Swing',
+  'すべり台'                       => 'Slide',
+  '鉄棒'                           => 'Horizontal bar',
+  'シーソー'                       => 'Seesaw',
+  'ジャングルジム'                 => 'Jungle gym',
+  '複合遊具'                       => 'Combined play equipment',
+  '砂場'                           => 'Sandbox',
+  'ラダー'                         => 'Ladder',
+  '健康遊具'                       => 'Healthy play equipment',
+  'プレイスカルプチャー(遊戯彫刻)' => 'Play sculpture',
+  'トイレ'                         => 'Toilet',
+  '水飲場'                         => 'Drinking fountains',
+  'ベンチ'                         => 'Bench',
+  '四阿・シェルター'               => 'Chickee',
+  'エドヒガン'                     => 'Edohiganzakura',
+  '古木(淡墨桜)。'                 => 'Old tree(Usuzumizakura).',
+  '個数不明。'                     => 'The number is not recorded.',
+  '古木(淡墨桜)。個数不明。'       => 'Old tree(Usuzumizakura). The number is not recorded.',
+};
 
 sub get_csv_data {
   my $file_name = shift;
@@ -38,6 +74,7 @@ sub get_csv_data {
   while ( my $columns = $parser->getline($fh) ) {
     my %park;
     @park{@COLUMNS} = @$columns;
+    next if $park{id} eq 'NO';
     $park{id} -= 1;
     $park{area} =~ s/,//g;
     $park{area} += 0;
@@ -52,10 +89,10 @@ sub get_csv_data {
   \@park_data;
 }
 
-my $park_data_list_orig = get_csv_data('./data/manually_fix_park_data.csv');
+my $park_data_list_orig = get_csv_data('./data/manually_fix_add_english_park_data.csv');
 shift @$park_data_list_orig;
 
-my @PARK_FIELDS = qw( id name address y x area is_nice_scenery is_evacuation_area );
+my @PARK_FIELDS = qw( id name address y x area is_nice_scenery is_evacuation_area english_name english_address );
 my @parks = map {
   my $park = $_;
   my %new_park;
@@ -83,6 +120,7 @@ my @parks_equipment = map {
 } @$park_data_list_orig;
 
 my $model = HirakataPapark::Model::Parks->new;
+my $txn = $model->txn_scope;
 $model->add_rows(\@parks);
 
 my $equipments_model = HirakataPapark::Model::Parks::Equipments->new;
@@ -95,29 +133,33 @@ for my $info (@parks_equipment) {
   for my $equipment_name (@equipments) {
     if ( grep { $equipment_name eq $_ } @FACILITIES ) {
       $facilities_model->add_row({
-        park_id => $park_id,
-        name    => $equipment_name,
+        park_id      => $park_id,
+        name         => $equipment_name,
+        english_name => $english_dict->{$equipment_name},
       });
     }
     elsif ( grep { $equipment_name eq $_ } @PLANTS ) {
       $plants_model->add_row({
-        park_id  => $park_id,
-        name     => $equipment_name,
-        category => '桜',
-        num      => $info->{$equipment_name},
+        park_id          => $park_id,
+        name             => $equipment_name,
+        english_name     => $english_dict->{$equipment_name},
+        category         => '桜',
+        english_category => $english_dict->{'桜'},
+        num              => $info->{$equipment_name},
       });
     }
     elsif ( grep { $equipment_name eq $_ } @EQUIPMENTS ) {
       $equipments_model->add_row({
-        park_id => $park_id,
-        name    => $equipment_name,
-        num     => $info->{$equipment_name},
+        park_id      => $park_id,
+        name         => $equipment_name,
+        english_name => $english_dict->{$equipment_name},
+        num          => $info->{$equipment_name},
       });
     }
   }
   my @blossoms = split /,/, $info->{'桜_その他_品種'};
   for my $blossom (@blossoms) {
-    $plants_model->add_row({
+    my $param = {
       park_id  => $park_id,
       category => '桜',
       name     => ($blossom eq '淡墨桜' ? 'エドヒガン' : $blossom),
@@ -132,7 +174,14 @@ for my $info (@parks_equipment) {
         }
         $comment;
       },
-    });
+    };
+    $param->{english_name}     = $english_dict->{$param->{name}} // die $param->{name};
+    $param->{english_category} = $english_dict->{$param->{category}};
+    $param->{english_comment}  = $param->{comment} ? $english_dict->{$param->{comment}} : '';
+    die $param->{comment} unless defined $param->{english_comment};
+    $plants_model->add_row($param);
   }
 }
+
+$txn->commit;
 
