@@ -1,0 +1,9 @@
+<%= include 'searcher/plants' => (
+  layout                   => 'default_en',
+  title                    => 'Search By Plants',
+  search_by_variety_title  => 'Search By Variety',
+  search_by_name_url       => '/en/search/has-plants',
+  search_by_category_url   => '/en/search/has-plants-categories',
+  search_result_title      => 'Search Result',
+  search                   => 'Search',
+); %>

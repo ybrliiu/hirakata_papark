@@ -1,7 +1,3 @@
-% layout 'default';
-% push @$JS_FILES, ('js/leaflet.js', 'js/hirakata-papark/park-map.js');
-% push @$CSS_FILES, 'css/leaflet.css';
-
 <div class="card">
   <div id="park-map" class="card-content"></div>
 </div>

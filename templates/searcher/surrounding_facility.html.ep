@@ -1,6 +1,0 @@
-<%= include 'searcher/related_to_park' => (
-  url         => '/search/has-surrounding-facilities',
-  title       => '周辺施設',
-  js_file     => 'surrounding_facility',
-  check_boxes => $surrounding_facility_list,
-) %>

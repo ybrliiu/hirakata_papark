@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charser="UTF-8">
-    <meta name="description" content="枚方市の公園の情報が見れます。">
+    <meta name="description" content="<%= $meta_description %>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     %# iosでネイティブアプリっぽく見せる
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,7 +18,7 @@
     % }
     <script src="<%= url_for '/js/vue.js' %>"></script>
     <script src="<%= url_for '/js/hirakata-papark.js' %>"></script>
-    <title><%= $config->{site}{name} %></title>
+    <title><%= $site_name %></title>
   </head>
   <body>
     % content container => begin

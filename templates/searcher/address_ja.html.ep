@@ -1,0 +1,10 @@
+<%= include 'searcher/park_column' => (
+  layout              => 'default_ja',
+  title               => '住所から検索',
+  js_file             => 'address',
+  v_model             => 'parkAddress',
+  search_result_title => '検索結果',
+  url                 => '/en/search/like-address',
+  placeholder         => '住所を入力して下さい',
+  search              => '検索',
+); %>

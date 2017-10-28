@@ -1,0 +1,10 @@
+<%= include 'searcher/park_column' => (
+  layout              => 'default_ja',
+  title               => '名前から検索',
+  js_file             => 'name',
+  v_model             => 'parkName',
+  search_result_title => '検索結果',
+  url                 => '/ja/search/like-name',
+  placeholder         => '公園の名前を検索して下さい',
+  search              => '検索',
+); %>

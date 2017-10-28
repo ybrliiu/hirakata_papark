@@ -2,7 +2,7 @@
 % if (@$parks > 0 ) {
   % for my $park (@$parks) {
     <li>
-      <a href="<%= url_for '/park/' . $park->id %>"><%= $park->name %></a>
+      <a href="<%= url_for "/$lang/park/" . $park->id %>"><%= $park->name %></a>
       (<%= $park->address %>)
     </li>
   % }

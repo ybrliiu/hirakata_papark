@@ -1,0 +1,9 @@
+<%= include 'searcher/related_to_park' => (
+  layout              => 'default_ja',
+  title               => 'タグから検索',
+  js_file             => 'tag',
+  url                 => '/ja/search/has-tags',
+  check_boxes         => $tag_list,
+  search              => '検索',
+  search_result_title => '検索結果',
+); %>

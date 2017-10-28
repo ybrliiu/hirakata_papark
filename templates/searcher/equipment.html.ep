@@ -1,6 +1,0 @@
-<%= include 'searcher/related_to_park' => (
-  url         => '/search/has-equipments',
-  title       => '遊具・施設',
-  js_file     => 'equipment',
-  check_boxes => $equipment_list,
-) %>

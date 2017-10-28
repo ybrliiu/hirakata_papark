@@ -1,0 +1,9 @@
+<%= include 'searcher/related_to_park' => (
+  layout              => 'default_en',
+  title               => 'Search By Equipments',
+  js_file             => 'equipment',
+  url                 => '/en/search/has-equipments',
+  check_boxes         => $equipment_list,
+  search              => 'Search',
+  search_result_title => 'Search Result',
+) %>

@@ -16,7 +16,7 @@
   </div>
   <div class="row">
     <div class="col s12 right">
-      <button class="waves-effect btn right" v-on:click="send('<%= url_for $url %>')">検索</button>
+      <button class="waves-effect btn right" v-on:click="send('<%= url_for $url %>')"><%= $search %></button>
     </div>
   </div>
 % end

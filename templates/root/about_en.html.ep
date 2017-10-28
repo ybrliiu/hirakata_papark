@@ -1,0 +1,9 @@
+% layout 'default_en';
+
+<div class="container">
+<ul>
+  <li>Hirakata Papark is a website for sending and sharing infomation on the parks of Hirakata city on Osaka prefecture.</li>
+  <li>This is create by <a href="http://openhirakata2016.jp/">Hirakata City Open Data Event 2016</a>.</li>
+  <li>Production team : 公園育Day</li>
+</ul>
+</div>
