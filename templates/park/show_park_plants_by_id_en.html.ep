@@ -1,0 +1,13 @@
+% layout 'default_en';
+
+<%= include 'park/show_park_plants_by_id' => (
+  name_accessor_name     => 'english_name',
+  category_accessor_name => 'english_category',
+  comment_accessor_name  => 'english_comment',
+  title                  => 'Details of plants in ' . $park->english_name,
+  category               => 'Category',
+  variety                => 'Variety',
+  num                    => 'Num',
+  remarks                => 'Remarks',
+  back                   => 'Back',
+); %>

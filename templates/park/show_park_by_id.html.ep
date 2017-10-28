@@ -1,36 +1,28 @@
-% layout 'default';
-<% push @$JS_FILES, (
-  'js/leaflet.js',
-  'js/hirakata-papark/park-map.js',
-  'js/superagent.js',
-); %>
-% push @$CSS_FILES, 'css/leaflet.css';
-
 <div class="container">
 
-  <h2><%= $park->name %></h2>
+  <h2><%= $park->$name_accessor_name %></h2>
 
   <div class="row">
     <div class="col l6 s12">
-      <h3>データ</h3>
-      <p>住所 : <%= $park->address %></p>
-      <p>緯度 : <%= $park->y %>, 経度 : <%= $park->x %>
-      <p>面積 : <%= $park->area %> ㎡ (広さ : <%= $park->size %>)</p>
-      <p>景観 : <%= $park->is_nice_scenery ? '良い' : '' %></p>
-      <p>一時避難場所 : <%= $park->is_evacuation_area ? '○' : '×' %></p>
+      <h3><%= $details_title %></h3>
+      <p><%= $address %> : <%= $park->$address_accessor_name %></p>
+      <p><%= $latitude %> : <%= $park->y %>, <%= $longitude %> : <%= $park->x %>
+      <p><%= $area %> : <%= $park->area %> ㎡ (<%= $extent %> : <%= $park->$size_method_name %>)</p>
+      <p><%= $scenery %> : <%= $park->is_nice_scenery ? $nice : '' %></p>
+      <p><%= $temp_evacuation_area %> : <%= $park->is_evacuation_area ? '○' : '×' %></p>
     </div>
     <div class="col l6 s12">
-      <h3>マップ</h3>
+      <h3><%= $map_title %></h3>
       <div id="park-map-small" class="card-content"></div>
 <script>
   window.addEventListener('load', function () {
     "use strict";
     var parkMap = new hirakataPapark.ParkMap({
-      url: '<%= url_for("/park/") %>',
+      url: '<%= url_for("/$lang/park/") %>',
       mapId: 'park-map-small',
     });
     parkMap.setView(<%= $park->y %>, <%= $park->x %>);
-    parkMap.registParkMarkers( [ JSON.parse('<%== $park->to_json_for_marker %>') ] );
+    parkMap.registParkMarkers( [ JSON.parse('<%== $park->$json_method_name %>') ] );
   });
 </script>
     </div>
@@ -38,35 +30,35 @@
 
   <div class="row">
     <div class="col l6 s12">
-      <h3>遊具・施設</h3>
+      <h3><%= $equipment_title %></h3>
       <table>
         <thread>
           <tr>
-            <th style="max-width: 33%">名前</th>
-            <th>個数</th>
-            <th>備考</th>
+            <th style="max-width: 33%"><%= $name %></th>
+            <th><%= $num %></th>
+            <th><%= $remarks %></th>
           </tr>
         </thread>
         <tbody>
         % for my $equipment ($park->park_equipments) {
           <tr>
-            <td><%= $equipment->name %></td>
+            <td><%= $equipment->$name_accessor_name %></td>
             <td><%= $equipment->num %></td>
-            <td><%= $equipment->comment %></td>
+            <td><%= $equipment->$comment_accessor_name %></td>
           </tr>
         % }
         </tbody>
       </table>
     </div>
     <div class="col l6 s12">
-      <h3>植物</h3>
+      <h3><%= $plants_tile %></h3>
       <ul>
-      % for my $category ($park->plants_categories->@*) {
+      % for my $category ($park->$plants_categories_method_name->@*) {
         <li><%= $category %></li>
       % }
       </ul>
-      <a class="waves-effect btn" href="/park/plants/<%= $park->id %>">
-        <i class="material-icons right">arrow_forward</i>詳細
+      <a class="waves-effect btn" href="/<%= $lang %>/park/plants/<%= $park->id %>">
+        <i class="material-icons right">arrow_forward</i><%= $details %>
       </a>
     </div>
   </div>
@@ -75,32 +67,32 @@
     <div id="comment-form" class="col l6 s12">
       <div class="row">
         <div class="col s12">
-          <h3>コメントを投稿する</h3>
+          <h3><%= $post_comment_title %></h3>
           {{ result }}
         </div>
       </div>
       <div class="row">
         <div class="col s12">
-          <label for="name">名前</label>
+          <label for="name"><%= $name %></label>
           <input id="name" type="text" v-model="name">
         </div>
       </div>
       <div class="row">
         <div class="col s12">
-          <label for="name">本文</label>
+          <label for="name"><%= $_text %></label>
           <textarea class="original-textarea" rows="6" v-model="message"></textarea>
         </div>
       </div>
       <div class="row">
         <div class="col s12 right">
-          <button class="waves-effect btn right" v-on:click="send('<%= url_for '/park/add-comment/' . $park->id %>')">投稿</button>
+          <button class="waves-effect btn right" v-on:click="send('<%= url_for "/$lang/park/add-comment/" . $park->id %>')"><%= $post %></button>
         </div>
       </div>
     </div>
     <div id="comment" class="col l6 s12">
       <div class="row">
         <div class="col s12">
-          <h3>コメント</h3>
+          <h3><%= $comment_title %></h3>
           <div v-html="comments"></div>
         </div>
       </div>
@@ -122,7 +114,7 @@
     methods: {
       getComments: function () {
         window.superagent
-          .get('<%= url_for '/park/get-comments/' . $park->id %>')
+          .get('<%= url_for "/$lang/park/get-comments/" . $park->id %>')
           .end( function (err, res) {
             this.comments = res.text;
           }.bind(this) );
@@ -156,4 +148,3 @@
 </script>
 
 </div>
-

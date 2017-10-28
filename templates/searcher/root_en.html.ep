@@ -1,0 +1,11 @@
+% layout 'default_en';
+
+<%= include 'searcher/root' => (
+  title                            => 'Search Park',
+  search_by_name                   => 'By name',
+  search_by_equipments             => 'By equipments',
+  search_by_address                => 'By address',
+  search_by_surrounding_facilities => 'By surround',
+  search_by_plants                 => 'By plants',
+  search_by_tags                   => 'By tags',
+); %>

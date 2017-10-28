@@ -97,6 +97,8 @@ my @parks = map {
   my $park = $_;
   my %new_park;
   @new_park{@PARK_FIELDS} = map { $park->{$_} } @PARK_FIELDS;
+  $new_park{english_name}    = join ' ', map { ucfirst $_ } split / /, $new_park{english_name};
+  $new_park{english_address} = join ', ', map { ucfirst $_ } split /, /, $new_park{english_address};
   \%new_park;
 } @$park_data_list_orig;
 

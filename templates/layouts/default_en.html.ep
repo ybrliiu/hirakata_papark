@@ -1,0 +1,31 @@
+<% extends 'layouts/wrapper' => (
+  site_name        => $config->{site}{english_name},
+  meta_description => 'You can see park infomation in Hirakata city,',
+); %>
+% push @$JS_FILES, 'js/hirakata-papark/menu.js';
+
+% content container => begin
+  <nav>
+    <div class="nav-wrapper green darken-3">
+      <a href="#" class="brand-logo center"><%= $config->{site}{english_name} %></a>
+      <ul class="left">
+        <li id="show-menu-button" v-on:click="showSideMenu"><a><i class="material-icons">menu</i></a></li>
+      </ul>
+      <ul class="side-nav" id="side-menu" v-if="isShow" v-on:click="stopClose">
+        <li><span class="title center green darken-3"><%= $config->{site}{english_name} %></span></li>
+        <form class="in-side-nav">
+          <div class="input-field">
+            <input id="search" type="search" placeholder="Search">
+            <i class="material-icons">search</i>
+          </div>
+        </form>
+        <li><a href="<%= url_for '/en/' %>">Park Map</a></li>
+        <li><a href="<%= url_for '/en/searcher/' %>">Search Park</a></li>
+        <li><a href="<%= url_for '/en/current-location' %>">Search Nearby Parks</a></li>
+        <li><a href="<%= url_for '/en/about' %>">About</a></li>
+      </ul>
+    </div>
+  </nav>
+  <%= content %>
+% end
+%= content 'container'

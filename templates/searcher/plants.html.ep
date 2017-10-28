@@ -1,4 +1,4 @@
-% extends 'searcher/searcher' => (title => '植物', js_file => 'plants');
+% extends 'searcher/searcher' => (js_file => 'plants');
 
 % my $check_box = begin
   % my $v_model = shift;
@@ -22,10 +22,10 @@
   </div>
   <div class="row">
     <div class="col s12 right">
-      <button class="waves-effect btn right" v-on:click="sendToPlantsCategoriesSearcher('<%= url_for '/search/has-plants-categories' %>')">検索</button>
+      <button class="waves-effect btn right" v-on:click="sendToPlantsCategoriesSearcher('<%= url_for $search_by_category_url %>')"><%= $search %></button>
     </div>
   </div>
-  <h2>品種から検索</h2>
+  <h2><%= $search_by_variety_title %></h2>
   % for my $category (@$plants_categories) {
     <h3><i class="small material-icons">expand_more</i><%= $category %></h3>
     <div class="row">
@@ -36,7 +36,7 @@
   % }
   <div class="row">
     <div class="col s12 right">
-      <button class="waves-effect btn right" v-on:click="sendToPlantsSearcher('<%= url_for '/search/has-plants' %>')">検索</button>
+      <button class="waves-effect btn right" v-on:click="sendToPlantsSearcher('<%= url_for $search_by_name_url %>')"><%= $search %></button>
     </div>
   </div>
 % end

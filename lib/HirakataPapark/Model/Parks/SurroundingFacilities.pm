@@ -31,6 +31,12 @@ package HirakataPapark::Model::Parks::SurroundingFacilities {
     \@facility_list;
   }
 
+  sub get_english_surrounding_facility_list($self) {
+    my @facility_list =
+      map { $_->english_name } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['english_name'] } )->all;
+    \@facility_list;
+  }
+
   __PACKAGE__->meta->make_immutable;
 
 }

@@ -1,25 +1,23 @@
-% layout 'default';
-
 <div class="container">
-  <h2><%= $park->name %>の植物　詳細</h2>
+  <h2><%= $title %></h2>
   <div class="row">
     <div class="col s12">
       <table>
         <thread>
           <tr>
-            <th>カテゴリ</th>
-            <th>品種名</th>
-            <th>個数</th>
-            <th>備考</th>
+            <th><%= $category %></th>
+            <th><%= $variety %></th>
+            <th><%= $num %></th>
+            <th><%= $remarks %></th>
           </tr>
         </thread>
         <tbody>
         % for my $plants (@$plants) {
           <tr>
-            <td><%= $plants->category %></td>
-            <td><%= $plants->name %></td>
+            <td><%= $plants->$category_accessor_name %></td>
+            <td><%= $plants->$name_accessor_name %></td>
             <td><%= $plants->num %></td>
-            <td><%= $plants->comment %></td>
+            <td><%= $plants->$comment_accessor_name %></td>
           </tr>
         % }
         </tbody>
@@ -28,8 +26,8 @@
   </div>
   <div class="row">
     <div class="col s12">
-      <a class="waves-effect btn" href="/park/<%= $park->id %>">
-        <i class="material-icons left">arrow_back</i>戻る
+      <a class="waves-effect btn" href="/<%= $lang %>/park/<%= $park->id %>">
+        <i class="material-icons left">arrow_back</i><%= $back %>
       </a>
     </div>
   </div>

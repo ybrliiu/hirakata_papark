@@ -1,0 +1,9 @@
+<%= include 'searcher/related_to_park' => (
+  layout              => 'default_ja',
+  title               => '遊具・施設から検索',
+  js_file             => 'equipment',
+  url                 => '/ja/search/has-equipments',
+  check_boxes         => $equipment_list,
+  search              => '検索',
+  search_result_title => '検索結果',
+); %>

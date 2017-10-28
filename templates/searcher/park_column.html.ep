@@ -6,7 +6,7 @@
       <input v-model="<%= $v_model %>" placeholder="<%= $placeholder %>" type="text">
     </div>
     <div class="col s4">
-      <button class="waves-effect btn-large" v-on:click="send('<%= url_for $url %>')">検索</button>
+      <button class="waves-effect btn-large" v-on:click="send('<%= url_for $url %>')"><%= $search %></button>
     </div>
   </div>
 % end

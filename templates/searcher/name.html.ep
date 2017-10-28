@@ -1,7 +1,0 @@
-<%= include 'searcher/park_column' => (
-  title       => '名前',
-  js_file     => 'name',
-  v_model     => 'parkName',
-  url         => '/search/like-name',
-  placeholder => '公園の名前を入力して下さい',
-) %>

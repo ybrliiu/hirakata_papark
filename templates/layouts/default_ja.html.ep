@@ -1,4 +1,7 @@
-% extends 'layouts/wrapper';
+<% extends 'layouts/wrapper' => (
+  site_name        => $config->{site}{name},
+  meta_description => '枚方市の公園の情報が見れます。',
+); %>
 % push @$JS_FILES, 'js/hirakata-papark/menu.js';
 
 % content container => begin
@@ -16,10 +19,10 @@
             <i class="material-icons">search</i>
           </div>
         </form>
-        <li><a href="<%= url_for '/' %>">公園マップ</a></li>
-        <li><a href="<%= url_for '/searcher/' %>">公園を検索</a></li>
-        <li><a href="<%= url_for '/current-location' %>">現在地周辺の公園をさがす</a></li>
-        <li><a href="<%= url_for '/about' %>">about</a></li>
+        <li><a href="<%= url_for '/ja/' %>">公園マップ</a></li>
+        <li><a href="<%= url_for '/ja/searcher/' %>">公園を検索</a></li>
+        <li><a href="<%= url_for '/ja/current-location' %>">現在地周辺の公園をさがす</a></li>
+        <li><a href="<%= url_for '/ja/about' %>">about</a></li>
       </ul>
     </div>
   </nav>

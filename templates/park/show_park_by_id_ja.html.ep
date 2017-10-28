@@ -1,0 +1,37 @@
+% layout 'default_ja';
+<% push @$JS_FILES, (
+  'js/leaflet.js',
+  'js/hirakata-papark/park-map.js',
+  'js/superagent.js',
+); %>
+% push @$CSS_FILES, 'css/leaflet.css';
+
+<% my @params = (
+  name_accessor_name            => 'name',
+  address_accessor_name         => 'address',
+  comment_accessor_name         => 'comment',
+  size_method_name              => 'size',
+  json_method_name              => 'to_json_for_marker',
+  plants_categories_method_name => 'plants_categories',
+  details_title                 => 'データ',
+  map_title                     => 'マップ',
+  equipment_title               => '遊具・施設',
+  plants_tile                   => '植物',
+  post_comment_title            => 'コメントを投稿する',
+  comment_title                 => 'コメント',
+  address                       => '住所',
+  latitude                      => '緯度',
+  longitude                     => '経度',
+  area                          => '面積',
+  extent                        => '広さ',
+  scenery                       => '景観',
+  nice                          => '良い',
+  temp_evacuation_area          => '一時避難場所',
+  name                          => '名前',
+  _text                         => '本文',
+  num                           => '個数',
+  remarks                       => '備考',
+  details                       => '詳細',
+  post                          => '投稿',
+); %>
+%= include 'park/show_park_by_id' => @params;
