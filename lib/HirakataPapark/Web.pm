@@ -13,6 +13,9 @@ package HirakataPapark::Web {
   
     my $r = $self->routes;
     $r->namespaces(['HirakataPapark::Web::Controller']);
+
+    $r->get('/')->to('Root#top');
+
     my $root = $r->any('/:lang');
 
     {

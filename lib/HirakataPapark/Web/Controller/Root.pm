@@ -6,6 +6,11 @@ package HirakataPapark::Web::Controller::Root {
 
   has 'service' => sub { HirakataPapark::Service::Root->new };
 
+  sub top {
+    my $self = shift;
+    $self->redirect_to('/ja/');
+  }
+
   sub root {
     my $self = shift;
     $self->stash( $self->lang eq 'en' ? $self->service->root_en : $self->service->root_ja );
