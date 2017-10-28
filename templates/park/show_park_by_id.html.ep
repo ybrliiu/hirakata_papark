@@ -7,7 +7,7 @@
       <h3><%= $details_title %></h3>
       <p><%= $address %> : <%= $park->$address_accessor_name %></p>
       <p><%= $latitude %> : <%= $park->y %>, <%= $longitude %> : <%= $park->x %>
-      <p><%= $area %> : <%= $park->area %> ㎡ (<%= $extent %> : <%= $park->size %>)</p>
+      <p><%= $area %> : <%= $park->area %> ㎡ (<%= $extent %> : <%= $park->$size_method_name %>)</p>
       <p><%= $scenery %> : <%= $park->is_nice_scenery ? $nice : '' %></p>
       <p><%= $temp_evacuation_area %> : <%= $park->is_evacuation_area ? '○' : '×' %></p>
     </div>
@@ -22,7 +22,7 @@
       mapId: 'park-map-small',
     });
     parkMap.setView(<%= $park->y %>, <%= $park->x %>);
-    parkMap.registParkMarkers( [ JSON.parse('<%== $park->to_json_for_marker %>') ] );
+    parkMap.registParkMarkers( [ JSON.parse('<%== $park->$json_method_name %>') ] );
   });
 </script>
     </div>
@@ -53,7 +53,7 @@
     <div class="col l6 s12">
       <h3><%= $plants_tile %></h3>
       <ul>
-      % for my $category ($park->plants_categories->@*) {
+      % for my $category ($park->$plants_categories_method_name->@*) {
         <li><%= $category %></li>
       % }
       </ul>

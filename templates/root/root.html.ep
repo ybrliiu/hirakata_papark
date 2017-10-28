@@ -8,6 +8,7 @@
     var parkMap = new hirakataPapark.ParkMap({
       url: '<%= url_for("/$lang/park/") %>',
       mapId: 'park-map',
+      mapUrl: '<%= $map_url %>',
     });
     parkMap.registParkMarkers( JSON.parse('<%== $parks_json %>') );
   });

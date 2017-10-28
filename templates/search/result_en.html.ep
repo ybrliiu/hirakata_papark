@@ -1,0 +1,12 @@
+<ul class="park-list">
+% if (@$parks > 0 ) {
+  % for my $park (@$parks) {
+    <li>
+      <a href="<%= url_for "/$lang/park/" . $park->id %>"><%= $park->english_name %></a>
+      (<%= $park->english_address %>)
+    </li>
+  % }
+% } else {
+  <span class="red-text">The corresponding park was not found.</span>
+% }
+</ul>

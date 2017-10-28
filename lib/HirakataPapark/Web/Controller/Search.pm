@@ -8,58 +8,79 @@ package HirakataPapark::Web::Controller::Search {
 
   sub like_name {
     my $self = shift;
-    my $result = $self->service->like_name( $self->param('park_name') );
+    my $park_name = $self->param('park_name');
+    my $result = $self->lang eq 'en'
+      ? $self->service->like_english_name($park_name)
+      : $self->service->like_name($park_name);
     $self->stash($result);
-    $self->render(template => 'search/result');
+    $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub like_address {
     my $self = shift;
-    my $result = $self->service->like_address( $self->param('park_address') );
+    my $park_address = $self->param('park_address');
+    my $result = $self->lang eq 'en'
+      ? $self->service->like_english_address($park_address)
+      : $self->service->like_address($park_address);
     $self->stash($result);
-    $self->render(template => 'search/result');
+    $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub by_equipments {
     my $self = shift;
-    my $result = $self->service->by_equipments( $self->every_param('equipments') );
+    my $equipments = $self->every_param('equipments');
+    my $result = $self->lang eq 'en'
+      ? $self->service->by_equipments_english($equipments)
+      : $self->service->by_equipments($equipments);
     $self->stash($result);
-    $self->render(template => 'search/result');
+    $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub has_tags {
     my $self = shift;
     my $result = $self->service->has_tags( $self->every_param('tags') );
     $self->stash($result);
-    $self->render(template => 'search/result');
+    $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub has_plants {
     my $self = shift;
-    my $result = $self->service->has_plants( $self->every_param('plants') );
+    my $plants = $self->every_param('plants');
+    my $result = $self->lang eq 'en'
+      ? $self->service->has_plants_english($plants)
+      : $self->service->has_plants($plants);
     $self->stash($result);
-    $self->render(template => 'search/result');
+    $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub has_plants_categories {
     my $self = shift;
-    my $result = $self->service->has_plants_categories( $self->every_param('plants_categories') );
+    my $categories = $self->every_param('plants_categories');
+    my $result = $self->lang eq 'en'
+      ? $self->service->has_plants_categories_english($categories)
+      : $self->service->has_plants_categories($categories);
     $self->stash($result);
-    $self->render(template => 'search/result');
+    $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub has_equipments {
     my $self = shift;
-    my $result = $self->service->has_equipments( $self->every_param('equipments') );
+    my $equipments = $self->every_param('equipments');
+    my $result = $self->lang eq 'en'
+      ? $self->service->has_equipments_english($equipments)
+      : $self->service->has_equipments($equipments);
     $self->stash($result);
-    $self->render(template => 'search/result');
+    $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub has_surrounding_facilities {
     my $self = shift;
-    my $result = $self->service->has_surrounding_facilities( $self->every_param('surrounding_facilities') );
+    my $surrounding_facilities = $self->every_param('surrounding_facilities');
+    my $result = $self->lang eq 'en'
+      ? $self->service->has_surrounding_facilities_english($surrounding_facilities)
+      : $self->service->has_surrounding_facilities($surrounding_facilities);
     $self->stash($result);
-    $self->render(template => 'search/result');
+    $self->render_to_multiple_lang(template => 'search/result');
   }
 
 }

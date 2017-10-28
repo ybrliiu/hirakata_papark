@@ -30,9 +30,15 @@ package HirakataPapark::Model::Parks::Equipments {
   }
 
   sub get_equipment_list($self) {
-    my @tag_list =
+    my @equipment_list =
       map { $_->name } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['name'] } )->all;
-    \@tag_list;
+    \@equipment_list;
+  }
+
+  sub get_english_equipment_list($self) {
+    my @equipment_list =
+      map { $_->english_name } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['english_name'] } )->all;
+    \@equipment_list;
   }
 
   __PACKAGE__->meta->make_immutable;

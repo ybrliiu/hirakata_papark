@@ -3,15 +3,28 @@ package HirakataPapark::Service::Root {
   use Mouse;
   use HirakataPapark;
 
+  has 'parks' => (
+    is      => 'ro',
+    isa     => 'HirakataPapark::Model::Parks',
+    lazy    => 1,
+    default => sub {
+      my $self = shift;
+      $self->model('Parks')->new;
+    },
+  );
+
   with 'HirakataPapark::Service::Service';
 
-  sub root {
+  sub root_ja {
     my $self = shift;
-    my $park_model = $self->model('Parks')->new;
-    $park_model->get_rows_all;
-    return +{
-      parks_json => $park_model->to_json_for_marker,
-    };
+    $self->parks->get_rows_all;
+    +{ parks_json => $self->parks->to_json_for_marker };
+  }
+
+  sub root_en {
+    my $self = shift;
+    $self->parks->get_rows_all;
+    +{ parks_json => $self->parks->to_english_json_for_marker };
   }
 
   __PACKAGE__->meta->make_immutable;

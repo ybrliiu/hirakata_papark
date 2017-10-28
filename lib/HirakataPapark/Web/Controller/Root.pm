@@ -8,7 +8,7 @@ package HirakataPapark::Web::Controller::Root {
 
   sub root {
     my $self = shift;
-    $self->stash($self->service->root);
+    $self->stash( $self->lang eq 'en' ? $self->service->root_en : $self->service->root_ja );
     $self->render_to_multiple_lang();
   }
 

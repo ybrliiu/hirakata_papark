@@ -2,6 +2,36 @@ package HirakataPapark::Service::Searcher {
 
   use Mouse;
   use HirakataPapark;
+  
+  has 'park_plants' => (
+    is      => 'ro',
+    isa     => 'HirakataPapark::Model::Parks::Plants',
+    lazy    => 1,
+    default => sub {
+      my $self = shift;
+      $self->model('Parks::Plants')->new;
+    },
+  );
+  
+  has 'park_equipments' => (
+    is      => 'ro',
+    isa     => 'HirakataPapark::Model::Parks::Equipments',
+    lazy    => 1,
+    default => sub {
+      my $self = shift;
+      $self->model('Parks::Equipments')->new;
+    },
+  );
+
+  has 'park_facilities' => (
+    is      => 'ro',
+    isa     => 'HirakataPapark::Model::Parks::SurroundingFacilities',
+    lazy    => 1,
+    default => sub {
+      my $self = shift;
+      $self->model('Parks::SurroundingFacilities')->new;
+    },
+  );
 
   with 'HirakataPapark::Service::Service';
 
@@ -13,23 +43,38 @@ package HirakataPapark::Service::Searcher {
 
   sub plants {
     my $self = shift;
-    my $plants_model = $self->model('Parks::Plants')->new;
     return +{
-      plants_categories  => $plants_model->get_category_list,
-      categoryzed_plants => $plants_model->get_categoryzed_plants_list,
+      plants_categories  => $self->park_plants->get_category_list,
+      categoryzed_plants => $self->park_plants->get_categoryzed_plants_list,
+    };
+  }
+
+  sub english_plants {
+    my $self = shift;
+    return +{
+      plants_categories  => $self->park_plants->get_english_category_list,
+      categoryzed_plants => $self->park_plants->get_english_categoryzed_plants_list,
     };
   }
 
   sub equipment {
     my $self = shift;
-    my $equipments_model = $self->model('Parks::Equipments')->new;
-    return +{ equipment_list => $equipments_model->get_equipment_list };
+    return +{ equipment_list => $self->park_equipments->get_equipment_list };
+  }
+
+  sub english_equipment {
+    my $self = shift;
+    return +{ equipment_list => $self->park_equipments->get_english_equipment_list };
   }
 
   sub surrounding_facility {
     my $self = shift;
-    my $facilities_model = $self->model('Parks::SurroundingFacilities')->new;
-    return +{ surrounding_facility_list => $facilities_model->get_surrounding_facility_list };
+    return +{ surrounding_facility_list => $self->park_facilities->get_surrounding_facility_list };
+  }
+
+  sub english_surrounding_facility {
+    my $self = shift;
+    return +{ surrounding_facility_list => $self->park_facilities->get_english_surrounding_facility_list };
   }
 
   __PACKAGE__->meta->make_immutable;

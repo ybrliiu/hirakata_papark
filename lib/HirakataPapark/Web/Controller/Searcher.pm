@@ -27,19 +27,25 @@ package HirakataPapark::Web::Controller::Searcher {
   }
 
   sub plants($self) {
-    my $result = $self->service->plants;
+    my $result = $self->lang eq 'en'
+      ? $self->service->english_plants
+      : $self->service->plants;
     $self->stash($result);
     $self->render_to_multiple_lang();
   }
 
   sub equipment($self) {
-    my $result = $self->service->equipment;
+    my $result = $self->lang eq 'en'
+      ? $self->service->english_equipment
+      : $self->service->equipment;
     $self->stash($result);
     $self->render_to_multiple_lang();
   }
 
   sub surrounding_facility($self) {
-    my $result = $self->service->surrounding_facility;
+    my $result = $self->lang eq 'en'
+      ? $self->service->english_surrounding_facility
+      : $self->service->surrounding_facility;
     $self->stash($result);
     $self->render_to_multiple_lang();
   }

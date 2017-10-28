@@ -61,15 +61,29 @@ package HirakataPapark::Model::Parks {
     [ $self->select({name => {like => "%${name}%"}})->all ];
   }
 
+  sub get_rows_like_english_name($self, $name) {
+    [ $self->select({english_name => {like => "%${name}%"}})->all ];
+  }
+
   sub get_rows_like_address($self, $address) {
     [ $self->select({address => {like => "%${address}%"}})->all ];
   }
 
-  # いらない or いるとしたらここにあるべきメソッドでない(park_equipment)
+  sub get_rows_like_english_address($self, $address) {
+    [ $self->select({english_address => {like => "%${address}%"}})->all ];
+  }
+
   sub get_rows_by_equipments_names {
     args_pos my $self, my $names => 'ArrayRef[Str]';
     my @name_condition = map { ('=', $_) } @$names;
     my @equipments = $self->db->select('park_equipment', {name => \@name_condition}, {prefetch => ['park']})->all;
+    [ map { $_->park } @equipments ];
+  }
+
+  sub get_rows_by_equipments_english_names {
+    args_pos my $self, my $names => 'ArrayRef[Str]';
+    my @name_condition = map { ('=', $_) } @$names;
+    my @equipments = $self->db->select('park_equipment', {english_name => \@name_condition}, {prefetch => ['park']})->all;
     [ map { $_->park } @equipments ];
   }
 
@@ -78,6 +92,12 @@ package HirakataPapark::Model::Parks {
     my $self = shift;
     return '[]' unless $self->result;
     "[ " . (join ", ", map { $_->to_json_for_marker } $self->result->all) . " ]";
+  }
+
+  sub to_english_json_for_marker {
+    my $self = shift;
+    return '[]' unless $self->result;
+    "[ " . (join ", ", map { $_->to_english_json_for_marker } $self->result->all) . " ]";
   }
 
   __PACKAGE__->meta->make_immutable;
