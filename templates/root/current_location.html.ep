@@ -6,7 +6,7 @@
   window.addEventListener('load', function () {
     "use strict";
     var parkMap = new hirakataPapark.ParkMap({
-      url: '<%= url_for("/$lang/park/")->to_abs %>',
+      url: '<%= url_for("/$lang/park/") %>',
       mapId: 'park-map',
     });
     parkMap.registParkMarkers( JSON.parse('<%== $parks_json %>') );
