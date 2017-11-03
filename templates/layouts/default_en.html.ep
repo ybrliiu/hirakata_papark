@@ -7,7 +7,7 @@
 % content container => begin
   <nav>
     <div class="nav-wrapper green darken-3">
-      <a href="#" class="brand-logo center"><%= $config->{site}{english_name} %></a>
+      <a href="<%= url_for '/en/' %>" class="brand-logo center"><%= $config->{site}{english_name} %></a>
       <ul class="left">
         <li id="show-menu-button" v-on:click="showSideMenu"><a><i class="material-icons">menu</i></a></li>
       </ul>

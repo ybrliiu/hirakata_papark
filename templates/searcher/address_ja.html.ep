@@ -4,7 +4,7 @@
   js_file             => 'address',
   v_model             => 'parkAddress',
   search_result_title => '検索結果',
-  url                 => '/en/search/like-address',
+  url                 => '/ja/search/like-address',
   placeholder         => '住所を入力して下さい',
   search              => '検索',
 ); %>
