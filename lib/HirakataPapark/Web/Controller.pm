@@ -12,10 +12,10 @@ package HirakataPapark::Web::Controller {
     en => 1,
   );
 
-  has 'lang' => sub {
+  sub lang {
     my $self = shift;
     $LANG_LIST{ $self->param('lang') } ? $self->param('lang') : DEFAULT_LANG;
-  };
+  }
 
   sub render_to_multiple_lang {
     my $self = shift;
