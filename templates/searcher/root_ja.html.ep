@@ -1,4 +1,4 @@
-% layout 'default_en';
+% layout 'default_ja';
 
 <%= include 'searcher/root' => (
   title                            => '公園を検索',
