@@ -77,6 +77,30 @@ package HirakataPapark::DB::Row::Park {
     ];
   }
 
+  sub surrounding_facility_names {
+    my $self = shift;
+    [
+      map { $_->name } 
+      $self->handler->select(
+        'park_surrounding_facility',
+        {park_id => $self->id},
+        {prefix => 'SELECT DISTINCT ', columns => ['name'] },
+      )->all
+    ];
+  }
+
+  sub surrounding_facility_english_names {
+    my $self = shift;
+    [
+      map { $_->english_name } 
+      $self->handler->select(
+        'park_surrounding_facility',
+        {park_id => $self->id},
+        {prefix => 'SELECT DISTINCT ', columns => ['english_name'] },
+      )->all
+    ];
+  }
+
   __PACKAGE__->meta->make_immutable;
 
 }
