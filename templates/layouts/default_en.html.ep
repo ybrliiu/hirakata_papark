@@ -6,12 +6,13 @@
 
 % content container => begin
   <nav>
-    <div class="nav-wrapper green darken-3">
+    <div id="side-menu" class="nav-wrapper green darken-3">
       <a href="<%= url_for '/en/' %>" class="brand-logo center"><%= $config->{site}{english_name} %></a>
       <ul class="left">
-        <li id="show-menu-button" v-on:click="showSideMenu"><a><i class="material-icons">menu</i></a></li>
+        <li v-on:click="showSideMenu"><a><i class="material-icons">menu</i></a></li>
       </ul>
-      <ul class="side-nav" id="side-menu" v-if="isShow" v-on:click="stopClose">
+      <transition name="fade-menu">
+      <ul class="side-nav" v-show="isShow" v-on:click="stopClose">
         <li><span class="title center green darken-3"><%= $config->{site}{english_name} %></span></li>
         <form class="in-side-nav">
           <div class="input-field">
@@ -24,6 +25,7 @@
         <li><a href="<%= url_for '/en/current-location' %>">Search Nearby Parks</a></li>
         <li><a href="<%= url_for '/en/about' %>">About</a></li>
       </ul>
+      </transition>
     </div>
   </nav>
   <%= content %>

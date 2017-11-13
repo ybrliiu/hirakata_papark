@@ -9,6 +9,18 @@ package HirakataPapark::DB::Row::Park {
     MIDDLE => 100,
   };
 
+  with 'HirakataPapark::Role::Point';
+
+  sub x {
+    my $self = shift;
+    $self->get('x');
+  }
+
+  sub y {
+    my $self = shift;
+    $self->get('y');
+  }
+
   sub to_json_for_marker {
     my $self = shift;
     qq!{ "id": @{[ $self->id ]}, "name": "@{[ $self->name ]}", "x": @{[ $self->x ]}, "y": @{[ $self->y ]} }!;
@@ -61,6 +73,30 @@ package HirakataPapark::DB::Row::Park {
         'park_plants',
         {park_id => $self->id},
         {prefix => 'SELECT DISTINCT ', columns => ['english_category'] },
+      )->all
+    ];
+  }
+
+  sub surrounding_facility_names {
+    my $self = shift;
+    [
+      map { $_->name } 
+      $self->handler->select(
+        'park_surrounding_facility',
+        {park_id => $self->id},
+        {prefix => 'SELECT DISTINCT ', columns => ['name'] },
+      )->all
+    ];
+  }
+
+  sub surrounding_facility_english_names {
+    my $self = shift;
+    [
+      map { $_->english_name } 
+      $self->handler->select(
+        'park_surrounding_facility',
+        {park_id => $self->id},
+        {prefix => 'SELECT DISTINCT ', columns => ['english_name'] },
       )->all
     ];
   }

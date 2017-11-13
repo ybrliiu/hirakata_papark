@@ -26,6 +26,12 @@
 .side-nav span.title {
   font-size: 22px; }
 
+.fade-menu-enter-active, .fade-menu-leave-active {
+  transition: left 0.1s ease; }
+
+.fade-menu-enter, .fade-menu-leave-to {
+  left: -300px; }
+
 #park-map {
   width: 100%;
   height: 500px; }
@@ -51,6 +57,19 @@ textarea {
 .original-textarea:focus {
   border: 2px solid #26a69a; }
 
+select.browser-default {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPScxLjEnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZycgeG1sbnM6eGxpbms9J2h0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsnIHdpZHRoPSczNicgaGVpZ2h0PScyMCcgdmlld0JveD0nMCAwIDIwIDIwJz48cGF0aCBkPSdNMTcuNDE4IDYuMTA5YzAuMjcyLTAuMjY4IDAuNzA5LTAuMjY4IDAuOTc5IDBzMC4yNzEgMC43MDEgMCAwLjk2OWwtNy45MDggNy44M2MtMC4yNyAwLjI2OC0wLjcwNyAwLjI2OC0wLjk3OSAwbC03LjkwOC03LjgzYy0wLjI3LTAuMjY4LTAuMjctMC43MDEgMC0wLjk2OXMwLjcwOS0wLjI2OCAwLjk3OSAwbDcuNDE5IDcuMTQxIDcuNDE4LTcuMTQxeicgZmlsbD0nIzQ0NDQ0NCc+PC9wYXRoPjwvc3ZnPg==);
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding-right: 36px;
+  border-color: #fff #fff #666 #fff;
+  height: 3.5rem; }
+  select.browser-default option {
+    padding: 10px; }
+
 h2 {
   font-size: 2.8rem; }
 
@@ -65,4 +84,4 @@ strong {
   margin-top: 9px;
   margin-bottom: 9px; }
 
-/*# sourceMappingURL=../682f44ed57/base.css.map */
+/*# sourceMappingURL=../fcd875d5a7/base.css.map */

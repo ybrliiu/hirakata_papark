@@ -51,15 +51,14 @@
       </table>
     </div>
     <div class="col l6 s12">
-      <h3><%= $plants_tile %></h3>
-      <ul>
-      % for my $category ($park->$plants_categories_method_name->@*) {
-        <li><%= $category %></li>
-      % }
-      </ul>
+      <h3><%= $plants_title %></h3>
+      <%= join ', ', $park->$plants_categories_method_name->@* %>
       <a class="waves-effect btn" href="/<%= $lang %>/park/plants/<%= $park->id %>">
         <i class="material-icons right">arrow_forward</i><%= $details %>
       </a>
+
+      <h3><%= $surrounding_facility_title %></h3>
+      <%= join ', ', $park->$surrounding_facility_names_method_name->@* %>
     </div>
   </div>
 

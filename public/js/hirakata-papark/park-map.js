@@ -10,11 +10,11 @@
   var MAX_ZOOM = 18;
   var TILE_MAP_URL = 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png';
   var CURRENT_LOCATION_ICON = L.icon({
-    iconUrl: 'css/images/current-marker-icon.png',
+    iconUrl: '../css/images/current-marker-icon.png',
     iconSize: [25, 41],
     iconAnchor: [0, 0],
     popupAnchor: [14, -10],
-    shadowUrl: 'css/images/marker-shadow.png',
+    shadowUrl: '../css/images/marker-shadow.png',
     shadowSize: [41, 41],
     shadowAnchor: [0, 0]
   });

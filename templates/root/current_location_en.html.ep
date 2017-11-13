@@ -1,4 +1,17 @@
 % layout 'default_en';
-% push @$JS_FILES, ('js/leaflet.js', 'js/hirakata-papark/park-map.js');
+<% push @$JS_FILES, (
+  'js/leaflet.js',
+  'js/superagent.js',
+  'js/hirakata-papark/park-map.js',
+  'js/hirakata-papark/searcher/near-parks.js'
+); %>
 % push @$CSS_FILES, 'css/leaflet.css';
-%= include 'root/current_location';
+<%= include 'root/current_location' => (
+  title               => 'Search Parks Near The Current Location',
+  search              => 'Search',
+  search_result       => 'Search Result',
+  select_distance_mes => sub {
+    my $num = shift;
+    "Search parks within ${num}m";
+  },
+); %>

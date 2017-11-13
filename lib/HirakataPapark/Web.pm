@@ -49,6 +49,7 @@ package HirakataPapark::Web {
       $search->post('/like-name'                 )->to(action => 'like_name');
       $search->post('/like-address'              )->to(action => 'like_address');
       $search->post('/by-equipments'             )->to(action => 'by_equipments');
+      $search->post('/near-parks'                )->to(action => 'near_parks');
       $search->post('/has-tags'                  )->to(action => 'has_tags');
       $search->post('/has-plants'                )->to(action => 'has_plants');
       $search->post('/has-equipments'            )->to(action => 'has_equipments');
