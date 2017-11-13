@@ -2,9 +2,33 @@ package HirakataPapark::Web::Controller::Search {
 
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
+  use HirakataPapark::Class::Point;
+  use HirakataPapark::Model::Parks;
   use HirakataPapark::Service::Search;
+  use HirakataPapark::Service::Park::CalcDistance;
+
+  has 'parks' => sub { HirakataPapark::Model::Parks->new };
 
   has 'service' => sub { HirakataPapark::Service::Search->new };
+
+  sub near_parks($self) {
+    my $point = HirakataPapark::Class::Point->new(
+      x => $self->param('x'),
+      y => $self->param('y'),
+    );
+    my $distance = $self->param('distance');
+    my $parks = $self->parks->get_rows_all();
+    my @result = grep {
+      my $park = $_;
+      my $calculator = HirakataPapark::Service::Park::CalcDistance->new(
+        point1 => $point,
+        point2 => $park,
+      );
+      $calculator->calc() <= $distance;
+    } @$parks;
+    $self->stash(parks => \@result);
+    $self->render_to_multiple_lang(template => 'search/result');
+  }
 
   sub like_name {
     my $self = shift;

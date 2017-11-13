@@ -1,5 +1,5 @@
 use HirakataPapark 'test';
-use HirakataPapark::DB::Row::Park;
+use HirakataPapark::Class::Point;
 
 use_ok 'HirakataPapark::Service::Park::CalcDistance';
 
@@ -9,18 +9,18 @@ package Point {
   __PACKAGE__->meta->make_immutable;
 }
 
-my $park1 = Point->new(
+my $point1 = HirakataPapark::Class::Point->new(
   x => 135.5253887,
   y => 34.8340993,
 );
-my $park2 = Point->new(
+my $point2 = HirakataPapark::Class::Point->new(
   x => 139.7215902,
   y => 35.625157,
 );
 
 my $calculator = HirakataPapark::Service::Park::CalcDistance->new(
-  park1 => $park1,
-  park2 => $park2,
+  point1 => $point1,
+  point2 => $point2,
 );
 
 my $result;

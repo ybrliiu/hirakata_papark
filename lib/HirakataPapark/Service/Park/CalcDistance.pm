@@ -15,16 +15,15 @@ package HirakataPapark::Service::Park::CalcDistance {
   # 子午線曲率半径の分子
   use constant NUMERATOR_OF_MERIDIAN_RADIUS_OF_CURVATURE => (1 - FIRST_ECCENTRICITY ** 2) * EQUATORIAL_RADIUS;
 
-  has 'park1' => ( is => 'ro', required => 1 );
-  has 'park2' => ( is => 'ro', required => 1 );
+  has 'point1' => ( is => 'ro', does => 'HirakataPapark::Role::Point', required => 1 );
+  has 'point2' => ( is => 'ro', does => 'HirakataPapark::Role::Point', required => 1 );
 
   sub calc($self) {
-    my $avarage = deg2rad( ($self->park1->y + $self->park2->y) / 2 );
-    my $diff_y  = deg2rad $self->park1->y - $self->park2->y;
-    my $diff_x  = deg2rad $self->park1->x - $self->park2->x;
+    my $avarage = deg2rad( ($self->point1->y + $self->point2->y) / 2 );
+    my $diff_y  = deg2rad $self->point1->y - $self->point2->y;
+    my $diff_x  = deg2rad $self->point1->x - $self->point2->x;
     my $sin     = sin $avarage;
     my $w       = sqrt( 1 - FIRST_ECCENTRICITY ** 2 * $sin ** 2 );
-    say $w;
     # 子午線曲率半径
     my $meridian_radius_of_curvature = NUMERATOR_OF_MERIDIAN_RADIUS_OF_CURVATURE / $w ** 3;
     # 卯酉線曲率半径

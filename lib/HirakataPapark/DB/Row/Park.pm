@@ -9,6 +9,18 @@ package HirakataPapark::DB::Row::Park {
     MIDDLE => 100,
   };
 
+  with 'HirakataPapark::Role::Point';
+
+  sub x {
+    my $self = shift;
+    $self->get('x');
+  }
+
+  sub y {
+    my $self = shift;
+    $self->get('y');
+  }
+
   sub to_json_for_marker {
     my $self = shift;
     qq!{ "id": @{[ $self->id ]}, "name": "@{[ $self->name ]}", "x": @{[ $self->x ]}, "y": @{[ $self->y ]} }!;

@@ -1,10 +1,42 @@
-<div class="card">
-  <div id="park-map" class="card-content"></div>
-</div>
+<div class="container">
+
+  <h2>現在地周辺の公園を検索</h2>
+
+  <div class="row">
+    <div class="col l12 card">
+      <div id="park-map" class="card-content"></div>
+    </div>
+  </div>
+
+  <div id="search-near-parks">
+
+    <div class="row">
+      <div class="col s8">
+        <select class="browser-default" v-model="distance" action="/ja/search/near-parks">
+        % for my $num ( map { $_ * 200 } 1 .. 10 ) {
+          <option value="<%= $num %>">周辺 <%= $num %>m 以内にある公園を検索</option>
+        % }
+        </select>
+      </div>
+      <div class="col s4">
+        <button class="waves-effect btn-large" v-on:click="send">検索</button>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col s12">
+        <h3 v-if="showResult"><%= '検索結果' %></h3>
+      </div>
+      <div class="col s12" v-html="result"></div>
+    </div>
+  
+  </div>
 
 <script>
+
+  "use strict";
+
   window.addEventListener('load', function () {
-    "use strict";
     var parkMap = new hirakataPapark.ParkMap({
       url: '<%= url_for("/$lang/park/") %>',
       mapId: 'park-map',
@@ -12,5 +44,9 @@
     parkMap.registParkMarkers( JSON.parse('<%== $parks_json %>') );
     parkMap.registCurrentLocation();
   });
+
+  new Vue({
+  });
+
 </script>
 

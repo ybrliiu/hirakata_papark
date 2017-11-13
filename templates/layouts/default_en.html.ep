@@ -11,7 +11,7 @@
       <ul class="left">
         <li id="show-menu-button" v-on:click="showSideMenu"><a><i class="material-icons">menu</i></a></li>
       </ul>
-      <ul class="side-nav" id="side-menu" v-if="isShow" v-on:click="stopClose">
+      <ul class="side-nav" id="side-menu" v-show="isShow" v-on:click="stopClose">
         <li><span class="title center green darken-3"><%= $config->{site}{english_name} %></span></li>
         <form class="in-side-nav">
           <div class="input-field">
