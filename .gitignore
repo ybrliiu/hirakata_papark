@@ -1,2 +1,3 @@
 etc/config/db.conf
 assets/assetpack.db
+.perl-version

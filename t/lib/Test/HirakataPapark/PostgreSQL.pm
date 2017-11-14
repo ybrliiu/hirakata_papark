@@ -34,7 +34,7 @@ package Test::HirakataPapark::PostgreSQL {
       }
     }
 
-    return bless $self, $class;
+    bless $self, $class;
   }
 
   sub DESTROY {
