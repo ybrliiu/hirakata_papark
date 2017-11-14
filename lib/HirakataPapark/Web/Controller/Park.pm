@@ -6,6 +6,8 @@ package HirakataPapark::Web::Controller::Park {
   use HirakataPapark::Model::Parks;
   use HirakataPapark::Model::Parks::Plants;
   use HirakataPapark::Model::Parks::Comments;
+  use HirakataPapark::Model::Parks::SurroundingFacilities;
+  use HirakataPapark::Service::Park::Park;
 
   use constant DEFAULT_COMMENT_NUM => 5;
 
@@ -13,15 +15,21 @@ package HirakataPapark::Web::Controller::Park {
     my $self = shift;
     $self->param('park_id');
   };
-  has 'parks'         => sub { HirakataPapark::Model::Parks->new };
-  has 'park_plants'   => sub { HirakataPapark::Model::Parks::Plants->new };
-  has 'park_comments' => sub { HirakataPapark::Model::Parks::Comments->new };
+  has 'parks'           => sub { HirakataPapark::Model::Parks->new };
+  has 'park_plants'     => sub { HirakataPapark::Model::Parks::Plants->new };
+  has 'park_comments'   => sub { HirakataPapark::Model::Parks::Comments->new };
+  has 'park_facilities' => sub { HirakataPapark::Model::Parks::SurroundingFacilities->new };
 
   sub show_park_by_id {
     my $self = shift;
     $self->parks->get_row_by_id($self->park_id)->match(
       Some => sub {
-        my $park = shift;
+        my $row = shift;
+        my $park = HirakataPapark::Service::Park::Park->new({
+          row             => $row,
+          park_plants     => $self->park_plants,
+          park_facilities => $self->park_facilities,
+        });
         $self->stash(park => $park);
         $self->render_to_multiple_lang();
       },
@@ -31,17 +39,15 @@ package HirakataPapark::Web::Controller::Park {
 
   sub show_park_plants_by_id {
     my $self = shift;
-    my $plants = [
-      sort { $a->category cmp $b->category }
-      $self->park_plants->get_rows_by_park_id($self->park_id)->@*
-    ];
     $self->parks->get_row_by_id($self->park_id)->match(
       Some => sub {
-        my $park = shift;
-        $self->stash({
-          park   => $park,
-          plants => $plants,
+        my $row = shift;
+        my $park = HirakataPapark::Service::Park::Park->new({
+          row             => $row,
+          park_plants     => $self->park_plants,
+          park_facilities => $self->park_facilities,
         });
+        $self->stash(park => $park);
         $self->render_to_multiple_lang();
       },
       None => sub { $self->reply_not_found() },
@@ -64,7 +70,6 @@ package HirakataPapark::Web::Controller::Park {
       ->get_rows_by_park_id($self->park_id, DEFAULT_COMMENT_NUM);
     $self->render(comments => $comments);
   }
-
 
 }
 

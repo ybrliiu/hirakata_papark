@@ -2,10 +2,8 @@
 
 ## 予定
 
-* Point -> Coord latitude longtude
-* extend Row::Park class
+* Model::Result
 * Model::Praks::to_json_for_marker
-* DB::Result
 * templateの改善(処理のまとめ方とか)
 * コーデイングスタイルの統一(命名規則, returnの有無, シグネチャの有無)
 

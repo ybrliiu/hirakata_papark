@@ -44,7 +44,6 @@ package HirakataPapark::Web::Controller {
   sub reply_not_found {
     my $self = shift;
     my $template = 'not_found_'. $self->lang;
-    warn $self->reply;
     $self->render_maybe(
       template => $template,
       format   => 'html',

@@ -3,7 +3,7 @@ package HirakataPapark::Web::Controller::Search {
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
 
-  use HirakataPapark::Class::Point;
+  use HirakataPapark::Class::Coord;
   use HirakataPapark::Model::Parks;
   use HirakataPapark::Model::Parks::Tags;
   use HirakataPapark::Model::Parks::Plants;
@@ -20,7 +20,7 @@ package HirakataPapark::Web::Controller::Search {
 
   sub near_parks {
     my $self = shift;
-    my $point = HirakataPapark::Class::Point->new(
+    my $point = HirakataPapark::Class::Coord->new(
       x => $self->param('x'),
       y => $self->param('y'),
     );

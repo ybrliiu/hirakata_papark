@@ -12,7 +12,7 @@
           </tr>
         </thread>
         <tbody>
-        % for my $plants (@$plants) {
+        % for my $plants ($park->plants->@*) {
           <tr>
             <td><%= $plants->$category_accessor_name %></td>
             <td><%= $plants->$name_accessor_name %></td>
