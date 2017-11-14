@@ -4,6 +4,9 @@
 
 * 内部の改善, service, controller関連
 * Point -> Coord latitude longtude
+* extend Row::Park class
+* Model::Praks::to_json_for_marker
+* DB::Result
 * templateの改善(処理のまとめ方とか)
 * コーデイングスタイルの統一(命名規則, returnの有無, シグネチャの有無)
 
