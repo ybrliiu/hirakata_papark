@@ -2,7 +2,6 @@
 
 ## 予定
 
-* 内部の改善, service, controller関連
 * Point -> Coord latitude longtude
 * extend Row::Park class
 * Model::Praks::to_json_for_marker

@@ -25,7 +25,7 @@ package HirakataPapark::Web::Controller::Park {
         $self->stash(park => $park);
         $self->render_to_multiple_lang();
       },
-      None => sub { $self->reply->not_found() },
+      None => sub { $self->reply_not_found() },
     );
   }
 
@@ -35,12 +35,17 @@ package HirakataPapark::Web::Controller::Park {
       sort { $a->category cmp $b->category }
       $self->park_plants->get_rows_by_park_id($self->park_id)->@*
     ];
-    my $park = $self->parks->get_row_by_id($self->park_id)->get;
-    $self->stash({
-      park   => $park,
-      plants => $plants,
-    });
-    $self->render_to_multiple_lang();
+    $self->parks->get_row_by_id($self->park_id)->match(
+      Some => sub {
+        my $park = shift;
+        $self->stash({
+          park   => $park,
+          plants => $plants,
+        });
+        $self->render_to_multiple_lang();
+      },
+      None => sub { $self->reply_not_found() },
+    );
   }
 
   sub add_comment_by_id {

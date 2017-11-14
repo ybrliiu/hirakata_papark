@@ -10,6 +10,14 @@ package HirakataPapark::Web {
     $self->plugin(AssetPack => { pipes => [qw/Css Sass/] });
     $self->asset->process('base.css' => 'scss/base.scss');
     $self->plugin('Mojolicious::Plugin::ProxyPassReverse::SubDir') if $self->config->{plugin}{'ProxyPassReverse::SubDir'};
+
+    # override $c->reply->not_found();
+    $self->helper('reply.not_found' => sub {
+      my $c = shift;
+      my $url = $c->req->url->path->to_string();
+      my $lang = (split q!/!, $url)[1] eq 'en' ? 'en' : 'ja';
+      Mojolicious::Plugin::DefaultHelpers::_development("not_found_${lang}", $c);
+    });
   
     my $r = $self->routes;
     $r->namespaces(['HirakataPapark::Web::Controller']);
