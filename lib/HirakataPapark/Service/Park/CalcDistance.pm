@@ -2,7 +2,7 @@ package HirakataPapark::Service::Park::CalcDistance {
 
   use Mouse;
   use HirakataPapark;
-  use Math::Trig qw( pi deg2rad );
+  use Math::Trig qw( deg2rad );
 
   use constant {
     EQUATORIAL_RADIUS => 637_8137.000, # 赤道半径
