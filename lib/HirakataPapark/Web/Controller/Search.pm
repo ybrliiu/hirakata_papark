@@ -24,8 +24,7 @@ package HirakataPapark::Web::Controller::Search {
         point1 => $point,
         point2 => $park,
       );
-      my $ans = $calculator->calc();
-      $ans <= $distance;
+      $calculator->calc() <= $distance;
     } @$parks;
     $self->stash(parks => \@result);
     $self->render_to_multiple_lang(template => 'search/result');

@@ -19,8 +19,8 @@
         navigator.geolocation.getCurrentPosition(
           function (position) {
             var coords = position.coords;
-            this.x = coords.latitude;
-            this.y = coords.longitude;
+            this.x = coords.longitude;
+            this.y = coords.latitude;
           }.bind(this),
           function () {
             var mes = '位置情報を取得できませんでした';
