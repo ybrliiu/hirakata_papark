@@ -33,6 +33,10 @@ package HirakataPapark::Model::Parks::Plants {
     });
   }
 
+  sub get_rows_by_park_id_order_by_category($self, $park_id) {
+    [ $self->select({park_id => $park_id}, {order_by => 'category DESC'})->all ];
+  }
+
   sub get_rows_by_category($self, $category) {
     [ $self->select({category => $category})->all ];
   }
@@ -40,6 +44,26 @@ package HirakataPapark::Model::Parks::Plants {
   sub get_rows_by_categories($self, $categories) {
     my @ary = map { ('=', $_) } @$categories;
     [ $self->select({ category => \@ary })->all ];
+  }
+
+  sub get_categories_by_park_id($self, $park_id) {
+    [
+      map { $_->category } 
+      $self->select(
+        { park_id => $park_id },
+        { prefix => 'SELECT DISTINCT ', columns => ['category'] },
+      )->all
+    ];
+  }
+
+  sub get_english_categories_by_park_id($self, $park_id) {
+    [
+      map { $_->english_category } 
+      $self->select(
+        { park_id => $park_id },
+        { prefix => 'SELECT DISTINCT ', columns => ['english_category'] },
+      )->all
+    ];
   }
 
   sub get_category_list($self) {

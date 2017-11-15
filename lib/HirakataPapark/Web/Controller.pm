@@ -5,7 +5,10 @@ package HirakataPapark::Web::Controller {
 
   use Mojo::Util;
 
-  use constant DEFAULT_LANG => 'ja';
+  use constant {
+    NOT_FOUND    => 404,
+    DEFAULT_LANG => 'ja'
+  };
 
   my %LANG_LIST = (
     ja => 1,
@@ -36,6 +39,16 @@ package HirakataPapark::Web::Controller {
   sub render {
     my $self = shift;
     $self->SUPER::render(@_, JS_FILES => [], SCSS_FILES => [], CSS_FILES => []);
+  }
+
+  sub reply_not_found {
+    my $self = shift;
+    my $template = 'not_found_'. $self->lang;
+    $self->render_maybe(
+      template => $template,
+      format   => 'html',
+      status   => NOT_FOUND,
+    );
   }
 
 }

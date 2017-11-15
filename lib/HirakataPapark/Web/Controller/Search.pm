@@ -2,17 +2,25 @@ package HirakataPapark::Web::Controller::Search {
 
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
-  use HirakataPapark::Class::Point;
+
+  use HirakataPapark::Class::Coord;
   use HirakataPapark::Model::Parks;
-  use HirakataPapark::Service::Search;
+  use HirakataPapark::Model::Parks::Tags;
+  use HirakataPapark::Model::Parks::Plants;
+  use HirakataPapark::Model::Parks::Equipments;
+  use HirakataPapark::Model::Parks::SurroundingFacilities;
   use HirakataPapark::Service::Park::CalcDistance;
 
-  has 'parks' => sub { HirakataPapark::Model::Parks->new };
+  has 'parks'           => sub { HirakataPapark::Model::Parks->new };
+  has 'park_tags'       => sub { HirakataPapark::Model::Parks::Tags->new };
+  has 'park_plants'     => sub { HirakataPapark::Model::Parks::Plants->new };
+  has 'park_equipments' => sub { HirakataPapark::Model::Parks::Equipments->new };
+  has 'park_surrounding_facilities' =>
+    sub { HirakataPapark::Model::Parks::SurroundingFacilities->new };
 
-  has 'service' => sub { HirakataPapark::Service::Search->new };
-
-  sub near_parks($self) {
-    my $point = HirakataPapark::Class::Point->new(
+  sub near_parks {
+    my $self = shift;
+    my $point = HirakataPapark::Class::Coord->new(
       x => $self->param('x'),
       y => $self->param('y'),
     );
@@ -33,77 +41,84 @@ package HirakataPapark::Web::Controller::Search {
   sub like_name {
     my $self = shift;
     my $park_name = $self->param('park_name');
-    my $result = $self->lang eq 'en'
-      ? $self->service->like_english_name($park_name)
-      : $self->service->like_name($park_name);
-    $self->stash($result);
+    my $parks = $self->lang eq 'en'
+      ? $self->parks->get_rows_like_english_name($park_name)
+      : $self->parks->get_rows_like_name($park_name);
+    $self->stash(parks => $parks);
     $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub like_address {
     my $self = shift;
     my $park_address = $self->param('park_address');
-    my $result = $self->lang eq 'en'
-      ? $self->service->like_english_address($park_address)
-      : $self->service->like_address($park_address);
-    $self->stash($result);
+    my $parks = $self->lang eq 'en'
+      ? $self->parks->get_rows_like_english_address($park_address)
+      : $self->parks->get_rows_like_address($park_address);
+    $self->stash(parks => $parks);
     $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub by_equipments {
     my $self = shift;
     my $equipments = $self->every_param('equipments');
-    my $result = $self->lang eq 'en'
-      ? $self->service->by_equipments_english($equipments)
-      : $self->service->by_equipments($equipments);
-    $self->stash($result);
+    my $parks = $self->lang eq 'en'
+      ? $self->parks->by_equipments_english($equipments)
+      : $self->parks->by_equipments($equipments);
+    $self->stash(parks => $parks);
     $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub has_tags {
     my $self = shift;
-    my $result = $self->service->has_tags( $self->every_param('tags') );
-    $self->stash($result);
+    my $tags    = $self->every_param('tags');
+    my $id_list = $self->park_tags->get_park_id_list_has_names($tags);
+    my $parks   = $self->parks->get_rows_by_id_list($id_list);
+    $self->stash(parks => $parks);
     $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub has_plants {
     my $self = shift;
-    my $plants = $self->every_param('plants');
-    my $result = $self->lang eq 'en'
-      ? $self->service->has_plants_english($plants)
-      : $self->service->has_plants($plants);
-    $self->stash($result);
+    my $plants  = $self->every_param('plants');
+    my $id_list = $self->lang eq 'en'
+      ? $self->park_plants->get_park_id_list_has_english_names($plants)
+      : $self->park_plants->get_park_id_list_has_names($plants);
+    my $parks = $self->parks->get_rows_by_id_list($id_list);
+    $self->stash(parks => $parks);
     $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub has_plants_categories {
     my $self = shift;
-    my $categories = $self->every_param('plants_categories');
-    my $result = $self->lang eq 'en'
-      ? $self->service->has_plants_categories_english($categories)
-      : $self->service->has_plants_categories($categories);
-    $self->stash($result);
+    my $categories  = $self->every_param('plants_categories');
+    my $park_plants = $self->park_plants;
+    my $id_list = $self->lang eq 'en'
+      ? $park_plants->get_park_id_list_has_english_category_names($categories)
+      : $park_plants->get_park_id_list_has_category_names($categories);
+    my $parks = $self->parks->get_rows_by_id_list($id_list);
+    $self->stash(parks => $parks);
     $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub has_equipments {
     my $self = shift;
     my $equipments = $self->every_param('equipments');
-    my $result = $self->lang eq 'en'
-      ? $self->service->has_equipments_english($equipments)
-      : $self->service->has_equipments($equipments);
-    $self->stash($result);
+    my $id_list = $self->lang eq 'en'
+      ? $self->park_equipments->get_park_id_list_has_english_names($equipments)
+      : $self->park_equipments->get_park_id_list_has_names($equipments);
+    my $parks = $self->parks->get_rows_by_id_list($id_list);
+    $self->stash(parks => $parks);
     $self->render_to_multiple_lang(template => 'search/result');
   }
 
   sub has_surrounding_facilities {
     my $self = shift;
-    my $surrounding_facilities = $self->every_param('surrounding_facilities');
-    my $result = $self->lang eq 'en'
-      ? $self->service->has_surrounding_facilities_english($surrounding_facilities)
-      : $self->service->has_surrounding_facilities($surrounding_facilities);
-    $self->stash($result);
+    my $sf      = $self->every_param('surrounding_facilities');
+    my $id_list = $self->lang eq 'en'
+      ? $self->park_surrounding_facilities->get_park_id_list_has_english_names($sf)
+      : $self->park_surrounding_facilities->get_park_id_list_has_names($sf);
+    my $parks = $self->parks->get_rows_by_id_list($id_list);
+    $self->stash(parks => $parks);
     $self->render_to_multiple_lang(template => 'search/result');
   }
 

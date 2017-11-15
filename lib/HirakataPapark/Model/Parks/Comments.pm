@@ -22,8 +22,7 @@ package HirakataPapark::Model::Parks::Comments {
     });
   }
 
-  sub get_rows_by_park_id {
-    args my $self, my $park_id => 'Int', my $num => 'Int';
+  sub get_rows_by_park_id($self, $park_id, $num) {
     [ $self->select(
       {park_id => $park_id},
       {limit => $num, order_by => {id => 'DESC'}},

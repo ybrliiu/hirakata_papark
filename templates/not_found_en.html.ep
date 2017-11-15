@@ -1,0 +1,5 @@
+% layout "default_en" => (JS_FILES => [], CSS_FILES => [], SCSS_FILES => []);
+<div class="container">
+  <h1 class="red-text">404 Not Found</h1>
+  <p>The page did not found.</p>
+</div>

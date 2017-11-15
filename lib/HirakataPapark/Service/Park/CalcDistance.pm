@@ -2,7 +2,7 @@ package HirakataPapark::Service::Park::CalcDistance {
 
   use Mouse;
   use HirakataPapark;
-  use Math::Trig qw( pi deg2rad );
+  use Math::Trig qw( deg2rad );
 
   use constant {
     EQUATORIAL_RADIUS => 637_8137.000, # 赤道半径
@@ -15,13 +15,13 @@ package HirakataPapark::Service::Park::CalcDistance {
   # 子午線曲率半径の分子
   use constant NUMERATOR_OF_MERIDIAN_RADIUS_OF_CURVATURE => (1 - FIRST_ECCENTRICITY ** 2) * EQUATORIAL_RADIUS;
 
-  has 'point1' => ( is => 'ro', does => 'HirakataPapark::Role::Point', required => 1 );
-  has 'point2' => ( is => 'ro', does => 'HirakataPapark::Role::Point', required => 1 );
+  has 'coord1' => ( is => 'ro', does => 'HirakataPapark::Role::Coord', required => 1 );
+  has 'coord2' => ( is => 'ro', does => 'HirakataPapark::Role::Coord', required => 1 );
 
   sub calc($self) {
-    my $avarage = deg2rad( ($self->point1->y + $self->point2->y) / 2 );
-    my $diff_y  = deg2rad $self->point1->y - $self->point2->y;
-    my $diff_x  = deg2rad $self->point1->x - $self->point2->x;
+    my $avarage = deg2rad( ($self->coord1->y + $self->coord2->y) / 2 );
+    my $diff_y  = deg2rad $self->coord1->y - $self->coord2->y;
+    my $diff_x  = deg2rad $self->coord1->x - $self->coord2->x;
     my $sin     = sin $avarage;
     my $w       = sqrt( 1 - FIRST_ECCENTRICITY ** 2 * $sin ** 2 );
     # 子午線曲率半径

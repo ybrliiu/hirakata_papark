@@ -2,7 +2,8 @@
 
 ## 予定
 
-* 内部の改善, service, controller関連
+* Model::Result
+* Model::Praks::to_json_for_marker
 * templateの改善(処理のまとめ方とか)
 * コーデイングスタイルの統一(命名規則, returnの有無, シグネチャの有無)
 

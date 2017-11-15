@@ -29,6 +29,11 @@ package Test::HirakataPapark::Model::Parks {
     $self->TEST_PARK_PARMS;
   }
 
+  sub get_test_park ($self) {
+    $self->parks_model
+      ->get_row_by_name( $self->TEST_PARK_PARMS->{name} )->get();
+  }
+
   __PACKAGE__->meta->make_immutable;
   
 }
