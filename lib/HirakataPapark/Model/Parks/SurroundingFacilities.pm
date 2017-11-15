@@ -39,7 +39,7 @@ package HirakataPapark::Model::Parks::SurroundingFacilities {
     [
       map { $_->english_name } 
       $self->select(
-        { park_id => $self->id },
+        { park_id => $park_id },
         { prefix => 'SELECT DISTINCT ', columns => ['english_name'] },
       )->all
     ];

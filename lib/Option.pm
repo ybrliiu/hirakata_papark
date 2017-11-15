@@ -5,7 +5,7 @@ package Option {
   use Carp;
   use Option::Some;
   use Option::None;
-  
+
   sub new {
     Carp::confess "few arguments" if @_ < 2;
     my ($class, $data) = @_;

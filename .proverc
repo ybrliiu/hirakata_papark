@@ -1,4 +1,4 @@
--PHarriet=t/harriet/
+-PHarriet=./t/harriet/
 --lib
 --color
 --failures
