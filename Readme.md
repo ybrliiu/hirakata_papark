@@ -2,6 +2,8 @@
 
 ## 予定
 
+* few arguments -> Too few arguments (required: 
+
 * Model::Result
 * Model::Praks::to_json_for_marker
 * templateの改善(処理のまとめ方とか)
