@@ -1,4 +1,4 @@
-package HirakataPapark::Service::Park::PlantsCategory {
+package HirakataPapark::Service::Park::Searcher::PlantsCategory {
 
   use Mouse;
   use HirakataPapark;

@@ -7,7 +7,7 @@ package HirakataPapark::Web::Controller::Searcher {
   use HirakataPapark::Model::Parks::Plants;
   use HirakataPapark::Model::Parks::Equipments;
   use HirakataPapark::Model::Parks::SurroundingFacilities;
-  use HirakataPapark::Service::Park::PlantsRowsToPlantsCategories;
+  use HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories;
 
   has 'park_tags'       => sub { HirakataPapark::Model::Parks::Tags->new };
   has 'park_plants'     => sub { HirakataPapark::Model::Parks::Plants->new };
@@ -44,11 +44,11 @@ package HirakataPapark::Web::Controller::Searcher {
     my $plants_categories = do {
       if ( $self->lang eq 'en' ) {
         my $rows = $park_plants->get_all_distinct_rows( [qw/ english_name english_category /] );
-        my $s = HirakataPapark::Service::Park::PlantsRowsToPlantsCategories->new(rows => $rows);
+        my $s = HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories->new(rows => $rows);
         $s->exec_for_english;
       } else {
         my $rows = $park_plants->get_all_distinct_rows( [qw/ name category /] );
-        my $s = HirakataPapark::Service::Park::PlantsRowsToPlantsCategories->new(rows => $rows);
+        my $s = HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories->new(rows => $rows);
         $s->exec;
       }
     };

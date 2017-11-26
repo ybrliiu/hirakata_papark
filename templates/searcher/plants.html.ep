@@ -17,7 +17,7 @@
 % content search_form => begin
   <div class="row">
   % for my $category (@$plants_categories) {
-    <%= $category_check_box->($category) %>
+  <%= $category_check_box->($category->name) %>
   % }
   </div>
   <div class="row">
@@ -27,9 +27,9 @@
   </div>
   <h2><%= $search_by_variety_title %></h2>
   % for my $category (@$plants_categories) {
-    <h3><i class="small material-icons">expand_more</i><%= $category %></h3>
+  <h3><i class="small material-icons">expand_more</i><%= $category->name %></h3>
     <div class="row">
-    % for my $plants ($categoryzed_plants->{$category}->@*) {
+    % for my $plants ($category->varieties->@*) {
       <%= $plants_check_box->($plants) %>
     % }
     </div>

@@ -1,8 +1,8 @@
-package HirakataPapark::Service::Park::PlantsRowsToPlantsCategories {
+package HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories {
 
   use Mouse;
   use HirakataPapark;
-  use HirakataPapark::Service::Park::PlantsCategory;
+  use HirakataPapark::Service::Park::Searcher::PlantsCategory;
 
   has 'rows' => ( is => 'ro', isa => 'HirakataPapark::Model::Result', required => 1 );
 
@@ -19,14 +19,14 @@ package HirakataPapark::Service::Park::PlantsRowsToPlantsCategories {
     for my $row (@rows) {
       push $params->{$row->category}{varieties}->@*, $row->name;
     }
-    [ map { HirakataPapark::Service::Park::PlantsCategory->new($_) } values %$params ];
+    [ map { HirakataPapark::Service::Park::Searcher::PlantsCategory->new($_) } values %$params ];
   }
 
   sub exec_for_english($self) {
     my @rows = $self->rows->@*;
     my $params = +{
       map {
-        $_->category => +{
+        $_->english_category => +{
           name      => $_->english_category,
           varieties => [],
         }
@@ -35,7 +35,7 @@ package HirakataPapark::Service::Park::PlantsRowsToPlantsCategories {
     for my $row (@rows) {
       push $params->{$row->english_category}{varieties}->@*, $row->english_name;
     }
-    [ map { HirakataPapark::Service::Park::PlantsCategory->new($_) } values %$params ];
+    [ map { HirakataPapark::Service::Park::Searcher::PlantsCategory->new($_) } values %$params ];
   }
 
   __PACKAGE__->meta->make_immutable;
