@@ -45,9 +45,9 @@ subtest add_rows => sub {
       },
     ]);
   };
-  my @rows = $model->get_rows_all->@*;
-  is scalar @rows, 3;
-  diag $model->to_json_for_marker;
+  my $rows = $model->get_rows_all;
+  is scalar @$rows, 3;
+  is $rows->to_json_for_marker, '[ { "id": 1, "name": "ほげ公園", "x": 0, "y": 1.303 }, { "id": 2, "name": "B公園", "x": 0, "y": 1.303 }, { "id": 3, "name": "C公園", "x": 0, "y": 1.303 } ]';
 };
 
 subtest get_rows_like_name => sub {

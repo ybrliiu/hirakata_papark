@@ -9,21 +9,21 @@ package HirakataPapark::Model::Role::DB::RelatedToPark {
   requires qw( add_row );
 
   sub get_rows_by_park_id($self, $park_id) {
-    [ $self->select({park_id => $park_id})->all ];
+    $self->result_class->new([ $self->select({park_id => $park_id})->all ]);
   }
 
   sub get_rows_by_name($self, $name) {
-    [ $self->select({ name => $name })->all ];
+    $self->result_class->new([ $self->select({ name => $name })->all ]);
   }
 
   sub get_rows_by_names($self, $names) {
     my @ary = map { ('=', $_) } @$names;
-    [ $self->select({ name => \@ary })->all ];
+    $self->result_class->new([ $self->select({ name => \@ary })->all ]);
   }
 
   sub get_rows_by_names_with_prefetch($self, $names) {
     my @ary = map { ('=', $_) } @$names;
-    [ $self->select( { name => \@ary }, { prefetch => ['park'] } )->all ];
+    $self->result_class->new([ $self->select( { name => \@ary }, { prefetch => ['park'] } )->all ]);
   }
 
   # and (?)

@@ -2,12 +2,11 @@
 
 ## 予定
 
-* few arguments -> Too few arguments (required: 
-
-* Model::Result
-* Model::Praks::to_json_for_marker
 * templateの改善(処理のまとめ方とか)
-* コーデイングスタイルの統一(命名規則, returnの有無, シグネチャの有無)
+* コーデイングスタイルの統一(命名規則)
+  * 引数なしのメソッド呼び出しは()つけない
+  * 関数の最後のreturnは必要ないなら書かない
+  * サブルーチンシグネチャを使えるところでは使う
 
 * favicon.ico 設定
 

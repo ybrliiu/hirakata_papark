@@ -6,14 +6,11 @@ package HirakataPapark::Model::Role::DB {
   use HirakataPapark::DB;
   use HirakataPapark::Model::Config;
 
-  requires 'TABLE';
+  requires qw( TABLE );
 
-  has 'db'     => ( is => 'ro', isa => 'HirakataPapark::DB', default => \&default_db );
-  has 'result' => ( is => 'rw', isa => 'HirakataPapark::DB::Result' );
+  has 'db' => ( is => 'ro', isa => 'HirakataPapark::DB', default => \&default_db );
 
-  sub default_db {
-    my $class = shift;
-    
+  sub default_db($class) {
     state $db;
     return $db if defined $db;
 
@@ -25,6 +22,8 @@ package HirakataPapark::Model::Role::DB {
       $db = HirakataPapark::DB->new(%$config);
     }
   }
+
+  sub result_class { 'HirakataPapark::Model::Result' }
 
   sub insert {
     my $self = shift;
@@ -38,18 +37,14 @@ package HirakataPapark::Model::Role::DB {
 
   sub select {
     my $self = shift;
-    my $result = $self->db->select($self->TABLE => @_);
-    $self->result($result);
+    $self->db->select($self->TABLE => @_);
   }
 
-  sub get_rows_all {
-    my $self = shift;
-    $self->result( $self->db->select($self->TABLE => {}) );
-    [ $self->result->all ];
+  sub get_rows_all($self) {
+    $self->result_class->new([ $self->db->select($self->TABLE => {})->all ]);
   }
 
-  sub txn_scope {
-    my $self = shift;
+  sub txn_scope($self) {
     $self->db->handler->txn_manager->txn_scope;
   }
 

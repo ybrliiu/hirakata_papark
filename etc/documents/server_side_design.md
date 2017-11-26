@@ -16,3 +16,7 @@ Migration tool : Anego
 # データベース設計
 HirakataPapark::DB::Schema を参照
 
+# Model層規約
+* RowオブジェクトはModel::Resultもしくはそれを継承したクラスでラップして返す
+* undefを返す可能性のあるメソッドはoptionでラップして返す
+

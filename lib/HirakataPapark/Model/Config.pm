@@ -12,8 +12,7 @@ package HirakataPapark::Model::Config {
 
   __PACKAGE__->load( @CONFIG_FILES );
 
-  sub load {
-    my ($class, @config_files) = @_;
+  sub load($class, @config_files) {
     for (@config_files) {
       %Config = (
         %Config,
