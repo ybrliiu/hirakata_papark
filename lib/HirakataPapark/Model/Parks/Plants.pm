@@ -8,7 +8,7 @@ package HirakataPapark::Model::Parks::Plants {
 
   use constant TABLE => 'park_plants';
 
-  with 'HirakataPapark::Model::Role::DB::RelatedToPark';
+  with qw( HirakataPapark::Model::Role::DB::RelatedToPark );
 
   sub add_row {
     args my $self,
@@ -31,6 +31,12 @@ package HirakataPapark::Model::Parks::Plants {
       comment          => $comment,
       english_comment  => $english_comment,
     });
+  }
+
+  sub get_all_distinct_rows($self, $columns) {
+    $self->result_class->new([
+      $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => $columns } )->all
+    ]);
   }
 
   sub get_rows_by_park_id_order_by_category($self, $park_id) {

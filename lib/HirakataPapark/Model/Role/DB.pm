@@ -5,6 +5,7 @@ package HirakataPapark::Model::Role::DB {
 
   use HirakataPapark::DB;
   use HirakataPapark::Model::Config;
+  use HirakataPapark::Model::Result;
 
   requires qw( TABLE );
 
