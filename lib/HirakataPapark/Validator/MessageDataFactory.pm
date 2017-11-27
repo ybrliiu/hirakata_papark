@@ -17,7 +17,7 @@ package HirakataPapark::Validator::MessageDataFactory {
         twitter_id  => 'Twitter ID',
         facebook_id => 'Facebook ID',
       },
-      message => {
+      function => {
         not_null      => '[_1]を入力してください。',
         int           => '[_1]には整数以外の値は入力できません。',
         length        => '[_1]が長すぎるか短すぎます。',
@@ -25,7 +25,7 @@ package HirakataPapark::Validator::MessageDataFactory {
         choice        => '[_1]に想定外の値が入力されています。',
         already_exist => 'その[_1]は既に使用されています。',
       },
-      function => {},
+      message => {},
     });
   }
 
@@ -40,7 +40,7 @@ package HirakataPapark::Validator::MessageDataFactory {
         twitter_id  => 'Twitter ID',
         facebook_id => 'Facebook ID',
       },
-      message => {
+      function => {
         not_null      => 'Please input [_1].',
         int           => 'You cannot enter value other than integers on the [_1].',
         length        => '[_1] is either too long or too short.',
@@ -48,7 +48,7 @@ package HirakataPapark::Validator::MessageDataFactory {
         choice        => 'An unexpected value is entered for the [_1].',
         already_exist => 'The [_1] is already used.',
       },
-      function => {},
+      message => {},
     });
   }
 
