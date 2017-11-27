@@ -1,9 +1,11 @@
 use HirakataPapark 'test';
-use Test::HirakataPapark::PostgreSQL;
-my $PSQL = Test::HirakataPapark::PostgreSQL->new;
+use Test::HirakataPapark::Container;
+
+my $c = Test::HirakataPapark::Container->new;
+my $db = $c->get_sub_container('DB')->get_service('db')->get;
 
 use HirakataPapark::Model::Parks;
-my $model = HirakataPapark::Model::Parks->new;
+my $model = HirakataPapark::Model::Parks->new(db => $db);
 
 subtest add_row => sub {
   lives_ok {

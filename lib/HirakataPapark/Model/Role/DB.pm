@@ -14,14 +14,8 @@ package HirakataPapark::Model::Role::DB {
   sub default_db($class) {
     state $db;
     return $db if defined $db;
-
-    if ($ENV{HARNESS_ACTIVE}) {
-      my ($dsn, $user) = ($ENV{TEST_POSTGRESQL}, $ENV{TEST_POSTGRESQL_USER});
-      $db = HirakataPapark::DB->new(connect_info => [$dsn, $user]);
-    } else {
-      my $config = HirakataPapark::Model::Config->get->{db};
-      $db = HirakataPapark::DB->new(%$config);
-    }
+    my $config = HirakataPapark::Model::Config->get->{db};
+    $db = HirakataPapark::DB->new(%$config);
   }
 
   sub result_class { 'HirakataPapark::Model::Result' }

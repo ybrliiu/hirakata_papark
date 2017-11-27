@@ -1,21 +1,20 @@
 use HirakataPapark 'test';
-use Test::HirakataPapark::PostgreSQL;
-use Test::HirakataPapark::Model::Parks;
+use HirakataPapark 'test';
 
-my $psql = Test::HirakataPapark::PostgreSQL->new;
-my $tester = Test::HirakataPapark::Model::Parks->new;
-$tester->add_test_park();
+use Test::HirakataPapark::Container;
+my $c = Test::HirakataPapark::Container->new;
+my $db = $c->get_sub_container('DB')->get_service('db')->get;
 
 use HirakataPapark::Model::Parks::Plants;
 use HirakataPapark::Model::Parks::SurroundingFacilities;
 use HirakataPapark::Service::Park::Park;
 
-my $row = $tester->get_test_park();
+my $row = $c->get_sub_container('TestData')->get_sub_container('Park')->get_service('park')->get;
 ok(
   my $park = HirakataPapark::Service::Park::Park->new(
     row             => $row,
-    park_plants     => HirakataPapark::Model::Parks::Plants->new,
-    park_facilities => HirakataPapark::Model::Parks::SurroundingFacilities->new,
+    park_plants     => HirakataPapark::Model::Parks::Plants->new(db => $db),
+    park_facilities => HirakataPapark::Model::Parks::SurroundingFacilities->new(db => $db),
   )
 );
 

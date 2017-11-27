@@ -24,7 +24,7 @@ package HirakataPapark::DB::Schema {
     smallint 'is_nice_scenery' => (default => 0);
     smallint 'is_evacuation_area' => (default => 0);
 
-    add_index 'name_index' => ['name'];
+    add_index 'park_name_index' => ['name'];
   };
 
   create_table park_equipment => columns {
@@ -96,6 +96,20 @@ package HirakataPapark::DB::Schema {
     text 'message';
 
     foreign_key 'park_id' => (park => 'id');
+  };
+
+  create_table user => columns {
+    integer 'seacret_id' => (primary_key, auto_increment);
+    integer 'id' => (unique);
+    string 'name'; # SQL::Translator::Producer::PostgreSQL が修正されたら unique をつける
+    string 'password';
+    string 'twitter_id' => (default => '');
+    string 'facebook_id' => (default => '');
+
+    string 'address' => (default => '');
+    string 'profile' => (default => '');
+
+    add_index 'user_id_index' => ['id'];
   };
 
 }

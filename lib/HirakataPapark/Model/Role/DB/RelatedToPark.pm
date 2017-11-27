@@ -29,8 +29,8 @@ package HirakataPapark::Model::Role::DB::RelatedToPark {
   # and (?)
   sub get_park_id_list_has_names($class, $names) {
     if (@$names) {
-      my $maker = $class->default_db->query_builder->select_class;
-      my $dbh   = $class->default_db->dbh;
+      my $maker = $class->db->query_builder->select_class;
+      my $dbh   = $class->db->dbh;
       my @sql_list = map {
         my $name = $_;
         my $sql = $maker->new
@@ -48,8 +48,8 @@ package HirakataPapark::Model::Role::DB::RelatedToPark {
 
   sub get_park_id_list_has_english_names($class, $names) {
     if (@$names) {
-      my $maker = $class->default_db->query_builder->select_class;
-      my $dbh   = $class->default_db->dbh;
+      my $maker = $class->db->query_builder->select_class;
+      my $dbh   = $class->db->dbh;
       my @sql_list = map {
         my $name = $_;
         my $sql = $maker->new
