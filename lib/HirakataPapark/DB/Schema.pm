@@ -100,7 +100,7 @@ package HirakataPapark::DB::Schema {
 
   create_table user => columns {
     integer 'seacret_id' => (primary_key, auto_increment);
-    integer 'id' => (unique);
+    string 'id' => (unique);
     string 'name'; # SQL::Translator::Producer::PostgreSQL が修正されたら unique をつける
     string 'password';
     string 'twitter_id' => (default => '');
