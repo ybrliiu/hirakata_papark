@@ -4,27 +4,24 @@ package HirakataPapark::Model::Role::DB {
   use HirakataPapark;
 
   use HirakataPapark::DB;
+  use HirakataPapark::Exception;
   use HirakataPapark::Model::Config;
+  use HirakataPapark::Model::Result;
 
-  requires 'TABLE';
+  requires qw( TABLE );
 
-  has 'db'     => ( is => 'ro', isa => 'HirakataPapark::DB', default => \&default_db );
-  has 'result' => ( is => 'rw', isa => 'HirakataPapark::DB::Result' );
+  has 'db' => ( is => 'ro', isa => 'HirakataPapark::DB', default => \&default_db );
 
-  sub default_db {
-    my $class = shift;
-    
+  sub default_db($class) {
     state $db;
     return $db if defined $db;
-
-    if ($ENV{HARNESS_ACTIVE}) {
-      my ($dsn, $user) = ($ENV{TEST_POSTGRESQL}, $ENV{TEST_POSTGRESQL_USER});
-      $db = HirakataPapark::DB->new(connect_info => [$dsn, $user]);
-    } else {
-      my $config = HirakataPapark::Model::Config->get->{db};
-      $db = HirakataPapark::DB->new(%$config);
-    }
+    HirakataPapark::Model::Config->instance->get_config('db')->match(
+      Some => sub ($config) { $db = HirakataPapark::DB->new(%$config) },
+      None => sub { HirakataPapark::Exception->throw('db config data is not exists.') },
+    );
   }
+
+  sub result_class { 'HirakataPapark::Model::Result' }
 
   sub insert {
     my $self = shift;
@@ -38,18 +35,14 @@ package HirakataPapark::Model::Role::DB {
 
   sub select {
     my $self = shift;
-    my $result = $self->db->select($self->TABLE => @_);
-    $self->result($result);
+    $self->db->select($self->TABLE => @_);
   }
 
-  sub get_rows_all {
-    my $self = shift;
-    $self->result( $self->db->select($self->TABLE => {}) );
-    [ $self->result->all ];
+  sub get_rows_all($self) {
+    $self->result_class->new([ $self->db->select($self->TABLE => {})->all ]);
   }
 
-  sub txn_scope {
-    my $self = shift;
+  sub txn_scope($self) {
     $self->db->handler->txn_manager->txn_scope;
   }
 

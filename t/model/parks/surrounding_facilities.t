@@ -1,14 +1,14 @@
 use HirakataPapark 'test';
-use Test::HirakataPapark::PostgreSQL;
-my $PSQL = Test::HirakataPapark::PostgreSQL->new;
+
+use Test::HirakataPapark::Container;
+my $c = Test::HirakataPapark::Container->new;
+my $db = $c->get_sub_container('DB')->get_service('db')->get;
+
 use HirakataPapark::Model::Parks::SurroundingFacilities;
-my $model = HirakataPapark::Model::Parks::SurroundingFacilities->new;
-use Test::HirakataPapark::Model::Parks;
-my $tester = Test::HirakataPapark::Model::Parks->new;
-$tester->add_test_park;
-    
+my $model = HirakataPapark::Model::Parks::SurroundingFacilities->new(db => $db);
+
 subtest 'add_row' => sub {
-  my $park = $tester->parks_model->get_row_by_name( $tester->TEST_PARK_PARMS->{name} )->get;
+  my $park = $c->get_sub_container('TestData')->get_sub_container('Park')->get_service('park')->get;
   lives_ok {
     $model->add_row({
       park_id      => $park->id,

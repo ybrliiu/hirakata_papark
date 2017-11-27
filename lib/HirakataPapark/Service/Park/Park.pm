@@ -34,7 +34,7 @@ package HirakataPapark::Service::Park::Park {
     lazy    => 1,
     default => sub {
       my $self = shift;
-      $self->park_plants->get_rows_by_park_id_order_by_category($self->id);
+      $self->park_plants->get_rows_by_park_id_order_by_category($self->id)->get_all;
     },
   );
 

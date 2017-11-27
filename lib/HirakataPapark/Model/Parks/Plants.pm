@@ -8,7 +8,7 @@ package HirakataPapark::Model::Parks::Plants {
 
   use constant TABLE => 'park_plants';
 
-  with 'HirakataPapark::Model::Role::DB::RelatedToPark';
+  with qw( HirakataPapark::Model::Role::DB::RelatedToPark );
 
   sub add_row {
     args my $self,
@@ -33,17 +33,23 @@ package HirakataPapark::Model::Parks::Plants {
     });
   }
 
+  sub get_all_distinct_rows($self, $columns) {
+    $self->result_class->new([
+      $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => $columns } )->all
+    ]);
+  }
+
   sub get_rows_by_park_id_order_by_category($self, $park_id) {
-    [ $self->select({park_id => $park_id}, {order_by => 'category DESC'})->all ];
+    $self->result_class->new([ $self->select({park_id => $park_id}, {order_by => 'category DESC'})->all ]);
   }
 
   sub get_rows_by_category($self, $category) {
-    [ $self->select({category => $category})->all ];
+    $self->result_class->new([ $self->select({category => $category})->all ]);
   }
 
   sub get_rows_by_categories($self, $categories) {
     my @ary = map { ('=', $_) } @$categories;
-    [ $self->select({ category => \@ary })->all ];
+    $self->result_class->new([ $self->select({ category => \@ary })->all ]);
   }
 
   sub get_categories_by_park_id($self, $park_id) {

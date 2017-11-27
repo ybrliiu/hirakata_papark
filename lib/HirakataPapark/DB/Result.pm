@@ -8,12 +8,12 @@ package HirakataPapark::DB::Result {
 
   sub first_with_option {
     my $self = shift;
-    Option->new( $self->first );
+    option $self->first;
   }
 
   sub last_with_option {
     my $self = shift;
-    Option->new( $self->last );
+    option $self->last;
   }
 
 }

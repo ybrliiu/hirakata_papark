@@ -1,9 +1,11 @@
 use HirakataPapark 'test';
-use Test::HirakataPapark::PostgreSQL;
-my $PSQL = Test::HirakataPapark::PostgreSQL->new;
+use Test::HirakataPapark::Container;
+
+my $c = Test::HirakataPapark::Container->new;
+my $db = $c->get_sub_container('DB')->get_service('db')->get;
 
 use HirakataPapark::Model::Parks;
-my $model = HirakataPapark::Model::Parks->new;
+my $model = HirakataPapark::Model::Parks->new(db => $db);
 
 subtest add_row => sub {
   lives_ok {
@@ -45,9 +47,9 @@ subtest add_rows => sub {
       },
     ]);
   };
-  my @rows = $model->get_rows_all->@*;
-  is scalar @rows, 3;
-  diag $model->to_json_for_marker;
+  my $rows = $model->get_rows_all;
+  is scalar @$rows, 3;
+  is $rows->to_json_for_marker, '[ { "id": 1, "name": "ほげ公園", "x": 0, "y": 1.303 }, { "id": 2, "name": "B公園", "x": 0, "y": 1.303 }, { "id": 3, "name": "C公園", "x": 0, "y": 1.303 } ]';
 };
 
 subtest get_rows_like_name => sub {

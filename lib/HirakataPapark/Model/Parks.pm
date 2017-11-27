@@ -3,11 +3,13 @@ package HirakataPapark::Model::Parks {
   use Mouse;
   use HirakataPapark;
 
-  use Smart::Args qw( args args_pos );
+  use Smart::Args qw( args );
   
   use constant TABLE => 'park';
 
-  with 'HirakataPapark::Model::Role::DB';
+  with qw( HirakataPapark::Model::Role::DB );
+
+  around result_class => sub { 'HirakataPapark::Model::Parks::Result' };
 
   sub add_row {
     args my $self,
@@ -42,67 +44,85 @@ package HirakataPapark::Model::Parks {
     });
   }
 
-  sub add_rows {
-    args_pos my $self, my $hash_list => 'ArrayRef[HashRef]';
+  sub add_rows($self, $hash_list) {
     $self->insert_multi($hash_list);
   }
 
-  sub get_row_by_id {
-    args_pos my $self, my $id => 'Int';
+  sub get_row_by_id($self, $id) {
     $self->select({id => $id})->first_with_option;
   }
 
-  sub get_row_by_name {
-    args_pos my $self, my $name => 'Str';
+  sub get_row_by_name($self, $name) {
     $self->select({name => $name})->first_with_option;
   }
 
   sub get_rows_like_name($self, $name) {
-    [ $self->select({name => {like => "%${name}%"}})->all ];
+    $self->result_class->new([ $self->select({name => {like => "%${name}%"}})->all ]);
   }
 
   sub get_rows_like_english_name($self, $name) {
-    [ $self->select({english_name => {like => "%${name}%"}})->all ];
+    $self->result_class->new([ $self->select({english_name => {like => "%${name}%"}})->all ]);
   }
 
   sub get_rows_like_address($self, $address) {
-    [ $self->select({address => {like => "%${address}%"}})->all ];
+    $self->result_class->new([ $self->select({address => {like => "%${address}%"}})->all ]);
   }
 
   sub get_rows_like_english_address($self, $address) {
-    [ $self->select({english_address => {like => "%${address}%"}})->all ];
+    $self->result_class->new([ $self->select({english_address => {like => "%${address}%"}})->all ]);
   }
 
-  sub get_rows_by_id_list {
-    args_pos my $self, my $id_list => 'ArrayRef[Str]';
-    [ $self->select({id => {IN => $id_list}})->all ];
+  sub get_rows_by_id_list($self, $id_list) {
+    $self->result_class->new([ $self->select({id => {IN => $id_list}})->all ]);
   }
 
-  sub get_rows_by_equipments_names {
-    args_pos my $self, my $names => 'ArrayRef[Str]';
+  sub get_rows_by_equipments_names($self, $names) {
     my @name_condition = map { ('=', $_) } @$names;
     my @equipments = $self->db->select('park_equipment', {name => \@name_condition}, {prefetch => ['park']})->all;
-    [ map { $_->park } @equipments ];
+    $self->result_class->new([ map { $_->park } @equipments ]);
   }
 
-  sub get_rows_by_equipments_english_names {
-    args_pos my $self, my $names => 'ArrayRef[Str]';
+  sub get_rows_by_equipments_english_name($self, $names) {
     my @name_condition = map { ('=', $_) } @$names;
     my @equipments = $self->db->select('park_equipment', {english_name => \@name_condition}, {prefetch => ['park']})->all;
-    [ map { $_->park } @equipments ];
+    $self->result_class->new([ map { $_->park } @equipments ]);
   }
 
-  # 結果を park map の marker のための json にするので、 先に何らかのメソッドで結果を取得しておくこと
+  __PACKAGE__->meta->make_immutable;
+
+}
+
+package HirakataPapark::Model::Parks::Result {
+
+  use Mouse;
+  use HirakataPapark;
+  use Option;
+
+  extends qw( HirakataPapark::Model::Result );
+
+  has 'id_map' => (
+    is      => 'ro',
+    isa     => 'HashRef[HirakataPapark::DB::Row]',
+    lazy    => 1,
+    builder => '_build_id_map',
+  );
+
+  sub _build_id_map($self) {
+    +{ map { $_->id => $_ } $self->contents->@* };
+  }
+
+  sub get_by_id($self, $id) {
+    option $self->id_map->{$id}
+  }
+
   sub to_json_for_marker {
     my $self = shift;
-    return '[]' unless $self->result;
-    "[ " . (join ", ", map { $_->to_json_for_marker } $self->result->all) . " ]";
+    "[ " . (join ", ", map { $_->to_json_for_marker } $self->contents->@*) . " ]";
   }
 
   sub to_english_json_for_marker {
     my $self = shift;
-    return '[]' unless $self->result;
-    "[ " . (join ", ", map { $_->to_english_json_for_marker } $self->result->all) . " ]";
+    "[ " . (join ", ", map { $_->to_english_json_for_marker } $self->contents->@*) . " ]";
   }
 
   __PACKAGE__->meta->make_immutable;

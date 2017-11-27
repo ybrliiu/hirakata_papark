@@ -1,29 +1,36 @@
 package HirakataPapark::Model::Config {
 
+  use Mouse;
   use HirakataPapark;
+
+  use Option;
   use Config::PL;
 
-  use constant DIR_PATH => 'etc/config/';
+  use constant {
+    DIR_PATH => 'etc/config/',
+    FILES    => [qw/
+      db
+    /],
+  };
 
-  my @CONFIG_FILES = qw(
-    db
-  );
-  my %Config;
+  has 'dir_path'     => ( is => 'ro', isa => 'Str', default => DIR_PATH );
+  has 'files'        => ( is => 'ro', isa => 'ArrayRef[Str]', default => sub { FILES } );
+  has '_config_data' => ( is => 'rw', isa => 'HashRef', init_arg => undef, default => sub { +{} } );
 
-  __PACKAGE__->load( @CONFIG_FILES );
+  with 'HirakataPapark::Role::Singleton';
 
-  sub load {
-    my ($class, @config_files) = @_;
-    for (@config_files) {
-      %Config = (
-        %Config,
-        %{ config_do DIR_PATH . "$_.conf" },
-      );
+  sub BUILD($self, $args) {
+    my @paths = map { $self->dir_path . "$_.conf" } $self->files->@*;
+    for my $path (@paths) {
+      $self->_config_data(+{
+        $self->_config_data->%*,
+        config_do($path)->%*,
+      })
     }
   }
 
-  sub get {
-    \%Config;
+  sub get_config($self, $key) {
+    option $self->_config_data->{$key};
   }
 
 }
@@ -41,18 +48,17 @@ package HirakataPapark::Model::Config {
 
   use HirakataPapark::Model::Config;
 
-  my $config = HirakataPapark::Model::Config;
-  $config->{game}{start_year};                # ゲーム開始年
+  my $config = HirakataPapark::Model::Config->singleton;
+  my $maybe_db = $config->get('db');
+  $maybe_db->map(sub ($c) {
+    my $user = $c->{user};
+  });
 
-=head1 メソッド
-  
-=head2 load
-  
-  設定ファイルが置かれているディレクトリから設定ファイルをロードします。
-  このクラスが読み込まれた時に呼ばれます。
+=head1 METHODS
 
-=head2 get 
+=head2 sub get_config($key: Str) : Option[HashRef]
   
-  設定ファイルから読み込んだ設定値を保持したハッシュを外部から参照できるようにするメソッド
+  設定ファイルから読み込んだ設定値を保持したハッシュを外部から参照するメソッド
 
 =cut
+
