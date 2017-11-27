@@ -4,6 +4,7 @@ package HirakataPapark::Model::Role::DB {
   use HirakataPapark;
 
   use HirakataPapark::DB;
+  use HirakataPapark::Exception;
   use HirakataPapark::Model::Config;
   use HirakataPapark::Model::Result;
 
@@ -14,8 +15,10 @@ package HirakataPapark::Model::Role::DB {
   sub default_db($class) {
     state $db;
     return $db if defined $db;
-    my $config = HirakataPapark::Model::Config->get->{db};
-    $db = HirakataPapark::DB->new(%$config);
+    HirakataPapark::Model::Config->instance->get_config('db')->match(
+      Some => sub ($config) { $db = HirakataPapark::DB->new(%$config) },
+      None => sub { HirakataPapark::Exception->throw('db config data is not exists.') },
+    );
   }
 
   sub result_class { 'HirakataPapark::Model::Result' }
