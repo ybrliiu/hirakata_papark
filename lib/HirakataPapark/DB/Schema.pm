@@ -77,11 +77,8 @@ package HirakataPapark::DB::Schema {
     integer 'id' => (primary_key, auto_increment);
     integer 'park_id';
     string 'name';
-    string 'english_name';
     string 'category';
-    string 'english_category';
     string 'comment';
-    string 'english_comment';
     integer 'num' => (default => 1);
 
     foreign_key 'park_id' => (park => 'id');

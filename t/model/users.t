@@ -12,9 +12,9 @@ my $param = {
   password => 'hogehoge...',
 };
 
-lives_ok { $model->insert($param) };
-ok $model->get_row_by_id('test_user')->map(sub { is $_->name, 'テストユーザー' });
-ok $model->get_row_by_name('テストユーザー')->map(sub { is $_->id, 'test_user' });
+lives_ok { $model->add_row($param) };
+$model->get_row_by_id('test_user')->map(sub { is $_->name, 'テストユーザー' });
+$model->get_row_by_name('テストユーザー')->map(sub { is $_->id, 'test_user' });
 
 done_testing;
 

@@ -1,4 +1,4 @@
-package HirakataPapark::Model::Parks::Parks::SurroundingFacilities {
+package HirakataPapark::Model::Parks::SurroundingFacilities {
 
   use Mouse;
   use HirakataPapark;
@@ -9,19 +9,14 @@ package HirakataPapark::Model::Parks::Parks::SurroundingFacilities {
   with 'HirakataPapark::Model::Role::DB::RelatedToPark';
 
   sub add_row {
-    args my $self,
-      my $park_id         => 'Int',
-      my $name            => 'Str',
-      my $english_name    => 'Str',
-      my $comment         => { isa => 'Str', default => '' },
-      my $english_comment => { isa => 'Str', default => '' };
+    args my $self, my $park_id => 'Int',
+      my $name    => 'Str',
+      my $comment => { isa => 'Str', default => '' };
 
     $self->insert({
-      park_id         => $park_id,
-      name            => $name,
-      english_name    => $english_name,
-      comment         => $comment,
-      english_comment => $english_comment,
+      park_id => $park_id,
+      name    => $name,
+      comment => $comment,
     });
   }
 
