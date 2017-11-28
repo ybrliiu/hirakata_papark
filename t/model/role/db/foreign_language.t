@@ -29,7 +29,7 @@ package TestModel {
   }
 
   sub get_row_by_name($self, $name) {
-    $self->join_and_select(english_name => $name)->first_with_option;
+    $self->select({ english_name => $name })->first_with_option;
   }
 
   __PACKAGE__->meta->make_immutable;

@@ -2,6 +2,7 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage {
 
   use Mouse::Role;
   use HirakataPapark;
+
   use HirakataPapark::Model::Role::DB::ForeignLanguage::SelectColumnsMaker;
 
   requires qw( ORIG_LANG_TABLE );
@@ -13,7 +14,10 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage {
     builder => '_build_select_columns_maker',
   );
 
-  with 'HirakataPapark::Model::Role::DB';
+  with 'HirakataPapark::Model::Role::DB' => {
+    -alias   => { select => 'select_orig' },
+    -exclude => 'select',
+  };
 
   sub _build_select_columns_maker($self) {
     HirakataPapark::Model::Role::DB::ForeignLanguage::SelectColumnsMaker->new(
@@ -23,21 +27,27 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage {
     );
   }
   
-  sub select($self, @args) {
-  }
+  sub select($self, $where, $opt = {}) {
 
-  sub join_and_select($self, $column, $bind) {
+    # SQL::Maker::Condition
+    my $condition = $self->db->query_builder->new_condition;
+    my @wheres = ref $where eq 'HASH' ? %$where : @$where;
+    my @binds;
+    while (my ($col, $val) = splice @wheres, 0, 2) {
+      push @binds, $val;
+      $condition->add($col => $val);
+    }
+
     my $sql = << "EOS";
-SELECT @{[ $self->select_columns_maker->output_for_sql ]} FROM @{[ $self->ORIG_LANG_TABLE ]}
+SELECT @{[ $self->select_columns_maker->output_for_sql ]}
+  FROM @{[ $self->ORIG_LANG_TABLE ]}
   INNER JOIN @{[ $self->TABLE ]}
   ON @{[ $self->select_columns_maker->output_relate_fields_for_sql ]}
-  WHERE ${column} = ?
+  WHERE @{[ $condition->as_sql ]}
 EOS
-    $self->db->select_by_sql($sql, [$bind], {table_name => $self->TABLE});
-  }
 
-  around get_rows_all => sub ($orig, $self) {
-  };
+    $self->db->select_by_sql($sql, \@binds, { %$opt, table_name => $self->TABLE });
+  }
 
   sub get_orig_rows_all($self) {
     $self->result_class->new([ $self->db->select($self->TABLE => {})->all ]);

@@ -39,7 +39,7 @@ package HirakataPapark::Model::Role::DB {
   }
 
   sub get_rows_all($self) {
-    $self->result_class->new([ $self->db->select($self->TABLE => {})->all ]);
+    $self->result_class->new([ $self->select({})->all ]);
   }
 
   sub txn_scope($self) {
