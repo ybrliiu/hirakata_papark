@@ -6,10 +6,10 @@ use Data::Dumper;
 use Try::Tiny;
 use Text::CSV_XS;
 use List::Util qw( sum );
-use HirakataPapark::Model::Parks;
-use HirakataPapark::Model::Parks::Equipments;
-use HirakataPapark::Model::Parks::Plants;
-use HirakataPapark::Model::Parks::SurroundingFacilities;
+use HirakataPapark::Model::Parks::Parks;
+use HirakataPapark::Model::Parks::Parks::Equipments;
+use HirakataPapark::Model::Parks::Parks::Plants;
+use HirakataPapark::Model::Parks::Parks::SurroundingFacilities;
 
 my @FACILITIES     = qw( 有料駐車場 無料駐車場 );
 my @PLANTS         = qw( ソメイヨシノ オオシマザクラ カンヒザクラ シダレザクラ カワヅザクラ ヤマザクラ );
@@ -121,13 +121,13 @@ my @parks_equipment = map {
   \%new_park;
 } @$park_data_list_orig;
 
-my $model = HirakataPapark::Model::Parks->new;
+my $model = HirakataPapark::Model::Parks::Parks->new;
 my $txn = $model->txn_scope;
 $model->add_rows(\@parks);
 
-my $equipments_model = HirakataPapark::Model::Parks::Equipments->new;
-my $facilities_model = HirakataPapark::Model::Parks::SurroundingFacilities->new;
-my $plants_model     = HirakataPapark::Model::Parks::Plants->new;
+my $equipments_model = HirakataPapark::Model::Parks::Parks::Equipments->new;
+my $facilities_model = HirakataPapark::Model::Parks::Parks::SurroundingFacilities->new;
+my $plants_model     = HirakataPapark::Model::Parks::Parks::Plants->new;
 for my $info (@parks_equipment) {
   my $park_id = $info->{id};
   my @equipments = map { $info->{$_} ? $_ : () } grep { $_ ne 'id' } keys %$info;

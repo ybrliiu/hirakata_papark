@@ -1,4 +1,4 @@
-package HirakataPapark::Model::Parks::SurroundingFacilities {
+package HirakataPapark::Model::Parks::Parks::SurroundingFacilities {
 
   use Mouse;
   use HirakataPapark;

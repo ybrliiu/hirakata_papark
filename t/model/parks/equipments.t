@@ -4,8 +4,8 @@ use Test::HirakataPapark::Container;
 my $c = Test::HirakataPapark::Container->new;
 my $db = $c->get_sub_container('DB')->get_service('db')->get;
 
-use HirakataPapark::Model::Parks::Equipments;
-my $model = HirakataPapark::Model::Parks::Equipments->new(db => $db);
+use HirakataPapark::Model::Parks::Parks::Equipments;
+my $model = HirakataPapark::Model::Parks::Parks::Equipments->new(db => $db);
     
 subtest 'add_row' => sub {
   my $park = $c->get_sub_container('TestData')->get_sub_container('Park')->get_service('park')->get;

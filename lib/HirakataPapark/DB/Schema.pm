@@ -11,11 +11,8 @@ package HirakataPapark::DB::Schema {
   create_table park => columns {
     integer 'id' => (primary_key, auto_increment);
     string 'name' => (unique);
-    string 'english_name' => (unique);
     string 'address';
-    string 'english_address';
     string 'explain' => (default => '');
-    string 'english_explain' => (default => '');
     string 'remarks_about_plants' => (default => '');
     integer 'good_count' => (default => 0);
     double 'x';
@@ -27,29 +24,57 @@ package HirakataPapark::DB::Schema {
     add_index 'park_name_index' => ['name'];
   };
 
+  create_table english_park => columns {
+    integer 'id' => (primary_key);
+    string 'english_name' => (unique); # SQL::Translator の仕様変更がなされれば 'name' に変更
+    string 'address';
+    string 'explain' => (default => '');
+
+    foreign_key 'id' => (park => 'id');
+  };
+
   create_table park_equipment => columns {
+    integer 'id' => (primary_key, auto_increment);
     integer 'park_id';
     string 'name';
-    string 'english_name';
     string 'comment';
-    string 'english_comment';
     integer 'recommended_age' => (default => 0);
     integer 'num' => (default => 1);
 
     foreign_key 'park_id' => (park => 'id');
   };
 
-  create_table park_surrounding_facility => columns {
+  create_table english_park_equipment => columns {
+    integer 'id' => (primary_key);
     integer 'park_id';
     string 'name';
-    string 'english_name';
     string 'comment';
-    string 'english_comment';
+
+    foreign_key 'id' => (park_equipment => 'id');
+    foreign_key 'park_id' => (park => 'id');
+  };
+
+  create_table park_surrounding_facility => columns {
+    integer 'id' => (primary_key, auto_increment);
+    integer 'park_id';
+    string 'name';
+    string 'comment';
 
     foreign_key 'park_id' => (park => 'id');
   };
 
+  create_table english_park_surrounding_facility => columns {
+    integer 'id' => (primary_key);
+    integer 'park_id';
+    string 'name';
+    string 'comment';
+
+    foreign_key 'id' => (park_surrounding_facility => 'id');
+    foreign_key 'park_id' => (park => 'id');
+  };
+
   create_table park_plants => columns {
+    integer 'id' => (primary_key, auto_increment);
     integer 'park_id';
     string 'name';
     string 'english_name';
@@ -62,6 +87,17 @@ package HirakataPapark::DB::Schema {
     foreign_key 'park_id' => (park => 'id');
   };
 
+  create_table english_park_plants => columns {
+    integer 'id' => (primary_key);
+    integer 'park_id';
+    string 'name';
+    string 'category';
+    string 'comment';
+
+    foreign_key 'id' => (park_plants => 'id');
+    foreign_key 'park_id' => (park => 'id');
+  };
+
   create_table park_tag => columns {
     integer 'park_id';
     string 'name';
@@ -71,8 +107,8 @@ package HirakataPapark::DB::Schema {
   };
 
   create_table park_event => columns {
+    integer 'id', (primary_key, auto_increment);
     integer 'park_id';
-    integer 'id', primary_key, auto_increment;
     string 'title';
     text 'explain';
 
@@ -81,7 +117,7 @@ package HirakataPapark::DB::Schema {
 
   create_table park_comment => columns {
     integer 'park_id';
-    integer 'id', primary_key, auto_increment;
+    integer 'id', (primary_key, auto_increment);
     string 'name';
     bigint 'time';
     text 'message';
@@ -91,7 +127,7 @@ package HirakataPapark::DB::Schema {
 
   create_table park_news => columns {
     integer 'park_id';
-    integer 'id', primary_key, auto_increment;
+    integer 'id', (primary_key, auto_increment);
     string 'title';
     text 'message';
 
@@ -101,7 +137,7 @@ package HirakataPapark::DB::Schema {
   create_table user => columns {
     integer 'seacret_id' => (primary_key, auto_increment);
     string 'id' => (unique);
-    string 'name'; # SQL::Translator::Producer::PostgreSQL が修正されたら unique をつける
+    string 'user_name' => (unique); # SQL::Translator が修正されたら 'name' に変更
     string 'password';
     string 'twitter_id' => (default => '');
     string 'facebook_id' => (default => '');

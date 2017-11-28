@@ -3,9 +3,9 @@ package HirakataPapark::Web::Controller::Root {
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
 
-  use HirakataPapark::Model::Parks;
+  use HirakataPapark::Model::Parks::Parks;
 
-  has 'parks' => sub { HirakataPapark::Model::Parks->new };
+  has 'parks' => sub { HirakataPapark::Model::Parks::Parks->new };
 
   sub top($self) {
     $self->redirect_to('/ja/');

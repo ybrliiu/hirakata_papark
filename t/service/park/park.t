@@ -5,16 +5,16 @@ use Test::HirakataPapark::Container;
 my $c = Test::HirakataPapark::Container->new;
 my $db = $c->get_sub_container('DB')->get_service('db')->get;
 
-use HirakataPapark::Model::Parks::Plants;
-use HirakataPapark::Model::Parks::SurroundingFacilities;
+use HirakataPapark::Model::Parks::Parks::Plants;
+use HirakataPapark::Model::Parks::Parks::SurroundingFacilities;
 use HirakataPapark::Service::Park::Park;
 
 my $row = $c->get_sub_container('TestData')->get_sub_container('Park')->get_service('park')->get;
 ok(
   my $park = HirakataPapark::Service::Park::Park->new(
     row             => $row,
-    park_plants     => HirakataPapark::Model::Parks::Plants->new(db => $db),
-    park_facilities => HirakataPapark::Model::Parks::SurroundingFacilities->new(db => $db),
+    park_plants     => HirakataPapark::Model::Parks::Parks::Plants->new(db => $db),
+    park_facilities => HirakataPapark::Model::Parks::Parks::SurroundingFacilities->new(db => $db),
   )
 );
 
