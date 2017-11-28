@@ -11,9 +11,7 @@ subtest add_row => sub {
   lives_ok {
     $model->add_row({
       name              => 'ほげ公園',
-      english_name      => 'hoge park',
       address           => 'A市B町20',
-      english_address   => '20, bmachi, a-shi',
       x                 => 0.0000,
       y                 => 1.3030,
       area              => 1000
@@ -29,18 +27,14 @@ subtest add_rows => sub {
     $model->add_rows([
       {
         name            => 'B公園',
-        english_name    => 'b park',
         address         => 'A市B町20',
-        english_address => '20, bmachi, a-shi',
         x               => 0.0000,
         y               => 1.3030,
         area            => 1000
       },
       {
         name            => 'C公園',
-        english_name    => 'c park',
         address         => 'A市B町20',
-        english_address => '20, bmachi, a-shi',
         x               => 0.0000,
         y               => 1.3030,
         area            => 1000

@@ -14,11 +14,8 @@ package HirakataPapark::Model::Parks {
   sub add_row {
     args my $self,
       my $name                 => 'Str',
-      my $english_name         => 'Str',
       my $address              => 'Str',
-      my $english_address      => 'Str',
       my $explain              => { isa => 'Str', default => '' },
-      my $english_explain      => { isa => 'Str', default => '' },
       my $remarks_about_plants => { isa => 'Str', default => '' },
       my $good_count           => { isa => 'Int', default => 0 },
       my $x                    => 'Num',
@@ -29,11 +26,8 @@ package HirakataPapark::Model::Parks {
 
     $self->insert({
       name                 => $name,
-      english_name         => $english_name,
       address              => $address,
-      english_address      => $english_address,
       explain              => $explain,
-      english_explain      => $english_explain,
       remarks_about_plants => $remarks_about_plants,
       good_count           => $good_count,
       x                    => $x,
@@ -60,16 +54,8 @@ package HirakataPapark::Model::Parks {
     $self->result_class->new([ $self->select({name => {like => "%${name}%"}})->all ]);
   }
 
-  sub get_rows_like_english_name($self, $name) {
-    $self->result_class->new([ $self->select({english_name => {like => "%${name}%"}})->all ]);
-  }
-
   sub get_rows_like_address($self, $address) {
     $self->result_class->new([ $self->select({address => {like => "%${address}%"}})->all ]);
-  }
-
-  sub get_rows_like_english_address($self, $address) {
-    $self->result_class->new([ $self->select({english_address => {like => "%${address}%"}})->all ]);
   }
 
   sub get_rows_by_id_list($self, $id_list) {
@@ -79,12 +65,6 @@ package HirakataPapark::Model::Parks {
   sub get_rows_by_equipments_names($self, $names) {
     my @name_condition = map { ('=', $_) } @$names;
     my @equipments = $self->db->select('park_equipment', {name => \@name_condition}, {prefetch => ['park']})->all;
-    $self->result_class->new([ map { $_->park } @equipments ]);
-  }
-
-  sub get_rows_by_equipments_english_name($self, $names) {
-    my @name_condition = map { ('=', $_) } @$names;
-    my @equipments = $self->db->select('park_equipment', {english_name => \@name_condition}, {prefetch => ['park']})->all;
     $self->result_class->new([ map { $_->park } @equipments ]);
   }
 
@@ -118,11 +98,6 @@ package HirakataPapark::Model::Parks::Result {
   sub to_json_for_marker {
     my $self = shift;
     "[ " . (join ", ", map { $_->to_json_for_marker } $self->contents->@*) . " ]";
-  }
-
-  sub to_english_json_for_marker {
-    my $self = shift;
-    "[ " . (join ", ", map { $_->to_english_json_for_marker } $self->contents->@*) . " ]";
   }
 
   __PACKAGE__->meta->make_immutable;
