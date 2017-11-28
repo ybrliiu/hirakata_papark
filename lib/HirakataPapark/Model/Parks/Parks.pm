@@ -8,7 +8,7 @@ package HirakataPapark::Model::Parks::Parks {
 
   with qw(
     HirakataPapark::Model::Role::DB
-    HirakataPapark::Model::Role::DB::Parks
+    HirakataPapark::Model::Role::DB::Parks::Parks
   );
 
   sub add_row {

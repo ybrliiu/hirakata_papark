@@ -6,7 +6,10 @@ package HirakataPapark::Model::Parks::Equipments {
 
   use constant TABLE => 'park_equipment';
 
-  with 'HirakataPapark::Model::Role::DB::RelatedToPark';
+  with qw(
+    HirakataPapark::Model::Role::DB
+    HirakataPapark::Model::Role::DB::Parks::Equipments
+  );
 
   sub add_row {
     args my $self,
@@ -23,12 +26,6 @@ package HirakataPapark::Model::Parks::Equipments {
       comment         => $comment,
       num             => $num,
     });
-  }
-
-  sub get_equipment_list($self) {
-    my @equipment_list =
-      map { $_->name } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['name'] } )->all;
-    \@equipment_list;
   }
 
   __PACKAGE__->meta->make_immutable;

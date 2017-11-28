@@ -11,7 +11,7 @@ package HirakataPapark::Model::Parks::EnglishParks {
 
   with qw(
     HirakataPapark::Model::Role::DB::ForeignLanguage
-    HirakataPapark::Model::Role::DB::Parks
+    HirakataPapark::Model::Role::DB::Parks::Parks
   );
 
   sub add_row {

@@ -1,4 +1,4 @@
-package HirakataPapark::Model::Role::DB::Parks {
+package HirakataPapark::Model::Role::DB::Parks::Parks {
 
   use Mouse::Role;
   use HirakataPapark;

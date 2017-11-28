@@ -63,7 +63,7 @@ subtest add_rows => sub {
 subtest get_row => sub {
   lives_ok { $model->get_row_by_id(1)->get };
   lives_ok { $model->get_row_by_name('Zonohana Park')->get };
-  lives_ok { diag explain $model->get_rows_by_id_list([1, 2]) };
+  lives_ok { $model->get_rows_by_id_list([1, 2]) };
 };
 
 subtest get_rows_like_name => sub {
