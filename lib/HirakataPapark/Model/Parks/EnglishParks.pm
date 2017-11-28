@@ -1,4 +1,4 @@
-package HirakataPapark::Model::Parks::Parks {
+package HirakataPapark::Model::EnglishParks::Parks {
 
   use Mouse;
   use HirakataPapark;
@@ -6,11 +6,11 @@ package HirakataPapark::Model::Parks::Parks {
   use Smart::Args qw( args );
   use HirakataPapark::Model::Parks::ParksResult;
   
-  use constant TABLE => 'park';
+  use constant TABLE => 'english_park';
 
   with qw( HirakataPapark::Model::Role::DB );
 
-  around result_class => sub { 'HirakataPapark::Model::Parks::ParksResult' };
+  around result_class => sub { 'HirakataPapark::Model::Parks::Parks::Result' };
 
   sub add_row {
     args my $self,
@@ -67,6 +67,38 @@ package HirakataPapark::Model::Parks::Parks {
     my @name_condition = map { ('=', $_) } @$names;
     my @equipments = $self->db->select('park_equipment', {name => \@name_condition}, {prefetch => ['park']})->all;
     $self->result_class->new([ map { $_->park } @equipments ]);
+  }
+
+  __PACKAGE__->meta->make_immutable;
+
+}
+
+package HirakataPapark::Model::Parks::Parks::Result {
+
+  use Mouse;
+  use HirakataPapark;
+  use Option;
+
+  extends qw( HirakataPapark::Model::Result );
+
+  has 'id_map' => (
+    is      => 'ro',
+    isa     => 'HashRef[HirakataPapark::DB::Row]',
+    lazy    => 1,
+    builder => '_build_id_map',
+  );
+
+  sub _build_id_map($self) {
+    +{ map { $_->id => $_ } $self->contents->@* };
+  }
+
+  sub get_by_id($self, $id) {
+    option $self->id_map->{$id}
+  }
+
+  sub to_json_for_marker {
+    my $self = shift;
+    "[ " . (join ", ", map { $_->to_json_for_marker } $self->contents->@*) . " ]";
   }
 
   __PACKAGE__->meta->make_immutable;
