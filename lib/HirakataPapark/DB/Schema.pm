@@ -25,12 +25,12 @@ package HirakataPapark::DB::Schema {
   };
 
   create_table english_park => columns {
-    integer 'park_id' => (primary_key);
+    integer 'id' => (primary_key);
     string 'english_name' => (unique); # SQL::Translator の仕様変更がなされれば 'name' に変更
     string 'address';
     string 'explain' => (default => '');
 
-    foreign_key 'park_id' => (park => 'id');
+    foreign_key 'id' => (park => 'id');
   };
 
   create_table park_equipment => columns {
