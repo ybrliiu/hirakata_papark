@@ -46,6 +46,12 @@ subtest add_rows => sub {
   is $rows->to_json_for_marker, '[ { "id": 1, "name": "ほげ公園", "x": 0, "y": 1.303 }, { "id": 2, "name": "B公園", "x": 0, "y": 1.303 }, { "id": 3, "name": "C公園", "x": 0, "y": 1.303 } ]';
 };
 
+subtest get_row => sub {
+  lives_ok { $model->get_row_by_id(1)->get };
+  lives_ok { $model->get_row_by_name('ほげ公園')->get };
+  lives_ok { $model->get_rows_by_id_list([1, 2]) };
+};
+
 subtest get_rows_like_name => sub {
   my $parks;
   lives_ok { $parks = $model->get_rows_like_name('公園') };

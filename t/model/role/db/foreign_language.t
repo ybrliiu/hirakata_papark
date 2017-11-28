@@ -51,8 +51,8 @@ lives_ok {
 };
 ok my $epark = $model->get_row_by_name('english_park A')->get;
 ok $jpark->isa('HirakataPapark::DB::Row::Park');
-ok $epark->isa('HirakataPapark::DB::Row');
-is $epark->english_name, 'english_park A';
+ok $epark->isa('HirakataPapark::DB::Row::EnglishPark');
+is $epark->name, 'english_park A';
 is $epark->address, 'somewhere';
 is $epark->explain, 'english row test insert';
 is $epark->x, $jpark->x;
