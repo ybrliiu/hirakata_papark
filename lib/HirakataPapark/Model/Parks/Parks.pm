@@ -1,4 +1,4 @@
-package HirakataPapark::Model::Parks {
+package HirakataPapark::Model::Parks::Parks {
 
   use Mouse;
   use HirakataPapark;
@@ -9,7 +9,7 @@ package HirakataPapark::Model::Parks {
 
   with qw( HirakataPapark::Model::Role::DB );
 
-  around result_class => sub { 'HirakataPapark::Model::Parks::Result' };
+  around result_class => sub { 'HirakataPapark::Model::Parks::Parks::Result' };
 
   sub add_row {
     args my $self,
@@ -72,7 +72,7 @@ package HirakataPapark::Model::Parks {
 
 }
 
-package HirakataPapark::Model::Parks::Result {
+package HirakataPapark::Model::Parks::Parks::Result {
 
   use Mouse;
   use HirakataPapark;

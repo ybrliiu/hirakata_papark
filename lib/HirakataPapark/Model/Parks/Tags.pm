@@ -1,4 +1,4 @@
-package HirakataPapark::Model::Parks::Tags {
+package HirakataPapark::Model::Parks::Parks::Tags {
 
   use Mouse;
   use HirakataPapark;

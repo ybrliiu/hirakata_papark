@@ -18,13 +18,13 @@ package HirakataPapark::Service::Park::Park {
 
   has 'park_plants' => (
     is       => 'ro',
-    isa      => 'HirakataPapark::Model::Parks::Plants',
+    isa      => 'HirakataPapark::Model::Parks::Parks::Plants',
     required => 1,
   );
 
   has 'park_facilities' => (
     is       => 'ro',
-    isa      => 'HirakataPapark::Model::Parks::SurroundingFacilities',
+    isa      => 'HirakataPapark::Model::Parks::Parks::SurroundingFacilities',
     required => 1,
   );
 

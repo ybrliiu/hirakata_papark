@@ -5,7 +5,7 @@ use Encode;
 use lib './lib';
 
 use Spreadsheet::ParseXLSX;
-use HirakataPapark::Model::Parks;
+use HirakataPapark::Model::Parks::Parks;
 
 my @COLUMNS = qw( id type1 type2 name x y area address );
 
@@ -33,6 +33,6 @@ say Dumper \@parks;
 
 __END__
 
-my $model = HirakataPapark::Model::Parks->new;
+my $model = HirakataPapark::Model::Parks::Parks->new;
 $model->add_rows(\@parks);
 

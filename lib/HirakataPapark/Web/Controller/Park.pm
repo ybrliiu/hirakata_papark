@@ -3,10 +3,10 @@ package HirakataPapark::Web::Controller::Park {
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
 
-  use HirakataPapark::Model::Parks;
-  use HirakataPapark::Model::Parks::Plants;
-  use HirakataPapark::Model::Parks::Comments;
-  use HirakataPapark::Model::Parks::SurroundingFacilities;
+  use HirakataPapark::Model::Parks::Parks;
+  use HirakataPapark::Model::Parks::Parks::Plants;
+  use HirakataPapark::Model::Parks::Parks::Comments;
+  use HirakataPapark::Model::Parks::Parks::SurroundingFacilities;
   use HirakataPapark::Service::Park::Park;
 
   use constant DEFAULT_COMMENT_NUM => 5;
@@ -15,10 +15,10 @@ package HirakataPapark::Web::Controller::Park {
     my $self = shift;
     $self->param('park_id');
   };
-  has 'parks'           => sub { HirakataPapark::Model::Parks->new };
-  has 'park_plants'     => sub { HirakataPapark::Model::Parks::Plants->new };
-  has 'park_comments'   => sub { HirakataPapark::Model::Parks::Comments->new };
-  has 'park_facilities' => sub { HirakataPapark::Model::Parks::SurroundingFacilities->new };
+  has 'parks'           => sub { HirakataPapark::Model::Parks::Parks->new };
+  has 'park_plants'     => sub { HirakataPapark::Model::Parks::Parks::Plants->new };
+  has 'park_comments'   => sub { HirakataPapark::Model::Parks::Parks::Comments->new };
+  has 'park_facilities' => sub { HirakataPapark::Model::Parks::Parks::SurroundingFacilities->new };
 
   sub show_park_by_id {
     my $self = shift;

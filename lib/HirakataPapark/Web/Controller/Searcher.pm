@@ -3,16 +3,16 @@ package HirakataPapark::Web::Controller::Searcher {
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
 
-  use HirakataPapark::Model::Parks::Tags;
-  use HirakataPapark::Model::Parks::Plants;
-  use HirakataPapark::Model::Parks::Equipments;
-  use HirakataPapark::Model::Parks::SurroundingFacilities;
+  use HirakataPapark::Model::Parks::Parks::Tags;
+  use HirakataPapark::Model::Parks::Parks::Plants;
+  use HirakataPapark::Model::Parks::Parks::Equipments;
+  use HirakataPapark::Model::Parks::Parks::SurroundingFacilities;
   use HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories;
 
-  has 'park_tags'       => sub { HirakataPapark::Model::Parks::Tags->new };
-  has 'park_plants'     => sub { HirakataPapark::Model::Parks::Plants->new };
-  has 'park_equipments' => sub { HirakataPapark::Model::Parks::Equipments->new };
-  has 'park_facilities' => sub { HirakataPapark::Model::Parks::SurroundingFacilities->new };
+  has 'park_tags'       => sub { HirakataPapark::Model::Parks::Parks::Tags->new };
+  has 'park_plants'     => sub { HirakataPapark::Model::Parks::Parks::Plants->new };
+  has 'park_equipments' => sub { HirakataPapark::Model::Parks::Parks::Equipments->new };
+  has 'park_facilities' => sub { HirakataPapark::Model::Parks::Parks::SurroundingFacilities->new };
 
   sub root {
     my $self = shift;

@@ -23,8 +23,8 @@ package Test::HirakataPapark::Container {
 
           service 'parks' => (
             block => sub ($s) {
-              require HirakataPapark::Model::Parks;
-              HirakataPapark::Model::Parks->new(db => $s->param('db'));
+              require HirakataPapark::Model::Parks::Parks;
+              HirakataPapark::Model::Parks::Parks->new(db => $s->param('db'));
             },
             lifecycle    => 'Singleton',
             dependencies => {db => '../../DB/db'},

@@ -4,19 +4,19 @@ package HirakataPapark::Web::Controller::Search {
   use HirakataPapark;
 
   use HirakataPapark::Class::Coord;
-  use HirakataPapark::Model::Parks;
-  use HirakataPapark::Model::Parks::Tags;
-  use HirakataPapark::Model::Parks::Plants;
-  use HirakataPapark::Model::Parks::Equipments;
-  use HirakataPapark::Model::Parks::SurroundingFacilities;
+  use HirakataPapark::Model::Parks::Parks;
+  use HirakataPapark::Model::Parks::Parks::Tags;
+  use HirakataPapark::Model::Parks::Parks::Plants;
+  use HirakataPapark::Model::Parks::Parks::Equipments;
+  use HirakataPapark::Model::Parks::Parks::SurroundingFacilities;
   use HirakataPapark::Service::Park::CalcDistance;
 
-  has 'parks'           => sub { HirakataPapark::Model::Parks->new };
-  has 'park_tags'       => sub { HirakataPapark::Model::Parks::Tags->new };
-  has 'park_plants'     => sub { HirakataPapark::Model::Parks::Plants->new };
-  has 'park_equipments' => sub { HirakataPapark::Model::Parks::Equipments->new };
+  has 'parks'           => sub { HirakataPapark::Model::Parks::Parks->new };
+  has 'park_tags'       => sub { HirakataPapark::Model::Parks::Parks::Tags->new };
+  has 'park_plants'     => sub { HirakataPapark::Model::Parks::Parks::Plants->new };
+  has 'park_equipments' => sub { HirakataPapark::Model::Parks::Parks::Equipments->new };
   has 'park_surrounding_facilities' =>
-    sub { HirakataPapark::Model::Parks::SurroundingFacilities->new };
+    sub { HirakataPapark::Model::Parks::Parks::SurroundingFacilities->new };
 
   sub near_parks {
     my $self = shift;

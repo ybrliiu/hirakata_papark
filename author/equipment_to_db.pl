@@ -5,7 +5,7 @@ use Encode;
 use lib './lib';
 
 use Spreadsheet::ParseXLSX;
-use HirakataPapark::Model::Parks;
+use HirakataPapark::Model::Parks::Parks;
 
 my @COLUMNS = qw( id トイレ nothing ブランコ すべり台 鉄棒 ジャングルジム 砂場 シーソー );
 
@@ -35,8 +35,8 @@ my @parks = map {
 use Data::Dumper;
 say Dumper \@parks;
 
-use HirakataPapark::Model::Parks::Equipments;
-my $model = HirakataPapark::Model::Parks::Equipments->new;
+use HirakataPapark::Model::Parks::Parks::Equipments;
+my $model = HirakataPapark::Model::Parks::Parks::Equipments->new;
 for my $info (@parks) {
   my $park_id = $info->{id};
   my @equipments = map { $info->{$_} eq '有' ? $_ : () } keys %$info;
