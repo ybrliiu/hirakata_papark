@@ -24,7 +24,7 @@ package HirakataPapark::DB::Schema {
     add_index 'park_name_index' => ['name'];
   };
 
-  create_table park_english => columns {
+  create_table english_park => columns {
     integer 'park_id' => (primary_key);
     string 'english_name' => (unique); # SQL::Translator の仕様変更がなされれば 'name' に変更
     string 'address';
@@ -44,7 +44,7 @@ package HirakataPapark::DB::Schema {
     foreign_key 'park_id' => (park => 'id');
   };
 
-  create_table park_equipment_english => columns {
+  create_table english_park_equipment => columns {
     integer 'id' => (primary_key);
     integer 'park_id';
     string 'name';
@@ -63,7 +63,7 @@ package HirakataPapark::DB::Schema {
     foreign_key 'park_id' => (park => 'id');
   };
 
-  create_table park_surrounding_facility_english => columns {
+  create_table english_park_surrounding_facility => columns {
     integer 'id' => (primary_key);
     integer 'park_id';
     string 'name';
@@ -87,7 +87,7 @@ package HirakataPapark::DB::Schema {
     foreign_key 'park_id' => (park => 'id');
   };
 
-  create_table park_plants_english => columns {
+  create_table english_park_plants => columns {
     integer 'id' => (primary_key);
     integer 'park_id';
     string 'name';
