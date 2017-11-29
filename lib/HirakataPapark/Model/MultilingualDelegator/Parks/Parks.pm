@@ -1,6 +1,4 @@
-use HirakataPapark 'test';
-
-package Parks {
+package HirakataPapark::Model::MultilingualDelegator::Parks::Parks {
 
   use Mouse;
   use HirakataPapark;
@@ -27,10 +25,5 @@ package Parks {
 
 }
 
-ok my $delegetor = Parks->new;
-ok my $jmodel = $delegetor->model('ja');
-ok my $emodel = $delegetor->model('en');
-dies_ok { my $model = $delegetor->model('zn') };
-
-done_testing;
+1;
 

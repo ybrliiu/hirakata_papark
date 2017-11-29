@@ -5,8 +5,17 @@ package HirakataPapark::Model::Role::MultilingualDelegator {
 
   use Smart::Args ();
 
+  has 'lang_to_model_table' => (
+    is      => 'ro',
+    isa     => 'HashRef[Str]',
+    builder => '_build_lang_to_model_table',
+  );
+
   # attributes
-  requires qw( lang_to_model_table model_instances );
+  requires qw( model_instances );
+
+  # methods
+  requires qw( _build_lang_to_model_table );
 
   sub model {
     Smart::Args::args_pos my $self,
