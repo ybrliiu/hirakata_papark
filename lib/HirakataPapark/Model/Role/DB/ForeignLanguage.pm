@@ -33,7 +33,8 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage {
     my $select   = $self->db->query_builder->new_select;
     my $sc_maker = $self->select_columns_maker;
 
-    for my $column ($sc_maker->select_columns->@*) {
+    my $columns = exists $opt->{columns} ? $opt->{columns} : $sc_maker->select_columns;
+    for my $column (@$columns) {
       $select->add_select($column);
     }
 

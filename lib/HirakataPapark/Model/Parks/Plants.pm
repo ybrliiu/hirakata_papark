@@ -11,6 +11,7 @@ package HirakataPapark::Model::Parks::Plants {
   with qw(
     HirakataPapark::Model::Role::DB
     HirakataPapark::Model::Role::DB::RelatedToPark
+    HirakataPapark::Model::Role::DB::Parks::Plants
   );
 
   sub add_row {
@@ -35,36 +36,13 @@ package HirakataPapark::Model::Parks::Plants {
     ]);
   }
 
-  sub get_rows_by_park_id_order_by_category($self, $park_id) {
-    $self->result_class->new([ $self->select({park_id => $park_id}, {order_by => 'category DESC'})->all ]);
-  }
-
-  sub get_rows_by_category($self, $category) {
-    $self->result_class->new([ $self->select({category => $category})->all ]);
-  }
-
-  sub get_rows_by_categories($self, $categories) {
-    my @ary = map { ('=', $_) } @$categories;
-    $self->result_class->new([ $self->select({ category => \@ary })->all ]);
-  }
-
-  sub get_categories_by_park_id($self, $park_id) {
-    [
-      map { $_->category } 
-      $self->select(
-        { park_id => $park_id },
-        { prefix => 'SELECT DISTINCT ', columns => ['category'] },
-      )->all
-    ];
-  }
-
-  sub get_category_list($self) {
+  sub get_categories($self) {
     my @category_list =
       map { $_->category } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['category']  } )->all;
     \@category_list;
   }
 
-  sub get_category_list_by_park_id($self, $park_id) {
+  sub get_categories_by_park_id($self, $park_id) {
     my @category_list =
       map { $_->category } $self->select(
         { park_id => $park_id },
@@ -77,34 +55,6 @@ package HirakataPapark::Model::Parks::Plants {
     my @plants_list =
       map { $_->name } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['name'] } )->all;
     \@plants_list;
-  }
-
-  sub get_categoryzed_plants_list($self) {
-    my @rows = $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => [qw/ name category /] } )->all;
-    my $result = +{ map { $_->category => [] } @rows };
-    for my $row (@rows) {
-      push $result->{$row->category}->@*, $row->name;
-    }
-    $result;
-  }
-
-  sub get_park_id_list_has_category_names($class, $category_names) {
-    if (@$category_names) {
-      my $maker = $class->default_db->query_builder->select_class;
-      my $dbh   = $class->default_db->dbh;
-      my @sql_list = map {
-        my $category = $_;
-        my $sql = $maker->new
-          ->add_from($class->TABLE)
-          ->add_select('park_id')
-          ->add_where(category => $category);
-      } @$category_names;
-      my $sql = SQL::Maker::SelectSet::intersect(@sql_list)->as_sql;
-      my $result = $dbh->selectall_arrayref($sql, undef, @$category_names);
-      [ map { @$_ } @$result ];
-    } else {
-      [];
-    }
   }
 
   __PACKAGE__->meta->make_immutable;

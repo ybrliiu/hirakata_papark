@@ -52,6 +52,13 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage::SelectColumnsMaker {
     builder => '_build_output_for_sql',
   );
 
+  has 'output_join_condition_for_sql' => (
+    is      => 'ro',
+    isa     => 'Str',
+    lazy    => 1,
+    builder => '_build_output_join_condition_for_sql',
+  );
+
   sub _build_table;
   sub _build_orig_lang_table;
   {
@@ -90,6 +97,11 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage::SelectColumnsMaker {
 
   sub _build_output_for_sql($self) {
     join ", ", $self->select_columns->@*;
+  }
+
+  sub _build_output_join_condition_for_sql($self) {
+    my @conditions = $self->join_condition->%*;
+    join ' = ', @conditions;
   }
 
   __PACKAGE__->meta->make_immutable;

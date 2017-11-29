@@ -160,6 +160,33 @@ package Test::HirakataPapark::Container::TestData {
           },
         );
 
+        service 'plants_param' => (
+          block => sub ($s) {
+            my $park = $s->param('park');
+            {
+              park_id  => $park->id,
+              name     => 'ソメイヨシノ',
+              category => '桜',
+            };
+          },
+          lifecycle => 'Singleton',
+          dependencies => ['park'],
+        );
+
+        service 'plants' => (
+          block => sub ($s) {
+            my $param  = $s->param('param');
+            my $plants = $s->param('plants');
+            $plants->add_row($param);
+            $plants->get_row_by_park_id_and_name($param->{park_id}, $param->{name})->get;
+          },
+          lifecycle => 'Singleton',
+          dependencies => {
+            param  => 'plants_param',
+            plants => '../../Model/Parks/plants',
+          },
+        );
+
       };
 
     };
