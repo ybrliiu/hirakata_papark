@@ -13,6 +13,17 @@ package HirakataPapark::DB::Row::EnglishPark {
 
   with 'HirakataPapark::DB::Row::Role::Park';
 
+  sub size {
+    my $self = shift;
+    if ($self->area >= $self->WIDE) {
+      'Wide';
+    } elsif ($self->area >= $self->MIDDLE) {
+      'Middle';
+    } else {
+      'Narrow';
+    }
+  }
+
   __PACKAGE__->meta->make_immutable;
 
 }

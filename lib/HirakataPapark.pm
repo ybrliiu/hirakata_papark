@@ -8,6 +8,7 @@ package HirakataPapark 0.01 {
 
   use Data::Dumper;
   use Module::Load 'autoload_remote';
+  use Mouse::Util::TypeConstraints qw( enum );
 
   # Data::Dumper utf8対応
   {
@@ -36,6 +37,9 @@ package HirakataPapark 0.01 {
     feature->import(qw/ :5.24 signatures /);
     warnings->unimport('experimental::signatures');
   }
+
+  # 独自型定義
+  enum 'HirakataPapark::lang' => [qw/ ja en /];
   
 }
 

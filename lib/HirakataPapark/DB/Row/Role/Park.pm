@@ -3,6 +3,13 @@ package HirakataPapark::DB::Row::Role::Park {
   use Mouse::Role;
   use HirakataPapark;
 
+  use constant {
+    WIDE   => 600,
+    MIDDLE => 100,
+  };
+
+  requires qw( size );
+
   with 'HirakataPapark::Role::Coord';
 
   sub x;
