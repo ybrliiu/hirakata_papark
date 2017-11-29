@@ -8,7 +8,10 @@ package HirakataPapark::Model::Parks::Plants {
 
   use constant TABLE => 'park_plants';
 
-  with qw( HirakataPapark::Model::Role::DB::RelatedToPark );
+  with qw(
+    HirakataPapark::Model::Role::DB
+    HirakataPapark::Model::Role::DB::RelatedToPark
+  );
 
   sub add_row {
     args my $self, my $park_id => 'Int',

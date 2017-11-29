@@ -31,6 +31,15 @@ package Test::HirakataPapark::Container {
             dependencies => {db => '../../DB/db'},
           );
 
+          service 'english_parks' => (
+            block => sub ($s) {
+              require HirakataPapark::Model::Parks::EnglishParks;
+              HirakataPapark::Model::Parks::EnglishParks->new(db => $s->param('db'));
+            },
+            lifecycle    => 'Singleton',
+            dependencies => {db => '../../DB/db'},
+          );
+
           service 'equipments' => (
             block => sub ($s) {
               require HirakataPapark::Model::Parks::Equipments;

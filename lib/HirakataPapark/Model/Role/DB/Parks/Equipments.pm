@@ -3,7 +3,12 @@ package HirakataPapark::Model::Role::DB::Parks::Equipments {
   use Mouse::Role;
   use HirakataPapark;
 
-  with 'HirakataPapark::Model::Role::DB::RelatedToPark';
+  sub get_row_by_park_id_and_name($self, $park_id, $name) {
+    $self->select({
+      $self->TABLE . '.park_id' => $park_id,
+      $self->TABLE . '.name'    => $name,
+    })->first_with_option;
+  }
 
   sub get_equipment_list($self) {
     my @equipment_list =

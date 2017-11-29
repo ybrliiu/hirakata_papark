@@ -6,7 +6,10 @@ package HirakataPapark::Model::Parks::SurroundingFacilities {
 
   use constant TABLE => 'park_surrounding_facility';
 
-  with 'HirakataPapark::Model::Role::DB::RelatedToPark';
+  with qw(
+    HirakataPapark::Model::Role::DB
+    HirakataPapark::Model::Role::DB::RelatedToPark
+  );
 
   sub add_row {
     args my $self, my $park_id => 'Int',

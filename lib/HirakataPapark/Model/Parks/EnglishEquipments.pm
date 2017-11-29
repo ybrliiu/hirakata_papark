@@ -11,6 +11,7 @@ package HirakataPapark::Model::Parks::EnglishEquipments {
 
   with qw(
     HirakataPapark::Model::Role::DB::ForeignLanguage
+    HirakataPapark::Model::Role::DB::ForeignLanguage::RelatedToPark
     HirakataPapark::Model::Role::DB::Parks::Equipments
   );
 

@@ -4,7 +4,14 @@ package HirakataPapark::Model::Role::DB::RelatedToPark {
   use HirakataPapark;
   use SQL::Maker::SelectSet;
 
-  requires qw( add_row );
+  # constants
+  requires qw( TABLE );
+
+  # attributes
+  requires qw( db );
+
+  # methods
+  requires qw( add_row select );
 
   sub get_rows_by_park_id($self, $park_id) {
     $self->result_class->new([ $self->select({ $self->TABLE . '.park_id' => $park_id })->all ]);
@@ -19,9 +26,11 @@ package HirakataPapark::Model::Role::DB::RelatedToPark {
     $self->result_class->new([ $self->select({ $self->TABLE . '.name' => \@ary })->all ]);
   }
 
+  sub PREFETCH_TABLE_NAME { 'park' }
+
   sub get_rows_by_names_with_prefetch($self, $names) {
     my @ary = map { ('=', $_) } @$names;
-    $self->result_class->new([ $self->select( { $self->TABLE . '.name' => \@ary }, { prefetch => ['park'] } )->all ]);
+    $self->result_class->new([ $self->select( { $self->TABLE . '.name' => \@ary }, { prefetch => [$self->PREFETCH_TABLE_NAME] } )->all ]);
   }
 
   # and (?)

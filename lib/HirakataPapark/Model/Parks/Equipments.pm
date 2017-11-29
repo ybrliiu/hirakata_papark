@@ -8,6 +8,7 @@ package HirakataPapark::Model::Parks::Equipments {
 
   with qw(
     HirakataPapark::Model::Role::DB
+    HirakataPapark::Model::Role::DB::RelatedToPark
     HirakataPapark::Model::Role::DB::Parks::Equipments
   );
 

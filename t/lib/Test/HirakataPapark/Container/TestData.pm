@@ -24,15 +24,15 @@ package Test::HirakataPapark::Container::TestData {
 
         service 'park' => (
           block => sub ($s) {
-            my $param = $s->param('park_param');
+            my $param = $s->param('param');
             my $parks = $s->param('parks');
             $parks->add_row($param);
             $parks->get_row_by_name($param->{name})->get;
           },
           lifecycle => 'Singleton',
           dependencies => {
-            parks      => '../../Model/Parks/parks',
-            park_param => 'park_param',
+            parks => '../../Model/Parks/parks',
+            param => 'park_param',
           },
         );
 
@@ -46,15 +46,15 @@ package Test::HirakataPapark::Container::TestData {
 
         service 'park2' => (
           block => sub ($s) {
-            my $param = $s->param('park2_param');
+            my $param = $s->param('param');
             my $parks = $s->param('parks');
             $parks->add_row($param);
             $parks->get_row_by_name($param->{name})->get;
           },
           lifecycle => 'Singleton',
           dependencies => {
-            parks      => '../../Model/Parks/parks',
-            park2_param => 'park2_param',
+            parks => '../../Model/Parks/parks',
+            param => 'park2_param',
           },
         );
 
@@ -68,15 +68,42 @@ package Test::HirakataPapark::Container::TestData {
 
         service 'park3' => (
           block => sub ($s) {
-            my $param = $s->param('park3_param');
+            my $param = $s->param('param');
             my $parks = $s->param('parks');
             $parks->add_row($param);
             $parks->get_row_by_name($param->{name})->get;
           },
           lifecycle => 'Singleton',
           dependencies => {
-            parks      => '../../Model/Parks/parks',
-            park3_param => 'park3_param',
+            parks => '../../Model/Parks/parks',
+            param => 'park3_param',
+          },
+        );
+
+        service 'english_park_param' => (
+          block => sub ($s) {
+            my $park = $s->param('park');
+            {
+              id      => $park->id,
+              name    => 'Hoge Park',
+              address => '20, A City',
+            };
+          },
+          lifecycle => 'Singleton',
+          dependencies => ['park'],
+        );
+
+        service 'english_park' => (
+          block => sub ($s) {
+            my $param = $s->param('param');
+            my $parks = $s->param('parks');
+            $parks->add_row($param);
+            $parks->get_row_by_name($param->{name})->get;
+          },
+          lifecycle => 'Singleton',
+          dependencies => {
+            parks => '../../Model/Parks/english_parks',
+            param => 'english_park_param',
           },
         );
 
@@ -98,7 +125,7 @@ package Test::HirakataPapark::Container::TestData {
             my $param      = $s->param('param');
             my $equipments = $s->param('equipments');
             $equipments->add_row($param);
-            $equipments->get_rows_by_park_id($param->{park_id});
+            $equipments->get_row_by_park_id_and_name($param->{park_id}, $param->{name})->get;
           },
           lifecycle => 'Singleton',
           dependencies => {
@@ -124,7 +151,7 @@ package Test::HirakataPapark::Container::TestData {
             my $param      = $s->param('param');
             my $equipments = $s->param('equipments');
             $equipments->add_row($param);
-            $equipments->get_rows_by_park_id($param->{park_id});
+            $equipments->get_row_by_park_id_and_name($param->{park_id}, $param->{name})->get;
           },
           lifecycle => 'Singleton',
           dependencies => {

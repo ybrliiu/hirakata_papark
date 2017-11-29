@@ -22,8 +22,7 @@ subtest 'add_row' => sub {
   my @equipments = $model->get_rows_by_name('ブランコ')->@*;
   is @equipments, 1;
   # relation ship test
-  diag $equipments[0]->park->name;
-  # diag explain [$park->park_equipments];
+  is $equipments[0]->park->name, $park->name;
 };
 
 subtest 'get_rows_by_names' => sub {
@@ -36,7 +35,7 @@ subtest 'get_rows_by_names' => sub {
 subtest 'get_park_id_list_has_names' => sub {
   lives_ok {
     my $id_list = $model->get_park_id_list_has_names([qw/ブランコ 鉄棒/]);
-    diag explain $id_list;
+    is_deeply $id_list, [1];
   };
 };
 
