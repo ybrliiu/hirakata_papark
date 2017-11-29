@@ -13,8 +13,7 @@ package HirakataPapark::DB::Row::EnglishPark {
 
   with 'HirakataPapark::DB::Row::Role::Park';
 
-  sub size {
-    my $self = shift;
+  sub size($self) {
     if ($self->area >= $self->WIDE) {
       'Wide';
     } elsif ($self->area >= $self->MIDDLE) {

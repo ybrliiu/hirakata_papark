@@ -22,22 +22,6 @@ package HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories {
     [ map { HirakataPapark::Service::Park::Searcher::PlantsCategory->new($_) } values %$params ];
   }
 
-  sub exec_for_english($self) {
-    my @rows = $self->rows->@*;
-    my $params = +{
-      map {
-        $_->english_category => +{
-          name      => $_->english_category,
-          varieties => [],
-        }
-      } @rows
-    };
-    for my $row (@rows) {
-      push $params->{$row->english_category}{varieties}->@*, $row->english_name;
-    }
-    [ map { HirakataPapark::Service::Park::Searcher::PlantsCategory->new($_) } values %$params ];
-  }
-
   __PACKAGE__->meta->make_immutable;
 
 }

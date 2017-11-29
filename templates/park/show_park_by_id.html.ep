@@ -1,13 +1,13 @@
 <div class="container">
 
-  <h2><%= $park->$name_accessor_name %></h2>
+  <h2><%= $park->name %></h2>
 
   <div class="row">
     <div class="col l6 s12">
       <h3><%= $details_title %></h3>
-      <p><%= $address %> : <%= $park->$address_accessor_name %></p>
+      <p><%= $address %> : <%= $park->address %></p>
       <p><%= $latitude %> : <%= $park->y %>, <%= $longitude %> : <%= $park->x %>
-      <p><%= $area %> : <%= $park->area %> ㎡ (<%= $extent %> : <%= $park->$size_method_name %>)</p>
+      <p><%= $area %> : <%= $park->area %> ㎡ (<%= $extent %> : <%= $park->size %>)</p>
       <p><%= $scenery %> : <%= $park->is_nice_scenery ? $nice : '' %></p>
       <p><%= $temp_evacuation_area %> : <%= $park->is_evacuation_area ? '○' : '×' %></p>
     </div>
@@ -22,7 +22,7 @@
       mapId: 'park-map-small',
     });
     parkMap.setView(<%= $park->y %>, <%= $park->x %>);
-    parkMap.registParkMarkers( [ JSON.parse('<%== $park->$json_method_name %>') ] );
+    parkMap.registParkMarkers( [ JSON.parse('<%== $park->to_json_for_marker %>') ] );
   });
 </script>
     </div>
@@ -40,11 +40,11 @@
           </tr>
         </thread>
         <tbody>
-        % for my $equipment ($park->park_equipments) {
+        % for my $equipment ($park->equipments->@*) {
           <tr>
-            <td><%= $equipment->$name_accessor_name %></td>
+            <td><%= $equipment->name %></td>
             <td><%= $equipment->num %></td>
-            <td><%= $equipment->$comment_accessor_name %></td>
+            <td><%= $equipment->comment %></td>
           </tr>
         % }
         </tbody>
@@ -52,13 +52,13 @@
     </div>
     <div class="col l6 s12">
       <h3><%= $plants_title %></h3>
-      <p><%= join ', ', $park->$plants_categories_method_name->@* %></p>
+      <p><%= join ', ', $park->plants_categories->@* %></p>
       <a class="waves-effect btn" href="/<%= $lang %>/park/plants/<%= $park->id %>">
         <i class="material-icons right">arrow_forward</i><%= $details %>
       </a>
 
       <h3><%= $surrounding_facility_title %></h3>
-      <p><%= join ', ', $park->$surrounding_facility_names_method_name->@* %></p>
+      <p><%= join ', ', $park->surrounding_facility_names->@* %></p>
     </div>
   </div>
 

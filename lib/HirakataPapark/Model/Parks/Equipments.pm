@@ -29,6 +29,12 @@ package HirakataPapark::Model::Parks::Equipments {
     });
   }
 
+  sub get_equipment_list($self) {
+    my @equipment_list =
+      map { $_->name } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['name'] } )->all;
+    \@equipment_list;
+  }
+
   __PACKAGE__->meta->make_immutable;
 
 }

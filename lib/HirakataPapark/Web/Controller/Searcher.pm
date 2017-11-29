@@ -3,73 +3,55 @@ package HirakataPapark::Web::Controller::Searcher {
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
 
-  use HirakataPapark::Model::Parks::Parks::Tags;
-  use HirakataPapark::Model::Parks::Parks::Plants;
-  use HirakataPapark::Model::Parks::Parks::Equipments;
-  use HirakataPapark::Model::Parks::Parks::SurroundingFacilities;
+  use HirakataPapark::Model::Parks::Tags;
+  use HirakataPapark::Model::MultilingualDelegator::Parks::Plants;
+  use HirakataPapark::Model::MultilingualDelegator::Parks::Equipments;
+  use HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities;
   use HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories;
 
-  has 'park_tags'       => sub { HirakataPapark::Model::Parks::Parks::Tags->new };
-  has 'park_plants'     => sub { HirakataPapark::Model::Parks::Parks::Plants->new };
-  has 'park_equipments' => sub { HirakataPapark::Model::Parks::Parks::Equipments->new };
-  has 'park_facilities' => sub { HirakataPapark::Model::Parks::Parks::SurroundingFacilities->new };
+  has 'park_tags'       => sub { HirakataPapark::Model::Parks::Tags->new };
+  has 'park_plants'     => sub { HirakataPapark::Model::MultilingualDelegator::Parks::Plants->new };
+  has 'park_equipments' => sub { HirakataPapark::Model::MultilingualDelegator::Parks::Equipments->new };
+  has 'park_facilities' => sub { HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities->new };
 
-  sub root {
-    my $self = shift;
-    $self->render_to_multiple_lang();
+  sub root($self) {
+    $self->render_to_multiple_lang;
   }
 
-  sub name {
-    my $self = shift;
-    $self->render_to_multiple_lang();
+  sub name($self) {
+    $self->render_to_multiple_lang;
   }
 
-  sub address {
-    my $self = shift;
-    $self->render_to_multiple_lang();
+  sub address($self) {
+    $self->render_to_multiple_lang;
   }
 
   # Mojolicious::Plugin::AssetPack で tag というメソッド(helper?)が登録されているため,
   # Controllerでtag というmethodが定義できない
-  sub tags {
-    my $self = shift;
-    my $tag_list = $self->park_tags->get_tag_list();
+  sub tags($self) {
+    my $tag_list = $self->park_tags->get_tag_list;
     $self->stash(tag_list => $tag_list);
     $self->render_to_multiple_lang(template => 'searcher/tag');
   }
 
-  sub plants {
-    my $self = shift;
-    my $park_plants = $self->park_plants;
+  sub plants($self) {
     my $plants_categories = do {
-      if ( $self->lang eq 'en' ) {
-        my $rows = $park_plants->get_all_distinct_rows( [qw/ english_name english_category /] );
-        my $s = HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories->new(rows => $rows);
-        $s->exec_for_english;
-      } else {
-        my $rows = $park_plants->get_all_distinct_rows( [qw/ name category /] );
-        my $s = HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories->new(rows => $rows);
-        $s->exec;
-      }
+      my $rows = $self->park_plants->model($self->lang)->get_all_distinct_rows([qw/ name category /]);
+      my $s = HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories->new(rows => $rows);
+      $s->exec;
     };
     $self->stash(plants_categories => $plants_categories);
     $self->render_to_multiple_lang();
   }
 
-  sub equipment {
-    my $self = shift;
-    my $equipment_list = $self->lang eq 'en'
-      ? $self->park_equipments->get_english_equipment_list
-      : $self->park_equipments->get_equipment_list;
+  sub equipment($self) {
+    my $equipment_list = $self->park_equipments->model($self->lang)->get_equipment_list;
     $self->stash(equipment_list => $equipment_list);
     $self->render_to_multiple_lang();
   }
 
-  sub surrounding_facility {
-    my $self = shift;
-    my $surrounding_facility_list = $self->lang eq 'en'
-      ? $self->park_facilities->get_english_surrounding_facility_list
-      : $self->park_facilities->get_surrounding_facility_list;
+  sub surrounding_facility($self) {
+    my $surrounding_facility_list = $self->park_facilities->model($self->lang)->get_surrounding_facility_list;
     $self->stash(surrounding_facility_list => $surrounding_facility_list);
     $self->render_to_multiple_lang();
   }

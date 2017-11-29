@@ -33,7 +33,7 @@ package HirakataPapark::Model::Role::DB::Parks::Plants {
 
   sub get_park_id_list_has_category_names($self, $category_names) {
     if (@$category_names) {
-      my $maker = $self->db->query_builder->select_self;
+      my $maker = $self->db->query_builder->select_class;
       my $dbh   = $self->db->dbh;
       my @sql_list = map {
         my $category = $_;

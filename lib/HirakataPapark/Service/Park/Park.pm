@@ -10,21 +10,27 @@ package HirakataPapark::Service::Park::Park {
 
     has 'row' => (
       is       => 'ro',
-      isa      => 'HirakataPapark::DB::Row::Role::Park',
-      handles  => [@fields, qw( size to_json_for_marker )],
+      does     => 'HirakataPapark::DB::Row::Role::Park',
+      handles  => [ @fields, qw( size to_json_for_marker park_equipments ) ],
       required => 1,
     );
   }
 
   has 'park_plants' => (
     is       => 'ro',
-    isa      => 'HirakataPapark::Model::Parks::Parks::Plants',
+    does     => 'HirakataPapark::Model::Role::DB::Parks::Plants',
+    required => 1,
+  );
+
+  has 'park_equipments' => (
+    is       => 'ro',
+    does     => 'HirakataPapark::Model::Role::DB::Parks::Equipments',
     required => 1,
   );
 
   has 'park_facilities' => (
     is       => 'ro',
-    isa      => 'HirakataPapark::Model::Parks::Parks::SurroundingFacilities',
+    does     => 'HirakataPapark::Model::Role::DB::Parks::SurroundingFacilities',
     required => 1,
   );
 
@@ -40,14 +46,16 @@ package HirakataPapark::Service::Park::Park {
 
   with 'HirakataPapark::Role::Coord';
 
-  sub plants_categories {
-    my $self = shift;
+  sub plants_categories($self) {
     $self->park_plants->get_categories_by_park_id($self->id);
   }
 
-  sub surrounding_facility_names {
-    my $self = shift;
+  sub surrounding_facility_names($self) {
     $self->park_facilities->get_names_by_park_id($self->id);
+  }
+
+  sub equipments($self) {
+    $self->park_equipments->get_rows_by_park_id($self->id);
   }
 
   __PACKAGE__->meta->make_immutable();

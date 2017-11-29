@@ -19,6 +19,7 @@ on 'test' => sub {
 
 on 'develop' => sub {
   requires 'Path::Tiny';
+  requires 'Text::CSV_XS';
   requires 'Lingua::JA::Romanize::Japanese';
   requires 'Unicode::Japanese';
 };

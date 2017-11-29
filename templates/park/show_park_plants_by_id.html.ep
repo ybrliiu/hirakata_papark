@@ -14,10 +14,10 @@
         <tbody>
         % for my $plants ($park->plants->@*) {
           <tr>
-            <td><%= $plants->$category_accessor_name %></td>
-            <td><%= $plants->$name_accessor_name %></td>
+            <td><%= $plants->category %></td>
+            <td><%= $plants->name %></td>
             <td><%= $plants->num %></td>
-            <td><%= $plants->$comment_accessor_name %></td>
+            <td><%= $plants->comment %></td>
           </tr>
         % }
         </tbody>
