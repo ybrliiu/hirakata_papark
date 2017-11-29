@@ -13,13 +13,6 @@ package HirakataPapark::Model::Role::DB::Parks::Plants {
     get_plants_list
   );
 
-  sub get_row_by_park_id_and_name($self, $park_id, $name) {
-    $self->select({
-      $self->TABLE . '.park_id' => $park_id,
-      $self->TABLE . '.name'    => $name,
-    })->first_with_option;
-  }
-
   sub get_rows_by_park_id_order_by_category($self, $park_id) {
     $self->result_class->new([
       $self->select(

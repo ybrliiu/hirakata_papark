@@ -187,6 +187,32 @@ package Test::HirakataPapark::Container::TestData {
           },
         );
 
+        service 'surrounding_facility_param' => (
+          block => sub ($s) {
+            my $park = $s->param('park');
+            {
+              park_id  => $park->id,
+              name     => '駐車場',
+            };
+          },
+          lifecycle => 'Singleton',
+          dependencies => ['park'],
+        );
+
+        service 'surrounding_facility' => (
+          block => sub ($s) {
+            my $param  = $s->param('param');
+            my $sf     = $s->param('surrounding_facilities');
+            $sf->add_row($param);
+            $sf->get_row_by_park_id_and_name($param->{park_id}, $param->{name})->get;
+          },
+          lifecycle => 'Singleton',
+          dependencies => {
+            param                  => 'surrounding_facility_param',
+            surrounding_facilities => '../../Model/Parks/surrounding_facilities',
+          },
+        );
+
       };
 
     };

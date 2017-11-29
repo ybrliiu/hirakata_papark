@@ -9,6 +9,7 @@ package HirakataPapark::Model::Parks::SurroundingFacilities {
   with qw(
     HirakataPapark::Model::Role::DB
     HirakataPapark::Model::Role::DB::RelatedToPark
+    HirakataPapark::Model::Role::DB::Parks::SurroundingFacilities
   );
 
   sub add_row {
@@ -33,25 +34,9 @@ package HirakataPapark::Model::Parks::SurroundingFacilities {
     ];
   }
 
-  sub get_english_names_by_park_id($self, $park_id) {
-    [
-      map { $_->english_name } 
-      $self->select(
-        { park_id => $park_id },
-        { prefix => 'SELECT DISTINCT ', columns => ['english_name'] },
-      )->all
-    ];
-  }
-
   sub get_surrounding_facility_list($self) {
     my @facility_list =
       map { $_->name } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['name'] } )->all;
-    \@facility_list;
-  }
-
-  sub get_english_surrounding_facility_list($self) {
-    my @facility_list =
-      map { $_->english_name } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['english_name'] } )->all;
     \@facility_list;
   }
 
