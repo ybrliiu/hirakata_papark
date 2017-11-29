@@ -1,12 +1,1 @@
-<ul class="park-list">
-% if (@$parks > 0 ) {
-  % for my $park (@$parks) {
-    <li>
-      <a href="<%= url_for "/$lang/park/" . $park->id %>"><%= $park->name %></a>
-      (<%= $park->address %>)
-    </li>
-  % }
-% } else {
-  <span class="red-text">該当する公園が見つかりませんでした。</span>
-% }
-</ul>
+%= include 'search/result' => (error_message => '該当する公園は見つかりませんでした。');

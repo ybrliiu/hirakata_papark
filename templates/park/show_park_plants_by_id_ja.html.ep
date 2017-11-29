@@ -1,13 +1,10 @@
 % layout 'default_ja';
 
 <%= include 'park/show_park_plants_by_id' => (
-  name_accessor_name     => 'name',
-  category_accessor_name => 'category',
-  comment_accessor_name  => 'comment',
-  title                  => $park->name . 'の植物　詳細',
-  category               => 'カテゴリ',
-  variety                => '品種名',
-  num                    => '個数',
-  remarks                => '備考',
-  back                   => '戻る',
+  title    => $park->name . 'の植物　詳細',
+  category => 'カテゴリ',
+  variety  => '品種名',
+  num      => '個数',
+  remarks  => '備考',
+  back     => '戻る',
 ); %>

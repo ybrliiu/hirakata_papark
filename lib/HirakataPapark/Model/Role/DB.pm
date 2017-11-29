@@ -10,6 +10,7 @@ package HirakataPapark::Model::Role::DB {
 
   requires qw( TABLE );
 
+  sub db;
   has 'db' => ( is => 'ro', isa => 'HirakataPapark::DB', default => \&default_db );
 
   sub default_db($class) {
@@ -39,7 +40,7 @@ package HirakataPapark::Model::Role::DB {
   }
 
   sub get_rows_all($self) {
-    $self->result_class->new([ $self->db->select($self->TABLE => {})->all ]);
+    $self->result_class->new([ $self->select({})->all ]);
   }
 
   sub txn_scope($self) {

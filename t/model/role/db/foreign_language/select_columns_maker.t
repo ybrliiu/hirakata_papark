@@ -14,8 +14,8 @@ subtest default_case => sub {
       orig_lang_table_name => 'park',
     );
   };
-  is $maker->output_for_sql, 'english_park.address, park.area, english_park.english_name, english_park.explain, park.good_count, english_park.id, park.is_evacuation_area, park.is_nice_scenery, park.name, park.remarks_about_plants, park.x, park.y';
-  diag $maker->output_relate_fields_for_sql, 'park.id = english_park.id';
+  is_deeply $maker->select_columns, ['english_park.address', 'park.area', 'english_park.english_name', 'english_park.explain', 'park.good_count', 'english_park.id', 'park.is_evacuation_area', 'park.is_nice_scenery', 'park.name', 'park.remarks_about_plants', 'park.x', 'park.y'];
+  is_deeply $maker->join_condition, { 'park.id' => 'english_park.id' };
 };
 
 subtest specify_not_need_columns => sub {
@@ -28,7 +28,7 @@ subtest specify_not_need_columns => sub {
       not_need_columns     => ['name'],
     );
   };
-  is $maker->output_for_sql, 'english_park.address, park.area, english_park.english_name, english_park.explain, park.good_count, english_park.id, park.is_evacuation_area, park.is_nice_scenery, park.remarks_about_plants, park.x, park.y';
+  is_deeply $maker->select_columns, ['english_park.address', 'park.area', 'english_park.english_name', 'english_park.explain', 'park.good_count', 'english_park.id', 'park.is_evacuation_area', 'park.is_nice_scenery', 'park.remarks_about_plants', 'park.x', 'park.y'];
 };
 
 done_testing;

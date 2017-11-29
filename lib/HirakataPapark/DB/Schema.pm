@@ -41,6 +41,7 @@ package HirakataPapark::DB::Schema {
     integer 'recommended_age' => (default => 0);
     integer 'num' => (default => 1);
 
+    add_unique_index 'park_equipment_unique' => ['park_id', 'name'];
     foreign_key 'park_id' => (park => 'id');
   };
 
@@ -50,8 +51,9 @@ package HirakataPapark::DB::Schema {
     string 'name';
     string 'comment';
 
+    add_unique_index 'english_park_equipment_unique' => ['park_id', 'name'];
     foreign_key 'id' => (park_equipment => 'id');
-    foreign_key 'park_id' => (park => 'id');
+    foreign_key 'park_id' => (english_park => 'id');
   };
 
   create_table park_surrounding_facility => columns {
@@ -60,6 +62,7 @@ package HirakataPapark::DB::Schema {
     string 'name';
     string 'comment';
 
+    add_unique_index 'park_surrounding_facility_unique' => ['park_id', 'name'];
     foreign_key 'park_id' => (park => 'id');
   };
 
@@ -69,21 +72,20 @@ package HirakataPapark::DB::Schema {
     string 'name';
     string 'comment';
 
+    add_unique_index 'english_park_surrounding_facility_unique' => ['park_id', 'name'];
     foreign_key 'id' => (park_surrounding_facility => 'id');
-    foreign_key 'park_id' => (park => 'id');
+    foreign_key 'park_id' => (english_park => 'id');
   };
 
   create_table park_plants => columns {
     integer 'id' => (primary_key, auto_increment);
     integer 'park_id';
     string 'name';
-    string 'english_name';
     string 'category';
-    string 'english_category';
     string 'comment';
-    string 'english_comment';
     integer 'num' => (default => 1);
 
+    add_unique_index 'park_plants_unique' => ['park_id', 'name'];
     foreign_key 'park_id' => (park => 'id');
   };
 
@@ -94,8 +96,9 @@ package HirakataPapark::DB::Schema {
     string 'category';
     string 'comment';
 
+    add_unique_index 'english_park_plants_unique' => ['park_id', 'name'];
     foreign_key 'id' => (park_plants => 'id');
-    foreign_key 'park_id' => (park => 'id');
+    foreign_key 'park_id' => (english_park => 'id');
   };
 
   create_table park_tag => columns {
@@ -107,7 +110,7 @@ package HirakataPapark::DB::Schema {
   };
 
   create_table park_event => columns {
-    integer 'id', (primary_key, auto_increment);
+    integer 'id' => (primary_key, auto_increment);
     integer 'park_id';
     string 'title';
     text 'explain';
@@ -117,7 +120,7 @@ package HirakataPapark::DB::Schema {
 
   create_table park_comment => columns {
     integer 'park_id';
-    integer 'id', (primary_key, auto_increment);
+    integer 'id' => (primary_key, auto_increment);
     string 'name';
     bigint 'time';
     text 'message';

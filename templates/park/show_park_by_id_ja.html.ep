@@ -7,13 +7,6 @@
 % push @$CSS_FILES, 'css/leaflet.css';
 
 <% my @params = (
-  name_accessor_name    => 'name',
-  address_accessor_name => 'address',
-  comment_accessor_name => 'comment',
-  size_method_name                       => 'size',
-  json_method_name                       => 'to_json_for_marker',
-  plants_categories_method_name          => 'plants_categories',
-  surrounding_facility_names_method_name => 'surrounding_facility_names',
   details_title              => 'データ',
   map_title                  => 'マップ',
   equipment_title            => '遊具・施設',

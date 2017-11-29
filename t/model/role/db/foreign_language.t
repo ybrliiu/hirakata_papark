@@ -29,7 +29,7 @@ package TestModel {
   }
 
   sub get_row_by_name($self, $name) {
-    $self->join_and_select(english_name => $name)->first_with_option;
+    $self->select({ english_name => $name })->first_with_option;
   }
 
   __PACKAGE__->meta->make_immutable;
@@ -50,7 +50,9 @@ lives_ok {
   })
 };
 ok my $epark = $model->get_row_by_name('english_park A')->get;
-is $epark->english_name, 'english_park A';
+ok $jpark->isa('HirakataPapark::DB::Row::Park');
+ok $epark->isa('HirakataPapark::DB::Row::EnglishPark');
+is $epark->name, 'english_park A';
 is $epark->address, 'somewhere';
 is $epark->explain, 'english row test insert';
 is $epark->x, $jpark->x;

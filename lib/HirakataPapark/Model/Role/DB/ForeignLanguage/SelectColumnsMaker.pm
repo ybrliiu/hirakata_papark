@@ -33,16 +33,16 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage::SelectColumnsMaker {
 
   has 'select_columns' => (
     is      => 'ro',
-    isa     => 'ArrayRef[Aniki::Schema::Table::Field]',
+    isa     => 'ArrayRef[Str]',
     lazy    => 1,
     builder => '_build_select_columns',
   );
 
-  has 'output_relate_fields_for_sql' => (
+  has 'join_condition' => (
     is      => 'ro',
-    isa     => 'Str',
+    isa     => 'HashRef[Str]',
     lazy    => 1,
-    builder => '_build_output_relate_fields_for_sql',
+    builder => '_build_join_condition',
   );
 
   has 'output_for_sql' => (
@@ -50,6 +50,13 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage::SelectColumnsMaker {
     isa     => 'Str',
     lazy    => 1,
     builder => '_build_output_for_sql',
+  );
+
+  has 'output_join_condition_for_sql' => (
+    is      => 'ro',
+    isa     => 'Str',
+    lazy    => 1,
+    builder => '_build_output_join_condition_for_sql',
   );
 
   sub _build_table;
@@ -73,10 +80,10 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage::SelectColumnsMaker {
     my %fields_name = map { $_->name => $_ } ( @orig_lang_table_fields, @table_fields );
     # 不必要なデータがあれば $self->not_need_columns にカラム名をセットして削除できる
     delete @fields_name{$self->not_need_columns->@*};
-    [ sort { $a->name cmp $b->name } values %fields_name ];
+    [ map { $_->table->name . '.' . $_->name } sort { $a->name cmp $b->name } values %fields_name ];
   }
 
-  sub _build_output_relate_fields_for_sql($self) {
+  sub _build_join_condition($self) {
     my $func = sub ($table) {
       option( $table->primary_key )->match(
         Some => sub ($pk) { ($pk->fields)[0] },
@@ -85,11 +92,16 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage::SelectColumnsMaker {
     };
     my $table_pk = $func->($self->table);
     my $olt_pk   = $func->($self->orig_lang_table);
-    join ' = ', map { $_->table->name . '.' . $_->name } ($olt_pk, $table_pk);
+    +{ map { $_->table->name . '.' . $_->name } ($olt_pk, $table_pk) };
   }
 
   sub _build_output_for_sql($self) {
-    join ", ", map { $_->table->name . '.' . $_->name } $self->select_columns->@*;
+    join ", ", $self->select_columns->@*;
+  }
+
+  sub _build_output_join_condition_for_sql($self) {
+    my @conditions = $self->join_condition->%*;
+    join ' = ', @conditions;
   }
 
   __PACKAGE__->meta->make_immutable;

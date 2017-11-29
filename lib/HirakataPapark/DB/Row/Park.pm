@@ -4,26 +4,17 @@ package HirakataPapark::DB::Row::Park {
   use HirakataPapark;
   extends 'HirakataPapark::DB::Row';
 
-  with 'HirakataPapark::Role::Coord';
+  with 'HirakataPapark::DB::Row::Role::Park';
 
-  sub x {
+  sub size {
     my $self = shift;
-    $self->get('x');
-  }
-
-  sub y {
-    my $self = shift;
-    $self->get('y');
-  }
-
-  sub to_json_for_marker {
-    my $self = shift;
-    qq!{ "id": @{[ $self->id ]}, "name": "@{[ $self->name ]}", "x": @{[ $self->x ]}, "y": @{[ $self->y ]} }!;
-  }
-
-  sub to_english_json_for_marker {
-    my $self = shift;
-    qq!{ "id": @{[ $self->id ]}, "name": "@{[ $self->english_name ]}", "x": @{[ $self->x ]}, "y": @{[ $self->y ]} }!;
+    if ($self->area >= $self->WIDE) {
+      '大';
+    } elsif ($self->area >= $self->MIDDLE) {
+      '中';
+    } else {
+      '小';
+    }
   }
 
   __PACKAGE__->meta->make_immutable;

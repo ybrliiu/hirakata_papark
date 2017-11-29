@@ -6,10 +6,10 @@ use Data::Dumper;
 use Try::Tiny;
 use Text::CSV_XS;
 use List::Util qw( sum );
-use HirakataPapark::Model::Parks::Parks;
-use HirakataPapark::Model::Parks::Parks::Equipments;
-use HirakataPapark::Model::Parks::Parks::Plants;
-use HirakataPapark::Model::Parks::Parks::SurroundingFacilities;
+use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
+use HirakataPapark::Model::MultilingualDelegator::Parks::Equipments;
+use HirakataPapark::Model::MultilingualDelegator::Parks::Plants;
+use HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities;
 
 my @FACILITIES     = qw( 有料駐車場 無料駐車場 );
 my @PLANTS         = qw( ソメイヨシノ オオシマザクラ カンヒザクラ シダレザクラ カワヅザクラ ヤマザクラ );
@@ -92,13 +92,21 @@ sub get_csv_data {
 my $park_data_list_orig = get_csv_data('./data/manually_fix_add_english_park_data.csv');
 shift @$park_data_list_orig;
 
-my @PARK_FIELDS = qw( id name address y x area is_nice_scenery is_evacuation_area english_name english_address );
+my @PARK_FIELDS = qw( id name address y x area is_nice_scenery is_evacuation_area );
 my @parks = map {
   my $park = $_;
   my %new_park;
   @new_park{@PARK_FIELDS} = map { $park->{$_} } @PARK_FIELDS;
-  $new_park{english_name}    = join ' ', map { ucfirst $_ } split / /, $new_park{english_name};
-  $new_park{english_address} = join ', ', map { ucfirst $_ } split /, /, $new_park{english_address};
+  \%new_park;
+} @$park_data_list_orig;
+
+my @EPARK_FIELDS = qw( id name address );
+my @eparks = map {
+  my $park = $_;
+  my %new_park;
+  @new_park{@EPARK_FIELDS} = map { $park->{$_} } @EPARK_FIELDS;
+  $new_park{name}    = join ' ', map { ucfirst $_ } split / /, $park->{english_name};
+  $new_park{address} = join ', ', map { ucfirst $_ } split /, /, $park->{english_address};
   \%new_park;
 } @$park_data_list_orig;
 
@@ -121,47 +129,63 @@ my @parks_equipment = map {
   \%new_park;
 } @$park_data_list_orig;
 
-my $model = HirakataPapark::Model::Parks::Parks->new;
-my $txn = $model->txn_scope;
-$model->add_rows(\@parks);
+my $model = HirakataPapark::Model::MultilingualDelegator::Parks::Parks->new;
+my $txn = $model->model('ja')->txn_scope;
+$model->model('ja')->add_rows(\@parks);
+$model->model('en')->add_rows(\@eparks);
 
-my $equipments_model = HirakataPapark::Model::Parks::Parks::Equipments->new;
-my $facilities_model = HirakataPapark::Model::Parks::Parks::SurroundingFacilities->new;
-my $plants_model     = HirakataPapark::Model::Parks::Parks::Plants->new;
+my $equipments_model = HirakataPapark::Model::MultilingualDelegator::Parks::Equipments->new;
+my $facilities_model = HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities->new;
+my $plants_model     = HirakataPapark::Model::MultilingualDelegator::Parks::Plants->new;
 for my $info (@parks_equipment) {
   my $park_id = $info->{id};
   my @equipments = map { $info->{$_} ? $_ : () } grep { $_ ne 'id' } keys %$info;
   say "id => $park_id";
   for my $equipment_name (@equipments) {
     if ( grep { $equipment_name eq $_ } @FACILITIES ) {
-      $facilities_model->add_row({
-        park_id      => $park_id,
-        name         => $equipment_name,
-        english_name => $english_dict->{$equipment_name},
+      $facilities_model->model('ja')->add_row({
+        park_id => $park_id,
+        name    => $equipment_name,
+      });
+      my $fc = $facilities_model->model('ja')->get_row_by_park_id_and_name($park_id, $equipment_name)->get;
+      $facilities_model->model('en')->add_row({
+        id      => $fc->id,
+        park_id => $park_id,
+        name    => $english_dict->{$equipment_name},
       });
     }
     elsif ( grep { $equipment_name eq $_ } @PLANTS ) {
-      $plants_model->add_row({
-        park_id          => $park_id,
-        name             => $equipment_name,
-        english_name     => $english_dict->{$equipment_name},
-        category         => '桜',
-        english_category => $english_dict->{'桜'},
-        num              => $info->{$equipment_name},
+      $plants_model->model('ja')->add_row({
+        park_id  => $park_id,
+        name     => $equipment_name,
+        category => '桜',
+        num      => $info->{$equipment_name},
+      });
+      my $plants = $plants_model->model('ja')->get_row_by_park_id_and_name($park_id, $equipment_name)->get;
+      $plants_model->model('en')->add_row({
+        id       => $plants->id,
+        park_id  => $park_id,
+        name     => $english_dict->{$equipment_name},
+        category => $english_dict->{'桜'},
       });
     }
     elsif ( grep { $equipment_name eq $_ } @EQUIPMENTS ) {
-      $equipments_model->add_row({
-        park_id      => $park_id,
-        name         => $equipment_name,
-        english_name => $english_dict->{$equipment_name},
-        num          => $info->{$equipment_name},
+      $equipments_model->model('ja')->add_row({
+        park_id => $park_id,
+        name    => $equipment_name,
+        num     => $info->{$equipment_name},
+      });
+      my $e = $equipments_model->model('ja')->get_row_by_park_id_and_name($park_id, $equipment_name)->get;
+      $equipments_model->model('en')->add_row({
+        id      => $e->id,
+        park_id => $park_id,
+        name    => $english_dict->{$equipment_name},
       });
     }
   }
   my @blossoms = split /,/, $info->{'桜_その他_品種'};
   for my $blossom (@blossoms) {
-    my $param = {
+    my $param = +{
       park_id  => $park_id,
       category => '桜',
       name     => ($blossom eq '淡墨桜' ? 'エドヒガン' : $blossom),
@@ -177,11 +201,17 @@ for my $info (@parks_equipment) {
         $comment;
       },
     };
-    $param->{english_name}     = $english_dict->{$param->{name}} // die $param->{name};
-    $param->{english_category} = $english_dict->{$param->{category}};
-    $param->{english_comment}  = $param->{comment} ? $english_dict->{$param->{comment}} : '';
-    die $param->{comment} unless defined $param->{english_comment};
-    $plants_model->add_row($param);
+    $plants_model->model('ja')->add_row($param);
+    my $plants = $plants_model->model('ja')->get_row_by_park_id_and_name($park_id, $param->{name})->get;
+    my $eparam = {
+      id       => $plants->id,
+      park_id  => $park_id,
+      name     => ( $english_dict->{ $param->{name} } // die $param->{name} ),
+      category => $english_dict->{ $param->{category} },
+      comment  => $param->{comment} ? $english_dict->{ $param->{comment} } : '',
+    };
+    die $param->{comment} unless defined $eparam->{comment};
+    $plants_model->model('en')->add_row($eparam);
   }
 }
 

@@ -1,4 +1,4 @@
-package HirakataPapark::Model::Parks::Parks::Tags {
+package HirakataPapark::Model::Parks::Tags {
 
   use Mouse;
   use HirakataPapark;
@@ -8,7 +8,10 @@ package HirakataPapark::Model::Parks::Parks::Tags {
 
   use constant TABLE => 'park_tag';
 
-  with 'HirakataPapark::Model::Role::DB::RelatedToPark';
+  with qw(
+    HirakataPapark::Model::Role::DB
+    HirakataPapark::Model::Role::DB::RelatedToPark
+  );
 
   sub add_row {
     args my $self, my $park_id => 'Int', my $name => 'Str';

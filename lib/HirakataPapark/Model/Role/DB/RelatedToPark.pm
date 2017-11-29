@@ -4,26 +4,40 @@ package HirakataPapark::Model::Role::DB::RelatedToPark {
   use HirakataPapark;
   use SQL::Maker::SelectSet;
 
-  with 'HirakataPapark::Model::Role::DB';
+  # constants
+  requires qw( TABLE );
 
-  requires qw( add_row );
+  # attributes
+  requires qw( db );
+
+  # methods
+  requires qw( add_row select );
+
+  sub get_row_by_park_id_and_name($self, $park_id, $name) {
+    $self->select({
+      $self->TABLE . '.park_id' => $park_id,
+      $self->TABLE . '.name'    => $name,
+    })->first_with_option;
+  }
 
   sub get_rows_by_park_id($self, $park_id) {
-    $self->result_class->new([ $self->select({park_id => $park_id})->all ]);
+    $self->result_class->new([ $self->select({ $self->TABLE . '.park_id' => $park_id })->all ]);
   }
 
   sub get_rows_by_name($self, $name) {
-    $self->result_class->new([ $self->select({ name => $name })->all ]);
+    $self->result_class->new([ $self->select({ $self->TABLE . '.name' => $name })->all ]);
   }
 
   sub get_rows_by_names($self, $names) {
     my @ary = map { ('=', $_) } @$names;
-    $self->result_class->new([ $self->select({ name => \@ary })->all ]);
+    $self->result_class->new([ $self->select({ $self->TABLE . '.name' => \@ary })->all ]);
   }
+
+  sub PREFETCH_TABLE_NAME { 'park' }
 
   sub get_rows_by_names_with_prefetch($self, $names) {
     my @ary = map { ('=', $_) } @$names;
-    $self->result_class->new([ $self->select( { name => \@ary }, { prefetch => ['park'] } )->all ]);
+    $self->result_class->new([ $self->select( { $self->TABLE . '.name' => \@ary }, { prefetch => [$self->PREFETCH_TABLE_NAME] } )->all ]);
   }
 
   # and (?)
