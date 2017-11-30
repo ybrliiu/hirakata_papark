@@ -142,8 +142,8 @@ package HirakataPapark::DB::Schema {
     string 'id' => (unique);
     string 'user_name' => (unique); # SQL::Translator が修正されたら 'name' に変更
     string 'password';
-    string 'twitter_id' => (default => '');
-    string 'facebook_id' => (default => '');
+    string 'twitter_id' => (unique, default => '');
+    string 'facebook_id' => (unique, default => '');
 
     string 'address' => (default => '');
     string 'profile' => (default => '');

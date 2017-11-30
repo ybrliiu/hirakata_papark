@@ -24,8 +24,14 @@ package HirakataPapark 0.01 {
     if ($option eq 'test') {
       unshift @INC, './t/lib'; # テストの時パス追加
       my $pkg = caller;
-      my @load = qw( Test::More Test::Exception Test::Name::FromLine );
+      my @load = qw(
+        Test::More
+        Test::Exception
+        Test2::Plugin::UTF8
+        Test2::Plugin::SourceDiag
+      );
       autoload_remote($pkg, $_) for @load;
+      autoload_remote($pkg, 'Test2::Plugin::Name::FromLine', is_guess_test_line => 1);
     }
 
     $class->import_pragma;
