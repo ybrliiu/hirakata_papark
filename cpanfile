@@ -15,6 +15,10 @@ requires 'Mojolicious::Plugin::ProxyPassReverse::SubDir';
 on 'test' => sub {
   requires 'Path::Tiny';
   requires 'Bread::Board';
+  requires 'Test::More';
+  requires 'Test::Exception';
+  requires 'Test2::Plugin::UTF8';
+  requires 'Test2::Plugin::SourceDiag';
 };
 
 on 'develop' => sub {

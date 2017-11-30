@@ -25,7 +25,10 @@ package HirakataPapark::Validator::MessageDataFactory {
         choice        => '[_1]に想定外の値が入力されています。',
         already_exist => 'その[_1]は既に使用されています。',
       },
-      message => {},
+      message => {
+        'id.regexp'       => q{[_1]は英数字及び'_', '-'からなる文字列を入力して下さい。},
+        'password.regexp' => q{[_1]は英字を1文字以上, 数字を1文字以上含むように入力して下さい。},
+      },
     });
   }
 
