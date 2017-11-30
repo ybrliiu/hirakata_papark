@@ -1,4 +1,5 @@
 use HirakataPapark 'test';
+use HirakataPapark::Validator::DefaultMessageData;
 
 package TestValidator {
 
@@ -23,12 +24,15 @@ package TestValidator {
 
 }
 
+my $lang_data = HirakataPapark::Validator::DefaultMessageData->instance->message_data('ja');
+
 subtest error_case => sub {
   my ($v, $e);
   lives_ok {
     $v = TestValidator->new(
-      id   => 'hogerahogera',
-      name => 'ほげらほげら',
+      id           => 'hogerahogera',
+      name         => 'ほげらほげら',
+      message_data => $lang_data,
     );
   };
   lives_ok { $e = $v->validate };
@@ -41,8 +45,9 @@ subtest success_case => sub {
   my ($v, $e);
   lives_ok {
     $v = TestValidator->new(
-      id   => 'Karin',
-      name => 'かりん',
+      id           => 'Karin',
+      name         => 'かりん',
+      message_data => $lang_data,
     );
   };
   lives_ok { $e = $v->validate };

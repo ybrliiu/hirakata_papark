@@ -27,7 +27,7 @@ package HirakataPapark::Service::User::Regist::Validator {
 
   has 'users' => (
     is       => 'ro',
-    isa      => 'HirakataPapark::Model::Users',
+    isa      => 'HirakataPapark::Model::Users::Users',
     required => 1,
   );
 

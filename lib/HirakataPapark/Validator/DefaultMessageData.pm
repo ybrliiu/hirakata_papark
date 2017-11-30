@@ -1,10 +1,10 @@
-package HirakataPapark::Validator::MessageDataFactory {
+package HirakataPapark::Validator::DefaultMessageData {
 
   use Mouse;
   use HirakataPapark;
   use HirakataPapark::Validator::MessageData;
 
-  with 'HirakataPapark::Role::Singleton';
+  with 'HirakataPapark::Validator::MessageDataDelegator';
 
   sub create_japanese_data($self) {
     state $data = HirakataPapark::Validator::MessageData->new({

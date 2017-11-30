@@ -3,9 +3,6 @@ package HirakataPapark::Service::Role::Validator {
   use Mouse::Role;
   use HirakataPapark;
   use HirakataPapark::Validator;
-  use HirakataPapark::Validator::MessageDataFactory;
-
-  my $message_data_factory = HirakataPapark::Validator::MessageDataFactory->instance;
 
   # methods
   requires qw( validate );

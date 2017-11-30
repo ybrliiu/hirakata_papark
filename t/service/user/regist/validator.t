@@ -1,12 +1,13 @@
 use HirakataPapark 'test';
-use HirakataPapark::Service::User::Regist::ValidatorMessageDataFactory;
+use Test::HirakataPapark::Container;
+use HirakataPapark::Service::User::Regist::MessageData;
 use HirakataPapark::Service::User::Regist::Validator;
 
 my $c = Test::HirakataPapark::Container->new;
 my $db = $c->get_sub_container('DB')->get_service('db')->get;
 my $users = $c->get_sub_container('Model')->get_sub_container('Users')->get_service('users')->get;
 my $message_data =
-  HirakataPapark::Service::User::Regist::ValidatorMessageDataFactory->instance->message_data('ja');
+  HirakataPapark::Service::User::Regist::MessageData->instance->message_data('ja');
 
 {
   my $validator;

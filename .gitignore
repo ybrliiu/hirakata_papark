@@ -1,4 +1,8 @@
 etc/config/db.conf
 etc/config/hypnotoad.conf
+etc/config/plugin.conf
 assets/assetpack.db
+assets/cache/*
+log/*
+script/hypnotoad.pid
 .perl-version
