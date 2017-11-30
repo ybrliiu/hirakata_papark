@@ -1,3 +1,4 @@
 etc/config/db.conf
+etc/config/hypnotoad.conf
 assets/assetpack.db
 .perl-version
