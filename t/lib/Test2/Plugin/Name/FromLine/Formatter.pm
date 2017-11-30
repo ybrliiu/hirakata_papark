@@ -26,9 +26,8 @@ sub new {
   $self->{file_name} = $args->{file_name} // die "${class} required attribute file_name.";
   $self->{line_num}  = $args->{line_num}  // die "${class} required attribute line_num.";
   $self->{file_path} = $args->{file_path} // $self->work_dir . '/' . $self->file_name;
-  $self->{file_data} = $args->{file_data}
-    // ( $File_cache{$self->file_name} //= [ split /\n/, path($self->file_path)->slurp ] )
-    // die "${class} cannot get file data.";
+  $self->{file_data} = $args->{file_data} //
+    ( $File_cache{$self->file_name} //= [ split /\n/, path($self->file_path)->slurp ] );
   $self;
 }
 

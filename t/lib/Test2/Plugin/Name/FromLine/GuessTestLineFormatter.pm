@@ -46,7 +46,7 @@ sub new {
   my $class = shift;
   my $self = $class->SUPER::new(@_);
   my $args = ref $_[0] eq 'HASH' ? $_[0] : +{@_};
-  $self->{test_keywords} = [ @{ $args->{test_keywords} // [] }, @{ $self->TEST_KEYWORDS } ];
+  $self->{test_keywords} = [ @{ $args->{test_keywords} // [] }, @{ TEST_KEYWORDS() } ];
   $self->{orig_line_num} = $self->line_num;
   $self->{line}          = $self->guess_test_line;
   $self;
