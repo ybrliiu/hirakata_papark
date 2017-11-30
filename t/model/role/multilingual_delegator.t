@@ -1,4 +1,5 @@
 use HirakataPapark 'test';
+use Test::HirakataPapark::Container;
 
 package Parks {
 
@@ -27,7 +28,9 @@ package Parks {
 
 }
 
-ok my $delegetor = Parks->new;
+my $c  = Test::HirakataPapark::Container->new;
+my $db = $c->get_sub_container('DB')->get_service('db')->get;
+ok my $delegetor = Parks->new(db => $db);
 ok my $jmodel = $delegetor->model('ja');
 ok my $emodel = $delegetor->model('en');
 dies_ok { my $model = $delegetor->model('zn') };
