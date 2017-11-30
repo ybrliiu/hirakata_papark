@@ -6,6 +6,8 @@ package HirakataPapark 0.01 {
   use feature qw( :5.24 signatures );
   no warnings 'experimental::signatures';
 
+  use constant LANG => [qw/ ja en /];
+
   use Data::Dumper;
   use Module::Load 'autoload_remote';
   use Mouse::Util::TypeConstraints qw( enum );
@@ -45,7 +47,7 @@ package HirakataPapark 0.01 {
   }
 
   # 独自型定義
-  enum 'HirakataPapark::lang' => [qw/ ja en /];
+  enum 'HirakataPapark::lang' => LANG;
   
 }
 

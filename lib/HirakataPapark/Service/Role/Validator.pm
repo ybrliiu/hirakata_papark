@@ -11,10 +11,9 @@ package HirakataPapark::Service::Role::Validator {
   requires qw( validate );
 
   has 'message_data' => (
-    is      => 'ro',
-    isa     => 'HirakataPapark::Validator::MessageData',
-    lazy    => 1,
-    builder => '_build_message_data',
+    is       => 'ro',
+    isa      => 'HirakataPapark::Validator::MessageData',
+    required => 1,
   );
 
   has 'validator' => (
@@ -23,10 +22,6 @@ package HirakataPapark::Service::Role::Validator {
     lazy     => 1,
     builder  => '_build_validator',
   );
-
-  sub _build_message_data($self) {
-    $message_data_factory->create_japanese_data;
-  }
 
   sub check_params($self) {
     my @attributes = $self->get_check_param_attributes;

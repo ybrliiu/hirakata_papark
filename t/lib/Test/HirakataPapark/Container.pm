@@ -20,6 +20,19 @@ package Test::HirakataPapark::Container {
 
       container 'Model' => as {
 
+        container 'Users' => as {
+
+          service 'users' => (
+            block => sub ($s) {
+              require HirakataPapark::Model::Users::Users;
+              HirakataPapark::Model::Users::Users->new(db => $s->param('db'));
+            },
+            lifecycle    => 'Singleton',
+            dependencies => {db => '../../DB/db'},
+          );
+          
+        };
+
         container 'Parks' => as {
 
           service 'parks' => (

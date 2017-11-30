@@ -25,6 +25,12 @@ package HirakataPapark::Service::User::Regist::Validator {
   has 'twitter_id'  => ( is => 'ro', isa => 'Str', metaclass => 'CheckParam', default => '' );
   has 'facebook_id' => ( is => 'ro', isa => 'Str', metaclass => 'CheckParam', default => '' );
 
+  has 'users' => (
+    is       => 'ro',
+    isa      => 'HirakataPapark::Model::Users',
+    required => 1,
+  );
+
   with 'HirakataPapark::Service::Role::Validator';
 
   sub validate($self) {
@@ -38,6 +44,15 @@ package HirakataPapark::Service::User::Regist::Validator {
       twitter_id  => [[LENGTH => (0, MAX_PROFILE_LEN)]],
       facebook_id => [[LENGTH => (0, MAX_PROFILE_LEN)]],
     );
+
+    $self->users->get_row_by_id($self->id)->foreach(sub ($user) {
+      $v->set_error(id => 'already_exists');
+    });
+
+    $self->users->get_row_by_name($self->name)->foreach(sub ($user) {
+      $v->set_error(name => 'already_exists');
+    });
+
     $v->has_error ? left $v : right $v;
   }
 

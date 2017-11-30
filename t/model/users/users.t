@@ -1,10 +1,10 @@
 use HirakataPapark 'test';
 use Test::HirakataPapark::Container;
-use HirakataPapark::Model::Users;
+use HirakataPapark::Model::Users::Users;
 
 my $c     = Test::HirakataPapark::Container->new;
 my $db    = $c->get_sub_container('DB')->get_service('db')->get;
-my $model = HirakataPapark::Model::Users->new(db => $db);
+my $model = HirakataPapark::Model::Users::Users->new(db => $db);
 
 my $param = {
   id       => 'test_user',

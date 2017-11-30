@@ -1,4 +1,4 @@
-package HirakataPapark::Model::Users {
+package HirakataPapark::Model::Users::Users {
 
   use Mouse;
   use HirakataPapark;
