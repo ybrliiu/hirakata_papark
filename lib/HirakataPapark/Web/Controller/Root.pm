@@ -2,17 +2,18 @@ package HirakataPapark::Web::Controller::Root {
 
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
-
   use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
 
-  has 'parks' => sub { HirakataPapark::Model::MultilingualDelegator::Parks::Parks->new };
+  has 'parks' => sub ($self) {
+    HirakataPapark::Model::MultilingualDelegator::Parks::Parks->new->model( $self->lang );
+  };
 
   sub top($self) {
     $self->redirect_to('/ja/');
   }
 
   sub root($self) {
-    my $parks = $self->parks->model($self->lang)->get_rows_all;
+    my $parks = $self->parks->get_rows_all;
     my $parks_json = $parks->to_json_for_marker;
     $self->stash(parks_json => $parks_json);
     $self->render_to_multiple_lang;

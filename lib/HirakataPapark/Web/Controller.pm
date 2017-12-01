@@ -2,13 +2,11 @@ package HirakataPapark::Web::Controller {
 
   use Mojo::Base 'Mojolicious::Controller';
   use HirakataPapark;
-
   use Mojo::Util;
 
   use constant NOT_FOUND => 404;
 
-  has 'lang' => sub {
-    my $self = shift;
+  has 'lang' => sub ($self) {
     my $lang = $self->param('lang');
     exists HirakataPapark->LANG_TABLE->{$lang} ? $lang : HirakataPapark->DEFAULT_LANG;
   };

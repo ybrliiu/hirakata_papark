@@ -12,24 +12,35 @@ package HirakataPapark::Web::Controller::Park {
 
   use constant DEFAULT_COMMENT_NUM => 5;
 
-  has 'park_id' => sub {
-    my $self = shift;
-    $self->param('park_id');
+  has 'park_id' => sub ($self) { $self->param('park_id') };
+
+  has 'parks' => sub ($self) {
+    HirakataPapark::Model::MultilingualDelegator::Parks::Parks->new->model( $self->lang );
   };
-  has 'parks'           => sub { HirakataPapark::Model::MultilingualDelegator::Parks::Parks->new };
-  has 'park_plants'     => sub { HirakataPapark::Model::MultilingualDelegator::Parks::Plants->new };
-  has 'park_comments'   => sub { HirakataPapark::Model::Parks::Comments->new };
-  has 'park_equipments' => sub { HirakataPapark::Model::MultilingualDelegator::Parks::Equipments->new };
-  has 'park_facilities' => sub { HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities->new };
+
+  has 'park_plants' => sub ($self) {
+    HirakataPapark::Model::MultilingualDelegator::Parks::Plants->new->model( $self->lang );
+  };
+
+  has 'park_equipments' => sub ($self) {
+    HirakataPapark::Model::MultilingualDelegator::Parks::Equipments->new->model( $self->lang );
+  };
+
+  has 'park_facilities' => sub ($self) {
+    HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities->new
+      ->model( $self->lang );
+  );
+
+  has 'park_comments' => sub ($self) { HirakataPapark::Model::Parks::Comments->new };
 
   sub show_park_by_id($self) {
-    $self->parks->model($self->lang)->get_row_by_id($self->park_id)->match(
+    $self->parks->get_row_by_id($self->park_id)->match(
       Some => sub ($row) {
         my $park = HirakataPapark::Service::Park::Park->new({
           row             => $row,
-          park_plants     => $self->park_plants->model($self->lang),
-          park_equipments => $self->park_equipments->model($self->lang),
-          park_facilities => $self->park_facilities->model($self->lang),
+          park_plants     => $self->park_plants,
+          park_equipments => $self->park_equipments,
+          park_facilities => $self->park_facilities,
         });
         $self->stash(park => $park);
         $self->render_to_multiple_lang();

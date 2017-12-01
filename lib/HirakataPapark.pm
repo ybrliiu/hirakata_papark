@@ -36,7 +36,6 @@ package HirakataPapark 0.01 {
         Test::More
         Test::Exception
         Test2::Plugin::UTF8
-        Test2::Plugin::SourceDiag
       );
       autoload_remote($pkg, $_) for @load;
       autoload_remote($pkg, 'Test2::Plugin::Name::FromLine', is_guess_test_line => 1);

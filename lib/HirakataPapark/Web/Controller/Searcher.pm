@@ -9,10 +9,19 @@ package HirakataPapark::Web::Controller::Searcher {
   use HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities;
   use HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories;
 
-  has 'park_tags'       => sub { HirakataPapark::Model::Parks::Tags->new };
-  has 'park_plants'     => sub { HirakataPapark::Model::MultilingualDelegator::Parks::Plants->new };
-  has 'park_equipments' => sub { HirakataPapark::Model::MultilingualDelegator::Parks::Equipments->new };
-  has 'park_facilities' => sub { HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities->new };
+  has 'park_tags' => sub { HirakataPapark::Model::Parks::Tags->new };
+
+  has 'park_plants' => sub ($self) {
+    HirakataPapark::Model::MultilingualDelegator::Parks::Plants->new->model( $self->lang );
+  };
+
+  has 'park_equipments' => sub ($self) {
+    HirakataPapark::Model::MultilingualDelegator::Parks::Equipments->new->model( $self->lang );
+  };
+
+  has 'park_facilities' => sub ($self) {
+    HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities->new->model( $self->lang );
+  };
 
   sub root($self) {
     $self->render_to_multiple_lang;
@@ -36,7 +45,7 @@ package HirakataPapark::Web::Controller::Searcher {
 
   sub plants($self) {
     my $plants_categories = do {
-      my $rows = $self->park_plants->model($self->lang)->get_all_distinct_rows([qw/ name category /]);
+      my $rows = $self->park_plants->get_all_distinct_rows([qw/ name category /]);
       my $s = HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories->new(rows => $rows);
       $s->exec;
     };
@@ -45,13 +54,13 @@ package HirakataPapark::Web::Controller::Searcher {
   }
 
   sub equipment($self) {
-    my $equipment_list = $self->park_equipments->model($self->lang)->get_equipment_list;
+    my $equipment_list = $self->park_equipments->get_equipment_list;
     $self->stash(equipment_list => $equipment_list);
     $self->render_to_multiple_lang();
   }
 
   sub surrounding_facility($self) {
-    my $surrounding_facility_list = $self->park_facilities->model($self->lang)->get_surrounding_facility_list;
+    my $surrounding_facility_list = $self->park_facilities->get_surrounding_facility_list;
     $self->stash(surrounding_facility_list => $surrounding_facility_list);
     $self->render_to_multiple_lang();
   }

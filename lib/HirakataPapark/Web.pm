@@ -72,7 +72,7 @@ package HirakataPapark::Web {
 
     {
       my $user = $root->any('/user')->to(controller => 'User');
-      $user->
+      $user;
     }
 
   }
