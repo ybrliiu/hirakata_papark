@@ -1,6 +1,8 @@
 etc/config/db.conf
 etc/config/hypnotoad.conf
 etc/config/plugin.conf
+etc/sessions/*
+!etc/sessions/.gitkeep
 assets/assetpack.db
 assets/cache/*
 log/*

@@ -2,17 +2,26 @@ package HirakataPapark::Web {
 
   use Mojo::Base 'Mojolicious';
   use HirakataPapark;
+  use Plack::Session::Store::File;
+  use Plack::Session::State::Cookie;
 
-  sub startup {
-    my $self = shift;
-
-    # load plusings and configuration
+  sub load_and_set_up_plugins($self) {
     $self->plugin(Config => { file => "etc/config/$_.conf" }) for qw( site plugin hypnotoad );
     $self->plugin(AssetPack => { pipes => [qw/Css Sass/] });
     $self->asset->process('base.css' => 'scss/base.scss');
-    $self->plugin('Mojolicious::Plugin::ProxyPassReverse::SubDir') if $self->config->{plugin}{'ProxyPassReverse::SubDir'};
+    $self->plugin('ProxyPassReverse::SubDir') if $self->config->{plugin}{'ProxyPassReverse::SubDir'};
+    # Mojoliciousにはsession機能が無いため, Plack::Middlewareのを代用する
+    $self->plugin(PlackMiddleware => [
+      Session => {
+        state => Plack::Session::State::Cookie->new(session_key => 'hirakata_papark_sid'),
+        store => Plack::Session::Store::File->new(dir => './etc/sessions'),
+      },
+    ]);
+  }
 
+  sub regist_helpes($self) {
     # override $c->reply->not_found();
+    # 汚いやり方なので, いい方法を見つけられればそれに変える
     $self->helper('reply.not_found' => sub {
       my $c = shift;
       my $url = $c->req->url->path->to_string();
@@ -22,8 +31,10 @@ package HirakataPapark::Web {
       };
       Mojolicious::Plugin::DefaultHelpers::_development("not_found_${lang}", $c);
     });
-  
-    # routing
+  }
+
+  sub routing($self) {
+
     my $r = $self->routes;
     $r->namespaces(['HirakataPapark::Web::Controller']);
 
@@ -74,6 +85,14 @@ package HirakataPapark::Web {
       my $user = $root->any('/user')->to(controller => 'User');
       $user->get('/register')->to(action => 'register');
     }
+
+  }
+
+  sub startup($self) {
+    $self->load_and_set_up_plugins;
+    $self->regist_helpes;
+    $self->routing;
+  }
 
 }
 

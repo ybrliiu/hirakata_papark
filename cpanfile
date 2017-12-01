@@ -10,7 +10,9 @@ requires 'Mojolicious';
 requires 'HTML::Escape';
 requires 'FormValidator::Lite';
 requires 'Mojolicious::Plugin::AssetPack';
+requires 'Mojolicious::Plugin::PlackMiddleware';
 requires 'Mojolicious::Plugin::ProxyPassReverse::SubDir';
+requires 'Plack::Middleware::Session';
 
 on 'test' => sub {
   requires 'Path::Tiny';
