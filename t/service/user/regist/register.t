@@ -23,7 +23,6 @@ subtest 'success_case' => sub {
   );
   my $service = HirakataPapark::Service::User::Regist::Register->new(
     db        => $users->db,
-    users     => $users,
     validator => $validator,
   );
   my $result = $service->regist;
@@ -42,7 +41,6 @@ subtest 'error_case' => sub {
   );
   my $service = HirakataPapark::Service::User::Regist::Register->new(
     db        => $users->db,
-    users     => $users,
     validator => $validator,
   );
   my $result = $service->regist;

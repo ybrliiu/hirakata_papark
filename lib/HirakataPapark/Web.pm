@@ -83,7 +83,8 @@ package HirakataPapark::Web {
 
     {
       my $user = $root->any('/user')->to(controller => 'User');
-      $user->get('/register')->to(action => 'register');
+      $user->get( '/register')->to(action => 'register');
+      $user->post('/regist'  )->to(action => 'regist');
     }
 
   }

@@ -4,23 +4,24 @@ package HirakataPapark::Validator {
   use parent 'FormValidator::Lite';
 
   # $param をエラーにして message に $msg をセット
-  sub set_error_and_message {
-    my ($self, $param, $rule_name, $msg) = @_;
+  sub set_error_and_message($self, $param, $rule_name, $msg) {
     $self->set_error($param => $rule_name);
     $self->set_message("$param.$rule_name" => $msg);
   }
 
-  # エラー強調
-  # <input type="text" class="<%= $error->emphasis_error() %>">
-  # => <input type="text" class="field-with-error">
-  sub emphasis {
-    my ($self, $key) = @_;
-    $self->is_error($key) ? 'field-with-error' : '';
+  sub errors_and_messages($self) {
+    my $errors = {};
+    for my $tmp ($self->{_error_ary}->@*) {
+      my ($param, $rule_name) = @$_;
+      $errors->{$param} //= {};
+      $errors->{$param}{$rule_name} =
+        $self->get_error_message($param, $rule_name);
+    }
+    $errors;
   }
 
   # $self->{query} の中を無理やり覗く
-  sub param {
-    my ($self, $key) = @_;
+  sub param($self, $key) {
     my $query = $self->{query};
     my $values = $query->{$key};
 
