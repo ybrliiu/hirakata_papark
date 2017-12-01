@@ -17,14 +17,6 @@ package HirakataPapark::Service::User::Regist::Validator {
     MAX_PROFILE_LEN  => 400,
   };
 
-  has 'name'        => ( is => 'ro', isa => 'Str', metaclass => 'CheckParam', required => 1 );
-  has 'id'          => ( is => 'ro', isa => 'Str', metaclass => 'CheckParam', required => 1 );
-  has 'password'    => ( is => 'ro', isa => 'Str', metaclass => 'CheckParam', required => 1 );
-  has 'address'     => ( is => 'ro', isa => 'Str', metaclass => 'CheckParam', default => '' );
-  has 'profile'     => ( is => 'ro', isa => 'Str', metaclass => 'CheckParam', default => '' );
-  has 'twitter_id'  => ( is => 'ro', isa => 'Str', metaclass => 'CheckParam', default => '' );
-  has 'facebook_id' => ( is => 'ro', isa => 'Str', metaclass => 'CheckParam', default => '' );
-
   has 'users' => (
     is       => 'ro',
     isa      => 'HirakataPapark::Model::Users::Users',
@@ -45,11 +37,11 @@ package HirakataPapark::Service::User::Regist::Validator {
       facebook_id => [[LENGTH => (0, MAX_PROFILE_LEN)]],
     );
 
-    $self->users->get_row_by_id($self->id)->foreach(sub ($user) {
+    $self->users->get_row_by_id( $self->param('id')->get_or_else('') )->foreach(sub ($user) {
       $v->set_error(id => 'already_exist');
     });
 
-    $self->users->get_row_by_name($self->name)->foreach(sub ($user) {
+    $self->users->get_row_by_name( $self->param('name')->get_or_else('') )->foreach(sub ($user) {
       $v->set_error(name => 'already_exist');
     });
 

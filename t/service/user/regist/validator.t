@@ -1,5 +1,6 @@
 use HirakataPapark 'test';
 use Test::HirakataPapark::Container;
+use HirakataPapark::Validator::Params;
 use HirakataPapark::Service::User::Regist::MessageData;
 use HirakataPapark::Service::User::Regist::Validator;
 
@@ -10,12 +11,15 @@ my $message_data =
   HirakataPapark::Service::User::Regist::MessageData->instance->message_data('ja');
 
 subtest success => sub {
+  my $params = HirakataPapark::Validator::Params->new({
+    name     => 'りさ',
+    id       => 'risa_shinomiyaa',
+    password => '@R!as04+_+08',
+  });
   my $validator;
   lives_ok {
     $validator = HirakataPapark::Service::User::Regist::Validator->new(
-      name         => 'りさ',
-      id           => 'risa_shinomiyaa',
-      password     => '@R!as04+_+08',
+      params       => $params,
       users        => $users,
       message_data => $message_data,
     );
@@ -24,12 +28,15 @@ subtest success => sub {
 };
 
 subtest id_and_password_error => sub {
+  my $params = HirakataPapark::Validator::Params->new({
+    name     => 'りさ',
+    id       => 'risa_shinomiyaああ',
+    password => 'prprprprprprpr',
+  });
   my $validator;
   lives_ok {
     $validator = HirakataPapark::Service::User::Regist::Validator->new(
-      name         => 'りさ',
-      id           => 'risa_shinomiyaああ',
-      password     => 'prprprprprprpr',
+      params       => $params,
       users        => $users,
       message_data => $message_data,
     );
@@ -44,18 +51,17 @@ subtest id_and_password_error => sub {
 };
 
 subtest already_exist => sub {
-  $users->add_row({
+  my $params = HirakataPapark::Validator::Params->new({
     id       => 'another_id',
     name     => 'りさ',
-    password => '!"REWQW"E#F$#S',
+    password => '!"REWQW"E#F$2#S',
   });
+  $users->add_row($params->to_hash);
   my $validator;
   lives_ok {
     $validator = HirakataPapark::Service::User::Regist::Validator->new(
-      id           => 'another_id',
-      name         => 'りさ',
-      password     => '@R!as04+_+08',
       users        => $users,
+      params       => $params,
       message_data => $message_data,
     );
   };

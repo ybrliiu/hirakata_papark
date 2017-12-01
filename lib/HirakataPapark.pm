@@ -23,9 +23,10 @@ package HirakataPapark 0.01 {
     my ($class, $option) = @_;
     $option //= '';
 
+    my $pkg = caller;
+
     if ($option eq 'test') {
       unshift @INC, './t/lib'; # テストの時パス追加
-      my $pkg = caller;
       my @load = qw(
         Test::More
         Test::Exception
