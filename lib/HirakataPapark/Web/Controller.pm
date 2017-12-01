@@ -5,19 +5,12 @@ package HirakataPapark::Web::Controller {
 
   use Mojo::Util;
 
-  use constant {
-    NOT_FOUND    => 404,
-    DEFAULT_LANG => 'ja'
-  };
-
-  my %LANG_LIST = (
-    ja => 1,
-    en => 1,
-  );
+  use constant NOT_FOUND => 404;
 
   has 'lang' => sub {
     my $self = shift;
-    $LANG_LIST{ $self->param('lang') } ? $self->param('lang') : DEFAULT_LANG;
+    my $lang = $self->param('lang');
+    exists HirakataPapark->LANG_TABLE->{$lang} ? $lang : HirakataPapark->DEFAULT_LANG;
   };
 
   sub render_to_multiple_lang {

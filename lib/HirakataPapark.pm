@@ -6,11 +6,16 @@ package HirakataPapark 0.01 {
   use feature qw( :5.24 signatures );
   no warnings 'experimental::signatures';
 
-  use constant LANG => [qw/ ja en /];
+  use constant DEFAULT_LANG => 'ja';
+  use constant LANG         => [ DEFAULT_LANG, 'en' ];
+  use constant LANG_TABLE   => { map { $_ => 1 } LANG->@* };
 
   use Data::Dumper;
   use Module::Load 'autoload_remote';
   use Mouse::Util::TypeConstraints qw( enum );
+
+  # 独自型定義
+  enum 'HirakataPapark::lang' => LANG;
 
   # Data::Dumper utf8対応
   {
@@ -46,9 +51,6 @@ package HirakataPapark 0.01 {
     feature->import(qw/ :5.24 signatures /);
     warnings->unimport('experimental::signatures');
   }
-
-  # 独自型定義
-  enum 'HirakataPapark::lang' => LANG;
   
 }
 

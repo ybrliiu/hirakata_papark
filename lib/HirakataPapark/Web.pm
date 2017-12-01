@@ -6,6 +6,7 @@ package HirakataPapark::Web {
   sub startup {
     my $self = shift;
 
+    # load plusings and configuration
     $self->plugin(Config => { file => "etc/config/$_.conf" }) for qw( site plugin hypnotoad );
     $self->plugin(AssetPack => { pipes => [qw/Css Sass/] });
     $self->asset->process('base.css' => 'scss/base.scss');
@@ -15,10 +16,14 @@ package HirakataPapark::Web {
     $self->helper('reply.not_found' => sub {
       my $c = shift;
       my $url = $c->req->url->path->to_string();
-      my $lang = (split q!/!, $url)[1] eq 'en' ? 'en' : 'ja';
+      my $lang = do {
+        my $lang = (split q!/!, $url)[1];
+        exists HirakataPapark->LANG_TABLE->{$lang} ? $lang : HirakataPapark->DEFAULT_LANG;
+      };
       Mojolicious::Plugin::DefaultHelpers::_development("not_found_${lang}", $c);
     });
   
+    # routing
     my $r = $self->routes;
     $r->namespaces(['HirakataPapark::Web::Controller']);
 
@@ -63,6 +68,11 @@ package HirakataPapark::Web {
       $search->post('/has-equipments'            )->to(action => 'has_equipments');
       $search->post('/has-plants-categories'     )->to(action => 'has_plants_categories');
       $search->post('/has-surrounding-facilities')->to(action => 'has_surrounding_facilities');
+    }
+
+    {
+      my $user = $root->any('/user')->to(controller => 'User');
+      $user->
     }
 
   }
