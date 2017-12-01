@@ -29,7 +29,7 @@ package HirakataPapark::Web::Controller::Park {
   has 'park_facilities' => sub ($self) {
     HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities->new
       ->model( $self->lang );
-  );
+  };
 
   has 'park_comments' => sub ($self) { HirakataPapark::Model::Parks::Comments->new };
 

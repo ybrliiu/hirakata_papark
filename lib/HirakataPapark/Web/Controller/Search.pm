@@ -28,7 +28,7 @@ package HirakataPapark::Web::Controller::Search {
   has 'park_surrounding_facilities' => sub ($self) {
     HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities->new
       ->model( $self->lang );
-  );
+  };
 
   sub near_parks($self) {
     my $point = HirakataPapark::Class::Coord->new(

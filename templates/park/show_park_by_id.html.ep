@@ -53,7 +53,7 @@
     <div class="col l6 s12">
       <h3><%= $plants_title %></h3>
       <p><%= join ', ', $park->plants_categories->@* %></p>
-      <a class="waves-effect btn" href="/<%= $lang %>/park/plants/<%= $park->id %>">
+      <a class="waves-effect btn" href="<%= url_for "/$lang/park/plants/" . $park->id %>">
         <i class="material-icons right">arrow_forward</i><%= $details %>
       </a>
 
