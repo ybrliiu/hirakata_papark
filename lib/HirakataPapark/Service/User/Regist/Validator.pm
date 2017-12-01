@@ -46,11 +46,11 @@ package HirakataPapark::Service::User::Regist::Validator {
     );
 
     $self->users->get_row_by_id($self->id)->foreach(sub ($user) {
-      $v->set_error(id => 'already_exists');
+      $v->set_error(id => 'already_exist');
     });
 
     $self->users->get_row_by_name($self->name)->foreach(sub ($user) {
-      $v->set_error(name => 'already_exists');
+      $v->set_error(name => 'already_exist');
     });
 
     $v->has_error ? left $v : right $v;
