@@ -1,0 +1,29 @@
+{
+  "name": "hirakata_papark",
+  "version": "0.0.0",
+  "description": "## 予定",
+  "main": "hirakata_papark.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ybrliiu/hirakata_papark.git"
+  },
+  "author": "Raian, Kusuda",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ybrliiu/hirakata_papark/issues"
+  },
+  "homepage": "https://github.com/ybrliiu/hirakata_papark#readme",
+  "devDependencies": {
+    "browserify": "^14.5.0",
+    "leaflet": "^1.2.0",
+    "superagent": "^3.8.1",
+    "v-tooltip": "^2.0.0-rc.25",
+    "vue": "^2.5.9"
+  }
+}

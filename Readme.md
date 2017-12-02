@@ -58,8 +58,19 @@ daiku
 * 淀川河川公園とか枚方市管轄外の公園がデータにないみたい
 
 ## 環境構築について
-* carton install -> Perl の依存モジュールインストール
+
+### 前提
+* plenv, cpanm, carton のインストール(Perlモジュール関係)
+* ndenv, npm のインストール(JavaScript, CSSモジュール関係)
+* nginxなどサーバーのたちあげ、設定
+* postgresqlインストール&設定
+* install.sh でplenv, ndenvあたりインストールした後, あとはDaikufileかnpm scriptsで管理すると良さそう
+
+### その後
+* carton install --development
+* npm install
 * etc/config/db.conf にデータベースの設定を書く
-* author/excel_to_db.pl (公園データDB登録)
-* author/equipment_to_db.pl (公園施設データDB登録)
+* etc/config/plugin.conf にMojolicious pluginの設定を書く(デフォの設定作ってしまって良さそう)
+* anego migrate
+* author/park_csv_to_db.pl -> DBにデータ流し込む
 

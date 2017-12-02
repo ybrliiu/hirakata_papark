@@ -6,6 +6,7 @@ etc/sessions/*
 assets/assetpack.db
 assets/cache/*
 local/*
+node_modules/*
 log/*
 script/hypnotoad.pid
 .perl-version
