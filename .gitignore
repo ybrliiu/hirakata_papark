@@ -5,6 +5,7 @@ etc/sessions/*
 !etc/sessions/.gitkeep
 assets/assetpack.db
 assets/cache/*
+local/*
 log/*
 script/hypnotoad.pid
 .perl-version
