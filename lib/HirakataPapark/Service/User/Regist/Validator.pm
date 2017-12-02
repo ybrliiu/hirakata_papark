@@ -9,7 +9,7 @@ package HirakataPapark::Service::User::Regist::Validator {
   use constant {
     MIN_NAME_LEN     => 1,
     MAX_NAME_LEN     => 20,
-    MIN_ID_LEN       => 4,
+    MIN_ID_LEN       => 6,
     MAX_ID_LEN       => 20,
     MIN_PASSWORD_LEN => 10,
     MAX_PASSWORD_LEN => 40,
@@ -28,13 +28,19 @@ package HirakataPapark::Service::User::Regist::Validator {
   sub validate($self) {
     my $v = $self->validator;
     $v->check(
-      name        => ['NOT_NULL', [LENGTH => (MIN_NAME_LEN, MAX_NAME_LEN)]],
-      id          => ['NOT_NULL', [LENGTH => (MIN_ID_LEN, MAX_ID_LEN)], [REGEXP => qr/^(.[0-9a-zA-Z_-]*)$/]],
-      password    => ['NOT_NULL', [LENGTH => (MIN_ID_LEN, MAX_ID_LEN)], [REGEXP => qr/^(?=.*[0-9])(?=.*[a-zA-Z])/]],
-      address     => [[LENGTH => (0, MAX_ADDRESS_LEN)]],
-      profile     => [[LENGTH => (0, MAX_PROFILE_LEN)]],
-      twitter_id  => [[LENGTH => (0, MAX_PROFILE_LEN)]],
-      facebook_id => [[LENGTH => (0, MAX_PROFILE_LEN)]],
+      name => ['NOT_NULL', [LENGTH => (MIN_NAME_LEN, MAX_NAME_LEN)]],
+      id => [
+        'NOT_NULL',
+        [LENGTH => (MIN_ID_LEN, MAX_ID_LEN)],
+        [REGEXP => qr/^(.[0-9a-zA-Z_-]*)$/],
+      ],
+      password => [
+        'NOT_NULL',
+        [LENGTH => (MIN_ID_LEN, MAX_ID_LEN)],
+        [REGEXP => qr/^(?=.*[0-9])(.[!-~]*)$/],
+      ],
+      address => [[LENGTH => (0, MAX_ADDRESS_LEN)]],
+      profile => [[LENGTH => (0, MAX_PROFILE_LEN)]],
     );
 
     $self->users->get_row_by_id( $self->param('id')->get_or_else('') )->foreach(sub ($user) {

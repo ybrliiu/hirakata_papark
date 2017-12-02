@@ -20,12 +20,15 @@ package HirakataPapark::Service::User::Regist::Register {
       my $txn_scope = $self->txn_scope;
       my $result = try {
         $self->users->add_row($self->params->to_hash);
-        right $self->params;
+        right 1;
       } catch {
         $txn_scope->rollback;
         left $_;
       };
-      $result->map(sub { $txn_scope->commit });
+      $result->map(sub {
+        $txn_scope->commit;
+        $self->params;
+      });
     });
   }
 

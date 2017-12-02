@@ -47,7 +47,7 @@ subtest 'error_case' => sub {
   ok $result->is_left;
   $result->left->map(sub ($e) {
     is $e->get_error_messages->@*, 1;
-    is $e->get_error_messages->[0], 'パスワードは英字を1文字以上, 数字を1文字以上含むように入力して下さい。';
+    is $e->get_error_messages->[0], '使用できる文字は半角英数字、記号で、数字を必ず1文字以上含めて下さい。';
   });
 };
 

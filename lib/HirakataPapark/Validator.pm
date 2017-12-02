@@ -11,11 +11,10 @@ package HirakataPapark::Validator {
 
   sub errors_and_messages($self) {
     my $errors = {};
-    for my $tmp ($self->{_error_ary}->@*) {
-      my ($param, $rule_name) = @$_;
-      $errors->{$param} //= {};
-      $errors->{$param}{$rule_name} =
-        $self->get_error_message($param, $rule_name);
+    for my $err ($self->{_error_ary}->@*) {
+      my ($param, $rule_name) = @$err;
+      $errors->{$param} //= { name => $param, messages => [] };
+      push $errors->{$param}{messages}->@*, $self->get_error_message($param, $rule_name);
     }
     $errors;
   }

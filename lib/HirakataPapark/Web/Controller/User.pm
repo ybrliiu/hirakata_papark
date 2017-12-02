@@ -3,6 +3,7 @@ package HirakataPapark::Web::Controller::User {
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
 
+  use HirakataPapark::Exception;
   use HirakataPapark::Validator::Params;
   use HirakataPapark::Model::Users::Users;
   use HirakataPapark::Service::User::Regist::Validator;
@@ -20,16 +21,19 @@ package HirakataPapark::Web::Controller::User {
 
   sub register($self) {
     $self->stash({
-      validator    => 'HirakataPapark::Service::User::Regist::Validater',
+      validator    => 'HirakataPapark::Service::User::Regist::Validator',
       message_data => $self->message_data,
     });
     $self->render_to_multiple_lang;
   }
 
   sub regist($self) {
-    my $validator = HirakataPapark::Service::User::Regist::Validater->new({
+    my $validator = HirakataPapark::Service::User::Regist::Validator->new({
       params => HirakataPapark::Validator::Params->new({
-        map { $_ => $self->param($_) } qw( id name password address profile )
+        map {
+          my $param = $self->param($_);
+          defined $param ? ($_ => $param) : ();
+        } qw( id name password address profile )
       }),
       users        => $self->users,
       message_data => $self->message_data,
@@ -40,14 +44,14 @@ package HirakataPapark::Web::Controller::User {
     });
     my $result = $service->regist;
     my $json = $result->match(
-      Right => sub ($p) {+{
-        is_success => 1,
-        params     => $p->to_hash,
-      }},
-      Left => sub ($e) {+{
-        is_success => 0,
-        errors     => $e->errors_and_messages,
-      }},
+      Right => sub ($p) { +{ is_success => 1, params => $p->to_hash } },
+      Left => sub ($e) {
+        if ( $e->isa('HirakataPapark::Validator') ) {
+          +{ is_success => 0, errors => $e->errors_and_messages };
+        } else {
+          HirakataPapark::Exception->throw($e);
+        }
+      },
     );
     $self->render(json => $json);
   }

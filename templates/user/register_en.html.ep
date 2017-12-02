@@ -1,0 +1,17 @@
+<%= include 'user/register' => (
+  title => 'User Registration',
+  description => qq{
+    By registering users, you will be able to post pictures of parks, edit and add park information, and more.<br>
+    Let's register user and take advantage of $config->{site}{english_name}'s features!<br>
+  },
+  sns_title      => 'New Registration From SNS',
+  direct_title   => 'Register Directly To The Site',
+  twitter_btn    => 'New registration from Twitter',
+  facebook_btn   => 'New registration from Facebook',
+  password       => 'Password',
+  name           => 'Username',
+  registration   => 'Registration',
+  id_condition   => 'Please enter from ' . $validator->MIN_ID_LEN . ' to ' . $validator->MAX_ID_LEN . ' characters.',
+  pass_condition => 'Please enter from ' . $validator->MIN_PASSWORD_LEN . ' to ' . $validator->MAX_PASSWORD_LEN . ' characters.',
+  name_condition => 'Please enter from ' . $validator->MIN_NAME_LEN . ' to ' . $validator->MAX_NAME_LEN . ' characters.',
+); %>

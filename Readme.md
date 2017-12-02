@@ -2,6 +2,11 @@
 
 ## 予定
 
+### 依存モジュールの切り出し, 管理
+cpanfileとcpanfileからのインストールができるように
+javascriptの管理
+daiku
+
 ### ユーザー登録機能
 * ユーザー登録機能追加
   * ログインしているユーザーは以下のことが可能
@@ -33,6 +38,7 @@
 * キャッシュできるところはキャッシュしていく, 
   キャッシュが増えすぎてわかりにくくなると思ったらBread::Board or Object::Container使う
 * Contollerに$self->dbを追加
+* Contoller->param をoptionでらっぷするぞ...
 * Web.pm のrender_error上書きの書き直し
 
 ### テスト関係

@@ -20,8 +20,8 @@ package HirakataPapark::Service::User::Regist::MessageData {
     state $data = HirakataPapark::Validator::MessageData->new({
       $self->default_data->create_japanese_data->%*,
       message => {
-        'id.regexp'       => q{[_1]は英数字及び'_', '-'からなる文字列を入力して下さい。},
-        'password.regexp' => q{[_1]は英字を1文字以上, 数字を1文字以上含むように入力して下さい。},
+        'id.regexp'       => q{使用できる文字は半角英数字及び'_', '-'です。},
+        'password.regexp' => q{使用できる文字は半角英数字、記号で、数字を必ず1文字以上含めて下さい。},
       },
     });
   }
@@ -30,8 +30,8 @@ package HirakataPapark::Service::User::Regist::MessageData {
     state $data = HirakataPapark::Validator::MessageData->new({
       $self->default_data->create_english_data->%*,
       message => {
-        'id.regexp'       => q{Please enter a character string consisting of alphanumeric characters and '_', '-' for [_1]},
-        'password.regexp' => q{Please enter [_1] so that it contains at least one alphabetic character and least one letter.},
+        'id.regexp'       => q{You can use alphanumeric and '_', '-'.},
+        'password.regexp' => q{You can use alphanumeric and symbols and be sure to include one or more numbers.},
       },
     });
   }

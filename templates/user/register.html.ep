@@ -1,0 +1,123 @@
+% layout "default_${lang}";
+% push @$CSS_FILES, '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css';
+% push @$JS_FILES, ('js/popper.js', 'js/v-tooltip.js', 'js/superagent.js');
+
+
+<div class="container">
+
+  <h2><%= $title %></h2>
+
+  <div class="row">
+    <div class="col s12">
+      <%== $description %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col l6 s12">
+
+    <h3><%= $sns_title %></h3>
+    <div class="row">
+      <div class="col s12">
+        <a class="waves-effect waves-light btn-large indigo darken-2">
+          <i class="fa fa-facebook"></i>　<%= $facebook_btn %>
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <a class="waves-effect waves-light btn-large blue lighten-2">
+          <i class="fa fa-twitter"></i>　<%= $twitter_btn %>
+        </a>
+      </div>
+    </div>
+
+    </div>
+    <div class="col l6 s12" id="user-register">
+
+    <h3><%= $direct_title %></h3>
+    <div class="input-field col s12">
+      <input placeholder="<%= $name %>" type="text" v-tooltip.top-center="nameConditions" v-model="name">
+      <ul>
+        <li class="red-text" v-for="err in nameErrors">
+          {{ err }}
+        </li>
+      </ul>
+    </div>
+    <div class="input-field col s12">
+      <input placeholder="ID" type="text" v-tooltip.top-center="idConditions" v-model="id">
+      <ul>
+        <li class="red-text" v-for="err in idErrors">
+          {{ err }}
+        </li>
+      </ul>
+    </div>
+    <div class="input-field col s12">
+      <input placeholder="<%= $password %>" type="text" v-tooltip.top-center="passWordConditions" v-model="password">
+      <ul>
+        <li class="red-text" v-for="err in passwordErrors">
+          {{ err }}
+        </li>
+      </ul>
+    </div>
+    <div class="input-field col s12">
+      <button class="waves-effect btn-large" v-on:click="send"><%= $registration %></button>
+    </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+'use strict';
+
+window.addEventListener('load', function() {
+
+  Vue.use(VTooltip);
+  new Vue({
+    el: '#user-register',
+    data: {
+      id: '',
+      password: '',
+      name: '',
+      idErrors: [],
+      passwordErrors: [],
+      nameErrors: [],
+      url: '<%= url_for "/$lang/user/regist" %>',
+      idConditions: "<%= $id_condition %><br><%= $message_data->message->{'id.regexp'} %>",
+      passWordConditions: "<%= $pass_condition %><br><%= $message_data->message->{'password.regexp'} %>",
+      nameConditions: "<%= $name_condition %>",
+    },
+    methods: {
+      isFormEmpty: function () {
+        return this.id === '' && this.name === '' && this.password === '';
+      },
+      send: function () {
+        if ( !this.isFormEmpty() ) {
+          window.superagent
+            .post(this.url)
+            .query({
+              id: this.id,
+              password: this.password,
+              name: this.name,
+            })
+            .end(function (err, res) {
+              var json = JSON.parse(res.text);
+              if (!json.is_success) {
+                console.log(json);
+                Object.keys(json.errors).forEach(function (key) {
+                  var error = json.errors[key];
+                  this[error.name + 'Errors'] = error.messages;
+                }.bind(this));
+              }
+            }.bind(this));
+        }
+      },
+    },
+  });
+
+});
+
+</script>
+

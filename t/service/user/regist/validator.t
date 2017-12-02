@@ -45,8 +45,8 @@ subtest id_and_password_error => sub {
   ok $e->is_left;
   $e->left->foreach(sub ($v) {
     ok $v->get_error_messages, 2;
-    is $v->get_error_messages->[0], q{IDは英数字及び'_', '-'からなる文字列を入力して下さい。};
-    is $v->get_error_messages->[1], q{パスワードは英字を1文字以上, 数字を1文字以上含むように入力して下さい。};
+    is $v->get_error_messages->[0], q{使用できる文字は半角英数字及び'_', '-'です。};
+    is $v->get_error_messages->[1], q{使用できる文字は半角英数字、記号で、数字を必ず1文字以上含めて下さい。};
   });
 };
 

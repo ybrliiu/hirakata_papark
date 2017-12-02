@@ -1,0 +1,17 @@
+<%= include 'user/register' => (
+  title => 'ユーザー登録',
+  description => qq{
+    ユーザー登録を行うと、公園の写真の投稿や、公園情報の編集、追加などができるようになります。<br>
+    ユーザー登録をして$config->{site}{name}の機能をより活用しましょう！<br>
+  },
+  sns_title      => 'SNSで新規登録',
+  direct_title   => '直接サイトに新規登録',
+  twitter_btn    => 'Twitterで新規登録',
+  facebook_btn   => 'Facebookで新規登録',
+  password       => 'パスワード',
+  name           => '名前',
+  registration   => '登録',
+  id_condition   => $validator->MIN_ID_LEN . '文字以上' . $validator->MAX_ID_LEN . '文字以下で入力して下さい。',
+  pass_condition => $validator->MIN_PASSWORD_LEN . '文字以上' . $validator->MAX_PASSWORD_LEN . '文字以下で入力して下さい。',
+  name_condition => $validator->MIN_NAME_LEN . '文字以上' . $validator->MAX_NAME_LEN . '文字以下で入力して下さい。',
+); %>
