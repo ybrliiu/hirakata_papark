@@ -1,7 +1,7 @@
 <%= include 'searcher/park_column' => (
   layout              => 'default_en',
   title               => 'Search By Address',
-  js_file             => 'address',
+  search_item         => 'address',
   v_model             => 'parkAddress',
   search_result_title => 'Search Result',
   url                 => '/en/search/like-address',

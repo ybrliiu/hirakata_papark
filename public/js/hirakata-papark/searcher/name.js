@@ -4,7 +4,7 @@
 
   new Vue({
     mixins: [hirakataPapark.searcher.searchFormMixin],
-    el: '#search-form',
+    el: '#search-name',
     data: { parkName: '' },
     methods: {
       isFormEmpty: function () { return this.parkName === '' },

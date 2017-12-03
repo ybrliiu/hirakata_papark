@@ -1,7 +1,7 @@
 % layout $layout;
-% push @$JS_FILES, 'js/superagent.js', 'js/hirakata-papark/searcher.js', "js/hirakata-papark/searcher/${js_file}.js";
+% push @$JS_FILES, 'js/superagent.js', 'js/hirakata-papark/searcher.js', "js/hirakata-papark/searcher/${search_item}.js";
 
-<div class="container" id="search-form">
+<div class="container" id="search-<%= $search_item %>">
   <h2><%= $title %></h2>
   %= content search_form => begin
   %= end

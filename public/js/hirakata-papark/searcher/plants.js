@@ -3,7 +3,7 @@
   'use strict';
 
   new Vue({
-    el: '#search-form',
+    el: '#search-plants',
     data: {
       plants: [],
       plantsCategories: [],

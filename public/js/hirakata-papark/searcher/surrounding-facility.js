@@ -4,7 +4,7 @@
 
   new Vue({
     mixins: [hirakataPapark.searcher.searchFormMixin, hirakataPapark.searcher.checkBoxesFormMixin],
-    el: '#search-form',
+    el: '#search-surrounding-facility',
     methods: {
       query: function () { return {surrounding_facilities: this.items} },
     },

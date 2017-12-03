@@ -4,7 +4,7 @@
 
   new Vue({
     mixins: [hirakataPapark.searcher.searchFormMixin, hirakataPapark.searcher.checkBoxesFormMixin],
-    el: '#search-form',
+    el: '#search-tag',
     methods: {
       query: function () { return {tags: this.items} },
     },

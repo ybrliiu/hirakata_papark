@@ -1,4 +1,4 @@
-% extends 'searcher/searcher' => (js_file => 'plants');
+% extends 'searcher/searcher' => (search_item => 'plants');
 
 % my $check_box = begin
   % my $v_model = shift;

@@ -1,7 +1,7 @@
 <%= include 'searcher/related_to_park' => (
   layout              => 'default_ja',
   title               => '周辺施設から検索',
-  js_file             => 'surrounding_facility',
+  search_item         => 'surrounding-facility',
   url                 => '/ja/search/has-surrounding-facilities',
   check_boxes         => $surrounding_facility_list,
   search              => '検索',

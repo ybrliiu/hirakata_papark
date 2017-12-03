@@ -1,7 +1,7 @@
 <%= include 'searcher/related_to_park' => (
   layout              => 'default_ja',
   title               => 'タグから検索',
-  js_file             => 'tag',
+  search_item         => 'tag',
   url                 => '/ja/search/has-tags',
   check_boxes         => $tag_list,
   search              => '検索',

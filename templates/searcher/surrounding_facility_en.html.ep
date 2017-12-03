@@ -1,7 +1,7 @@
 <%= include 'searcher/related_to_park' => (
   layout              => 'default_en',
   title               => 'Search By Surrounding Facilities',
-  js_file             => 'surrounding_facility',
+  search_item         => 'surrounding-facility',
   url                 => '/en/search/has-surrounding-facilities',
   check_boxes         => $surrounding_facility_list,
   search              => 'Search',
