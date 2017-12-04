@@ -21,10 +21,16 @@
   "browser": {
     "vue": "vue/dist/vue.common.js"
   },
+  "scripts": {
+    "browserify-dev": "./node_modules/browserify/bin/cmd.js ./assets/js/hirakata-papark-exporter.js -o",
+    "uglify-dev": "./node_modules/uglify-js/bin/uglifyjs -c -m -o ./public/js/bundle.js",
+    "build-dev": "npm -s run browserify-dev | npm -s run uglify-dev"
+  },
   "devDependencies": {
     "browserify": "^14.5.0",
     "leaflet": "^1.2.0",
     "superagent": "^3.8.1",
+    "uglify-js": "^3.2.1",
     "v-tooltip": "^2.0.0-rc.25",
     "vue": "^2.5.9"
   }

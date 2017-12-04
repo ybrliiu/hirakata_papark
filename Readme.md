@@ -3,10 +3,7 @@
 ## 予定
 
 ### 依存モジュールの切り出し, 管理
-js modules node modules に書き直す
-そしてpublic/以下の依存jsライブラリ排除
-searcher-surrounding-facilities ちゃんと動いていない
-browserify 設定
+asset-packに適用
 daiku
 user-regist messagedataの取り出し方
 
