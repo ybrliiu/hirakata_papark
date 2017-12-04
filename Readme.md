@@ -2,12 +2,6 @@
 
 ## 予定
 
-### 依存モジュールの切り出し, 管理
-jsは npm run build-dev で生成
-asset-packに適用
-daiku
-user-regist messagedataの取り出し方
-
 ### ユーザー登録機能
 * ユーザー登録機能追加
   * ログインしているユーザーは以下のことが可能
@@ -60,6 +54,10 @@ user-regist messagedataの取り出し方
 
 ## 環境構築について
 
+### やりたいこと
+* js asset-packに適用?
+* js ES2015&babel使う?
+
 ### 前提
 * plenv, cpanm, carton のインストール(Perlモジュール関係)
 * ndenv, npm のインストール(JavaScript, CSSモジュール関係)
@@ -74,4 +72,5 @@ user-regist messagedataの取り出し方
 * etc/config/plugin.conf にMojolicious pluginの設定を書く(デフォの設定作ってしまって良さそう)
 * anego migrate
 * author/park_csv_to_db.pl -> DBにデータ流し込む
+* npm run build-dev -> bundle.js 生成
 

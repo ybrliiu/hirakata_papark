@@ -72,8 +72,8 @@
 window.addEventListener('load', function () {
   hirakataPapark.user().register({
     url: '<%= url_for "/$lang/user/regist" %>',
-    idConditions: "<%= $id_condition %><br><%= $message_data->message->{'id.regexp'} %>",
-    passWordConditions: "<%= $pass_condition %><br><%= $message_data->message->{'password.regexp'} %>",
+    idConditions: "<%= $id_condition %><br><%= $message_data->get_message('id.regexp')->get %>",
+    passWordConditions: "<%= $pass_condition %><br><%= $message_data->get_message('password.regexp')->get %>",
     nameConditions: "<%= $name_condition %>",
   });
 });
