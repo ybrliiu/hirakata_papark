@@ -185,6 +185,511 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],2:[function(require,module,exports){
+// global空間を汚染するので分離
+hirakataPapark = require('./hirakata-papark');
+
+},{"./hirakata-papark":3}],3:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+  util: require('./hirakata-papark/util'),
+  menu: require('./hirakata-papark/menu'),
+  ParkMap: require('./hirakata-papark/park-map'),
+  searcher: function () { return require('./hirakata-papark/searcher') },
+  user: function () { return require('./hirakata-papark/user') },
+  park: function () { return require('./hirakata-papark/park') },
+};
+
+
+},{"./hirakata-papark/menu":4,"./hirakata-papark/park":6,"./hirakata-papark/park-map":5,"./hirakata-papark/searcher":8,"./hirakata-papark/user":18,"./hirakata-papark/util":20}],4:[function(require,module,exports){
+'use strict';
+
+var Vue = require('vue');
+
+new Vue({
+  el: '#side-menu',
+  data: {
+    isShow: false,
+  },
+  methods: {
+    show: function () { this.isShow = true; },
+    close: function () { this.isShow = false; },
+    stopClose: function (eve) { eve.stopPropagation(); },
+    showSideMenu: function (eve) {
+      eve.stopPropagation();
+      this.show();
+    },
+  },
+  created: function () { window.addEventListener('click', this.close.bind(this)); },
+  destroyed: function () { window.removeEventListener('click', this.close.bind(this)); },
+});
+
+
+},{"vue":30}],5:[function(require,module,exports){
+'use strict';
+
+var leaflet = require('leaflet');
+
+var DEFAULT_Y = 34.8164259;
+var DEFAULT_X = 135.6475998;
+var DEFAULT_ZOOM = 13;
+var MAX_ZOOM = 18;
+var TILE_MAP_URL = 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png';
+var CURRENT_LOCATION_ICON = leaflet.icon({
+  iconUrl: '../css/images/current-marker-icon.png',
+  iconSize: [25, 41],
+  iconAnchor: [0, 0],
+  popupAnchor: [14, -10],
+  shadowUrl: '../css/images/marker-shadow.png',
+  shadowSize: [41, 41],
+  shadowAnchor: [0, 0]
+});
+
+/*
+  args : {
+    id: map element id,
+    url: park url,
+  }
+*/
+
+var ParkMap = function (args) {
+  this.url = args.url;
+  this.mapId  = args.mapId;
+  this.parkMap = leaflet.map(this.mapId).setView([DEFAULT_Y, DEFAULT_X], DEFAULT_ZOOM);
+  leaflet.tileLayer(TILE_MAP_URL, {
+    maxZoom: MAX_ZOOM,
+    attribution: 'Map data by <a href="http://maps.gsi.go.jp/development/ichiran.html" target="_blank">地理院タイル</a>',
+    id: '',
+  }).addTo(this.parkMap);
+};
+
+var PROTOTYPE = ParkMap.prototype;
+
+PROTOTYPE.registParkMarkers = function (parks) {
+  parks.forEach(function (park) {
+    leaflet.marker([park.y, park.x]).addTo(this.parkMap).bindPopup('<a href="' + this.url + park.id + '">' + park.name + '</a>');
+  }.bind(this));
+};
+
+PROTOTYPE.registCurrentLocation = function () {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      var coords = position.coords;
+      leaflet.marker([coords.latitude, coords.longitude]).addTo(this.parkMap).setIcon(CURRENT_LOCATION_ICON).bindPopup('現在地').openPopup();
+      this.parkMap.setView([coords.latitude, coords.longitude], 13);
+    }.bind(this));
+  } else {
+    alert("お使いの ブラウザ / 端末 では位置情報の取得ができません。");
+  }
+};
+
+PROTOTYPE.setView = function (y, x) {
+  this.parkMap.setView([y, x], MAX_ZOOM);
+};
+
+module.exports = ParkMap;
+
+/*
+  leafret 搭載機能の現在地取得関数
+          Android chrome では機能しなかった
+  this.parkMap.on('locationfound', function (e) {
+    leaflet.marker(e.latlng).addTo(this.parkMap).setIcon(CURRENT_LOCATION_ICON).bindPopup('現在地').openPopup();
+    this.parkMap.setView(e.latlng, 13);
+	}.bind(this));
+  this.parkMap.on('locationerror', function (e) { alert("現在地の取得ができませんでした。"); });
+*/
+
+
+},{"leaflet":22}],6:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+  ShowParkById: require('./park/show-park-by-id'),
+};
+
+
+},{"./park/show-park-by-id":7}],7:[function(require,module,exports){
+'use strict';
+
+var Vue = require('vue');
+var superagent = require('superagent');
+
+/*
+ * args: {
+ *   getCommentsUrl: Str,
+ *   addCommentUrl: Str,
+ * };
+ */
+
+module.exports = function (args) {
+  
+  var comment = new Vue({
+    el: '#comment',
+    data: {
+      comments: '',
+    },
+    created: function () {
+      this.getComments();
+    },
+    methods: {
+      getComments: function () {
+        superagent
+          .get(args.getCommentsUrl)
+          .end( function (err, res) {
+            this.comments = res.text;
+          }.bind(this) );
+      },
+    },
+  });
+  
+  var commentForm = new Vue({
+    el: '#comment-form',
+    data: {
+      name: '',
+      message: '',
+      result: '',
+    },
+    methods: {
+      send: function () {
+        superagent
+          .post(args.addCommentUrl)
+          .type('form')
+          .send({
+            name: this.name,
+            message: this.message,
+          })
+          .end(function (err, res) {
+            comment.getComments();
+          }.bind(this));
+      },
+    },
+  });
+
+};
+
+
+},{"superagent":24,"vue":30}],8:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+  searchFormMixin: function () { return require('./searcher/search-form-mixin') },
+  checkBoxesFormMixin: function () { return require('./searcher/check-boxes-form-mixin') },
+  address: function () { return require('./searcher/address') },
+  equipment: function () { return require('./searcher/equipment') },
+  name: function () { return require('./searcher/name') },
+  nearParks: function () { return require('./searcher/near-parks') },
+  plants: function () { return require('./searcher/plants') },
+  surroundingFacility: function () { return require('./searcher/surrounding-facility') },
+  tag: function () { return require('./searcher/tag') },
+};
+
+
+},{"./searcher/address":9,"./searcher/check-boxes-form-mixin":10,"./searcher/equipment":11,"./searcher/name":12,"./searcher/near-parks":13,"./searcher/plants":14,"./searcher/search-form-mixin":15,"./searcher/surrounding-facility":16,"./searcher/tag":17}],9:[function(require,module,exports){
+'use strict';
+
+var Vue = require('vue');
+var searchFormMixin = require('./search-form-mixin');
+
+module.exports = new Vue({
+  mixins: [searchFormMixin],
+  el: '#search-address',
+  data: { parkAddress: '' },
+  methods: {
+    isFormEmpty: function () { return this.parkAddress === '' },
+    query: function () { return {park_address: this.parkAddress} },
+  },
+});
+
+
+},{"./search-form-mixin":15,"vue":30}],10:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+  data: {
+    items: [],
+  },
+  methods: {
+    isFormEmpty: function () {
+      return this.items.length === 0;
+    },
+  },
+};
+
+
+},{}],11:[function(require,module,exports){
+'use strict';
+
+var Vue = require('vue');
+var searchFormMixin = require('./search-form-mixin');
+var checkBoxesFormMixin = require('./check-boxes-form-mixin');
+
+module.exports = new Vue({
+  mixins: [searchFormMixin, checkBoxesFormMixin],
+  el: '#search-equipment',
+  methods: {
+    query: function () { return {equipments: this.items} },
+  },
+});
+
+
+},{"./check-boxes-form-mixin":10,"./search-form-mixin":15,"vue":30}],12:[function(require,module,exports){
+'use strict';
+
+var Vue = require('vue');
+var searchFormMixin = require('./search-form-mixin');
+
+module.exports = new Vue({
+  mixins: [searchFormMixin],
+  el: '#search-name',
+  data: { parkName: '' },
+  methods: {
+    isFormEmpty: function () { return this.parkName === '' },
+    query: function () { return {park_name: this.parkName} },
+  },
+});
+
+
+},{"./search-form-mixin":15,"vue":30}],13:[function(require,module,exports){
+'use strict';
+
+var Vue = require('vue');
+var superagent = require('superagent');
+
+var INITIAL_DISTANCE = 200;
+
+module.exports = new Vue({
+  el: '#search-near-parks',
+  data: {
+    result: '',
+    showResult: false,
+    url: undefined,
+    x: undefined,
+    y: undefined,
+    distance: INITIAL_DISTANCE,
+  },
+  created: function () {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          var coords = position.coords;
+          this.x = coords.longitude;
+          this.y = coords.latitude;
+        }.bind(this),
+        function () {
+          var mes = '位置情報を取得できませんでした';
+          alert(mes);
+          throw(mes);
+        }
+      );
+    } else {
+      var mes = 'お使いの ブラウザ / 端末 では位置情報の取得ができません。';
+      alert(mes);
+      throw(mes);
+    }
+  },
+  methods: {
+    send: function () {
+      if (this.url === undefined) {
+        this.url = this.$el.getElementsByTagName('select')[0].getAttribute('action');
+      }
+      superagent
+        .post(this.url)
+        .query({
+          x: this.x,
+          y: this.y,
+          distance: this.distance,
+        })
+        .end(function (err, res) {
+          this.showResult = true;
+          this.result = res.text;
+        }.bind(this));
+    },
+  },
+});
+
+
+},{"superagent":24,"vue":30}],14:[function(require,module,exports){
+'use strict';
+
+var Vue = require('vue');
+var superagent = require('superagent');
+
+module.exports = new Vue({
+  el: '#search-plants',
+  data: {
+    plants: [],
+    plantsCategories: [],
+    showResult: false,
+    result: '',
+  },
+  methods: {
+    send: function (url, query, sendItems) {
+      if (sendItems.length !== 0) {
+        superagent
+          .post(url)
+          .query(query)
+          .end(function (err, res) {
+            this.showResult = true;
+            this.result = res.text;
+          }.bind(this));
+      }
+    },
+    sendToPlantsSearcher: function (url) {
+      this.send(url, {plants: this.plants}, this.plants);
+    },
+    sendToPlantsCategoriesSearcher: function (url) {
+      this.send(url, {plants_categories: this.plantsCategories}, this.plantsCategories);
+    },
+  },
+});
+
+
+},{"superagent":24,"vue":30}],15:[function(require,module,exports){
+'use strict';
+
+var superagent = require('superagent');
+
+module.exports = {
+  data: {
+    showResult: false,
+    result: '',
+  },
+  methods: {
+    send: function (url) {
+      if ( !this.isFormEmpty() ) {
+        superagent
+          .post(url)
+          .query(this.query())
+          .end(function (err, res) {
+            this.showResult = true;
+            this.result = res.text;
+          }.bind(this));
+      }
+    },
+  },
+};
+
+
+},{"superagent":24}],16:[function(require,module,exports){
+'use strict';
+
+var Vue = require('vue');
+var searchFormMixin = require('./search-form-mixin');
+var checkBoxesFormMixin = require('./check-boxes-form-mixin');
+
+module.exports = new Vue({
+  mixins: [searchFormMixin, checkBoxesFormMixin],
+  el: '#search-surrounding-facility',
+  methods: {
+    query: function () { return {surrounding_facilities: this.items} },
+  },
+});
+
+
+},{"./check-boxes-form-mixin":10,"./search-form-mixin":15,"vue":30}],17:[function(require,module,exports){
+'use strict';
+
+var Vue = require('vue');
+var searchFormMixin = require('./search-form-mixin');
+var checkBoxesFormMixin = require('./check-boxes-form-mixin');
+
+module.exports = new Vue({
+  mixins: [searchFormMixin, checkBoxesFormMixin],
+  el: '#search-tag',
+  methods: {
+    query: function () { return {tags: this.items} },
+  },
+});
+
+
+},{"./check-boxes-form-mixin":10,"./search-form-mixin":15,"vue":30}],18:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+  register: require('./user/register'),
+};
+
+},{"./user/register":19}],19:[function(require,module,exports){
+'use strict';
+
+var Vue = require('vue');
+var VTooltip = require('v-tooltip');
+var superagent = require('superagent');
+
+/*
+ * args :{
+ *   url: Str,
+ *   idConditions: Str,
+ *   passWordConditions: Str,
+ *   nameConditions: Str,
+ * }
+ */
+
+module.exports = function (args) {
+  Vue.use(VTooltip);
+  new Vue({
+    el: '#user-register',
+    data: {
+      id: '',
+      password: '',
+      name: '',
+      idErrors: [],
+      passwordErrors: [],
+      nameErrors: [],
+      url: args.url,
+      idConditions: args.idConditions,
+      passWordConditions: args.passWordConditions,
+      nameConditions: args.nameConditions,
+    },
+    methods: {
+      isFormEmpty: function () {
+        return this.id === '' && this.name === '' && this.password === '';
+      },
+      send: function () {
+        if ( !this.isFormEmpty() ) {
+          superagent
+            .post(this.url)
+            .query({
+              id: this.id,
+              password: this.password,
+              name: this.name,
+            })
+            .end(function (err, res) {
+              var json = JSON.parse(res.text);
+              if (!json.is_success) {
+                console.log(json);
+                Object.keys(json.errors).forEach(function (key) {
+                  var error = json.errors[key];
+                  this[error.name + 'Errors'] = error.messages;
+                }.bind(this));
+              }
+            }.bind(this));
+        }
+      },
+    },
+  });
+};
+
+},{"superagent":24,"v-tooltip":29,"vue":30}],20:[function(require,module,exports){
+'use strict';
+
+var util = {};
+
+util.inherit = function (base, child) {
+  child.prototype = Object.create(base.prototype);
+  child.prototype.constructor = child;
+};
+
+util.mixin = function (trait, consume) {
+  Object.keys(trait).forEach(function (element) {
+    consume.prototype[element] = trait[element];
+  });
+};
+
+module.exports = util;
+
+
+},{}],21:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -349,7 +854,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],3:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /* @preserve
  * Leaflet 1.2.0, a JS library for interactive maps. http://leafletjs.com
  * (c) 2010-2017 Vladimir Agafonkin, (c) 2010-2011 CloudMade
@@ -13960,7 +14465,7 @@ exports.map = createMap;
 })));
 
 
-},{}],4:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 function Agent() {
   this._defaults = [];
 }
@@ -13982,7 +14487,7 @@ Agent.prototype._setDefaults = function(req) {
 
 module.exports = Agent;
 
-},{}],5:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /**
  * Root reference for iframes.
  */
@@ -14902,7 +15407,7 @@ request.put = function(url, data, fn) {
   return req;
 };
 
-},{"./agent-base":4,"./is-object":6,"./request-base":7,"./response-base":8,"component-emitter":2}],6:[function(require,module,exports){
+},{"./agent-base":23,"./is-object":25,"./request-base":26,"./response-base":27,"component-emitter":21}],25:[function(require,module,exports){
 'use strict';
 
 /**
@@ -14919,7 +15424,7 @@ function isObject(obj) {
 
 module.exports = isObject;
 
-},{}],7:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 /**
@@ -15615,7 +16120,7 @@ RequestBase.prototype._setTimeouts = function() {
   }
 };
 
-},{"./is-object":6}],8:[function(require,module,exports){
+},{"./is-object":25}],27:[function(require,module,exports){
 'use strict';
 
 /**
@@ -15751,7 +16256,7 @@ ResponseBase.prototype._setStatusProperties = function(status){
     this.notFound = 404 == status;
 };
 
-},{"./utils":9}],9:[function(require,module,exports){
+},{"./utils":28}],28:[function(require,module,exports){
 'use strict';
 
 /**
@@ -15824,7 +16329,7 @@ exports.cleanHeader = function(header, changesOrigin){
   return header;
 };
 
-},{}],10:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 (function (global){
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -22395,7 +22900,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 })));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],11:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 (function (process,global){
 /*!
  * Vue.js v2.5.9
@@ -33118,509 +33623,4 @@ Vue$3.compile = compileToFunctions;
 module.exports = Vue$3;
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":1}],12:[function(require,module,exports){
-// global空間を汚染するので分離
-hirakataPapark = require('./hirakata-papark');
-
-},{"./hirakata-papark":13}],13:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-  util: require('./hirakata-papark/util'),
-  menu: require('./hirakata-papark/menu'),
-  ParkMap: require('./hirakata-papark/park-map'),
-  searcher: function () { return require('./hirakata-papark/searcher') },
-  user: function () { return require('./hirakata-papark/user') },
-  park: function () { return require('./hirakata-papark/park') },
-};
-
-
-},{"./hirakata-papark/menu":14,"./hirakata-papark/park":16,"./hirakata-papark/park-map":15,"./hirakata-papark/searcher":18,"./hirakata-papark/user":28,"./hirakata-papark/util":30}],14:[function(require,module,exports){
-'use strict';
-
-var Vue = require('vue');
-
-new Vue({
-  el: '#side-menu',
-  data: {
-    isShow: false,
-  },
-  methods: {
-    show: function () { this.isShow = true; },
-    close: function () { this.isShow = false; },
-    stopClose: function (eve) { eve.stopPropagation(); },
-    showSideMenu: function (eve) {
-      eve.stopPropagation();
-      this.show();
-    },
-  },
-  created: function () { window.addEventListener('click', this.close.bind(this)); },
-  destroyed: function () { window.removeEventListener('click', this.close.bind(this)); },
-});
-
-
-},{"vue":11}],15:[function(require,module,exports){
-'use strict';
-
-var leaflet = require('leaflet');
-
-var DEFAULT_Y = 34.8164259;
-var DEFAULT_X = 135.6475998;
-var DEFAULT_ZOOM = 13;
-var MAX_ZOOM = 18;
-var TILE_MAP_URL = 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png';
-var CURRENT_LOCATION_ICON = leaflet.icon({
-  iconUrl: '../css/images/current-marker-icon.png',
-  iconSize: [25, 41],
-  iconAnchor: [0, 0],
-  popupAnchor: [14, -10],
-  shadowUrl: '../css/images/marker-shadow.png',
-  shadowSize: [41, 41],
-  shadowAnchor: [0, 0]
-});
-
-/*
-  args : {
-    id: map element id,
-    url: park url,
-  }
-*/
-
-var ParkMap = function (args) {
-  this.url = args.url;
-  this.mapId  = args.mapId;
-  this.parkMap = leaflet.map(this.mapId).setView([DEFAULT_Y, DEFAULT_X], DEFAULT_ZOOM);
-  leaflet.tileLayer(TILE_MAP_URL, {
-    maxZoom: MAX_ZOOM,
-    attribution: 'Map data by <a href="http://maps.gsi.go.jp/development/ichiran.html" target="_blank">地理院タイル</a>',
-    id: '',
-  }).addTo(this.parkMap);
-};
-
-var PROTOTYPE = ParkMap.prototype;
-
-PROTOTYPE.registParkMarkers = function (parks) {
-  parks.forEach(function (park) {
-    leaflet.marker([park.y, park.x]).addTo(this.parkMap).bindPopup('<a href="' + this.url + park.id + '">' + park.name + '</a>');
-  }.bind(this));
-};
-
-PROTOTYPE.registCurrentLocation = function () {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      var coords = position.coords;
-      leaflet.marker([coords.latitude, coords.longitude]).addTo(this.parkMap).setIcon(CURRENT_LOCATION_ICON).bindPopup('現在地').openPopup();
-      this.parkMap.setView([coords.latitude, coords.longitude], 13);
-    }.bind(this));
-  } else {
-    alert("お使いの ブラウザ / 端末 では位置情報の取得ができません。");
-  }
-};
-
-PROTOTYPE.setView = function (y, x) {
-  this.parkMap.setView([y, x], MAX_ZOOM);
-};
-
-module.exports = ParkMap;
-
-/*
-  leafret 搭載機能の現在地取得関数
-          Android chrome では機能しなかった
-  this.parkMap.on('locationfound', function (e) {
-    leaflet.marker(e.latlng).addTo(this.parkMap).setIcon(CURRENT_LOCATION_ICON).bindPopup('現在地').openPopup();
-    this.parkMap.setView(e.latlng, 13);
-	}.bind(this));
-  this.parkMap.on('locationerror', function (e) { alert("現在地の取得ができませんでした。"); });
-*/
-
-
-},{"leaflet":3}],16:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-  ShowParkById: require('./park/show-park-by-id'),
-};
-
-
-},{"./park/show-park-by-id":17}],17:[function(require,module,exports){
-'use strict';
-
-var Vue = require('vue');
-var superagent = require('superagent');
-
-/*
- * args: {
- *   getCommentsUrl: Str,
- *   addCommentUrl: Str,
- * };
- */
-
-module.exports = function (args) {
-  
-  var comment = new Vue({
-    el: '#comment',
-    data: {
-      comments: '',
-    },
-    created: function () {
-      this.getComments();
-    },
-    methods: {
-      getComments: function () {
-        superagent
-          .get(args.getCommentsUrl)
-          .end( function (err, res) {
-            this.comments = res.text;
-          }.bind(this) );
-      },
-    },
-  });
-  
-  var commentForm = new Vue({
-    el: '#comment-form',
-    data: {
-      name: '',
-      message: '',
-      result: '',
-    },
-    methods: {
-      send: function () {
-        superagent
-          .post(args.addCommentUrl)
-          .type('form')
-          .send({
-            name: this.name,
-            message: this.message,
-          })
-          .end(function (err, res) {
-            comment.getComments();
-          }.bind(this));
-      },
-    },
-  });
-
-};
-
-
-},{"superagent":5,"vue":11}],18:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-  searchFormMixin: function () { return require('./searcher/search-form-mixin') },
-  checkBoxesFormMixin: function () { return require('./searcher/check-boxes-form-mixin') },
-  address: function () { return require('./searcher/address') },
-  equipment: function () { return require('./searcher/equipment') },
-  name: function () { return require('./searcher/name') },
-  nearParks: function () { return require('./searcher/near-parks') },
-  plants: function () { return require('./searcher/plants') },
-  surroundingFacility: function () { return require('./searcher/surrounding-facility') },
-  tag: function () { return require('./searcher/tag') },
-};
-
-
-},{"./searcher/address":19,"./searcher/check-boxes-form-mixin":20,"./searcher/equipment":21,"./searcher/name":22,"./searcher/near-parks":23,"./searcher/plants":24,"./searcher/search-form-mixin":25,"./searcher/surrounding-facility":26,"./searcher/tag":27}],19:[function(require,module,exports){
-'use strict';
-
-var Vue = require('vue');
-var searchFormMixin = require('./search-form-mixin');
-
-module.exports = new Vue({
-  mixins: [searchFormMixin],
-  el: '#search-address',
-  data: { parkAddress: '' },
-  methods: {
-    isFormEmpty: function () { return this.parkAddress === '' },
-    query: function () { return {park_address: this.parkAddress} },
-  },
-});
-
-
-},{"./search-form-mixin":25,"vue":11}],20:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-  data: {
-    items: [],
-  },
-  methods: {
-    isFormEmpty: function () {
-      return this.items.length === 0;
-    },
-  },
-};
-
-
-},{}],21:[function(require,module,exports){
-'use strict';
-
-var Vue = require('vue');
-var searchFormMixin = require('./search-form-mixin');
-var checkBoxesFormMixin = require('./check-boxes-form-mixin');
-
-module.exports = new Vue({
-  mixins: [searchFormMixin, checkBoxesFormMixin],
-  el: '#search-equipment',
-  methods: {
-    query: function () { return {equipments: this.items} },
-  },
-});
-
-
-},{"./check-boxes-form-mixin":20,"./search-form-mixin":25,"vue":11}],22:[function(require,module,exports){
-'use strict';
-
-var Vue = require('vue');
-var searchFormMixin = require('./search-form-mixin');
-
-module.exports = new Vue({
-  mixins: [searchFormMixin],
-  el: '#search-name',
-  data: { parkName: '' },
-  methods: {
-    isFormEmpty: function () { return this.parkName === '' },
-    query: function () { return {park_name: this.parkName} },
-  },
-});
-
-
-},{"./search-form-mixin":25,"vue":11}],23:[function(require,module,exports){
-'use strict';
-
-var Vue = require('vue');
-var superagent = require('superagent');
-
-var INITIAL_DISTANCE = 200;
-
-module.exports = new Vue({
-  el: '#search-near-parks',
-  data: {
-    result: '',
-    showResult: false,
-    url: undefined,
-    x: undefined,
-    y: undefined,
-    distance: INITIAL_DISTANCE,
-  },
-  created: function () {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          var coords = position.coords;
-          this.x = coords.longitude;
-          this.y = coords.latitude;
-        }.bind(this),
-        function () {
-          var mes = '位置情報を取得できませんでした';
-          alert(mes);
-          throw(mes);
-        }
-      );
-    } else {
-      var mes = 'お使いの ブラウザ / 端末 では位置情報の取得ができません。';
-      alert(mes);
-      throw(mes);
-    }
-  },
-  methods: {
-    send: function () {
-      if (this.url === undefined) {
-        this.url = this.$el.getElementsByTagName('select')[0].getAttribute('action');
-      }
-      superagent
-        .post(this.url)
-        .query({
-          x: this.x,
-          y: this.y,
-          distance: this.distance,
-        })
-        .end(function (err, res) {
-          this.showResult = true;
-          this.result = res.text;
-        }.bind(this));
-    },
-  },
-});
-
-
-},{"superagent":5,"vue":11}],24:[function(require,module,exports){
-'use strict';
-
-var Vue = require('vue');
-var superagent = require('superagent');
-
-module.exports = new Vue({
-  el: '#search-plants',
-  data: {
-    plants: [],
-    plantsCategories: [],
-    showResult: false,
-    result: '',
-  },
-  methods: {
-    send: function (url, query, sendItems) {
-      if (sendItems.length !== 0) {
-        superagent
-          .post(url)
-          .query(query)
-          .end(function (err, res) {
-            this.showResult = true;
-            this.result = res.text;
-          }.bind(this));
-      }
-    },
-    sendToPlantsSearcher: function (url) {
-      this.send(url, {plants: this.plants}, this.plants);
-    },
-    sendToPlantsCategoriesSearcher: function (url) {
-      this.send(url, {plants_categories: this.plantsCategories}, this.plantsCategories);
-    },
-  },
-});
-
-
-},{"superagent":5,"vue":11}],25:[function(require,module,exports){
-'use strict';
-
-var superagent = require('superagent');
-
-module.exports = {
-  data: {
-    showResult: false,
-    result: '',
-  },
-  methods: {
-    send: function (url) {
-      if ( !this.isFormEmpty() ) {
-        superagent
-          .post(url)
-          .query(this.query())
-          .end(function (err, res) {
-            this.showResult = true;
-            this.result = res.text;
-          }.bind(this));
-      }
-    },
-  },
-};
-
-
-},{"superagent":5}],26:[function(require,module,exports){
-'use strict';
-
-var Vue = require('vue');
-var searchFormMixin = require('./search-form-mixin');
-var checkBoxesFormMixin = require('./check-boxes-form-mixin');
-
-module.exports = new Vue({
-  mixins: [searchFormMixin, checkBoxesFormMixin],
-  el: '#search-surrounding-facility',
-  methods: {
-    query: function () { return {surrounding_facilities: this.items} },
-  },
-});
-
-
-},{"./check-boxes-form-mixin":20,"./search-form-mixin":25,"vue":11}],27:[function(require,module,exports){
-'use strict';
-
-var Vue = require('vue');
-var searchFormMixin = require('./search-form-mixin');
-var checkBoxesFormMixin = require('./check-boxes-form-mixin');
-
-module.exports = new Vue({
-  mixins: [searchFormMixin, checkBoxesFormMixin],
-  el: '#search-tag',
-  methods: {
-    query: function () { return {tags: this.items} },
-  },
-});
-
-
-},{"./check-boxes-form-mixin":20,"./search-form-mixin":25,"vue":11}],28:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-  register: require('./user/register'),
-};
-
-},{"./user/register":29}],29:[function(require,module,exports){
-'use strict';
-
-var Vue = require('vue');
-var VTooltip = require('v-tooltip');
-var superagent = require('superagent');
-
-/*
- * args :{
- *   url: Str,
- *   idConditions: Str,
- *   passWordConditions: Str,
- *   nameConditions: Str,
- * }
- */
-
-module.exports = function (args) {
-  Vue.use(VTooltip);
-  new Vue({
-    el: '#user-register',
-    data: {
-      id: '',
-      password: '',
-      name: '',
-      idErrors: [],
-      passwordErrors: [],
-      nameErrors: [],
-      url: args.url,
-      idConditions: args.idConditions,
-      passWordConditions: args.passWordConditions,
-      nameConditions: args.nameConditions,
-    },
-    methods: {
-      isFormEmpty: function () {
-        return this.id === '' && this.name === '' && this.password === '';
-      },
-      send: function () {
-        if ( !this.isFormEmpty() ) {
-          superagent
-            .post(this.url)
-            .query({
-              id: this.id,
-              password: this.password,
-              name: this.name,
-            })
-            .end(function (err, res) {
-              var json = JSON.parse(res.text);
-              if (!json.is_success) {
-                console.log(json);
-                Object.keys(json.errors).forEach(function (key) {
-                  var error = json.errors[key];
-                  this[error.name + 'Errors'] = error.messages;
-                }.bind(this));
-              }
-            }.bind(this));
-        }
-      },
-    },
-  });
-};
-
-},{"superagent":5,"v-tooltip":10,"vue":11}],30:[function(require,module,exports){
-'use strict';
-
-var util = {};
-
-util.inherit = function (base, child) {
-  child.prototype = Object.create(base.prototype);
-  child.prototype.constructor = child;
-};
-
-util.mixin = function (trait, consume) {
-  Object.keys(trait).forEach(function (element) {
-    consume.prototype[element] = trait[element];
-  });
-};
-
-module.exports = util;
-
-
-},{}]},{},[12]);
+},{"_process":1}]},{},[2]);
