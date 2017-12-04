@@ -9,4 +9,5 @@ local/*
 node_modules/*
 log/*
 script/hypnotoad.pid
+public/js/bundle.js
 .perl-version

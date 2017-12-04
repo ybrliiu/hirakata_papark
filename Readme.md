@@ -3,6 +3,7 @@
 ## 予定
 
 ### 依存モジュールの切り出し, 管理
+jsは npm run build-dev で生成
 asset-packに適用
 daiku
 user-regist messagedataの取り出し方
