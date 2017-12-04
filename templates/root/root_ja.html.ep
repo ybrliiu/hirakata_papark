@@ -1,4 +1,3 @@
 % layout 'default_ja';
-% push @$JS_FILES, ('js/leaflet.js', 'js/hirakata-papark/park-map.js');
 % push @$CSS_FILES, 'css/leaflet.css';
 %= include 'root/root';

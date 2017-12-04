@@ -5,8 +5,10 @@
 ### 依存モジュールの切り出し, 管理
 js modules node modules に書き直す
 そしてpublic/以下の依存jsライブラリ排除
+searcher-surrounding-facilities ちゃんと動いていない
 browserify 設定
 daiku
+user-regist messagedataの取り出し方
 
 ### ユーザー登録機能
 * ユーザー登録機能追加

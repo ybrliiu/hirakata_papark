@@ -1,41 +1,14 @@
-(function () {
+'use strict';
 
-  'use strict';
-
-  hirakataPapark.namespace('searcher');
-  hirakataPapark.searcher = {};
-  var PACKAGE = hirakataPapark.searcher;
-
-  PACKAGE.searchFormMixin = {
-    data: {
-      showResult: false,
-      result: '',
-    },
-    methods: {
-      send: function (url) {
-        if ( !this.isFormEmpty() ) {
-          window.superagent
-            .post(url)
-            .query(this.query())
-            .end(function (err, res) {
-              this.showResult = true;
-              this.result = res.text;
-            }.bind(this));
-        }
-      },
-    },
-  };
-
-  PACKAGE.checkBoxesFormMixin = {
-    data: {
-      items: [],
-    },
-    methods: {
-      isFormEmpty: function () {
-        return this.items.length === 0;
-      },
-    },
-  };
-
-}());
+module.exports = {
+  searchFormMixin: function () { return require('./searcher/search-form-mixin') },
+  checkBoxesFormMixin: function () { return require('./searcher/check-boxes-form-mixin') },
+  address: function () { return require('./searcher/address') },
+  equipment: function () { return require('./searcher/equipment') },
+  name: function () { return require('./searcher/name') },
+  nearParks: function () { return require('./searcher/near-parks') },
+  plants: function () { return require('./searcher/plants') },
+  surroundingFacility: function () { return require('./searcher/surrounding-facility') },
+  tag: function () { return require('./searcher/tag') },
+};
 

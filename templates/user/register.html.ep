@@ -1,7 +1,5 @@
 % layout "default_${lang}";
 % push @$CSS_FILES, '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css';
-% push @$JS_FILES, ('js/popper.js', 'js/v-tooltip.js', 'js/superagent.js');
-
 
 <div class="container">
 
@@ -71,53 +69,13 @@
 
 <script>
 'use strict';
-
-window.addEventListener('load', function() {
-
-  Vue.use(VTooltip);
-  new Vue({
-    el: '#user-register',
-    data: {
-      id: '',
-      password: '',
-      name: '',
-      idErrors: [],
-      passwordErrors: [],
-      nameErrors: [],
-      url: '<%= url_for "/$lang/user/regist" %>',
-      idConditions: "<%= $id_condition %><br><%= $message_data->message->{'id.regexp'} %>",
-      passWordConditions: "<%= $pass_condition %><br><%= $message_data->message->{'password.regexp'} %>",
-      nameConditions: "<%= $name_condition %>",
-    },
-    methods: {
-      isFormEmpty: function () {
-        return this.id === '' && this.name === '' && this.password === '';
-      },
-      send: function () {
-        if ( !this.isFormEmpty() ) {
-          window.superagent
-            .post(this.url)
-            .query({
-              id: this.id,
-              password: this.password,
-              name: this.name,
-            })
-            .end(function (err, res) {
-              var json = JSON.parse(res.text);
-              if (!json.is_success) {
-                console.log(json);
-                Object.keys(json.errors).forEach(function (key) {
-                  var error = json.errors[key];
-                  this[error.name + 'Errors'] = error.messages;
-                }.bind(this));
-              }
-            }.bind(this));
-        }
-      },
-    },
+window.addEventListener('load', function () {
+  hirakataPapark.user().register({
+    url: '<%= url_for "/$lang/user/regist" %>',
+    idConditions: "<%= $id_condition %><br><%= $message_data->message->{'id.regexp'} %>",
+    passWordConditions: "<%= $pass_condition %><br><%= $message_data->message->{'password.regexp'} %>",
+    nameConditions: "<%= $name_condition %>",
   });
-
 });
-
 </script>
 

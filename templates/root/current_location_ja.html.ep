@@ -1,10 +1,4 @@
 % layout 'default_ja';
-<% push @$JS_FILES, (
-  'js/leaflet.js',
-  'js/superagent.js',
-  'js/hirakata-papark/park-map.js',
-  'js/hirakata-papark/searcher/near-parks.js'
-); %>
 % push @$CSS_FILES, 'css/leaflet.css';
 <%= include 'root/current_location' => (
   title               => '現在地周辺の公園を検索',

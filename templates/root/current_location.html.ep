@@ -33,17 +33,18 @@
   </div>
 
 <script>
-
+window.addEventListener('load', function () {
   "use strict";
 
-  window.addEventListener('load', function () {
-    var parkMap = new hirakataPapark.ParkMap({
-      url: '<%= url_for("/$lang/park/") %>',
-      mapId: 'park-map',
-    });
-    parkMap.registParkMarkers( JSON.parse('<%== $parks_json %>') );
-    parkMap.registCurrentLocation();
+  var parkMap = new hirakataPapark.ParkMap({
+    url: '<%= url_for("/$lang/park/") %>',
+    mapId: 'park-map',
   });
+  parkMap.registParkMarkers( JSON.parse('<%== $parks_json %>') );
+  parkMap.registCurrentLocation();
 
+  hirakataPapark.searcher().nearParks();
+
+});
 </script>
 

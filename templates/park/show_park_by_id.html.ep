@@ -14,17 +14,6 @@
     <div class="col l6 s12">
       <h3><%= $map_title %></h3>
       <div id="park-map-small" class="card-content"></div>
-<script>
-  window.addEventListener('load', function () {
-    "use strict";
-    var parkMap = new hirakataPapark.ParkMap({
-      url: '<%= url_for("/$lang/park/") %>',
-      mapId: 'park-map-small',
-    });
-    parkMap.setView(<%= $park->y %>, <%= $park->x %>);
-    parkMap.registParkMarkers( [ JSON.parse('<%== $park->to_json_for_marker %>') ] );
-  });
-</script>
     </div>
   </div>
 
@@ -84,7 +73,7 @@
       </div>
       <div class="row">
         <div class="col s12 right">
-          <button class="waves-effect btn right" v-on:click="send('<%= url_for "/$lang/park/add-comment/" . $park->id %>')"><%= $post %></button>
+          <button class="waves-effect btn right" v-on:click="send"><%= $post %></button>
         </div>
       </div>
     </div>
@@ -99,51 +88,22 @@
   </div>
 
 <script>
-(function () {
+window.addEventListener('load', function () {
   'use strict';
-  
-  var comment = new Vue({
-    el: '#comment',
-    data: {
-      comments: '',
-    },
-    created: function () {
-      window.addEventListener('load', this.getComments);
-    },
-    methods: {
-      getComments: function () {
-        window.superagent
-          .get('<%= url_for "/$lang/park/get-comments/" . $park->id %>')
-          .end( function (err, res) {
-            this.comments = res.text;
-          }.bind(this) );
-      },
-    },
+
+  var parkMap = new hirakataPapark.ParkMap({
+    url: '<%= url_for("/$lang/park/") %>',
+    mapId: 'park-map-small',
+  });
+  parkMap.setView(<%= $park->y %>, <%= $park->x %>);
+  parkMap.registParkMarkers( [ JSON.parse('<%== $park->to_json_for_marker %>') ] );
+
+  new hirakataPapark.park().ShowParkById({
+    getCommentsUrl: '<%= url_for "/$lang/park/get-comments/" . $park->id %>',
+    addCommentUrl: '<%= url_for "/$lang/park/add-comment/" . $park->id %>',
   });
 
-  var commentForm = new Vue({
-    el: '#comment-form',
-    data: {
-      name: '',
-      message: '',
-      result: '',
-    },
-    methods: {
-      send: function (url) {
-        window.superagent
-          .post(url)
-          .type('form')
-          .send({
-            name: this.name,
-            message: this.message,
-          })
-          .end(function (err, res) {
-            comment.getComments();
-          }.bind(this));
-      },
-    },
-  });
-}());
+});
 </script>
 
 </div>

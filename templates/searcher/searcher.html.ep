@@ -1,5 +1,4 @@
 % layout $layout;
-% push @$JS_FILES, 'js/superagent.js', 'js/hirakata-papark/searcher.js', "js/hirakata-papark/searcher/${search_item}.js";
 
 <div class="container" id="search-<%= $search_item %>">
   <h2><%= $title %></h2>
@@ -10,3 +9,10 @@
     <div class="col s12" v-html="result"></div>
   </div>
 </div>
+
+<script>
+window.addEventListener('load', function () {
+  'use strict';
+  hirakataPapark.searcher().<%= $search_item %>();
+});
+</script>

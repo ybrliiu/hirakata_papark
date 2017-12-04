@@ -1,16 +1,15 @@
-(function () {
+'use strict';
 
-  'use strict';
+var Vue = require('vue');
+var searchFormMixin = require('./search-form-mixin');
 
-  new Vue({
-    mixins: [hirakataPapark.searcher.searchFormMixin],
-    el: '#search-address',
-    data: { parkAddress: '' },
-    methods: {
-      isFormEmpty: function () { return this.parkAddress === '' },
-      query: function () { return {park_address: this.parkAddress} },
-    },
-  });
-
-}());
+module.exports = new Vue({
+  mixins: [searchFormMixin],
+  el: '#search-address',
+  data: { parkAddress: '' },
+  methods: {
+    isFormEmpty: function () { return this.parkAddress === '' },
+    query: function () { return {park_address: this.parkAddress} },
+  },
+});
 

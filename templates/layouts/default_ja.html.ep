@@ -2,7 +2,6 @@
   site_name        => $config->{site}{name},
   meta_description => '枚方市の公園の情報が見れます。',
 ); %>
-% push @$JS_FILES, 'js/hirakata-papark/menu.js';
 
 % content container => begin
   <nav>

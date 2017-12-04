@@ -1,9 +1,4 @@
 % layout 'default_en';
-<% push @$JS_FILES, (
-  'js/leaflet.js',
-  'js/hirakata-papark/park-map.js',
-  'js/superagent.js',
-); %>
 % push @$CSS_FILES, 'css/leaflet.css';
 
 <% my @params = (

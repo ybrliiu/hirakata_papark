@@ -16,8 +16,6 @@
     % for (@$CSS_FILES) {
       %= stylesheet url_for "/$_";
     % }
-    <script src="<%= url_for '/js/vue.js' %>"></script>
-    <script src="<%= url_for '/js/hirakata-papark.js' %>"></script>
     <title><%= $site_name %></title>
   </head>
   <body>
@@ -26,6 +24,7 @@
     % end
     %= content 'container'
 
+    <script src="<%= url_for '/js/bundle.js' %>"></script>
     % for (@$JS_FILES) {
       %= javascript url_for "/$_";
     % }
@@ -53,5 +52,6 @@
       ga('create', 'UA-100002220-1', 'auto');
       ga('send', 'pageview');
     </script>
+
   </body>
 </html>
