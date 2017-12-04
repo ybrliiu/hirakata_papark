@@ -13,6 +13,6 @@
 <script>
 window.addEventListener('load', function () {
   'use strict';
-  hirakataPapark.searcher().<%= $search_item %>();
+  hirakataPapark.searcher().<%= $vue_property %>();
 });
 </script>

@@ -2,6 +2,7 @@
   layout              => 'default_en',
   title               => 'Search By Address',
   search_item         => 'address',
+  vue_property        => 'address',
   v_model             => 'parkAddress',
   search_result_title => 'Search Result',
   url                 => '/en/search/like-address',

@@ -2,6 +2,7 @@
   layout              => 'default_en',
   title               => 'Search By Surrounding Facilities',
   search_item         => 'surrounding-facility',
+  vue_property        => 'surroundingFacility',
   url                 => '/en/search/has-surrounding-facilities',
   check_boxes         => $surrounding_facility_list,
   search              => 'Search',

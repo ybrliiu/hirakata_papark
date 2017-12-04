@@ -2,6 +2,7 @@
   layout              => 'default_ja',
   title               => '名前から検索',
   search_item         => 'name',
+  vue_property        => 'name',
   v_model             => 'parkName',
   search_result_title => '検索結果',
   url                 => '/ja/search/like-name',

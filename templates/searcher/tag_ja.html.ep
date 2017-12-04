@@ -2,6 +2,7 @@
   layout              => 'default_ja',
   title               => 'タグから検索',
   search_item         => 'tag',
+  vue_property        => 'tag',
   url                 => '/ja/search/has-tags',
   check_boxes         => $tag_list,
   search              => '検索',
