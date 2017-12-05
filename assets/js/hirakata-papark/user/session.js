@@ -7,36 +7,30 @@ var superagent = require('superagent');
 /*
  * args :{
  *   url: Str,
- *   idConditions: Str,
- *   passWordConditions: Str,
- *   nameConditions: Str,
+ *   moveTo: Str,
  * }
  */
 
 module.exports = function (args) {
   Vue.use(VTooltip);
   new Vue({
-    el: '#user-register',
+    el: '#user-session',
     data: {
+      url: args.url,
+      moveTo: args.moveTo,
       id: '',
       password: '',
-      name: '',
       idErrors: [],
       passwordErrors: [],
-      nameErrors: [],
-      url: args.url,
-      idConditions: args.idConditions,
-      passWordConditions: args.passWordConditions,
-      nameConditions: args.nameConditions,
     },
     methods: {
       clearErrors: function () {
-        ['idErrors', 'passwordErrors', 'nameErrors'].forEach(function (elem) {
+        ['idErrors', 'passwordErrors'].forEach(function (elem) {
           this[elem] = [];
         }.bind(this));
       },
       isFormEmpty: function () {
-        return this.id === '' && this.name === '' && this.password === '';
+        return this.id === '' && this.password === '';
       },
       send: function () {
         if ( !this.isFormEmpty() ) {
@@ -45,7 +39,6 @@ module.exports = function (args) {
             .query({
               id: this.id,
               password: this.password,
-              name: this.name,
             })
             .end(function (err, res) {
               var json = JSON.parse(res.text);
@@ -55,6 +48,8 @@ module.exports = function (args) {
                   var error = json.errors[key];
                   this[error.name + 'Errors'] = error.messages;
                 }.bind(this));
+              } else {
+                location.assign(this.moveTo);
               }
             }.bind(this));
         }
@@ -62,3 +57,4 @@ module.exports = function (args) {
     },
   });
 };
+

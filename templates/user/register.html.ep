@@ -35,7 +35,7 @@
 
     <h3><%= $direct_title %></h3>
     <div class="input-field col s12">
-      <input placeholder="<%= $name %>" type="text" v-tooltip.top-center="nameConditions" v-model="name">
+      <input placeholder="<%= $name %>" type="text" v-tooltip.top-center="nameConditions" v-model="name" requried>
       <ul class="errors">
         <li class="red-text" v-for="err in nameErrors">
           {{ err }}
@@ -43,7 +43,7 @@
       </ul>
     </div>
     <div class="input-field col s12">
-      <input placeholder="ID" type="text" v-tooltip.top-center="idConditions" v-model="id">
+      <input placeholder="ID" type="text" v-tooltip.top-center="idConditions" v-model="id" required>
       <ul class="errors">
         <li class="red-text" v-for="err in idErrors">
           {{ err }}
@@ -51,7 +51,7 @@
       </ul>
     </div>
     <div class="input-field col s12">
-      <input placeholder="<%= $password %>" type="text" v-tooltip.top-center="passWordConditions" v-model="password">
+      <input placeholder="<%= $password %>" type="password" v-tooltip.top-center="passWordConditions" v-model="password" required>
       <ul class="errors">
         <li class="red-text" v-for="err in passwordErrors">
           {{ err }}

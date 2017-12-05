@@ -1,0 +1,5 @@
+<%= include 'user/session' => (
+  title    => 'ログイン',
+  id       => 'ID',
+  password => 'パスワード',
+); %>

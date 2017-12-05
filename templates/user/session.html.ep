@@ -1,0 +1,39 @@
+% layout "default_${lang}";
+
+<div class="container">
+
+  <h2><%= $title %></h2>
+
+  <div class="row" id="user-session">
+    <div class="input-field col s12">
+      <input placeholder="<%= $id %>" type="text" v-model="id" requried>
+      <ul class="errors">
+        <li class="red-text" v-for="err in idErrors">
+          {{ err }}
+        </li>
+      </ul>
+    </div>
+    <div class="input-field col s12">
+      <input placeholder="<%= $password %>" type="password" v-model="password" requried>
+      <ul class="errors">
+        <li class="red-text" v-for="err in passwordErrors">
+          {{ err }}
+        </li>
+      </ul>
+    </div>
+    <div class="input-field col s12">
+      <button class="waves-effect btn-large" v-on:click="send"><%= $title %></button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+window.addEventListener('load', function () {
+    hirakataPapark.user().session({
+      url: '<%= url_for "/$lang/user/login" %>',
+      moveTo: '<%= url_for "/$lang/user/mypage" %>',
+    });
+});
+</script>
+

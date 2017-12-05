@@ -23,6 +23,9 @@
         <li><a href="<%= url_for '/en/searcher/' %>">Search Park</a></li>
         <li><a href="<%= url_for '/en/current-location' %>">Search Nearby Parks</a></li>
         <li><a href="<%= url_for '/en/about' %>">About</a></li>
+        <li>　</li>
+        <li><a href="<%= url_for '/ja/user/session' %>">Login</a></li>
+        <li><a href="<%= url_for '/ja/user/register' %>">User Registration</a></li>
       </ul>
       </transition>
     </div>

@@ -20,7 +20,7 @@ package HirakataPapark::Web::Controller::User {
   };
 
   sub login($self) {
-    my $service = HirakataPapark::Service::User::Auth::Auth->new({
+    my $service = HirakataPapark::Service::User::Login::Login->new({
       lang     => $self->lang,
       id       => $self->param('id'),
       password => $self->param('password'),
@@ -83,6 +83,10 @@ package HirakataPapark::Web::Controller::User {
       },
     );
     $self->render(json => $json);
+  }
+
+  sub action_session($self) {
+    $self->render_to_multiple_lang(template => 'user/session');
   }
 
 }
