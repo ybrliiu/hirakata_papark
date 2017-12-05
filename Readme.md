@@ -3,6 +3,9 @@
 ## 予定
 
 ### ユーザー登録機能
+* Object::Container使う
+* Contollerに$self->dbを追加
+* Service::User::Regist の作り直し
 * ユーザー登録機能追加
   * ログインしているユーザーは以下のことが可能
     * 名前付きのコメント
@@ -32,8 +35,8 @@
   * サブルーチンシグネチャを使えるところでは使う
 * キャッシュできるところはキャッシュしていく, 
   キャッシュが増えすぎてわかりにくくなると思ったらBread::Board or Object::Container使う
-* Contollerに$self->dbを追加
 * Contoller->param をoptionでらっぷするぞ...
+* Model add_row throw exception ではなくEither返却
 * Web.pm のrender_error上書きの書き直し
 
 ### テスト関係

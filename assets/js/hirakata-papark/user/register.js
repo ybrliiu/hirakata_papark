@@ -30,6 +30,11 @@ module.exports = function (args) {
       nameConditions: args.nameConditions,
     },
     methods: {
+      clearErrors: function () {
+        ['idErrors', 'passwordErrors', 'nameErrors'].forEach(function (elem) {
+          this[elem] = [];
+        }.bind(this));
+      },
       isFormEmpty: function () {
         return this.id === '' && this.name === '' && this.password === '';
       },
@@ -44,8 +49,8 @@ module.exports = function (args) {
             })
             .end(function (err, res) {
               var json = JSON.parse(res.text);
+              this.clearErrors();
               if (!json.is_success) {
-                console.log(json);
                 Object.keys(json.errors).forEach(function (key) {
                   var error = json.errors[key];
                   this[error.name + 'Errors'] = error.messages;

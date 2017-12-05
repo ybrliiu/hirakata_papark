@@ -121,6 +121,12 @@ strong {
   text-transform: none;
 }
 
+ul.errors {
+  li {
+    list-style-type: disc !important;
+  }
+}
+
 // v-tooltip
 .tooltip {
   display: block !important;

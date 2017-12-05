@@ -2,6 +2,7 @@ package HirakataPapark::Web {
 
   use Mojo::Base 'Mojolicious';
   use HirakataPapark;
+  use Plack::Session;
   use Plack::Session::Store::File;
   use Plack::Session::State::Cookie;
 
@@ -20,10 +21,10 @@ package HirakataPapark::Web {
   }
 
   sub regist_helpes($self) {
+
     # override $c->reply->not_found();
     # 汚いやり方なので, いい方法を見つけられればそれに変える
-    $self->helper('reply.not_found' => sub {
-      my $c = shift;
+    $self->helper('reply.not_found' => sub ($c) {
       my $url = $c->req->url->path->to_string();
       my $lang = do {
         my $lang = (split q!/!, $url)[1];
@@ -31,6 +32,11 @@ package HirakataPapark::Web {
       };
       Mojolicious::Plugin::DefaultHelpers::_development("not_found_${lang}", $c);
     });
+    
+    $self->helper(plack_session => sub ($c) {
+      Plack::Session->new($c->req->env);
+    });
+
   }
 
   sub routing($self) {
@@ -85,6 +91,11 @@ package HirakataPapark::Web {
       my $user = $root->any('/user')->to(controller => 'User');
       $user->get( '/register')->to(action => 'register');
       $user->post('/regist'  )->to(action => 'regist');
+      $user->get( '/session' )->to(action => 'action_session');
+      $user->post('/login'   )->to(action => 'login');
+      $user->get( '/logout'  )->to(action => 'logout');
+      my $authed_user = $user->under('/user')->to('user#auth')->to(controller => 'AuthedUser');
+      $authed_user->get('/mypage')->to(action => 'mypage');
     }
 
   }

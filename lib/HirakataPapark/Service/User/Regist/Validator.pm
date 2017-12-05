@@ -4,7 +4,6 @@ package HirakataPapark::Service::User::Regist::Validator {
   use HirakataPapark;
   use Either;
   use HirakataPapark::Validator;
-  use HirakataPapark::Service::Role::Validator;
 
   use constant {
     MIN_NAME_LEN     => 1,

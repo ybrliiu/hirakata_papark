@@ -23,6 +23,7 @@ package HirakataPapark::Validator::DefaultMessageData {
         length        => '[_1]が長すぎるか短すぎます。',
         ascii         => '[_1]には英数字及び半角記号しか使用できません。',
         choice        => '[_1]に想定外の値が入力されています。',
+        equal         => '[_1]が正しくありません。',
         already_exist => 'その[_1]は既に使用されています。',
       },
     });
@@ -45,6 +46,7 @@ package HirakataPapark::Validator::DefaultMessageData {
         length        => '[_1] is either too long or too short.',
         ascii         => 'Only alphanumeric characters and half-width symbols can be used in the [_1].',
         choice        => 'An unexpected value is entered for the [_1].',
+        equal         => 'Wrong [_1].',
         already_exist => 'The [_1] is already used.',
       },
       message => {},

@@ -215,6 +215,30 @@ package Test::HirakataPapark::Container::TestData {
 
       };
 
+      container 'User' => as {
+
+        service 'user_param' => {
+          name     => '市民A',
+          id       => 'citizen_A',
+          password => 'hogerahogera',
+        };
+
+        service 'user' => (
+          block => sub ($s) {
+            my $param = $s->param('param');
+            my $users = $s->param('users');
+            $users->add_row($param);
+            $users->get_row_by_id($param->{id})->get;
+          },
+          lifecycle => 'Singleton',
+          dependencies => {
+            param => 'user_param',
+            users => '../../Model/Users/users',
+          },
+        );
+
+      };
+
     };
 
   }
