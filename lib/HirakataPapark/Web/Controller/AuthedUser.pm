@@ -1,4 +1,4 @@
-package HirakataPapark::Web::Controller::User {
+package HirakataPapark::Web::Controller::AuthedUser {
 
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
@@ -13,8 +13,17 @@ package HirakataPapark::Web::Controller::User {
       ->(sub ($user) { $user });
   };
 
+  sub auth($self) {
+    if ( $self->plack_session->get('user.id') ) {
+      1;
+    } else {
+      $self->render(status => 401, text => 'Unauthorized');
+      0;
+    }
+  }
+
   sub mypage($self) {
-    $self->render(json => $self->user);
+    $self->render(json => +{ $self->user->%* });
   }
 
 }

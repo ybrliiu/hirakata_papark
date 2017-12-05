@@ -94,7 +94,7 @@ package HirakataPapark::Web {
       $user->get( '/session' )->to(action => 'action_session');
       $user->post('/login'   )->to(action => 'login');
       $user->get( '/logout'  )->to(action => 'logout');
-      my $authed_user = $user->under('/user')->to('user#auth')->to(controller => 'AuthedUser');
+      my $authed_user = $root->under('/user')->to(controller => 'AuthedUser')->to(action => 'auth');
       $authed_user->get('/mypage')->to(action => 'mypage');
     }
 

@@ -479,6 +479,30 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.36
       Test::More 0.96
       Try::Tiny 0
+  Daiku-1.004
+    pathname: S/SO/SONGMU/Daiku-1.004.tar.gz
+    provides:
+      Daiku 1.004
+      Daiku::CLI undef
+      Daiku::Daikufile undef
+      Daiku::File undef
+      Daiku::Registry undef
+      Daiku::Role undef
+      Daiku::SuffixRule undef
+      Daiku::Task undef
+    requirements:
+      Getopt::Long 2.39
+      IPC::System::Simple 0
+      Module::Build::Tiny 0.035
+      Mouse 0.92
+      Mouse::Role 0
+      Parse::CommandLine 0
+      Pod::Usage 0
+      Scalar::Util 0
+      Tie::IxHash 0
+      Time::HiRes 1.9701
+      autodie 0
+      perl 5.008001
   Data-OptList-0.110
     pathname: R/RJ/RJBS/Data-OptList-0.110.tar.gz
     provides:
@@ -1569,6 +1593,21 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0.31
       Time::HiRes 0
+  IPC-System-Simple-1.25
+    pathname: P/PJ/PJF/IPC-System-Simple-1.25.tar.gz
+    provides:
+      IPC::System::Simple 1.25
+    requirements:
+      Carp 0
+      Exporter 0
+      ExtUtils::MakeMaker 6.30
+      List::Util 0
+      POSIX 0
+      Scalar::Util 0
+      constant 0
+      re 0
+      strict 0
+      warnings 0
   Import-Into-1.002005
     pathname: H/HA/HAARG/Import-Into-1.002005.tar.gz
     provides:
@@ -2804,6 +2843,17 @@ DISTRIBUTIONS
       overload 0
       strict 0
       warnings 0
+  Parse-CommandLine-0.02
+    pathname: S/SO/SONGMU/Parse-CommandLine-0.02.tar.gz
+    provides:
+      Parse::CommandLine 0.02
+    requirements:
+      CPAN::Meta 0
+      CPAN::Meta::Prereqs 0
+      ExtUtils::CBuilder 0
+      Module::Build 0.38
+      parent 0
+      perl 5.008001
   Parse-RecDescent-1.967015
     pathname: J/JT/JTBRAUN/Parse-RecDescent-1.967015.tar.gz
     provides:

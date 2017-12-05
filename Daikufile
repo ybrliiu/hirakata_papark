@@ -1,0 +1,24 @@
+# Makefileのようなものです(Rakefileのほうが近いか)
+
+task default => 'run';
+
+desc '本番モードで起動';
+task 'run' => sub {
+  sh qw( hypnotoad script/hirakata_papark );
+};
+
+desc '開発モードで起動';
+task 'run-dev' => sub {
+  sh 'MOJO_MODE=development hypnotoad script/hirakata_papark';
+};
+
+desc 'JavaScriptビルド(本番用)';
+task 'build-js' => sub {
+  sh qw( npm run build );
+};
+
+desc 'JavaScriptビルド(開発時用)';
+task 'build-js-dev' => sub {
+  sh qw( npm run build-dev );
+};
+

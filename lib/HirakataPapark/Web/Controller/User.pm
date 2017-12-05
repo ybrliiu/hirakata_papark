@@ -19,15 +19,6 @@ package HirakataPapark::Web::Controller::User {
       ->instance->message_data($self->lang);
   };
 
-  sub auth($self) {
-    if ( $self->plack_session->get('user.id') ) {
-      1;
-    } else {
-      $self->render(status => 403, text => 'Unauthorized');
-      0;
-    }
-  }
-
   sub login($self) {
     my $service = HirakataPapark::Service::User::Auth::Auth->new({
       lang     => $self->lang,
@@ -45,7 +36,7 @@ package HirakataPapark::Web::Controller::User {
 
   sub logout($self) {
     $self->plack_session->expire;
-    $self->redirect('/' . $self->lang);
+    $self->redirect_to('/' . $self->lang);
   }
 
   sub register($self) {
@@ -76,8 +67,8 @@ package HirakataPapark::Web::Controller::User {
       Right => sub ($p) {
         HirakataPapark::Service::User::Login::Login->new({
           lang     => $self->lang,
-          id       => $p->param('id'),
-          password => $p->param('password'),
+          id       => $p->param('id')->get,
+          password => $p->param('password')->get,
           session  => $self->plack_session,
           users    => $self->users,
         })->login;

@@ -48,7 +48,7 @@ module.exports = function (args) {
               name: this.name,
             })
             .end(function (err, res) {
-              var json = JSON.parse(res.text);
+              var json = JSON.parse(JSON.stringify(res.text));
               this.clearErrors();
               if (!json.is_success) {
                 Object.keys(json.errors).forEach(function (key) {

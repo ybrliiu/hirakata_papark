@@ -5,6 +5,7 @@ requires 'Try::Tiny';
 requires 'Exception::Tiny';
 requires 'Aniki';
 requires 'Anego', '== 0.01_02';
+requires 'Daiku';
 requires 'Config::PL';
 requires 'Mojolicious';
 requires 'HTML::Escape';
