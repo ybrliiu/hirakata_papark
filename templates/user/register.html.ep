@@ -31,7 +31,7 @@
     </div>
 
     </div>
-    <div class="col l6 s12" id="user-register">
+    <div class="col l6 s12" id="user-register" v-cloak>
 
     <h3><%= $direct_title %></h3>
     <div class="input-field col s12">

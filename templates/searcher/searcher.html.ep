@@ -5,7 +5,7 @@
   %= content search_form => begin
   %= end
   <div class="row">
-    <h3 v-if="showResult"><%= $search_result_title %></h3>
+    <h3 v-if="showResult" v-cloak><%= $search_result_title %></h3>
     <div class="col s12" v-html="result"></div>
   </div>
 </div>

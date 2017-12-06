@@ -1,5 +1,6 @@
 <%= include 'searcher/plants' => (
   layout                   => 'default_en',
+  vue_property             => 'plants',
   title                    => 'Search By Plants',
   search_by_variety_title  => 'Search By Variety',
   search_by_name_url       => '/en/search/has-plants',

@@ -112,7 +112,7 @@ strong {
 
 .search-park-btn {
   $margin: 9px;
-  width: 230px;
+  width: 100%;
   margin-top: $margin;
   margin-bottom: $margin;
 }
@@ -126,6 +126,9 @@ ul.errors {
     list-style-type: disc !important;
   }
 }
+
+// v-croakでvue.jsがdomを解析する前に表示させない
+[v-cloak] { display: none; }
 
 // v-tooltip
 .tooltip {

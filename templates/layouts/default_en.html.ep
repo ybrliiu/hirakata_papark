@@ -11,7 +11,7 @@
         <li v-on:click="showSideMenu"><a><i class="material-icons">menu</i></a></li>
       </ul>
       <transition name="fade-menu">
-      <ul class="side-nav" v-show="isShow" v-on:click="stopClose">
+      <ul class="side-nav" v-show="isShow" v-on:click="stopClose" v-cloak>
         <li><span class="title center green darken-3"><%= $config->{site}{english_name} %></span></li>
         <form class="in-side-nav">
           <div class="input-field">

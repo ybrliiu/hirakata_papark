@@ -4,7 +4,7 @@
 
   <h2><%= $title %></h2>
 
-  <div class="row" id="user-session">
+  <div class="row" id="user-session" v-cloak>
     <div class="input-field col s12">
       <input placeholder="<%= $id %>" type="text" v-model="id" requried>
       <ul class="errors">
