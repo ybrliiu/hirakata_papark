@@ -47,6 +47,10 @@ package HirakataPapark::Model::Role::DB {
     $self->db->handler->txn_manager->txn_scope;
   }
 
+  sub update($self, $set, $where) {
+    $self->db->update($self->TABLE, $set, $where);
+  }
+
 }
 
 1;

@@ -49,16 +49,30 @@ lives_ok {
     explain => 'english row test insert',
   })
 };
-ok my $epark = $model->get_row_by_name('english_park A')->get;
-ok $jpark->isa('HirakataPapark::DB::Row::Park');
-ok $epark->isa('HirakataPapark::DB::Row::EnglishPark');
-is $epark->name, 'english_park A';
-is $epark->address, 'somewhere';
-is $epark->explain, 'english row test insert';
-is $epark->x, $jpark->x;
-is $epark->y, $jpark->y;
-is $epark->area, $jpark->area;
-is $epark->is_nice_scenery, $jpark->is_nice_scenery;
+
+my $epark;
+subtest 'select' => sub {
+  ok $epark = $model->get_row_by_name('english_park A')->get;
+  ok $jpark->isa('HirakataPapark::DB::Row::Park');
+  ok $epark->isa('HirakataPapark::DB::Row::EnglishPark');
+  is $epark->name, 'english_park A';
+  is $epark->address, 'somewhere';
+  is $epark->explain, 'english row test insert';
+  is $epark->x, $jpark->x;
+  is $epark->y, $jpark->y;
+  is $epark->area, $jpark->area;
+  is $epark->is_nice_scenery, $jpark->is_nice_scenery;
+};
+
+subtest 'update' => sub {
+  lives_ok {
+    $model->update({ address => 'city A', area => 2000 }, { id => $epark->id });
+  };
+  my $new_epark;
+  lives_ok{ $new_epark = $model->get_row_by_name('english_park A')->get };
+  is $new_epark->area, 2000;
+  is $new_epark->address, 'city A';
+};
 
 done_testing;
 

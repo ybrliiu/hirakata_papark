@@ -149,6 +149,15 @@ package HirakataPapark::DB::Schema {
     add_index 'user_id_index' => ['id'];
   };
 
+  create_table park_star => columns {
+    integer 'park_id';
+    integer 'user_seacret_id';
+
+    add_unique_index 'park_star_unique' => ['park_id', 'user_seacret_id'];
+    foreign_key 'park_id' => (park => 'id');
+    foreign_key 'user_seacret_id' => (user => 'seacret_id');
+  };
+
 }
 
 1;

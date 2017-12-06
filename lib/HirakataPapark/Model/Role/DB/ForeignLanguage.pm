@@ -4,6 +4,7 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage {
   use HirakataPapark;
 
   use HirakataPapark::Model::Role::DB::ForeignLanguage::SelectColumnsMaker;
+  use HirakataPapark::Model::Role::DB::ForeignLanguage::UpdateSetColumnsMaker;
 
   requires qw( ORIG_LANG_TABLE );
 
@@ -80,6 +81,19 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage {
         # just 'foo DESC, bar ASC'
         $select->$method_name(\$o);
       }
+    }
+  }
+
+  sub update($self, $set, $where) {
+    my $maker = HirakataPapark::Model::Role::DB::ForeignLanguage::UpdateSetColumnsMaker->new({
+      set                  => $set,
+      select_columns_maker => $self->select_columns_maker,
+    });
+    if ($maker->set_of_table->%*) {
+      $self->db->update($self->TABLE, $maker->set_of_table, $where);
+    }
+    if ($maker->set_of_orig_lang_table->%*) {
+      $self->db->update($self->ORIG_LANG_TABLE, $maker->set_of_orig_lang_table, $where);
     }
   }
 
