@@ -2,13 +2,27 @@ package HirakataPapark::Web::Controller {
 
   use Mojo::Base 'Mojolicious::Controller';
   use HirakataPapark;
+  use Option;
   use Mojo::Util;
+  use HirakataPapark::Model::Users::Users;
 
   use constant NOT_FOUND => 404;
 
   has 'lang' => sub ($self) {
     my $lang = $self->param('lang');
     exists HirakataPapark->LANG_TABLE->{$lang} ? $lang : HirakataPapark->DEFAULT_LANG;
+  };
+
+  has 'users' => sub { HirakataPapark::Model::Users::Users->new };
+
+  has 'maybe_user_id' => sub ($self) {
+    option( $self->plack_session->get('user.id') );
+  }
+
+  has 'maybe_user' => sub ($self) {
+    $self->maybe_user_id->flat_map(sub ($id) {
+      $self->users->get_row_by_id($id)->map(sub ($user) { $user });
+    });
   };
 
   sub render_to_multiple_lang {
@@ -32,8 +46,7 @@ package HirakataPapark::Web::Controller {
     $self->SUPER::render(@_, JS_FILES => [], SCSS_FILES => [], CSS_FILES => []);
   }
 
-  sub reply_not_found {
-    my $self = shift;
+  sub render_not_found($self) {
     my $template = 'not_found_'. $self->lang;
     $self->render_maybe(
       template => $template,

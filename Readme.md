@@ -5,6 +5,8 @@
 ### ユーザー登録機能
 * Object::Container使う
 * Contollerに$self->dbを追加
+* render_unauthorized (401 Unauthorized)
+* render_exception
 * ユーザー登録機能追加
   * ログインしているユーザーは以下のことが可能
     * 名前付きのコメント

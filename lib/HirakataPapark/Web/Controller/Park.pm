@@ -50,7 +50,7 @@ package HirakataPapark::Web::Controller::Park {
         $self->stash(park => $park);
         $self->render_to_multiple_lang();
       },
-      None => sub { $self->reply_not_found() },
+      None => sub { $self->render_not_found },
     );
   }
 

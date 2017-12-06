@@ -10,13 +10,6 @@ package HirakataPapark::Web::Controller::User {
   use HirakataPapark::Service::User::Login::Login;
   use HirakataPapark::Service::User::Regist::Register;
 
-  has 'users' => sub { HirakataPapark::Model::Users::Users->new };
-
-  has 'regist_message_data' => sub ($self) {
-    HirakataPapark::Service::User::Regist::MessageData
-      ->instance->message_data($self->lang);
-  };
-
   sub login($self) {
     my $service = HirakataPapark::Service::User::Login::Login->new({
       lang     => $self->lang,
@@ -40,7 +33,7 @@ package HirakataPapark::Web::Controller::User {
   sub register($self) {
     $self->stash({
       validator    => 'HirakataPapark::Service::User::Regist::Validator',
-      message_data => $self->regist_message_data,
+      message_data => HirakataPapark::Service::User::Regist::MessageData->instance->message_data($self->lang),
     });
     $self->render_to_multiple_lang;
   }
