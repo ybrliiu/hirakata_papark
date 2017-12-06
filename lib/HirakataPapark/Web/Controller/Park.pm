@@ -4,7 +4,9 @@ package HirakataPapark::Web::Controller::Park {
   use HirakataPapark;
 
   use Option;
+  use HirakataPapark::Service::User::User;
   use HirakataPapark::Service::Park::Park;
+  use HirakataPapark::Model::Parks::Stars;
   use HirakataPapark::Model::Parks::Tags;
   use HirakataPapark::Model::Parks::Comments;
   use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
@@ -21,6 +23,8 @@ package HirakataPapark::Web::Controller::Park {
   };
 
   has 'park_tags' => sub ($self) { HirakataPapark::Model::Parks::Tags->new };
+
+  has 'park_stars' => sub ($self) { HirakataPapark::Model::Parks::Stars->new };
 
   has 'park_plants' => sub ($self) {
     HirakataPapark::Model::MultilingualDelegator::Parks::Plants->new->model( $self->lang );
@@ -43,12 +47,21 @@ package HirakataPapark::Web::Controller::Park {
         my $park = HirakataPapark::Service::Park::Park->new({
           row             => $row,
           park_tags       => $self->park_tags,
+          park_stars      => $self->park_stars,
           park_plants     => $self->park_plants,
           park_equipments => $self->park_equipments,
           park_facilities => $self->park_facilities,
         });
-        $self->stash(park => $park);
-        $self->render_to_multiple_lang();
+        $self->stash(
+          park       => $park,
+          maybe_user => $self->maybe_user->map(sub ($user) {
+            HirakataPapark::Service::User::User->new({
+              row        => $user,
+              park_stars => $self->park_stars,
+            });
+          }),
+        );
+        $self->render_to_multiple_lang;
       },
       None => sub { $self->render_not_found },
     );

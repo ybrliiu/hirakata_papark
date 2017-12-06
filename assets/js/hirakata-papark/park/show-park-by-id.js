@@ -7,10 +7,48 @@ var superagent = require('superagent');
  * args: {
  *   getCommentsUrl: Str,
  *   addCommentUrl: Str,
+ *   isUserAuthed: Bool,
+ *   isUserStared: Bool,
+ *   starNum: Int,
+ *   addStarUrl: Str,
  * };
  */
 
 module.exports = function (args) {
+
+  var parkStar = new Vue({
+    el: '#v-park-star',
+    data: {
+      isUserAuthed: args.isUserAuthed,
+      isUserStared: args.isUserStared,
+      starNum: args.starNum,
+      addStarUrl: args.addStarUrl,
+    },
+    methods: {
+      starIcon: function () {
+        return this.isUserStared ? 'star' : 'star_border';
+      },
+      clickStar: function () {
+        if (this.isUserAuthed) {
+          if (this.isUserStared) {
+          } else {
+            superagent
+              .post(this.addStarUrl)
+              .end(function (err, res) {
+                var json = JSON.parse(res.text);
+                if (json.is_success) {
+                  this.isUserStared = !this.isUserStared;
+                  this.starNum += this.isUserStared ? 1 : -1;
+                } else {
+                  console.log('通信失敗');
+                  console.log(json);
+                }
+              }.bind(this));
+          }
+        }
+      },
+    },
+  });
   
   var comment = new Vue({
     el: '#comment',

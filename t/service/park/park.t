@@ -12,12 +12,15 @@ lives_ok {
   $park = HirakataPapark::Service::Park::Park->new(
     row             => $row,
     park_tags       => $mc->get_service('tags')->get,
+    park_stars      => $mc->get_service('stars')->get,
     park_plants     => $mc->get_service('plants')->get,
     park_equipments => $mc->get_service('equipments')->get,
     park_facilities => $mc->get_service('surrounding_facilities')->get,
   )
 };
 lives_ok { $park->tags };
+lives_ok { $park->stars };
+is $park->stars->len, 0;
 lives_ok { $park->plants };
 lives_ok { $park->plants_categories };
 lives_ok { $park->surrounding_facility_names };

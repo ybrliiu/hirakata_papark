@@ -17,6 +17,10 @@ package HirakataPapark::Model::Result {
     @_ == 1 ? $class->$orig(contents => shift) : $class->$orig(@_);
   };
 
+  sub len($self) {
+    $#{ $self->contents } + 1;
+  }
+
   sub get($self, $index) { option $self->contents->[$index] }
 
   sub get_all($self) { $self->contents }

@@ -6,6 +6,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
   use HirakataPapark::Exception;
   use HirakataPapark::Validator::Params;
   use HirakataPapark::Model::Parks::Stars;
+  use HirakataPapark::Service::User::AddParkStar::AddParkStar;
   
   has 'user' => sub ($self) { $self->maybe_user->get };
 
@@ -22,7 +23,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
     $self->render(json => +{ $self->user->%* });
   }
 
-  sub add_star($self) {
+  sub add_park_star($self) {
     my $service = HirakataPapark::Service::User::AddParkStar::AddParkStar->new({
       db         => $self->park_stars->db,
       lang       => $self->lang,

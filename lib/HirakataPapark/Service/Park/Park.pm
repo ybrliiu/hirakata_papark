@@ -22,6 +22,12 @@ package HirakataPapark::Service::Park::Park {
     required => 1,
   );
 
+  has 'park_stars' => (
+    is       => 'ro',
+    isa      => 'HirakataPapark::Model::Parks::Stars',
+    required => 1,
+  );
+
   has 'park_plants' => (
     is       => 'ro',
     does     => 'HirakataPapark::Model::Role::DB::Parks::Plants',
@@ -66,6 +72,10 @@ package HirakataPapark::Service::Park::Park {
 
   sub tags($self) {
     $self->park_tags->get_rows_by_park_id($self->id);
+  }
+
+  sub stars($self) {
+    $self->park_stars->get_rows_by_park_id($self->id);
   }
 
   __PACKAGE__->meta->make_immutable();

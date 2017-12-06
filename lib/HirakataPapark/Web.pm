@@ -102,7 +102,9 @@ package HirakataPapark::Web {
       $user->post('/login'   )->to(action => 'login');
       $user->get( '/logout'  )->to(action => 'logout');
       my $authed_user = $root->under('/user')->to(controller => 'AuthedUser')->to(action => 'auth');
-      $authed_user->get('/mypage')->to(action => 'mypage');
+      $authed_user->get( '/mypage'                   )->to(action => 'mypage');
+      $authed_user->post('/add-park-star/:park_id'   )->to(action => 'add_park_star');
+      $authed_user->post('/remove-park-star/:park_id')->to(action => 'remove_park_star');
     }
 
   }

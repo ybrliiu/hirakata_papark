@@ -7,7 +7,7 @@ my $db = $c->get_sub_container('DB')->get_service('db')->get;
 my $tc = $c->get_sub_container('TestData');
 my $user = $tc->get_sub_container('User')->get_service('user')->get;
 my $park = $tc->get_sub_container('Park')->get_service('park')->get;
-my $park_stars = $c->get_sub_container('Model')->get_sub_container('Parks')->get_service('park_stars')->get;
+my $park_stars = $c->get_sub_container('Model')->get_sub_container('Parks')->get_service('stars')->get;
 
 subtest 'success_case' => sub {
   my $service = HirakataPapark::Service::User::AddParkStar::AddParkStar->new(
