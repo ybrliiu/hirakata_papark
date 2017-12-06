@@ -1,4 +1,12 @@
 <div class="container">
+  
+  <div class="row">
+    <div class="col s12">
+      <ul class="right hide-on-med-and-down">
+        <div><i class="material-icons">more_horiz</i></div>
+      </ul>
+    </div>
+  </div>
 
   <h2><%= $park->name %></h2>
 
