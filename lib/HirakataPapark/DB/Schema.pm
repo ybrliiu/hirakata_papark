@@ -26,10 +26,13 @@ package HirakataPapark::DB::Schema {
 
   create_table english_park => columns {
     integer 'id' => (primary_key);
-    string 'english_name' => (unique); # SQL::Translator の仕様変更がなされれば 'name' に変更
+    string 'name'; # => (unique);
     string 'address';
     string 'explain' => (default => '');
 
+    # SQL::Translator のunique制約へのCONSTRAINT自動命名がクソ(カラム名 + '_unque')
+    # で容易に多テーブルと衝突してしまうので, ここで直接命名
+    add_unique_index 'english_park_name_unique' => ['name'];
     foreign_key 'id' => (park => 'id');
   };
 
@@ -140,12 +143,15 @@ package HirakataPapark::DB::Schema {
   create_table user => columns {
     integer 'seacret_id' => (primary_key, auto_increment);
     string 'id' => (unique);
-    string 'user_name' => (unique); # SQL::Translator が修正されたら 'name' に変更
+    string 'name'; # => (unique);
     string 'password';
 
     string 'address' => (default => '');
     string 'profile' => (default => '');
 
+    # SQL::Translator のunique制約へのCONSTRAINT自動命名がクソ(カラム名 + '_unque')
+    # で容易に多テーブルと衝突してしまうので, ここで直接命名
+    add_unique_index 'user_name_unique' => ['name'];
     add_index 'user_id_index' => ['id'];
   };
 

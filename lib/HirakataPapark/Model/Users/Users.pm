@@ -17,11 +17,11 @@ package HirakataPapark::Model::Users::Users {
       my $profile  => { isa => 'Str', default => '' };
 
     $self->insert({
-      id        => $id,
-      user_name => $name,
-      password  => $password,
-      address   => $address,
-      profile   => $profile,
+      id       => $id,
+      name     => $name,
+      password => $password,
+      address  => $address,
+      profile  => $profile,
     });
   }
 
@@ -34,7 +34,7 @@ package HirakataPapark::Model::Users::Users {
   }
 
   sub get_row_by_name($self, $name) {
-    $self->select({user_name => $name})->first_with_option;
+    $self->select({name => $name})->first_with_option;
   }
 
   __PACKAGE__->meta->make_immutable;

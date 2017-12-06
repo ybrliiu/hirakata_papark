@@ -14,10 +14,11 @@ subtest default_case => sub {
       orig_lang_table_name => 'park',
     );
   };
-  is_deeply $maker->select_columns, ['english_park.address', 'park.area', 'english_park.english_name', 'english_park.explain', 'english_park.id', 'park.is_evacuation_area', 'park.is_nice_scenery', 'park.name', 'park.remarks_about_plants', 'park.star_num', 'park.x', 'park.y'];
+  is_deeply $maker->select_columns, ['english_park.address', 'park.area', 'english_park.explain', 'english_park.id', 'park.is_evacuation_area', 'park.is_nice_scenery', 'english_park.name', 'park.remarks_about_plants', 'park.star_num', 'park.x', 'park.y'];
   is_deeply $maker->join_condition, { 'park.id' => 'english_park.id' };
 };
 
+# これいまは別にいらん機能かも
 subtest specify_not_need_columns => sub {
   my $maker;
   lives_ok {
@@ -28,7 +29,7 @@ subtest specify_not_need_columns => sub {
       not_need_columns     => ['name'],
     );
   };
-  is_deeply $maker->select_columns, ['english_park.address', 'park.area', 'english_park.english_name', 'english_park.explain', 'english_park.id', 'park.is_evacuation_area', 'park.is_nice_scenery', 'park.remarks_about_plants', 'park.star_num', 'park.x', 'park.y'];
+  is_deeply $maker->select_columns, ['english_park.address', 'park.area', 'english_park.explain', 'english_park.id', 'park.is_evacuation_area', 'park.is_nice_scenery', 'park.remarks_about_plants', 'park.star_num', 'park.x', 'park.y'];
 };
 
 done_testing;

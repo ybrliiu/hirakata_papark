@@ -21,15 +21,15 @@ package TestModel {
       my $explain => { isa => 'Str', default => '' };
 
     $self->insert({
-      id           => $id,
-      english_name => $name,
-      address      => $address,
-      explain      => $explain,
+      id      => $id,
+      name    => $name,
+      address => $address,
+      explain => $explain,
     });
   }
 
   sub get_row_by_name($self, $name) {
-    $self->select({ english_name => $name })->first_with_option;
+    $self->select({ $self->TABLE . '.name' => $name })->first_with_option;
   }
 
   __PACKAGE__->meta->make_immutable;
