@@ -11,8 +11,10 @@ requires 'Mojolicious';
 requires 'HTML::Escape';
 requires 'FormValidator::Lite';
 requires 'Mojolicious::Plugin::AssetPack';
+requires 'CSS::Sass';
 requires 'Mojolicious::Plugin::PlackMiddleware';
 requires 'Mojolicious::Plugin::ProxyPassReverse::SubDir';
+requires 'Plack';
 requires 'Plack::Middleware::Session';
 
 on 'test' => sub {
