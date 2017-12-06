@@ -8,8 +8,6 @@ package HirakataPapark::Web::Controller::User {
   use HirakataPapark::Validator::Params;
   use HirakataPapark::Model::Users::Users;
   use HirakataPapark::Service::User::Login::Login;
-  use HirakataPapark::Service::User::Regist::Validator;
-  use HirakataPapark::Service::User::Regist::MessageData;
   use HirakataPapark::Service::User::Regist::Register;
 
   has 'users' => sub { HirakataPapark::Model::Users::Users->new };
@@ -22,8 +20,8 @@ package HirakataPapark::Web::Controller::User {
   sub login($self) {
     my $service = HirakataPapark::Service::User::Login::Login->new({
       lang     => $self->lang,
-      id       => $self->param('id'),
-      password => $self->param('password'),
+      id       => $self->param('id') // '',
+      password => $self->param('password') // '',
       session  => $self->plack_session,
       users    => $self->users,
     });
@@ -48,22 +46,18 @@ package HirakataPapark::Web::Controller::User {
   }
 
   sub regist($self) {
-    my $validator = HirakataPapark::Service::User::Regist::Validator->new({
+    my $service = HirakataPapark::Service::User::Regist::Register->new({
+      db     => $self->users->db,
+      users  => $self->users,
+      lang   => $self->lang,
       params => HirakataPapark::Validator::Params->new({
         map {
           my $param = $self->param($_);
           defined $param ? ($_ => $param) : ();
         } qw( id name password address profile )
       }),
-      users        => $self->users,
-      message_data => $self->regist_message_data,
     });
-    my $service = HirakataPapark::Service::User::Regist::Register->new({
-      db        => $self->users->db,
-      validator => $validator,
-    });
-    my $result = $service->regist;
-    my $json = $result->match(
+    my $json = $service->regist->match(
       Right => sub ($p) {
         HirakataPapark::Service::User::Login::Login->new({
           lang     => $self->lang,

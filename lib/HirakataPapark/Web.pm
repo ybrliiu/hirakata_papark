@@ -6,6 +6,8 @@ package HirakataPapark::Web {
   use Plack::Session::Store::File;
   use Plack::Session::State::Cookie;
 
+  use constant SESSION_EXPIRES_TIME => 60 * 60 * 24;
+
   sub load_and_set_up_plugins($self) {
     $self->plugin(Config => { file => "etc/config/$_.conf" }) for qw( site plugin hypnotoad );
     $self->plugin(AssetPack => { pipes => [qw/Css Sass/] });
@@ -14,7 +16,12 @@ package HirakataPapark::Web {
     # Mojoliciousにはsession機能が無いため, Plack::Middlewareのを代用する
     $self->plugin(PlackMiddleware => [
       Session => {
-        state => Plack::Session::State::Cookie->new(session_key => 'hirakata_papark_sid'),
+        state => Plack::Session::State::Cookie->new(
+          expiers     => SESSION_EXPIRES_TIME,
+          seacret     => 'HirakataPapark::SEACRET_STRING',
+          # secure      => 1,
+          session_key => 'hirakata_papark_sid',
+        ),
         store => Plack::Session::Store::File->new(dir => './etc/sessions'),
       },
     ]);

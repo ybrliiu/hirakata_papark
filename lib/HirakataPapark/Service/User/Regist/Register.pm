@@ -4,15 +4,51 @@ package HirakataPapark::Service::User::Regist::Register {
   use HirakataPapark;
   use Either;
   use Try::Tiny;
+  use HirakataPapark::Service::User::Regist::Validator;
+  use HirakataPapark::Service::User::Regist::MessageData;
 
-  has 'validator' => (
+  has 'lang' => ( is => 'ro', isa => 'HirakataPapark::lang', required => 1 );
+
+  has 'users' => (
     is       => 'ro',
-    isa      => 'HirakataPapark::Service::User::Regist::Validator',
-    handles  => [qw( users params )],
+    isa      => 'HirakataPapark::Model::Users::Users',
     required => 1,
   );
 
+  has 'params' => (
+    is       => 'ro',
+    isa      => 'HirakataPapark::Validator::Params',
+    required => 1,
+  );
+
+  has 'message_data' => (
+    is      => 'ro',
+    isa     => 'HirakataPapark::Validator::MessageData',
+    lazy    => 1,
+    builder => '_build_message_data',
+  );
+
+  has 'validator' => (
+    is      => 'ro',
+    isa     => 'HirakataPapark::Service::User::Regist::Validator',
+    lazy    => 1,
+    builder => '_build_validator',
+  );
+
   with 'HirakataPapark::Service::Role::DB';
+
+  sub _build_message_data($self) {
+    HirakataPapark::Service::User::Regist::MessageData
+      ->instance->message_data($self->lang);
+  }
+
+  sub _build_validator($self) {
+    HirakataPapark::Service::User::Regist::Validator->new({
+      users        => $self->users,
+      params       => $self->params,
+      message_data => $self->message_data,
+    });
+  }
 
   # -> Either
   sub regist($self) {

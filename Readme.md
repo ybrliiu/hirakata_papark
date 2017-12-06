@@ -5,7 +5,6 @@
 ### ユーザー登録機能
 * Object::Container使う
 * Contollerに$self->dbを追加
-* Service::User::Regist の作り直し
 * ユーザー登録機能追加
   * ログインしているユーザーは以下のことが可能
     * 名前付きのコメント
@@ -36,8 +35,10 @@
 * キャッシュできるところはキャッシュしていく, 
   キャッシュが増えすぎてわかりにくくなると思ったらBread::Board or Object::Container使う
 * Contoller->param をoptionでらっぷするぞ...
+* Contoller->reply_not_found ? render_not_foundのほうがいいかも
 * Model add_row throw exception ではなくEither返却
 * Web.pm のrender_error上書きの書き直し
+* Web.pm sessionの設定
 
 ### テスト関係
 * 書いていないテストを書く
