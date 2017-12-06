@@ -22,6 +22,10 @@ package HirakataPapark::Model::Role::DB {
     );
   }
 
+  sub delete($self, $where) {
+    $self->db->delete($self->TABLE, $where);
+  }
+
   sub result_class { 'HirakataPapark::Model::Result' }
 
   sub insert {

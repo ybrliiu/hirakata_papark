@@ -1,11 +1,11 @@
-package HirakataPapark::Service::User::AddParkStar::AddParkStar {
+package HirakataPapark::Service::User::ParkStar::ParkStar {
 
   use Mouse;
   use HirakataPapark;
   use Either;
   use Try::Tiny;
   use HirakataPapark::Validator::DefaultMessageData;
-  use HirakataPapark::Service::User::AddParkStar::Validator;
+  use HirakataPapark::Service::User::ParkStar::Validator;
 
   has 'lang' => ( is => 'ro', isa => 'HirakataPapark::lang', required => 1 );
 
@@ -38,7 +38,7 @@ package HirakataPapark::Service::User::AddParkStar::AddParkStar {
 
   has 'validator' => (
     is      => 'ro',
-    isa     => 'HirakataPapark::Service::User::AddParkStar::Validator',
+    isa     => 'HirakataPapark::Service::User::ParkStar::Validator',
     lazy    => 1,
     builder => '_build_validator',
   );
@@ -46,7 +46,7 @@ package HirakataPapark::Service::User::AddParkStar::AddParkStar {
   with 'HirakataPapark::Service::Role::DB';
 
   sub _build_validator($self) {
-    HirakataPapark::Service::User::AddParkStar::Validator->new({
+    HirakataPapark::Service::User::ParkStar::Validator->new({
       params       => $self->params,
       message_data => $self->message_data,
     });
@@ -65,6 +65,23 @@ package HirakataPapark::Service::User::AddParkStar::AddParkStar {
         $txn_scope->rollback;
         # 詳細なエラーメッセージを返したいなら、例外の内容をみて
         # $self->validator にエラーメッセージをセットするといいかもしれない
+        left $_;
+      };
+      $either->map(sub { $txn_scope->commit });
+    });
+  }
+
+  sub remove_star($self) {
+    $self->validator->validate->flat_map(sub ($park_id) {
+      my $txn_scope = $self->txn_scope;
+      my $either = try {
+        $self->park_stars->delete({
+          park_id         => $park_id,
+          user_seacret_id => $self->user->seacret_id,
+        });
+        right 1;
+      } catch {
+        $txn_scope->rollback;
         left $_;
       };
       $either->map(sub { $txn_scope->commit });

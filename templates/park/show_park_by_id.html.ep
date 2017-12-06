@@ -121,6 +121,7 @@ window.addEventListener('load', function () {
     isUserStared: <%= $maybe_user->map(sub { $_->is_park_stared($park->id) ? 'true' : 'false' })->get_or_else('false') %>,
     starNum: <%= $park->stars->len %>,
     addStarUrl: '<%= url_for "/$lang/user/add-park-star/" . $park->id %>',
+    removeStarUrl: '<%= url_for "/$lang/user/remove-park-star/" . $park->id %>',
     getCommentsUrl: '<%= url_for "/$lang/park/get-comments/" . $park->id %>',
     addCommentUrl: '<%= url_for "/$lang/park/add-comment/" . $park->id %>',
   });
