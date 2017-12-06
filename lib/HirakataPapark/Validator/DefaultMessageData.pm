@@ -16,6 +16,7 @@ package HirakataPapark::Validator::DefaultMessageData {
         profile     => 'プロフィール',
         twitter_id  => 'Twitter ID',
         facebook_id => 'Facebook ID',
+        park_id     => '公園ID',
       },
       function => {
         not_null      => '[_1]を入力してください。',
@@ -39,6 +40,7 @@ package HirakataPapark::Validator::DefaultMessageData {
         profile     => 'Profile',
         twitter_id  => 'Twitter ID',
         facebook_id => 'Facebook ID',
+        park_id     => 'Park ID',
       },
       function => {
         not_null      => 'Please input [_1].',

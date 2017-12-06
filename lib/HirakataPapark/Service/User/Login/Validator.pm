@@ -3,7 +3,6 @@ package HirakataPapark::Service::User::Login::Validator {
   use Mouse;
   use HirakataPapark;
   use Either;
-  use HirakataPapark::Validator;
 
   with 'HirakataPapark::Service::Role::Validator';
 

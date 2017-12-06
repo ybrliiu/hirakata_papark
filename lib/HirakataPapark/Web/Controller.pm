@@ -17,7 +17,7 @@ package HirakataPapark::Web::Controller {
 
   has 'maybe_user_id' => sub ($self) {
     option( $self->plack_session->get('user.id') );
-  }
+  };
 
   has 'maybe_user' => sub ($self) {
     $self->maybe_user_id->flat_map(sub ($id) {

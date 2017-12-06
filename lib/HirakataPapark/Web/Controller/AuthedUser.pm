@@ -4,6 +4,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
   use HirakataPapark;
   use Option;
   use HirakataPapark::Exception;
+  use HirakataPapark::Validator::Params;
   use HirakataPapark::Model::Parks::Stars;
   
   has 'user' => sub ($self) { $self->maybe_user->get };
@@ -24,9 +25,10 @@ package HirakataPapark::Web::Controller::AuthedUser {
   sub add_star($self) {
     my $service = HirakataPapark::Service::User::AddParkStar::AddParkStar->new({
       db         => $self->park_stars->db,
-      park_stars => $self->park_stars,
+      lang       => $self->lang,
       user       => $self->user,
-      park_id    => option( $self->param('park_id') )->get_or_else(''),
+      params     => HirakataPapark::Validator::Params->new({ park_id => $self->param('park_id') }),
+      park_stars => $self->park_stars,
     });
     my $json = $service->add_star->match(
       Right => sub { { is_success => 1 } },
