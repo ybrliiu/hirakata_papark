@@ -1,6 +1,10 @@
 
-// side menu
+.park-star-num {
+  font-size: 1.5rem;
+  vertical-align: middle;
+}
 
+// side menu
 .side-nav {
   /* park-map の 拡大縮小ボタンの z-index が 1000 */
   z-index: 1001;
@@ -96,8 +100,7 @@ select.browser-default {
   }
 }
 
-// override
-
+// override matelialize.css
 h2 {
   font-size: 2.8rem;
 }
@@ -125,6 +128,17 @@ ul.errors {
   li {
     list-style-type: disc !important;
   }
+}
+
+// 小さい画面ではサイトタイトルの文字サイズを小さくする
+@media screen and (max-width: 500px) {
+  nav .brand-logo {
+    font-size: 1.6rem !important;
+  }
+}
+
+i.medium-small {
+  font-size: 3rem;
 }
 
 // v-croakでvue.jsがdomを解析する前に表示させない

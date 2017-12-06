@@ -14,7 +14,7 @@ package HirakataPapark::DB::Schema {
     string 'address';
     string 'explain' => (default => '');
     string 'remarks_about_plants' => (default => '');
-    integer 'good_count' => (default => 0);
+    integer 'star_num' => (default => 0);
     double 'x';
     double 'y';
     double 'area';
