@@ -3,6 +3,14 @@
   <h2><%= $park->name %></h2>
 
   <div class="row">
+  % for my $tag ($park->tags->@*) {
+    <div class="col s12">
+      <div class="chip"><%= $tag->name %></div>
+    </div>
+  % }
+  </div>
+
+  <div class="row">
     <div class="col l6 s12">
       <h3><%= $details_title %></h3>
       <p><%= $address %> : <%= $park->address %></p>

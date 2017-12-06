@@ -16,6 +16,12 @@ package HirakataPapark::Service::Park::Park {
     );
   }
 
+  has 'park_tags' => (
+    is       => 'ro',
+    isa      => 'HirakataPapark::Model::Parks::Tags',
+    required => 1,
+  );
+
   has 'park_plants' => (
     is       => 'ro',
     does     => 'HirakataPapark::Model::Role::DB::Parks::Plants',
@@ -56,6 +62,10 @@ package HirakataPapark::Service::Park::Park {
 
   sub equipments($self) {
     $self->park_equipments->get_rows_by_park_id($self->id);
+  }
+
+  sub tags($self) {
+    $self->park_tags->get_rows_by_park_id($self->id);
   }
 
   __PACKAGE__->meta->make_immutable();

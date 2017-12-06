@@ -4,6 +4,7 @@ package HirakataPapark::Web::Controller::Park {
   use HirakataPapark;
 
   use HirakataPapark::Service::Park::Park;
+  use HirakataPapark::Model::Parks::Tags;
   use HirakataPapark::Model::Parks::Comments;
   use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
   use HirakataPapark::Model::MultilingualDelegator::Parks::Plants;
@@ -17,6 +18,8 @@ package HirakataPapark::Web::Controller::Park {
   has 'parks' => sub ($self) {
     HirakataPapark::Model::MultilingualDelegator::Parks::Parks->new->model( $self->lang );
   };
+
+  has 'park_tags' => sub ($self) { HirakataPapark::Model::Parks::Tags->new };
 
   has 'park_plants' => sub ($self) {
     HirakataPapark::Model::MultilingualDelegator::Parks::Plants->new->model( $self->lang );
@@ -38,6 +41,7 @@ package HirakataPapark::Web::Controller::Park {
       Some => sub ($row) {
         my $park = HirakataPapark::Service::Park::Park->new({
           row             => $row,
+          park_tags       => $self->park_tags,
           park_plants     => $self->park_plants,
           park_equipments => $self->park_equipments,
           park_facilities => $self->park_facilities,
