@@ -61,6 +61,12 @@ package HirakataPapark::Web::Controller::AuthedUser {
     $self->render(json => $json);
   }
 
+  sub park_tagger($self) {
+  }
+
+  sub park_editer($self) {
+  }
+
 }
 
 1;
