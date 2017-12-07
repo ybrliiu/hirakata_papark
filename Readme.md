@@ -3,17 +3,19 @@
 ## 予定
 
 ### ユーザー登録機能
+* タグ付け機能実装中
 * Object::Container使う
 * Contollerに$self->dbを追加
+* js asset-packに適用しないとまともにできねえわ
+* ExceptionとValidatorに共通のインタフェースかぶせたら幸せになるかも
 * render_unauthorized (401 Unauthorized)
 * render_exception
 * ユーザー登録機能追加
   * ログインしているユーザーは以下のことが可能
-    * タグ付け
-    * 名前付きのコメント
     * 公園情報の編集
-    * 公園の追加
     * 公園の画像投稿
+    * 名前付きのコメント
+    * 公園の追加
 * ひらかたパパークのログイン機能をoauth2で実装することを検討する
 * SNSとの連携ログイン
   * facebook, twitterのアカウントをもっている人はそのアカウントのIDでログイン可能
@@ -62,7 +64,6 @@
 ## 環境構築について
 
 ### やりたいこと
-* js asset-packに適用?
 * js ES2015&babel使う?
 
 ### 前提

@@ -62,6 +62,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
   }
 
   sub park_tagger($self) {
+    $self->render_to_multiple_lang;
   }
 
   sub park_editer($self) {

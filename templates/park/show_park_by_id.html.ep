@@ -22,11 +22,11 @@
           class="collection-item"
         ><%= $watch_with_google_map %></a>
         <a
-          href="<%= url_for "/$lang/user/park-tagger" %>"
+          href="<%= url_for "/$lang/user/park-tagger/" . $park->id %>"
           class="collection-item"
         ><%= $add_a_tag %></a>
         <a   
-          href="<%= url_for "/$lang/user/park-editer" %>"
+          href="<%= url_for "/$lang/user/park-editer/" . $park->id %>"
           class="collection-item"
         ><%= $edit_park_info %></a>
       </div>
