@@ -17,6 +17,60 @@ var superagent = require('superagent');
 
 module.exports = function (args) {
 
+  var Z_INDEX = 500;
+  var MENU_WIDTH = 200;
+  var parkMenuId = 'v-park-menu';
+  var parkMenu = new Vue({
+    el: '#' + parkMenuId,
+    data: {
+      isOpened: false,
+      menuStyleObject: {
+        'font-size': 'initial',
+        position: 'absolute',
+        width: 0,
+        display: 'none',
+        left: '0px',
+        right: '0px',
+        'z-index': 0,
+      },
+    },
+    created: function () {
+      this.menuStyleObject.width = MENU_WIDTH + 'px';
+      window.addEventListener('click', function (eve) {
+        eve.stopPropagation();
+        this.closeMenu();
+      }.bind(this));
+      this.resize();
+      window.addEventListener('resize', function (eve) {
+        this.resize();
+      }.bind(this));
+    },
+    methods: {
+      clickIcon: function (eve) {
+        eve.stopPropagation();
+        if (this.isOpened) {
+          this.closeMenu();
+        } else {
+          this.openMenu();
+        }
+      },
+      resize: function () {
+        var rect = document.getElementById(parkMenuId).getElementsByTagName('i')[0].getBoundingClientRect();
+        this.menuStyleObject.left = (rect.left - MENU_WIDTH + rect.width) + 'px';
+      },
+      openMenu: function () {
+        this.isOpened = true;
+        this.menuStyleObject.display = 'block';
+        this.menuStyleObject['z-index'] = Z_INDEX;
+      },
+      closeMenu: function () {
+        this.isOpened = false;
+        this.menuStyleObject.display = 'none';
+        this.menuStyleObject['z-index'] = 0;
+      },
+    },
+  });
+
   var parkStar = new Vue({
     el: '#v-park-star',
     data: {

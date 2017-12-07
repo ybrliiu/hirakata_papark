@@ -1,14 +1,26 @@
 <div class="container">
   
-  <h2 id="v-park-star" v-cloak>
+  <h2>
     <%= $park->name %>
-    <i
-      class="material-icons small yellow-text"
-      v-on:click="clickStar"
-      >{{ starIcon() }}</i><span class="park-star-num">×
-    {{ starNum }}</span>
+    <span id="v-park-star">
+      <i
+        class="material-icons small yellow-text cursor-pointer"
+        v-on:click="clickStar"
+        v-cloak>{{ starIcon() }}</i><span class="park-star-num" v-cloak>×
+      {{ starNum }}</span>
+    </span>
   % $maybe_user->map(sub {
-    <i class="material-icons right medium-small">more_vert</i>
+    <span id="v-park-menu">
+      <i
+        class="material-icons right medium-small cursor-pointer"
+        v-on:click="clickIcon"
+      >more_vert</i>
+      <div class="collection" v-bind:style="menuStyleObject" v-cloak>
+        <a href="#!" class="collection-item">Google Map で見る</a>
+        <a href="#!" class="collection-item">タグをつける</a>
+        <a href="#!" class="collection-item">公園の情報を編集</a>
+      </div>
+    </span>
   % });
   </h2>
 
@@ -116,7 +128,7 @@ window.addEventListener('load', function () {
   parkMap.setView(<%= $park->y %>, <%= $park->x %>);
   parkMap.registParkMarkers( [ JSON.parse('<%== $park->to_json_for_marker %>') ] );
 
-  new hirakataPapark.park().ShowParkById({
+  hirakataPapark.park().ShowParkById({
     isUserAuthed: <%= $maybe_user->is_defined ? 'true' : 'false' %>,
     isUserStared: <%= $maybe_user->map(sub { $_->is_park_stared($park->id) ? 'true' : 'false' })->get_or_else('false') %>,
     starNum: <%= $park->stars->len %>,
