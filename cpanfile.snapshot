@@ -3226,6 +3226,17 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0
       perl 5.006001
+  Set-Object-1.38
+    pathname: R/RU/RURBAN/Set-Object-1.38.tar.gz
+    provides:
+      Set::Object 1.38
+      Set::Object::TieArray 1.38
+      Set::Object::TieHash 1.38
+      Set::Object::Weak undef
+    requirements:
+      ExtUtils::MakeMaker 0
+      Scalar::Util 0
+      Test::More 0
   Smart-Args-0.14
     pathname: T/TO/TOKUHIROM/Smart-Args-0.14.tar.gz
     provides:

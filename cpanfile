@@ -10,6 +10,7 @@ requires 'DBD::Pg';
 requires 'Anego', '== 0.02';
 requires 'Daiku';
 requires 'Config::PL';
+requires 'Set::Object';
 requires 'Mojolicious';
 requires 'HTML::Escape';
 requires 'FormValidator::Lite';
