@@ -8,15 +8,13 @@ package HirakataPapark::Exception {
   has [qw/ message file package subroutine stack_trace /] =>
     ( is => 'ro', isa => 'Str', required => 1 );
   
-  # override
-  sub throw {
-    my $class = shift;
-
+  # override (スタックとレースに余計なものを混ぜたくないので override関数使わない)
+  sub throw($class, @args) {
     my %args;
-    if (@_ == 1) {
-      $args{message} = shift;
+    if (@args == 1 && ref $args[0] ne 'HASH') {
+      $args{message} = shift @args;
     } else {
-      %args = @_;
+      %args = ref $args[0] eq 'HASH' ? $args[0]->%* : @args;
     }
     $args{message} = $class unless defined $args{message} && $args{message} ne '';
 
@@ -24,7 +22,7 @@ package HirakataPapark::Exception {
     $args{subroutine}  = (caller(1))[3];
     $args{stack_trace} = $args{message} . Carp::longmess;
 
-    die $class->new(%args);
+    die $class->new(\%args);
   }
 
   override as_string => sub ($self, @) {

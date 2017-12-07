@@ -4,7 +4,26 @@ package HirakataPapark::DB {
   use HirakataPapark;
   extends qw( Aniki );
 
+  use Data::Dumper ();
+  use HirakataPapark::DB::Exception;
+  use HirakataPapark::DB::DuplicateException;
+
   override use_strict_query_builder => sub { 0 };
+
+  override handle_error => sub ($self, $sql, $bind, $e) {
+    local $Data::Dumper::Maxdepth = 2;
+    $sql =~ s/\n/\n          /gm;
+    my $exception_class_name =
+      'HirakataPapark::DB::' . ( $e =~ /duplicate/ ? 'DuplicateException' : 'Exception' );
+    my $bind_str = Data::Dumper::Dumper([
+       map { $_->can('value_ref') ? $_->value_ref->$* : $_ } @$bind
+    ]);
+    $exception_class_name->throw({
+      message => $e,
+      sql     => $sql,
+      bind    => $bind_str,
+    });
+  };
 
   __PACKAGE__->setup(
     schema => 'HirakataPapark::DB::Schema',

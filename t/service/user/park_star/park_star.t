@@ -32,7 +32,8 @@ subtest 'add error_case' => sub {
   my $either = $service->add_star;
   ok $either->is_left;
   $either->left->map(sub ($exception) {
-    like $exception, qr/duplicate key/;
+      diag $exception;
+    like $exception->message, qr/duplicate key/;
   });
 };
 
