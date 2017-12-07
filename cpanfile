@@ -1,10 +1,13 @@
 requires 'perl', '5.024001';
 requires 'Mouse';
 requires 'Smart::Args';
+requires 'PadWalker';
 requires 'Try::Tiny';
 requires 'Exception::Tiny';
 requires 'Aniki';
-requires 'Anego', '== 0.01_02';
+requires 'DBI';
+requires 'DBD::Pg';
+requires 'Anego', '== 0.02';
 requires 'Daiku';
 requires 'Config::PL';
 requires 'Mojolicious';
@@ -29,7 +32,7 @@ on 'test' => sub {
 on 'develop' => sub {
   requires 'Path::Tiny';
   requires 'Text::CSV_XS';
-  requires 'Lingua::JA::Romanize::Japanese';
+  # requires 'Lingua::JA::Romanize::Japanese';
   requires 'Unicode::Japanese';
 };
 

@@ -7,12 +7,13 @@ DISTRIBUTIONS
       Algorithm::Diff::_impl 1.1903
     requirements:
       ExtUtils::MakeMaker 0
-  Anego-0.01_02
-    pathname: P/PA/PAPIX/Anego-0.01_02.tar.gz
+  Anego-0.02
+    pathname: P/PA/PAPIX/Anego-0.02.tar.gz
     provides:
-      Anego 0.01_02
+      Anego 0.02
       Anego::CLI undef
       Anego::CLI::Diff undef
+      Anego::CLI::Help undef
       Anego::CLI::Migrate undef
       Anego::CLI::Status undef
       Anego::CLI::Version undef
@@ -32,7 +33,6 @@ DISTRIBUTIONS
       Getopt::Long 0
       Git::Repository 0
       Module::Build::Tiny 0.035
-      Module::Load 0
       SQL::Translator 0
       Term::ANSIColor 0
       Try::Tiny 0
@@ -219,6 +219,37 @@ DISTRIBUTIONS
       strict 0
       utf8 0
       warnings 0
+  CSS-Sass-3.4.8
+    pathname: O/OC/OCBNET/CSS-Sass-3.4.8.tar.gz
+    provides:
+      CSS::Sass 3.004008
+      CSS::Sass::Plugins 3.004008
+      CSS::Sass::Value 3.004008
+      CSS::Sass::Value::Boolean 3.004008
+      CSS::Sass::Value::Color 3.004008
+      CSS::Sass::Value::Error 3.004008
+      CSS::Sass::Value::List 3.004008
+      CSS::Sass::Value::List::Comma 3.004008
+      CSS::Sass::Value::List::Space 3.004008
+      CSS::Sass::Value::Map 3.004008
+      CSS::Sass::Value::Null 3.004008
+      CSS::Sass::Value::Number 3.004008
+      CSS::Sass::Value::String 3.004008
+      CSS::Sass::Value::String::Constant 3.004008
+      CSS::Sass::Value::String::Quoted 3.004008
+      CSS::Sass::Watchdog 3.004008
+      CSS::Sass::Watchdog::Queue 3.004008
+    requirements:
+      Carp 1.01
+      Encode::Locale 0.01
+      ExtUtils::CppGuess 0.09
+      ExtUtils::MakeMaker 6.52
+      File::Slurp 0.01
+      Getopt::Long 0.01
+      List::MoreUtils 0.01
+      strict 0
+      version 0
+      warnings 0
   Capture-Tiny-0.46
     pathname: D/DA/DAGOLDEN/Capture-Tiny-0.46.tar.gz
     provides:
@@ -352,6 +383,17 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Pod::Text 2.08
+  DBD-Pg-3.7.0
+    pathname: T/TU/TURNSTEP/DBD-Pg-3.7.0.tar.gz
+    provides:
+      Bundle::DBD::Pg v3.7.0
+      DBD::Pg v3.7.0
+    requirements:
+      DBI 1.614
+      ExtUtils::MakeMaker 6.11
+      Test::More 0.88
+      Time::HiRes 0
+      version 0
   DBI-1.637
     pathname: T/TI/TIMB/DBI-1.637.tar.gz
     provides:
@@ -1042,12 +1084,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Devel-PPPort-3.36
-    pathname: W/WO/WOLFSAGE/Devel-PPPort-3.36.tar.gz
-    provides:
-      Devel::PPPort 3.36
-    requirements:
-      ExtUtils::MakeMaker 0
   Devel-StackTrace-2.03
     pathname: D/DR/DROLSKY/Devel-StackTrace-2.03.tar.gz
     provides:
@@ -1194,6 +1230,14 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.30
       strict 0
       warnings 0
+  ExtUtils-CppGuess-0.12
+    pathname: E/ET/ETJ/ExtUtils-CppGuess-0.12.tar.gz
+    provides:
+      ExtUtils::CppGuess 0.12
+    requirements:
+      Capture::Tiny 0
+      ExtUtils::MakeMaker 0
+      File::Basename 0
   ExtUtils-Depends-0.405
     pathname: X/XA/XAOC/ExtUtils-Depends-0.405.tar.gz
     provides:
@@ -1287,6 +1331,18 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
+  File-Slurp-9999.19
+    pathname: U/UR/URI/File-Slurp-9999.19.tar.gz
+    provides:
+      File::Slurp 9999.19
+      FileSlurp_12 9999.13
+    requirements:
+      Carp 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      Fcntl 0
+      POSIX 0
+      perl 5.004
   File-Which-1.22
     pathname: P/PL/PLICEASE/File-Which-1.22.tar.gz
     provides:
@@ -1670,24 +1726,6 @@ DISTRIBUTIONS
       Lingua::EN::Inflect 1.903
     requirements:
       ExtUtils::MakeMaker 0
-      Test::More 0
-  Lingua-JA-Romanize-Japanese-0.23
-    pathname: K/KA/KAWASAKI/Lingua-JA-Romanize-Japanese-0.23.tar.gz
-    provides:
-      Lingua::JA::Romanize::Base 0.20
-      Lingua::JA::Romanize::DictJA 0.23
-      Lingua::JA::Romanize::Japanese 0.23
-      Lingua::JA::Romanize::Juman 0.20
-      Lingua::JA::Romanize::Kana 0.22
-      Lingua::JA::Romanize::Kana::Hepburn 0.20
-      Lingua::JA::Romanize::MeCab 0.20
-      Lingua::JA::Romanize::MeCab::EUC 0.20
-      Lingua::JA::Romanize::MeCab::SJIS 0.20
-      Lingua::JA::Romanize::MeCab::UTF8 0.20
-    requirements:
-      DB_File 0
-      ExtUtils::MakeMaker 0
-      LWP::UserAgent 0
       Test::More 0
   List-MoreUtils-0.426
     pathname: R/RE/REHSACK/List-MoreUtils-0.426.tar.gz
@@ -3180,17 +3218,6 @@ DISTRIBUTIONS
       XML::Writer 0.500
       YAML 0.66
       perl 5.008001
-  Scalar-List-Utils-1.49
-    pathname: P/PE/PEVANS/Scalar-List-Utils-1.49.tar.gz
-    provides:
-      List::Util 1.49
-      List::Util::XS 1.49
-      Scalar::Util 1.49
-      Sub::Util 1.49
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0
-      perl 5.006
   Scope-Guard-0.21
     pathname: C/CH/CHOCOLATE/Scope-Guard-0.21.tar.gz
     provides:
