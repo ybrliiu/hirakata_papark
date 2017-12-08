@@ -40,8 +40,8 @@ package HirakataPapark::Web::Controller::Search {
     my @result = grep {
       my $park = $_;
       my $calculator = HirakataPapark::Service::Park::CalcDistance->new(
-        point1 => $point,
-        point2 => $park,
+        coord1 => $point,
+        coord2 => $park,
       );
       $calculator->calc() <= $distance;
     } @$parks;
