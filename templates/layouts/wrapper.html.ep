@@ -23,7 +23,7 @@
       <%= content %>
     % end
     %= content 'container'
-    <script src="<%= url_for '/js/bundle.js' %>"></script>
+    %= asset 'bundle.js';
     % for (@$JS_FILES) {
       %= javascript url_for "/$_";
     % }

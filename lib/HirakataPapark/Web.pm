@@ -10,8 +10,10 @@ package HirakataPapark::Web {
 
   sub load_and_set_up_plugins($self) {
     $self->plugin(Config => { file => "etc/config/$_.conf" }) for qw( site plugin hypnotoad );
-    $self->plugin(AssetPack => { pipes => [qw/Css Sass/] });
+    $self->plugin( AssetPack =>
+        { pipes => [qw/ Css Sass HirakataPapark::Web::Plugin::AssetPack::Pipe::BundleJS /] } );
     $self->asset->process('base.css' => 'scss/base.scss');
+    $self->asset->process('bundle.js' => 'js/bundle.js');
     $self->plugin('ProxyPassReverse::SubDir') if $self->config->{plugin}{'ProxyPassReverse::SubDir'};
     # Mojoliciousにはsession機能が無いため, Plack::Middlewareのを代用する
     $self->plugin(PlackMiddleware => [

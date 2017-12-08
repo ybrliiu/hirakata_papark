@@ -8,8 +8,8 @@
   },
   "scripts": {
     "browserify-dev": "./node_modules/browserify/bin/cmd.js ./assets/js/hirakata-papark-exporter.js -o",
-    "uglify-dev": "./node_modules/uglify-js/bin/uglifyjs -c -m -o ./public/js/bundle.js",
-    "build-dev": "npm -s run browserify-dev > ./public/js/bundle.js",
+    "uglify-dev": "./node_modules/uglify-js/bin/uglifyjs -c -m -o ./assets/js/bundle.js",
+    "build-dev": "npm -s run browserify-dev > ./assets/js/bundle.js",
     "build": "npm -s run browserify-dev | npm -s run uglify-dev"
   },
   "repository": {

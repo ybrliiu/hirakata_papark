@@ -4,6 +4,8 @@ etc/config/plugin.conf
 etc/sessions/*
 !etc/sessions/.gitkeep
 assets/assetpack.db
+assets/js/.js_histories.db
+assets/js/bundle.js
 assets/cache/*
 local/*
 node_modules/*

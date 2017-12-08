@@ -8,4 +8,3 @@ module.exports = {
   user: function () { return require('./hirakata-papark/user') },
   park: function () { return require('./hirakata-papark/park') },
 };
-

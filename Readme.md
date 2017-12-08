@@ -6,7 +6,6 @@
 * タグ付け機能実装中
 * Object::Container使う
 * Contollerに$self->dbを追加
-* js asset-packに適用しないとまともにできねえわ
 * ExceptionとValidatorに共通のインタフェースかぶせたら幸せになるかも
 * render_unauthorized (401 Unauthorized)
 * render_exception
