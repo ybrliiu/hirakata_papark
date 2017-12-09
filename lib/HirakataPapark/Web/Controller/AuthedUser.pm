@@ -88,7 +88,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
       Right => sub {
         {
           is_success => 1,
-          redirect_to => "/@{[ $self->lang ]}/park/@{[ $self->param('park_id') ]}",
+          redirect_to => $self->url_for("/@{[ $self->lang ]}/park/@{[ $self->param('park_id') ]}"),
         }
       },
       Left => sub ($e) {
