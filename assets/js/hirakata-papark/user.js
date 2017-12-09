@@ -2,5 +2,6 @@
 
 module.exports = {
   register: require('./user/register'),
-  session: require('./user/session.js'),
+  session: require('./user/session'),
+  parkTagger: require('./user/park-tagger'),
 };

@@ -19,7 +19,9 @@ package HirakataPapark::DB {
        map { $_->can('value_ref') ? $_->value_ref->$* : $_ } @$bind
     ]);
     $exception_class_name->throw({
-      message => $e,
+      # 先にMojoliciousに例外を検知されて(?)Mojo::Exceptionが来る場合があるので
+      # 強制的に文字列化
+      message => "$e",
       sql     => $sql,
       bind    => $bind_str,
     });

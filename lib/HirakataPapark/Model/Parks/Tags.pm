@@ -2,8 +2,6 @@ package HirakataPapark::Model::Parks::Tags {
 
   use Mouse;
   use HirakataPapark;
-
-  use Set::Object;
   use Smart::Args qw( args );
 
   use constant TABLE => 'park_tag';
@@ -22,8 +20,9 @@ package HirakataPapark::Model::Parks::Tags {
   }
 
   sub get_tag_list($self) {
-    my @tag_list = map { $_->name } $self->select({}, {columns => ['name']})->all;
-    [ Set::Object::set(@tag_list)->elements ];
+    my @tag_list =
+      map { $_->name } $self->select( {}, { prefix => 'SELECT DISTINCT', columns => ['name'] } )->all;
+    \@tag_list;
   }
 
   __PACKAGE__->meta->make_immutable;

@@ -108,6 +108,7 @@ package HirakataPapark::Web {
       $authed_user->post('/add-park-star/:park_id'   )->to(action => 'add_park_star');
       $authed_user->post('/remove-park-star/:park_id')->to(action => 'remove_park_star');
       $authed_user->get( '/park-tagger/:park_id'     )->to(action => 'park_tagger');
+      $authed_user->post('/add-park-tag/:park_id'    )->to(action => 'add_park_tag');
       $authed_user->get( '/park-editer/:park_id'     )->to(action => 'park_editer');
     }
 

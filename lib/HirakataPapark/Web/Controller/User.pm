@@ -19,8 +19,8 @@ package HirakataPapark::Web::Controller::User {
       users    => $self->users,
     });
     my $json = $service->login->match(
-      Right => sub { +{ is_success => 1 } },
-      Left  => sub ($e) { +{ is_success => 0, errors => $e->errors_and_messages } },
+      Right => sub { { is_success => 1 } },
+      Left  => sub ($e) { { is_success => 0, errors => $e->errors_and_messages } },
     );
     $self->render(json => $json);
   }
@@ -59,13 +59,13 @@ package HirakataPapark::Web::Controller::User {
           session  => $self->plack_session,
           users    => $self->users,
         })->login;
-        +{ is_success => 1, params => $p->to_hash };
+        { is_success => 1, params => $p->to_hash };
       },
       Left => sub ($e) {
         if ( $e->isa('HirakataPapark::Validator') ) {
-          +{ is_success => 0, errors => $e->errors_and_messages };
+          { is_success => 0, errors => $e->errors_and_messages };
         } else {
-          HirakataPapark::Exception->throw($e);
+          die $e;
         }
       },
     );

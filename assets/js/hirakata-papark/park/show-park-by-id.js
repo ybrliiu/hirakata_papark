@@ -19,6 +19,7 @@ module.exports = function (args) {
 
   var Z_INDEX = 500;
   var MENU_WIDTH = 200;
+  var MENU_TOP_MARGIN = 5;
   var parkMenuId = 'v-park-menu';
   var parkMenu = new Vue({
     el: '#' + parkMenuId,
@@ -29,6 +30,7 @@ module.exports = function (args) {
         position: 'absolute',
         width: 0,
         display: 'none',
+        top: '0px',
         left: '0px',
         right: '0px',
         'z-index': 0,
@@ -36,11 +38,11 @@ module.exports = function (args) {
     },
     created: function () {
       this.menuStyleObject.width = MENU_WIDTH + 'px';
+      this.resize();
       window.addEventListener('click', function (eve) {
         eve.stopPropagation();
         this.closeMenu();
       }.bind(this));
-      this.resize();
       window.addEventListener('resize', function (eve) {
         this.resize();
       }.bind(this));
@@ -57,6 +59,7 @@ module.exports = function (args) {
       resize: function () {
         var rect = document.getElementById(parkMenuId).getElementsByTagName('i')[0].getBoundingClientRect();
         this.menuStyleObject.left = (rect.left - MENU_WIDTH + rect.width) + 'px';
+        this.menuStyleObject.top = (rect.top + rect.height + MENU_TOP_MARGIN) + 'px';
       },
       openMenu: function () {
         this.isOpened = true;

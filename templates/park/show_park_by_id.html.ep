@@ -11,11 +11,13 @@
     </span>
   % $maybe_user->map(sub {
     <span id="v-park-menu">
-      <i
-        class="material-icons right medium-small cursor-pointer"
-        v-on:click="clickIcon"
-      >more_vert</i>
-      <div class="collection" v-bind:style="menuStyleObject" v-cloak>
+      <a class="btn btn-floating btn-large right">
+        <i
+          class="material-icons medium-small cursor-pointer"
+          v-on:click="clickIcon"
+        >more_vert</i>
+      </a>
+      <div class="collection z-depth-3" v-bind:style="menuStyleObject" v-cloak>
         <a
           href="https://www.google.co.jp/maps/place/<%= $park->name %>/@<%= $park->y %>,<%= $park->x %>,18z"
           target="_blank"
@@ -35,11 +37,11 @@
   </h2>
 
   <div class="row">
-  % for my $tag ($park->tags->@*) {
     <div class="col s12">
+    % for my $tag ($park->tags->@*) {
       <div class="chip"><%= $tag->name %></div>
+    % }
     </div>
-  % }
   </div>
 
   <div class="row">
