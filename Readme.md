@@ -10,7 +10,6 @@
     * あるいは変換するメソッド使うとか
 * Object::Container使う
 * Contollerに$self->dbを追加
-* ExceptionとValidatorに共通のインタフェースかぶせたら幸せになるかも
 * render_unauthorized (401 Unauthorized)
 * render_exception
 * ユーザー登録機能追加
@@ -39,24 +38,17 @@
   * 全ての条件を複合的に合わせて調べるページも作る
 
 ### リファクタリング関係
-* templateの改善
-  テンプレートの言語別表示は設定ファイルにデータ持たせて$langの値で切り替えて良いのでは?
-  テンプレートの構成も単純になってわかりやすい
-  その上でまとめきれていないところはまとめる
 * コーデイングスタイルの統一(命名規則)
   * 引数なしのメソッド呼び出しは()つけない
   * 関数の最後のreturnは必要ないなら書かない
   * サブルーチンシグネチャを使えるところでは使う
-* キャッシュできるところはキャッシュしていく, 
-  キャッシュが増えすぎてわかりにくくなると思ったらBread::Board or Object::Container使う
 * Contoller->param をoptionでらっぷするぞ...
-* Model add_row throw exception ではなくEither返却
+* Model add_row throw exception ではなくEither返却?
 * Web.pm のrender_error上書きの書き直し
 * Web.pm sessionの設定
 
 ### テスト関係
 * 書いていないテストを書く
-* コンテナを使ってテストによく使うインスタンスを使いまわす
 * Test2でテスト書く
 
 ## 問題点
@@ -80,7 +72,9 @@
 * carton install --development
 * npm install
 * etc/config/db.conf にデータベースの設定を書く
-* etc/config/plugin.conf にMojolicious pluginの設定を書く(デフォの設定作ってしまって良さそう)
+  * windowsで文字化けする場合や書き込み時にwide charactor ~ でエラーが出る場合, { pg_enable_utf8 => 1 } オプションを追加,  
+    取得してきたデータをエンコードするとよい(そもそもubuntuでもするべきなのか?)
+* etc/config/plugin.conf にMojolicious pluginの設定を書く
 * anego migrate
 * author/park_csv_to_db.pl -> DBにデータ流し込む
 * npm run build-dev -> bundle.js 生成
