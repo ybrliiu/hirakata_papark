@@ -3,8 +3,6 @@ package HirakataPapark::Model::Role::DB::Parks::Plants {
   use Mouse::Role;
   use HirakataPapark;
 
-  use Set::Object;
-
   # methods
   requires qw(
     get_all_distinct_rows

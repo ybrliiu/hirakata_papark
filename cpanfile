@@ -10,7 +10,6 @@ requires 'DBD::Pg';
 requires 'Anego', '== 0.02';
 requires 'Daiku';
 requires 'Config::PL';
-requires 'Set::Object';
 requires 'Mojolicious';
 requires 'HTML::Escape';
 requires 'FormValidator::Lite';
@@ -24,6 +23,8 @@ requires 'Plack::Middleware::Session';
 on 'test' => sub {
   requires 'Path::Tiny';
   requires 'Bread::Board';
+  requires 'IO::Scalar';
+  requires 'SQL::SplitStatement';
   requires 'Test::More';
   requires 'Test::Exception';
   requires 'Test2::Plugin::UTF8';

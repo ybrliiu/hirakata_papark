@@ -2,8 +2,6 @@ package HirakataPapark::Model::Parks::EnglishPlants {
 
   use Mouse;
   use HirakataPapark;
-
-  use Set::Object;
   use Smart::Args qw( args );
 
   use constant {

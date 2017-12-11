@@ -10,6 +10,7 @@
     * あるいは変換するメソッド使うとか
 * Object::Container使う
 * Contollerに$self->dbを追加
+* Model::get_row SQLの型が違うときに例外がでるのはどう対処する
 * render_unauthorized (401 Unauthorized)
 * render_exception
 * ユーザー登録機能追加

@@ -1,6 +1,6 @@
 # 修正したSCVデータの公園情報及び遊具情報をDBに格納する
 
-use lib './lib', './local/lib/perl5',
+use lib './lib', './local/lib/perl5';
 use HirakataPapark;
 use Data::Dumper;
 use Try::Tiny;

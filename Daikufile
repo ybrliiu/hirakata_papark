@@ -9,7 +9,7 @@ task 'run' => sub {
 
 desc '開発モードで起動';
 task 'run-dev' => sub {
-  sh 'MOJO_MODE=development hypnotoad script/hirakata_papark';
+  sh 'MOJO_MODE=development ./local/bin/morbo script/hirakata_papark';
 };
 
 desc 'JavaScriptビルド(本番用)';
