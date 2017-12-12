@@ -46,11 +46,10 @@
         <div class="card-content">
           <span class="card-title"><%= $favorite_parks_title %></span>
             <ul class="collection">
-            % for my $park_star ($user->park_stars) {
-              % my $park = $park_star->park;
+              % for my $park ($user->favorite_parks->@*) {
               <li class="collection-item avatar">
                 <i class="material-icons circle">photo</i>
-                <span class="title"><%= $park->name %></span>
+                <a href="<%= url_for "/$lang/park/" . $park->id %>" class="title"><%= $park->name %></a>
                 <p><%= $park->address %></p>
                 <span class="secondary-content">
                   <i class="material-icons">close</i>

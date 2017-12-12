@@ -43,7 +43,7 @@ package HirakataPapark::Web::Controller {
   # override
   sub render {
     my $self = shift;
-    $self->stash(maybe_user => $self->maybe_user);
+    $self->stash(maybe_user => $self->maybe_user) unless $self->stash('maybe_user');
     $self->SUPER::render(@_, CSS_FILES => []);
   }
 

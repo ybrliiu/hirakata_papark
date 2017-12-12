@@ -22,10 +22,17 @@
         <li><a href="<%= url_for '/en/' %>">Park Map</a></li>
         <li><a href="<%= url_for '/en/searcher/' %>">Search Park</a></li>
         <li><a href="<%= url_for '/en/current-location' %>">Search Nearby Parks</a></li>
+      % $maybe_user->match(
+      %   Some => sub {
+        <li><a href="<%= url_for '/en/user/mypage' %>">Mypage</a></li>
+        <li><a href="<%= url_for '/en/user/logout' %>">Logout</a></li>
+      %   },
+      %   None => sub {
+        <li><a href="<%= url_for '/en/user/session' %>">Login</a></li>
+        <li><a href="<%= url_for '/en/user/register' %>">User Registration</a></li>
+      %   },
+      % );
         <li><a href="<%= url_for '/en/about' %>">About</a></li>
-        <li>　</li>
-        <li><a href="<%= url_for '/ja/user/session' %>">Login</a></li>
-        <li><a href="<%= url_for '/ja/user/register' %>">User Registration</a></li>
       </ul>
       </transition>
     </div>

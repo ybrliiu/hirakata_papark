@@ -2,9 +2,11 @@ package HirakataPapark::Web {
 
   use Mojo::Base 'Mojolicious';
   use HirakataPapark;
+
   use Plack::Session;
   use Plack::Session::Store::File;
   use Plack::Session::State::Cookie;
+  use HirakataPapark::Web::Controller;
 
   use constant SESSION_EXPIRES_TIME => 60 * 60 * 24;
 
@@ -32,14 +34,17 @@ package HirakataPapark::Web {
   sub regist_helpes($self) {
 
     # override $c->reply->not_found();
-    # 汚いやり方なので, いい方法を見つけられればそれに変える
     $self->helper('reply.not_found' => sub ($c) {
-      my $url = $c->req->url->path->to_string();
-      my $lang = do {
-        my $lang = (split q!/!, $url)[1];
-        exists HirakataPapark->LANG_TABLE->{$lang} ? $lang : HirakataPapark->DEFAULT_LANG;
-      };
-      Mojolicious::Plugin::DefaultHelpers::_development("not_found_${lang}", $c);
+      $c->render_later;
+      my $ext_c = HirakataPapark::Web::Controller->new(
+        app   => $c->app,
+        tx    => $c->tx,
+        match => $c->match,
+      );
+      $ext_c->stash($c->stash);
+      my $lang = (split q!/!, $c->req->url->path->to_string)[1];
+      $ext_c->param(lang => $lang);
+      $ext_c->render_not_found;
     });
     
     $self->helper(plack_session => sub ($c) {

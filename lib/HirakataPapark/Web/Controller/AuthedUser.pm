@@ -7,10 +7,16 @@ package HirakataPapark::Web::Controller::AuthedUser {
   use HirakataPapark::Validator::Params;
   use HirakataPapark::Model::Parks::Tags;
   use HirakataPapark::Model::Parks::Stars;
+  use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
+  use HirakataPapark::Service::User::MyPage::User;
   use HirakataPapark::Service::User::ParkStar::ParkStar;
   use HirakataPapark::Service::User::ParkTagger::ParkTagger;
   
   has 'user' => sub ($self) { $self->maybe_user->get };
+
+  has 'parks' => sub ($self) {
+    HirakataPapark::Model::MultilingualDelegator::Parks::Parks->new->model($self->lang);
+  };
 
   has 'park_stars' => sub { HirakataPapark::Model::Parks::Stars->new };
 
@@ -34,7 +40,11 @@ package HirakataPapark::Web::Controller::AuthedUser {
   }
 
   sub mypage($self) {
-    $self->stash(user => $self->user);
+    my $user = HirakataPapark::Service::User::MyPage::User->new({
+      row   => $self->user,
+      parks => $self->parks,
+    });
+    $self->stash(user => $user);
     $self->render_to_multiple_lang;
   }
 

@@ -3,8 +3,6 @@
 ## 予定
 
 ### ユーザー登録機能
-* マイページユーザクラス作成
-    * model::parkにメソッド追加
 * お気に入り削除機能
 * いい加減辞書を作ってtemplateで使って方がよくないか
 * クライアント-サーバー間のJSONのやり取りについて考える
@@ -48,7 +46,6 @@
   * サブルーチンシグネチャを使えるところでは使う
 * Contoller->param をoptionでらっぷするぞ...
 * Model add_row throw exception ではなくEither返却?
-* Web.pm のrender_error上書きの書き直し
 * Web.pm sessionの設定
 
 ### テスト関係

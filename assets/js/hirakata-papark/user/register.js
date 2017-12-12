@@ -50,7 +50,9 @@ module.exports = function (args) {
             .end(function (err, res) {
               var json = JSON.parse(res.text);
               this.clearErrors();
-              if (!json.is_success) {
+              if (json.is_success) {
+                location.assign(document.referrer === '' ? '../mypage' : document.referrer);
+              } else {
                 Object.keys(json.errors).forEach(function (key) {
                   var error = json.errors[key];
                   this[error.name + 'Errors'] = error.messages;
