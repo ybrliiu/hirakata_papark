@@ -9,10 +9,7 @@
     <link rel="stylesheet" href="<%= url_for '/css/materialize.min.css' %>">
     <link rel="stylesheet" href="<%= url_for '/css/icons.css' %>">
     %= asset 'base.css';
-    %# レイアウトを使用するテンプレート側で指定したscssファイルを読み込む
-    % for (@$SCSS_FILES) {
-      %= asset $_;
-    % }
+    %# レイアウトを使用するテンプレート側で指定したcssファイルを読み込む
     % for (@$CSS_FILES) {
       %= stylesheet url_for "/$_";
     % }
@@ -24,8 +21,5 @@
     % end
     %= content 'container'
     %= asset 'bundle.js';
-    % for (@$JS_FILES) {
-      %= javascript url_for "/$_";
-    % }
   </body>
 </html>

@@ -17,22 +17,26 @@
                 <td><%= $user->id %></td>
               </tr>
               <tr>
-                <td><%= $name %></td>
+                <th><%= $name %></th>
                 <td><%= $user->name %></td>
               </tr>
               <tr>
-                <td><%= $address %></td>
+                <th><%= $password %></th>
+                <td><%= '*' x length $user->password %></td>
+              </tr>
+              <tr>
+                <th><%= $address %></th>
                 <td><%= $user->address %></td>
               </tr>
               <tr>
-                <td><%= $profile %></td>
+                <th><%= $profile %></th>
                 <td><%= $user->profile %></td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="card-action">
-          <a href="">変更する</a>
+          <a href=""><%= $edit_user_button %></a>
         </div>
       </div>
     </div>

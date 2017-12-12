@@ -213,6 +213,37 @@ package Test::HirakataPapark::Container::TestData {
           },
         );
 
+        service 'star_param' => (
+          block => sub ($s) {
+            {
+              park_id         => $s->param('park')->id,
+              user_seacret_id => $s->param('user')->seacret_id,
+            };
+          },
+          lifecycle    => 'Singleton',
+          dependencies => {
+            park => 'park',
+            user => '../User/user',
+          },
+        );
+
+        service 'star' => (
+          block => sub ($s) {
+            my $param  = $s->param('param');
+            my $sf     = $s->param('stars');
+            $sf->add_row($param);
+            $sf->get_row_by_park_id_and_user_seacret_id(
+              $param->{park_id},
+              $param->{user_seacret_id}
+            )->get;
+          },
+          lifecycle => 'Singleton',
+          dependencies => {
+            param => 'star_param',
+            stars => '../../Model/Parks/stars',
+          },
+        );
+
       };
 
       container 'User' => as {

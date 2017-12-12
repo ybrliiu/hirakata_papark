@@ -34,6 +34,23 @@ package HirakataPapark::Model::Role::DB::Parks::Parks {
     $self->result_class->new([ $self->select({ $self->TABLE . '.id' => $id_list })->all ]);
   }
 
+  sub _get_stared_rows_by_user_seacret_id_sql($self, $user_seacret_id) {
+    my $select = $self->db->query_builder->new_select;
+    $select->add_select('*');
+    $select->add_where('park_star.user_seacret_id' => $user_seacret_id);
+    $select->add_join(park_star => {
+      type      => 'inner',
+      table     => 'park',
+      condition => 'park.id = park_star.park_id',
+    });
+    $select;
+  }
+
+  sub get_stared_rows_by_user_seacret_id($self, $user_seacret_id) {
+    my $select = $self->_get_stared_rows_by_user_seacret_id_sql($user_seacret_id);
+    $self->result_class->new([ $self->db->select_by_sql($select->as_sql, [$select->bind], {})->all ]);
+  }
+
 }
 
 1;

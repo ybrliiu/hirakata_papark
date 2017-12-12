@@ -78,5 +78,16 @@ subtest get_rows_like_address => sub {
   is @$parks, 3;
 };
 
+subtest get_stared_rows => sub {
+  my $park_star_row = $tc->get_service('star')->get;
+  my $user = $c->get_sub_container('TestData')->get_sub_container('User')->get_service('user')->get;
+  my $stared_rows;
+  lives_ok { $stared_rows = $model->get_stared_rows_by_user_seacret_id($user->seacret_id) };
+  is @$stared_rows, 1;
+  my $park = $stared_rows->[0];
+  is $park->user_seacret_id, $user->seacret_id;
+  is $park->name, 'Hoge Park';
+};
+
 done_testing;
 

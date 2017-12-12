@@ -3,12 +3,15 @@
 ## 予定
 
 ### ユーザー登録機能
+* マイページユーザクラス作成
+    * model::parkにメソッド追加
+* お気に入り削除機能
 * いい加減辞書を作ってtemplateで使って方がよくないか
 * クライアント-サーバー間のJSONのやり取りについて考える
   * キーのキャメルケース, スネークケースの差異による問題とか
   * クライアント側に寄せたほうが(スネークケース)JSの処理をまとめやすくて良い?
     * あるいは変換するメソッド使うとか
-* Object::Container使う
+* Object::Container使う, Extend user, park 作り直し
 * Contollerに$self->dbを追加
 * Model::get_row SQLの型が違うときに例外がでるのはどう対処する
 * render_unauthorized (401 Unauthorized)

@@ -1,0 +1,11 @@
+<%= include 'authed_user/mypage' => (
+    title                => 'Mypage',
+    description_title    => 'User Data',
+    favorite_parks_title => 'Favorite Parks List',
+    edit_user_button     => 'Edit',
+    id                   => 'ID',
+    name                 => 'Name',
+    password             => 'Password',
+    address              => 'Address',
+    profile              => 'Profile',
+); %>

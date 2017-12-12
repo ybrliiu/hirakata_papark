@@ -1,4 +1,4 @@
-% layout "default_ja" => (JS_FILES => [], CSS_FILES => [], SCSS_FILES => []);
+% layout "default_ja" => (CSS_FILES => []);
 <div class="container">
   <h1 class="red-text">404 Not Found</h1>
   <p>ページが見つかりませんでした。</p>

@@ -2,6 +2,7 @@
     title                => 'マイページ',
     description_title    => 'ユーザーデータ',
     favorite_parks_title => 'お気に入りした公園一覧',
+    edit_user_button     => '変更',
     id                   => 'ID',
     name                 => '名前',
     password             => 'パスワード',

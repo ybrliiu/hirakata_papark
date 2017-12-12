@@ -43,7 +43,8 @@ package HirakataPapark::Web::Controller {
   # override
   sub render {
     my $self = shift;
-    $self->SUPER::render(@_, JS_FILES => [], SCSS_FILES => [], CSS_FILES => []);
+    $self->stash(maybe_user => $self->maybe_user);
+    $self->SUPER::render(@_, CSS_FILES => []);
   }
 
   sub render_not_found($self) {

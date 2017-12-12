@@ -28,6 +28,21 @@ package HirakataPapark::Model::Parks::EnglishParks {
     });
   }
 
+  around _get_stared_rows_by_user_seacret_id_sql => sub ($orig, $self, $user_seacret_id) {
+    my $select = $self->$orig($user_seacret_id);
+    $select->add_join(ORIG_LANG_TABLE, => {
+      type      => 'inner',
+      table     => TABLE,
+      condition => "@{[ ORIG_LANG_TABLE ]}.id = @{[ TABLE ]}.id",
+    });
+    $select;
+  };
+
+  around get_stared_rows_by_user_seacret_id => sub ($orig, $self, $user_seacret_id) {
+    my $select = $self->_get_stared_rows_by_user_seacret_id_sql($user_seacret_id);
+    $self->db->select_by_sql($select->as_sql, [$select->bind], { table => TABLE });
+  };
+
   __PACKAGE__->meta->make_immutable;
 
 }
