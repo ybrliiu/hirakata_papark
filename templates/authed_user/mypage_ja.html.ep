@@ -1,0 +1,10 @@
+<%= include 'authed_user/mypage' => (
+    title                => 'マイページ',
+    description_title    => 'ユーザーデータ',
+    favorite_parks_title => 'お気に入りした公園一覧',
+    id                   => 'ID',
+    name                 => '名前',
+    password             => 'パスワード',
+    address              => '住所',
+    profile              => 'プロフィール',
+); %>

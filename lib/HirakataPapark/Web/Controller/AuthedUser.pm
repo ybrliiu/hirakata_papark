@@ -34,7 +34,8 @@ package HirakataPapark::Web::Controller::AuthedUser {
   }
 
   sub mypage($self) {
-    $self->render(json => { $self->user->%* });
+    $self->stash(user => $self->user);
+    $self->render_to_multiple_lang;
   }
 
   sub add_park_star($self) {

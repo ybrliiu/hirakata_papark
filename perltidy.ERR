@@ -1,0 +1,5 @@
+Perltidy version is 20170521
+
+1: <%= include 'authed_user/mypage' => (
+   ----------------------------------- ^
+found ( where operator expected (previous token underlined)
