@@ -21,7 +21,7 @@
   nice                 => '良い',
   temp_evacuation_area => '一時避難場所',
   name                 => '名前',
-  _text                => '本文',
+  text_body            => '本文',
   num                  => '個数',
   remarks              => '備考',
   details              => '詳細',

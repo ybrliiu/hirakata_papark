@@ -1,5 +1,4 @@
 use HirakataPapark 'test';
-use HirakataPapark::DB::Row::Park;
 
 use_ok 'HirakataPapark::Class::Coord';
 

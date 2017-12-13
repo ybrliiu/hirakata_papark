@@ -12,7 +12,7 @@ package HirakataPapark::Validator::DefaultMessageData {
         name        => '名前',
         id          => 'ID',
         password    => 'パスワード',
-        address     => '住んでいる場所',
+        address     => '住所',
         profile     => 'プロフィール',
         twitter_id  => 'Twitter ID',
         facebook_id => 'Facebook ID',

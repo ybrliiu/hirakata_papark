@@ -109,7 +109,7 @@
       </div>
       <div class="row">
         <div class="col s12">
-          <label for="name"><%= $_text %></label>
+          <label for="name"><%= $text_body %></label>
           <textarea class="original-textarea" rows="6" v-model="message"></textarea>
         </div>
       </div>

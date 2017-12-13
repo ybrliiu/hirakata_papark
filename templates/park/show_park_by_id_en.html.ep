@@ -21,7 +21,7 @@
   nice                 => 'Nice',
   temp_evacuation_area => 'Temporary evacution area',
   name                 => 'Name',
-  _text                => 'Text',
+  text_body            => 'Text',
   num                  => 'Num',
   remarks              => 'Remarks',
   details              => 'Details',
