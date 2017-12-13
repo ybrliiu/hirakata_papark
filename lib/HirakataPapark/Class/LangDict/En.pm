@@ -26,6 +26,14 @@ package HirakataPapark::Class::LangDict::En {
       remarks              => 'Remarks',
       details              => 'Details',
       post                 => 'Post',
+      category             => 'Category',
+      variety              => 'Variety',
+      back                 => 'Back',
+      search               => 'Search',
+      search_result        => 'Search Result',
+      registration         => 'Registration',
+      profile              => 'Profile',
+      login                => 'Login',
     }
   }
 

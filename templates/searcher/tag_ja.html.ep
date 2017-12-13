@@ -1,10 +1,7 @@
 <%= include 'searcher/related_to_park' => (
-  layout              => 'default_ja',
-  title               => 'タグから検索',
-  search_item         => 'tag',
-  vue_property        => 'tag',
-  url                 => '/ja/search/has-tags',
-  check_boxes         => $tag_list,
-  search              => '検索',
-  search_result_title => '検索結果',
+  title        => 'タグから検索',
+  search_item  => 'tag',
+  vue_property => 'tag',
+  url          => '/ja/search/has-tags',
+  check_boxes  => $tag_list,
 ); %>

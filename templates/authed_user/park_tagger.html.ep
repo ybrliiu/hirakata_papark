@@ -16,7 +16,7 @@
   <div class="row" id="v-park-tagger">
     <div class="input-field col l9 s12">
       <input
-        placeholder="<%= $tag_name %>"
+        placeholder="<%= $lang_dict->get('tag_name') %>"
         type="text"
         v-model="tagName"
         v-tooltip.top-center="tagNameConditions"

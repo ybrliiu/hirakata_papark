@@ -2,6 +2,5 @@
 <%= include 'authed_user/park_tagger' => (
   title              => 'Add Tag',
   tag_list_title     => 'Tag List',
-  tag_name           => 'Tag Name',
   tag_name_condition => 'Please enter from ' . $validator->MIN_TAG_NAME_LEN . ' to ' . $validator->MAX_TAG_NAME_LEN . ' characters.',
 ); %>

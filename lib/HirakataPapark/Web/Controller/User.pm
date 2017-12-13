@@ -73,7 +73,7 @@ package HirakataPapark::Web::Controller::User {
   }
 
   sub action_session($self) {
-    $self->render_to_multiple_lang(template => 'user/session');
+    $self->render(template => 'user/session');
   }
 
 }

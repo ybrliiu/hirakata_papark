@@ -1,10 +1,7 @@
 <%= include 'searcher/plants' => (
-  layout                   => 'default_ja',
-  vue_property             => 'plants',
-  title                    => '植物から検索',
-  search_by_variety_title  => '品種から検索',
-  search_by_name_url       => '/ja/search/has-plants',
-  search_by_category_url   => '/ja/search/has-plants-categories',
-  search_result_title      => '検索結果',
-  search                   => '検索',
+  vue_property            => 'plants',
+  title                   => '植物から検索',
+  search_by_variety_title => '品種から検索',
+  search_by_name_url      => '/ja/search/has-plants',
+  search_by_category_url  => '/ja/search/has-plants-categories',
 ); %>

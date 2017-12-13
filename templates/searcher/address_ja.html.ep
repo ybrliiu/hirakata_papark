@@ -1,11 +1,8 @@
 <%= include 'searcher/park_column' => (
-  layout              => 'default_ja',
-  title               => '住所から検索',
-  search_item         => 'address',
-  vue_property        => 'address',
-  v_model             => 'parkAddress',
-  search_result_title => '検索結果',
-  url                 => '/ja/search/like-address',
-  placeholder         => '住所を入力して下さい',
-  search              => '検索',
+  title        => '住所から検索',
+  search_item  => 'address',
+  vue_property => 'address',
+  v_model      => 'parkAddress',
+  url          => '/ja/search/like-address',
+  placeholder  => '住所を入力して下さい',
 ); %>

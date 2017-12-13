@@ -5,6 +5,7 @@ package HirakataPapark::Web::Controller {
   use Option;
   use Mojo::Util;
   use HirakataPapark::Model::Users::Users;
+  use HirakataPapark::Class::LangDict::MultilingualDelegator;
 
   use constant NOT_FOUND => 404;
 
@@ -25,6 +26,10 @@ package HirakataPapark::Web::Controller {
     });
   };
 
+  has 'lang_dict' => sub ($self) {
+    HirakataPapark::Class::LangDict::MultilingualDelegator->instance->lang_dict($self->lang)
+  };
+
   sub render_to_multiple_lang {
     my $self = shift;
 
@@ -43,6 +48,7 @@ package HirakataPapark::Web::Controller {
   # override
   sub render {
     my $self = shift;
+    $self->stash(lang_dict => $self->lang_dict);
     $self->stash(maybe_user => $self->maybe_user) unless $self->stash('maybe_user');
     $self->SUPER::render(@_, CSS_FILES => []);
   }

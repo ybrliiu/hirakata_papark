@@ -1,5 +1,0 @@
-<%= include 'user/session' => (
-  title    => 'Login',
-  id       => 'ID',
-  password => 'Password',
-); %>

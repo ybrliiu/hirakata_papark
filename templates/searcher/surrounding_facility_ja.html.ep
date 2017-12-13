@@ -1,10 +1,7 @@
 <%= include 'searcher/related_to_park' => (
-  layout              => 'default_ja',
-  title               => '周辺施設から検索',
-  search_item         => 'surrounding-facility',
-  vue_property        => 'surroundingFacility',
-  url                 => '/ja/search/has-surrounding-facilities',
-  check_boxes         => $surrounding_facility_list,
-  search              => '検索',
-  search_result_title => '検索結果',
+  title        => '周辺施設から検索',
+  search_item  => 'surrounding-facility',
+  vue_property => 'surroundingFacility',
+  url          => '/ja/search/has-surrounding-facilities',
+  check_boxes  => $surrounding_facility_list,
 ); %>

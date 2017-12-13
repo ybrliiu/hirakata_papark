@@ -51,7 +51,12 @@
       </ul>
     </div>
     <div class="input-field col s12">
-      <input placeholder="<%= $password %>" type="password" v-tooltip.top-center="passWordConditions" v-model="password" required>
+      <input
+        placeholder="<%= $lang_dict->get('password') %>"
+        type="password"
+        v-tooltip.top-center="passWordConditions"
+        v-model="password"
+      required>
       <ul class="errors">
         <li class="red-text" v-for="err in passwordErrors">
           {{ err }}
@@ -59,7 +64,7 @@
       </ul>
     </div>
     <div class="input-field col s12">
-      <button class="waves-effect btn-large" v-on:click="send"><%= $registration %></button>
+      <button class="waves-effect btn-large" v-on:click="send"><%= $lang_dict->get('registration') %></button>
     </div>
 
     </div>

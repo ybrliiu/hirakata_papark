@@ -2,8 +2,6 @@
 % push @$CSS_FILES, 'css/leaflet.css';
 <%= include 'root/current_location' => (
   title               => '現在地周辺の公園を検索',
-  search              => '検索',
-  search_result       => '検索結果',
   select_distance_mes => sub {
     my $num = shift;
     "周辺 ${num}m 以内にある公園を検索";

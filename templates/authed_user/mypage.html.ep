@@ -13,23 +13,23 @@
           <table>
             <tbody>
               <tr>
-                <th><%= $id %></th>
+                <th><%= $lang_dict->get('id') %></th>
                 <td><%= $user->id %></td>
               </tr>
               <tr>
-                <th><%= $name %></th>
+                <th><%= $lang_dict->get('name') %></th>
                 <td><%= $user->name %></td>
               </tr>
               <tr>
-                <th><%= $password %></th>
+                <th><%= $lang_dict->get('password') %></th>
                 <td><%= '*' x length $user->password %></td>
               </tr>
               <tr>
-                <th><%= $address %></th>
+                <th><%= $lang_dict->get('address') %></th>
                 <td><%= $user->address %></td>
               </tr>
               <tr>
-                <th><%= $profile %></th>
+                <th><%= $lang_dict->get('profile') %></th>
                 <td><%= $user->profile %></td>
               </tr>
             </tbody>

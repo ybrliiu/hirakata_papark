@@ -2,6 +2,5 @@
 <%= include 'authed_user/park_tagger' => (
   title              => 'タグをつける',
   tag_list_title     => 'タグ一覧',
-  tag_name           => 'タグの名前',
   tag_name_condition => $validator->MIN_TAG_NAME_LEN . '文字以上' . $validator->MAX_TAG_NAME_LEN . '文字以下で入力して下さい。',
 ); %>

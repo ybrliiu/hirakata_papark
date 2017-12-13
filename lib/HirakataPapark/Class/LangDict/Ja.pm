@@ -26,6 +26,14 @@ package HirakataPapark::Class::LangDict::Ja {
       remarks              => '備考',
       details              => '詳細',
       post                 => '投稿',
+      category             => 'カテゴリ',
+      variety              => '品種名',
+      back                 => '戻る',
+      search               => '検索',
+      search_result        => '検索結果',
+      registration         => '登録',
+      profile              => 'プロフィール',
+      login                => 'ログイン',
     }
   }
 

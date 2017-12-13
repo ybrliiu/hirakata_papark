@@ -19,13 +19,13 @@
         </select>
       </div>
       <div class="col s4">
-        <button class="waves-effect btn-large" v-on:click="send"><%= $search %></button>
+        <button class="waves-effect btn-large" v-on:click="send"><%= $lang_dict->get('search') %></button>
       </div>
     </div>
   
     <div class="row">
       <div class="col s12">
-        <h3 v-if="showResult"><%= $search_result %></h3>
+        <h3 v-if="showResult"><%= $lang_dict->get('search_result') %></h3>
       </div>
       <div class="col s12" v-html="result"></div>
     </div>

@@ -47,11 +47,11 @@
   <div class="row">
     <div class="col l6 s12">
       <h3><%= $details_title %></h3>
-      <p><%= $address %> : <%= $park->address %></p>
-      <p><%= $latitude %> : <%= $park->y %>, <%= $longitude %> : <%= $park->x %>
-      <p><%= $area %> : <%= $park->area %> ㎡ (<%= $extent %> : <%= $park->size %>)</p>
-      <p><%= $scenery %> : <%= $park->is_nice_scenery ? $nice : '' %></p>
-      <p><%= $temp_evacuation_area %> : <%= $park->is_evacuation_area ? '○' : '×' %></p>
+      <p><%= $lang_dict->get('address') %> : <%= $park->address %></p>
+      <p><%= $lang_dict->get('latitude') %> : <%= $park->y %>, <%= $lang_dict->get('longitude') %> : <%= $park->x %>
+      <p><%= $lang_dict->get('area') %> : <%= $park->area %> ㎡ (<%= $lang_dict->get('extent') %> : <%= $park->size %>)</p>
+      <p><%= $lang_dict->get('scenery') %> : <%= $park->is_nice_scenery ? $lang_dict->get('nice') : '' %></p>
+      <p><%= $lang_dict->get('temp_evacuation_area') %> : <%= $park->is_evacuation_area ? '○' : '×' %></p>
     </div>
     <div class="col l6 s12">
       <h3><%= $map_title %></h3>
@@ -65,9 +65,9 @@
       <table>
         <thread>
           <tr>
-            <th style="max-width: 33%"><%= $name %></th>
-            <th><%= $num %></th>
-            <th><%= $remarks %></th>
+            <th style="max-width: 33%"><%= $lang_dict->get('name') %></th>
+            <th><%= $lang_dict->get('num') %></th>
+            <th><%= $lang_dict->get('remarks') %></th>
           </tr>
         </thread>
         <tbody>
@@ -85,7 +85,7 @@
       <h3><%= $plants_title %></h3>
       <p><%= join ', ', $park->plants_categories->@* %></p>
       <a class="waves-effect btn" href="<%= url_for "/$lang/park/plants/" . $park->id %>">
-        <i class="material-icons right">arrow_forward</i><%= $details %>
+        <i class="material-icons right">arrow_forward</i><%= $lang_dict->get('details') %>
       </a>
 
       <h3><%= $surrounding_facility_title %></h3>
@@ -103,19 +103,19 @@
       </div>
       <div class="row">
         <div class="col s12">
-          <label for="name"><%= $name %></label>
+          <label for="name"><%= $lang_dict->get('name') %></label>
           <input id="name" type="text" v-model="name">
         </div>
       </div>
       <div class="row">
         <div class="col s12">
-          <label for="name"><%= $text_body %></label>
+          <label for="name"><%= $lang_dict->get('text_body') %></label>
           <textarea class="original-textarea" rows="6" v-model="message"></textarea>
         </div>
       </div>
       <div class="row">
         <div class="col s12 right">
-          <button class="waves-effect btn right" v-on:click="send"><%= $post %></button>
+          <button class="waves-effect btn right" v-on:click="send"><%= $lang_dict->get('post') %></button>
         </div>
       </div>
     </div>
