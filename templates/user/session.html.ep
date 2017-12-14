@@ -14,7 +14,7 @@
         <div class="col s12">
           <a
             class="waves-effect waves-light btn-large indigo darken-2"
-            href="<%= url_for "/$lang/user/session-from-facebook" %>"
+            href="<%= url_for "/$lang/user/facebook/session" %>"
           >
             <i class="fa fa-facebook"></i>　<%= $facebook_btn %>
           </a>
@@ -24,7 +24,7 @@
         <div class="col s12">
           <a
             class="waves-effect waves-light btn-large blue lighten-2"
-            href="<%= url_for "/$lang/user/session-from-twitter" %>"
+            href="<%= url_for "/$lang/user/twitter/session" %>"
           >
             <i class="fa fa-twitter"></i>　<%= $twitter_btn %>
           </a>
