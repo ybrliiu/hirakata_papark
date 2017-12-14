@@ -7,9 +7,13 @@ package HirakataPapark::Service::User::Login::Login {
   use HirakataPapark::Service::User::Login::Validator;
   use HirakataPapark::Service::User::Login::MessageData;
 
-  has 'lang'     => ( is => 'ro', isa => 'HirakataPapark::lang', required => 1 );
-  has 'id'       => ( is => 'ro', isa => 'Str', required => 1 );
-  has 'password' => ( is => 'ro', isa => 'Str', required => 1 );
+  has 'lang' => ( is => 'ro', isa => 'HirakataPapark::lang', required => 1 );
+  
+  has 'params' => (
+    is       => 'ro',
+    isa      => 'HirakataPapark::Validator::Params',
+    required => 1,
+  );
 
   has 'session' => (
     is       => 'ro',
@@ -21,13 +25,6 @@ package HirakataPapark::Service::User::Login::Login {
     is       => 'ro',
     isa      => 'HirakataPapark::Model::Users::Users',
     required => 1,
-  );
-
-  has 'maybe_user' => (
-    is      => 'ro',
-    isa     => 'Option::Option',
-    lazy    => 1,
-    builder => '_build_maybe_user',
   );
 
   has 'message_data' => (
@@ -43,6 +40,13 @@ package HirakataPapark::Service::User::Login::Login {
     lazy    => 1,
     builder => '_build_validator',
   );
+  
+  has 'maybe_user' => (
+    is      => 'ro',
+    isa     => 'Option::Option',
+    lazy    => 1,
+    builder => '_build_maybe_user',
+  );
 
   sub _build_message_data($self) {
     HirakataPapark::Service::User::Login::MessageData
@@ -51,17 +55,14 @@ package HirakataPapark::Service::User::Login::Login {
 
   sub _build_validator($self) {
     HirakataPapark::Service::User::Login::Validator->new({
-      params => HirakataPapark::Validator::Params->new({
-        id       => $self->id,
-        password => $self->password,
-      }),
+      params       => $self->params,
       maybe_user   => $self->maybe_user,
       message_data => $self->message_data,
     });
   }
-
+  
   sub _build_maybe_user($self) {
-    $self->users->get_row_by_id($self->id);
+    $self->users->get_row_by_id( $self->params->param('id')->get_or_else('') );
   }
 
   sub login($self) {

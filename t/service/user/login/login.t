@@ -3,6 +3,7 @@ use Plack::Session;
 use Plack::Session::Store::File;
 use Plack::Session::State::Cookie;
 use Test::HirakataPapark::Container;
+use HirakataPapark::Validator::Params;
 use HirakataPapark::Service::User::Login::Login;
 
 my $c = Test::HirakataPapark::Container->new;
@@ -13,11 +14,13 @@ my $user = $tc->get_sub_container('User')->get_service('user')->get;
 
 subtest 'success_case' => sub {
   my $service = HirakataPapark::Service::User::Login::Login->new(
-    lang     => 'ja',
-    id       => $user->id,
-    password => $user->password,
-    users    => $users,
-    session  => Plack::Session->new({
+    lang    => 'ja',
+    users   => $users,
+    params  => HirakataPapark::Validator::Params->new({
+      id       => $user->id,
+      password => $user->password,
+    }),
+    session => Plack::Session->new({
       'psgix.session'         => Plack::Session::State::Cookie->new(session_key => 'hirakata_papark_sid'),
       'psgix.session.options' => Plack::Session::Store::File->new(dir => './etc/sessions'),
     }),
@@ -28,11 +31,13 @@ subtest 'success_case' => sub {
 
 subtest 'error_case' => sub {
   my $service = HirakataPapark::Service::User::Login::Login->new(
-    lang     => 'ja',
-    id       => $user->id,
-    password => '',
-    users    => $users,
-    session  => Plack::Session->new({
+    lang    => 'ja',
+    users   => $users,
+    params  => HirakataPapark::Validator::Params->new({
+      id       => $user->id,
+      password => '',
+    }),
+    session => Plack::Session->new({
       'psgix.session'         => Plack::Session::State::Cookie->new(session_key => 'hirakata_papark_sid'),
       'psgix.session.options' => Plack::Session::Store::File->new(dir => './etc/sessions'),
     }),

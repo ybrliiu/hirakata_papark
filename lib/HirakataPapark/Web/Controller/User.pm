@@ -9,11 +9,12 @@ package HirakataPapark::Web::Controller::User {
 
   sub login($self) {
     my $service = HirakataPapark::Service::User::Login::Login->new({
-      lang     => $self->lang,
-      id       => $self->param('id') // '',
-      password => $self->param('password') // '',
-      session  => $self->plack_session,
-      users    => $self->users,
+      lang    => $self->lang,
+      users   => $self->users,
+      params  => HirakataPapark::Validator::Params->new({
+        map { $_ => $self->param($_) } qw( id password )
+      }),
+      session => $self->plack_session,
     });
     my $json = $service->login->match(
       Right => sub { { is_success => 1 } },

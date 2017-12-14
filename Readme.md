@@ -2,7 +2,6 @@
 
 ## 予定
 
-### ユーザー登録機能
 * twitter登録関連の細部の処理記述(Controller::User)
 * クライアント-サーバー間のJSONのやり取りについて考える
   * キーのキャメルケース, スネークケースの差異による問題とか
@@ -76,7 +75,9 @@
 * etc/config/db.conf にデータベースの設定を書く
   * windowsで文字化けする場合や書き込み時にwide charactor ~ でエラーが出る場合, { pg_enable_utf8 => 1 } オプションを追加,  
     取得してきたデータをエンコードするとよい(そもそもubuntuでもするべきなのか?)
+* etc/config/hypnotoad.conf にhypnotoadサーバの設定を書く(デフォか他の鯖使うなら空でもよい)
 * etc/config/plugin.conf にMojolicious pluginの設定を書く
+* etc/config/twitter.conf にtwitter appの設定を書く(consumer_key, consumer_seacret)
 * anego migrate
 * author/park_csv_to_db.pl -> DBにデータ流し込む
 * npm run build-dev -> bundle.js 生成
