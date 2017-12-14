@@ -351,6 +351,25 @@ DISTRIBUTIONS
       Class::Singleton 1.5
     requirements:
       ExtUtils::MakeMaker 0
+  Class-Tiny-1.006
+    pathname: D/DA/DAGOLDEN/Class-Tiny-1.006.tar.gz
+    provides:
+      Class::Tiny 1.006
+      Class::Tiny::Object 1.006
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 6.17
+      perl 5.006
+      strict 0
+      warnings 0
+  Class-Tiny-Chained-0.004
+    pathname: D/DB/DBOOK/Class-Tiny-Chained-0.004.tar.gz
+    provides:
+      Class::Tiny::Chained 0.004
+    requirements:
+      Class::Tiny 1.003
+      ExtUtils::MakeMaker 0
+      perl 5.006
   Clone-0.39
     pathname: G/GA/GARU/Clone-0.39.tar.gz
     provides:
@@ -1582,6 +1601,19 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       HTTP::Headers 6
       perl 5.008001
+  HTTP-Thin-0.006
+    pathname: P/PE/PERIGRIN/HTTP-Thin-0.006.tar.gz
+    provides:
+      HTTP::Thin 0.006
+    requirements:
+      Class::Method::Modifiers 0
+      ExtUtils::MakeMaker 6.30
+      HTTP::Response 0
+      HTTP::Tiny 0
+      Hash::MultiValue 0
+      Safe::Isa 0
+      parent 0
+      warnings 0
   Hash-MultiValue-0.16
     pathname: A/AR/ARISTOTLE/Hash-MultiValue-0.16.tar.gz
     provides:
@@ -1622,6 +1654,23 @@ DISTRIBUTIONS
       Encode 2.10
       Exporter 5.57
       ExtUtils::MakeMaker 6.30
+  IO-Socket-SSL-2.052
+    pathname: S/SU/SULLR/IO-Socket-SSL-2.052.tar.gz
+    provides:
+      IO::Socket::SSL 2.052
+      IO::Socket::SSL::Intercept 2.014
+      IO::Socket::SSL::OCSP_Cache 2.052
+      IO::Socket::SSL::OCSP_Resolver 2.052
+      IO::Socket::SSL::PublicSuffix undef
+      IO::Socket::SSL::SSL_Context 2.052
+      IO::Socket::SSL::SSL_HANDLE 2.052
+      IO::Socket::SSL::Session_Cache 2.052
+      IO::Socket::SSL::Utils 2.014
+    requirements:
+      ExtUtils::MakeMaker 0
+      Mozilla::CA 0
+      Net::SSLeay 1.46
+      Scalar::Util 0
   IO-String-1.08
     pathname: G/GA/GAAS/IO-String-1.08.tar.gz
     provides:
@@ -2190,6 +2239,27 @@ DISTRIBUTIONS
       Sub::Defer 2.003001
       Sub::Quote 2.003001
       perl 5.006
+  MooX-Aliases-0.001006
+    pathname: H/HA/HAARG/MooX-Aliases-0.001006.tar.gz
+    provides:
+      MooX::Aliases 0.001006
+    requirements:
+      Class::Method::Modifiers 1.05
+      Moo 1.001
+      perl 5.006
+      strictures 1
+  MooX-Traits-0.005
+    pathname: T/TO/TOBYINK/MooX-Traits-0.005.tar.gz
+    provides:
+      MooX::Traits 0.005
+      MooX::Traits::Util 0.005
+    requirements:
+      Exporter::Shiny 0
+      ExtUtils::MakeMaker 6.17
+      Module::Runtime 0
+      Role::Tiny 1.000000
+      Scalar::Util 0
+      perl 5.006000
   Moose-2.2009
     pathname: E/ET/ETHER/Moose-2.2009.tar.gz
     provides:
@@ -2644,6 +2714,14 @@ DISTRIBUTIONS
       Scalar::Util 1.14
       XSLoader 0.02
       perl 5.008005
+  Mozilla-CA-20160104
+    pathname: A/AB/ABH/Mozilla-CA-20160104.tar.gz
+    provides:
+      Mozilla::CA 20160104
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test 0
+      perl 5.006
   Net-HTTP-6.17
     pathname: O/OA/OALDERS/Net-HTTP-6.17.tar.gz
     provides:
@@ -2663,6 +2741,16 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
+  Net-SSLeay-1.82
+    pathname: M/MI/MIKEM/Net-SSLeay-1.82.tar.gz
+    provides:
+      Net::SSLeay 1.82
+      Net::SSLeay::Handle 0.61
+    requirements:
+      ExtUtils::MakeMaker 6.36
+      MIME::Base64 0
+      Test::More 0.60_01
+      perl 5.005
   POSIX-strftime-Compiler-0.42
     pathname: K/KA/KAZEBURO/POSIX-strftime-Compiler-0.42.tar.gz
     provides:
@@ -3076,6 +3164,26 @@ DISTRIBUTIONS
       Digest::SHA1 0
       Module::Build::Tiny 0.039
       Plack 0.9910
+  Ref-Util-0.203
+    pathname: A/AR/ARC/Ref-Util-0.203.tar.gz
+    provides:
+      Ref::Util 0.203
+      Ref::Util::PP 0.203
+    requirements:
+      Exporter 5.57
+      ExtUtils::MakeMaker 0
+      Ref::Util::XS 0
+      Text::ParseWords 0
+      perl 5.006
+  Ref-Util-XS-0.116
+    pathname: X/XS/XSAWYERX/Ref-Util-XS-0.116.tar.gz
+    provides:
+      Ref::Util::XS 0.116
+    requirements:
+      Exporter 5.57
+      ExtUtils::MakeMaker 0
+      XSLoader 0
+      perl 5.006
   Regexp-Common-2017060201
     pathname: A/AB/ABIGAIL/Regexp-Common-2017060201.tar.gz
     provides:
@@ -3304,6 +3412,15 @@ DISTRIBUTIONS
       XML::Writer 0.500
       YAML 0.66
       perl 5.008001
+  Safe-Isa-1.000008
+    pathname: E/ET/ETHER/Safe-Isa-1.000008.tar.gz
+    provides:
+      Safe::Isa 1.000008
+    requirements:
+      Exporter 5.57
+      ExtUtils::MakeMaker 0
+      Scalar::Util 0
+      perl 5.006
   Scope-Guard-0.21
     pathname: C/CH/CHOCOLATE/Scope-Guard-0.21.tar.gz
     provides:
@@ -3946,6 +4063,22 @@ DISTRIBUTIONS
       Exporter 0
       ExtUtils::MakeMaker 0
       perl 5.006
+  Throwable-0.200013
+    pathname: R/RJ/RJBS/Throwable-0.200013.tar.gz
+    provides:
+      StackTrace::Auto 0.200013
+      Throwable 0.200013
+      Throwable::Error 0.200013
+    requirements:
+      Carp 0
+      Devel::StackTrace 1.32
+      ExtUtils::MakeMaker 0
+      Module::Runtime 0.002
+      Moo 1.000001
+      Moo::Role 0
+      Scalar::Util 0
+      Sub::Quote 0
+      overload 0
   Tie-IxHash-1.23
     pathname: C/CH/CHORNY/Tie-IxHash-1.23.tar.gz
     provides:
@@ -4018,6 +4151,49 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Twitter-API-0.0113
+    pathname: M/MM/MMIMS/Twitter-API-0.0113.tar.gz
+    provides:
+      Twitter::API 0.0113
+      Twitter::API::Context 0.0113
+      Twitter::API::Error 0.0113
+      Twitter::API::Role::RequestArgs 0.0113
+      Twitter::API::Trait::ApiMethods 0.0113
+      Twitter::API::Trait::AppAuth 0.0113
+      Twitter::API::Trait::DecodeHtmlEntities 0.0113
+      Twitter::API::Trait::Enchilada 0.0113
+      Twitter::API::Trait::Migration 0.0113
+      Twitter::API::Trait::NormalizeBooleans 0.0113
+      Twitter::API::Trait::RetryOnError 0.0113
+      Twitter::API::Util 0.0113
+    requirements:
+      Carp 0
+      Digest::SHA 0
+      Encode 0
+      HTML::Entities 0
+      HTTP::Request::Common 0
+      HTTP::Thin 0
+      IO::Socket::SSL 0
+      JSON::MaybeXS 0
+      Module::Build::Tiny 0.034
+      Module::Runtime 0
+      Moo 0
+      Moo::Role 0
+      MooX::Aliases 0
+      MooX::Traits 0
+      Ref::Util 0
+      Scalar::Util 0
+      StackTrace::Auto 0
+      Sub::Exporter::Progressive 0
+      Throwable 0
+      Time::HiRes 0
+      Time::Local 0
+      Try::Tiny 0
+      URI 0
+      URL::Encode 0
+      WWW::OAuth 0.006
+      namespace::clean 0
+      perl v5.14.1
   URI-1.72
     pathname: E/ET/ETHER/URI-1.72.tar.gz
     provides:
@@ -4082,6 +4258,18 @@ DISTRIBUTIONS
       strict 0
       utf8 0
       warnings 0
+  URL-Encode-0.03
+    pathname: C/CH/CHANSEN/URL-Encode-0.03.tar.gz
+    provides:
+      URL::Encode 0.03
+      URL::Encode::PP 0.03
+    requirements:
+      Carp 0
+      Exporter 0
+      ExtUtils::MakeMaker 6.59
+      Test::More 0.88
+      XSLoader 0
+      perl 5.008001
   Unicode-Japanese-0.49
     pathname: H/HI/HIO/Unicode-Japanese-0.49.tar.gz
     provides:
@@ -4118,6 +4306,28 @@ DISTRIBUTIONS
       Exporter 0
       ExtUtils::CBuilder 0
       Module::Build 0.4005
+      perl 5.008001
+  WWW-OAuth-0.006
+    pathname: D/DB/DBOOK/WWW-OAuth-0.006.tar.gz
+    provides:
+      WWW::OAuth 0.006
+      WWW::OAuth::Request 0.006
+      WWW::OAuth::Request::Basic 0.006
+      WWW::OAuth::Request::HTTP_Request 0.006
+      WWW::OAuth::Request::Mojo 0.006
+      WWW::OAuth::Util 0.006
+    requirements:
+      Carp 0
+      Class::Tiny::Chained 0
+      Digest::SHA 0
+      ExtUtils::MakeMaker 0
+      List::Util 1.33
+      Module::Runtime 0
+      Role::Tiny 2.000000
+      Scalar::Util 0
+      URI 1.28
+      URI::Escape 3.26
+      WWW::Form::UrlEncoded 0.23
       perl 5.008001
   WWW-RobotRules-6.02
     pathname: G/GA/GAAS/WWW-RobotRules-6.02.tar.gz

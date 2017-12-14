@@ -10,6 +10,7 @@ package HirakataPapark::Model::Config {
     DIR_PATH => 'etc/config/',
     FILES    => [qw/
       db
+      twitter
     /],
   };
 

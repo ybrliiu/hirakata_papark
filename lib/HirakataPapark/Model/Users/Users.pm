@@ -11,17 +11,21 @@ package HirakataPapark::Model::Users::Users {
 
   sub add_row {
     args my $self, my $id => 'Str',
-      my $name     => 'Str',
-      my $password => 'Str',
-      my $address  => { isa => 'Str', default => '' },
-      my $profile  => { isa => 'Str', default => '' };
+        my $name             => 'Str',
+        my $password         => 'Str',
+        my $address          => { isa => 'Str', default => '' },
+        my $profile          => { isa => 'Str', default => '' },
+        my $is_from_twitter  => { isa => 'Int', default => 0 },
+        my $is_from_facebook => { isa => 'Int', default => 0 };
 
     $self->insert({
-      id       => $id,
-      name     => $name,
-      password => $password,
-      address  => $address,
-      profile  => $profile,
+      id               => $id,
+      name             => $name,
+      password         => $password,
+      address          => $address,
+      profile          => $profile,
+      is_from_twitter  => $is_from_twitter,
+      is_from_facebook => $is_from_facebook,
     });
   }
 

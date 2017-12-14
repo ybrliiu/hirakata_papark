@@ -147,6 +147,8 @@ package HirakataPapark::DB::Schema {
 
     string 'address' => (default => '');
     string 'profile' => (default => '');
+    smallint 'is_from_twitter' => (default => 0);
+    smallint 'is_from_facebook' => (default => 0);
 
     # SQL::Translator のunique制約へのCONSTRAINT自動命名がクソ(カラム名 + '_unque')
     # で容易に多テーブルと衝突してしまうので, ここで直接命名

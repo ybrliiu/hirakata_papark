@@ -103,11 +103,17 @@ package HirakataPapark::Web {
 
     {
       my $user = $root->any('/user')->to(controller => 'User');
-      $user->get( '/register')->to(action => 'register');
-      $user->post('/regist'  )->to(action => 'regist');
-      $user->get( '/session' )->to(action => 'action_session');
-      $user->post('/login'   )->to(action => 'login');
-      $user->get( '/logout'  )->to(action => 'logout');
+      $user->get( '/register'                      )->to(action => 'register');
+      $user->post('/regist'                        )->to(action => 'regist');
+      $user->get( '/session'                       )->to(action => 'action_session');
+      $user->post('/login'                         )->to(action => 'login');
+      $user->get( '/logout'                        )->to(action => 'logout');
+      $user->get( '/register-from-twitter'         )->to(action => 'register_from_twitter');
+      $user->get( '/callback-register-from-twitter')->to(action => 'callback_register_from_twitter');
+      $user->get( '/regist-from-twitter'           )->to(action => 'regist_from_twitter');
+      $user->get( '/session-from-twitter'          )->to(action => 'session_from_twitter');
+      $user->get( '/callback-session-from-twitter' )->to(action => 'callback_session_from_twitter');
+      $user->get( '/login-from-twitter'            )->to(action => 'login_from_twitter');
       my $authed_user = $root->under('/user')->to(controller => 'AuthedUser')->to(action => 'auth');
       $authed_user->get( '/mypage'                   )->to(action => 'mypage');
       $authed_user->post('/add-park-star/:park_id'   )->to(action => 'add_park_star');

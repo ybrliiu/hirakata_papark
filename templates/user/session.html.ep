@@ -1,29 +1,62 @@
 % layout "default_${lang}";
+% push @$CSS_FILES, '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css';
 % my $title = $lang_dict->get('login');
 
 <div class="container">
 
   <h2><%= $title %></h2>
+  
+  <div class="row">
+    <div class="col l6 s12">
 
-  <div class="row" id="user-session" v-cloak>
-    <div class="input-field col s12">
-      <input placeholder="<%= $lang_dict->get('id') %>" type="text" v-model="id" requried>
-      <ul class="errors">
-        <li class="red-text" v-for="err in idErrors">
-          {{ err }}
-        </li>
-      </ul>
+      <h3><%= $sns_title %></h3>
+      <div class="row">
+        <div class="col s12">
+          <a
+            class="waves-effect waves-light btn-large indigo darken-2"
+            href="<%= url_for "/$lang/user/session-from-facebook" %>"
+          >
+            <i class="fa fa-facebook"></i>　<%= $facebook_btn %>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <a
+            class="waves-effect waves-light btn-large blue lighten-2"
+            href="<%= url_for "/$lang/user/session-from-twitter" %>"
+          >
+            <i class="fa fa-twitter"></i>　<%= $twitter_btn %>
+          </a>
+        </div>
+      </div>
+
     </div>
-    <div class="input-field col s12">
-      <input placeholder="<%= $lang_dict->get('password') %>" type="password" v-model="password" requried>
-      <ul class="errors">
-        <li class="red-text" v-for="err in passwordErrors">
-          {{ err }}
-        </li>
-      </ul>
-    </div>
-    <div class="input-field col s12">
-      <button class="waves-effect btn-large" v-on:click="send"><%= $title %></button>
+    <div class="col l6 s12">
+
+      <h3><%= $direct_title %></h3>
+      <div class="row" id="user-session" v-cloak>
+        <div class="input-field col s12">
+          <input placeholder="<%= $lang_dict->get('id') %>" type="text" v-model="id" requried>
+          <ul class="errors">
+            <li class="red-text" v-for="err in idErrors">
+              {{ err }}
+            </li>
+          </ul>
+        </div>
+        <div class="input-field col s12">
+          <input placeholder="<%= $lang_dict->get('password') %>" type="password" v-model="password" requried>
+          <ul class="errors">
+            <li class="red-text" v-for="err in passwordErrors">
+              {{ err }}
+            </li>
+          </ul>
+        </div>
+        <div class="input-field col s12">
+          <button class="waves-effect btn-large" v-on:click="send"><%= $title %></button>
+        </div>
+      </div>
+    
     </div>
   </div>
 

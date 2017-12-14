@@ -19,6 +19,7 @@ requires 'Mojolicious::Plugin::PlackMiddleware';
 requires 'Mojolicious::Plugin::ProxyPassReverse::SubDir';
 requires 'Plack';
 requires 'Plack::Middleware::Session';
+requires 'Twitter::API', '0.0113';
 
 on 'test' => sub {
   requires 'Path::Tiny';

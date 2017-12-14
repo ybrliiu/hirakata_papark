@@ -1,0 +1,6 @@
+<%= include 'user/session' => (
+  sns_title      => 'SNSからログイン',
+  direct_title   => 'ログイン',
+  twitter_btn    => 'Twitterからログイン',
+  facebook_btn   => 'Facebookからログイン',
+); %>

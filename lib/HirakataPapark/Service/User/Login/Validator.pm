@@ -16,6 +16,7 @@ package HirakataPapark::Service::User::Login::Validator {
           id       => ['NOT_NULL'],
           password => ['NOT_NULL', [EQUAL => $user->password]],
         );
+        $v->set_error(login_method => 'invalid') unless $user->is_from_site;
         $v->has_error ? left $v : right $user;
       },
       None => sub {

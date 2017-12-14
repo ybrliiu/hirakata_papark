@@ -1,6 +1,7 @@
 etc/config/db.conf
 etc/config/hypnotoad.conf
 etc/config/plugin.conf
+etc/config/twitter.conf
 etc/sessions/*
 !etc/sessions/.gitkeep
 assets/assetpack.db

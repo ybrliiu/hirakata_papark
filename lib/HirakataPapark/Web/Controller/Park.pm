@@ -4,7 +4,7 @@ package HirakataPapark::Web::Controller::Park {
   use HirakataPapark;
 
   use Option;
-  use HirakataPapark::Service::User::User;
+  use HirakataPapark::Service::User::ShowParkUser;
   use HirakataPapark::Service::Park::Park;
   use HirakataPapark::Model::Parks::Stars;
   use HirakataPapark::Model::Parks::Tags;
@@ -55,7 +55,7 @@ package HirakataPapark::Web::Controller::Park {
         $self->stash(
           park       => $park,
           maybe_user => $self->maybe_user->map(sub ($user) {
-            HirakataPapark::Service::User::User->new({
+            HirakataPapark::Service::User::ShowParkUser->new({
               row        => $user,
               park_stars => $self->park_stars,
             });
