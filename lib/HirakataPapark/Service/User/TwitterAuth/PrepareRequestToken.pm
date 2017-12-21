@@ -10,6 +10,12 @@ package HirakataPapark::Service::User::TwitterAuth::PrepareRequestToken {
     isa      => 'Str',
     required => 1,
   );
+
+  has 'originally_seen_page' => (
+    is       => 'ro',
+    isa      => 'Str',
+    required => 1,
+  );
   
   has 'redirect_url_of_twitter_app_session' => (
     is      => 'ro',
@@ -20,7 +26,9 @@ package HirakataPapark::Service::User::TwitterAuth::PrepareRequestToken {
   
   sub prepare_request_token($self) {
     my $request_token = $self->twitter_api->oauth_request_token(callback => $self->callback_url);
-    $self->session->set('user.twitter.oauth_token_secret' => $request_token->{oauth_token_secret});
+    my $session = $self->session;
+    $session->set('user.twitter.oauth_token_secret' => $request_token->{oauth_token_secret});
+    $session->set('user.originally_seen_page' => $self->originally_seen_page);
     $self->twitter_api->oauth_authentication_url(oauth_token => $request_token->{oauth_token})->as_string;
   }
 

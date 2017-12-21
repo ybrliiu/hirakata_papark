@@ -6,12 +6,13 @@
 
   <h2><%= $title %></h2>
   
-  <div class="row">
+  <div class="row" id="v-sns-session-form">
     <div class="col l6 s12">
 
       <h3><%= $sns_title %></h3>
       <div class="row">
         <div class="col s12">
+          <input type="hidden" name="originally_seen_page" v-model="OriginallySeenPage">
           <a
             class="waves-effect waves-light btn-large indigo darken-2"
             href="<%= url_for "/$lang/user/facebook/session" %>"
@@ -22,12 +23,12 @@
       </div>
       <div class="row">
         <div class="col s12">
-          <a
-            class="waves-effect waves-light btn-large blue lighten-2"
-            href="<%= url_for "/$lang/user/twitter/session" %>"
-          >
-            <i class="fa fa-twitter"></i>　<%= $twitter_btn %>
-          </a>
+          <form action="<%= url_for "/$lang/user/twitter/session" %>" method="POST">
+            <input type="hidden" name="originally_seen_page" v-model="OriginallySeenPage">
+            <button type="submit" class="waves-effect waves-light btn-large blue lighten-2">
+              <i class="fa fa-twitter"></i>　<%= $twitter_btn %>
+            </button>
+          </form>
         </div>
       </div>
 
@@ -64,10 +65,11 @@
 
 <script>
 window.addEventListener('load', function () {
-    hirakataPapark.user().session({
-      url: '<%= url_for "/$lang/user/login" %>',
-      moveTo: '<%= url_for "/$lang/user/mypage" %>',
-    });
+  hirakataPapark.user().session({
+    url: '<%= url_for "/$lang/user/login" %>',
+    moveTo: '<%= url_for "/$lang/user/mypage" %>',
+  });
+  hirakataPapark.user().snsSession();
 });
 </script>
 

@@ -62,7 +62,9 @@ package HirakataPapark::Service::User::Login::Login {
   }
   
   sub _build_maybe_user($self) {
-    $self->users->get_row_by_id( $self->params->param('id')->get_or_else('') );
+    $self->params->param('id')->flat_map(sub ($id) {
+      $self->users->get_row_by_id($id);
+    });
   }
 
   sub login($self) {
