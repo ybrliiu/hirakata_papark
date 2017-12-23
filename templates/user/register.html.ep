@@ -11,33 +11,33 @@
     </div>
   </div>
 
-  <div class="row" id="v-sns-session-form">
-    <div class="col l6 s12">
+  <div class="row">
 
-    <h3><%= $sns_title %></h3>
-    <div class="row">
-      <div class="col s12">
-        <a
-          class="waves-effect waves-light btn-large indigo darken-2"
-          href="<%= url_for "/$lang/user/facebook/register" %>"
-        >
-          <i class="fa fa-facebook"></i>　<%= $facebook_btn %>
-        </a>
+    <div class="col l6 s12" id="v-sns-session-form">
+      <h3><%= $sns_title %></h3>
+      <div class="row">
+        <div class="col s12">
+          <a
+            class="waves-effect waves-light btn-large indigo darken-2"
+            href="<%= url_for "/$lang/user/facebook/register" %>"
+          >
+            <i class="fa fa-facebook"></i>　<%= $facebook_btn %>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <form action="<%= url_for "/$lang/user/twitter/register" %>" method="POST">
+            <input type="hidden" name="originally_seen_page" v-model="OriginallySeenPage">
+            <button type="submit" class="waves-effect waves-light btn-large blue lighten-2">
+              <i class="fa fa-twitter"></i>　<%= $twitter_btn %>
+            </button>
+          </form>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col s12">
-        <form action="<%= url_for "/$lang/user/twitter/register" %>" method="POST">
-          <input type="hidden" name="originally_seen_page" v-model="OriginallySeenPage">
-          <button type="submit" class="waves-effect waves-light btn-large blue lighten-2">
-            <i class="fa fa-twitter"></i>　<%= $twitter_btn %>
-          </button>
-        </form>
-      </div>
-    </div>
 
-    </div>
-    <div class="col l6 s12" id="user-register" v-cloak>
+    <div class="col l6 s12" id="v-user-register" v-cloak>
 
     <h3><%= $direct_title %></h3>
     <div class="input-field col s12">
@@ -87,7 +87,6 @@ window.addEventListener('load', function () {
     passWordConditions: "<%= $pass_condition %><br><%= $message_data->get_message('password.regexp')->get %>",
     nameConditions: "<%= $name_condition %>",
   });
-  hirakataPapark.user().snsSession();
 });
 </script>
 

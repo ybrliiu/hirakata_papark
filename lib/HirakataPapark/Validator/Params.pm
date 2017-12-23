@@ -22,6 +22,10 @@ package HirakataPapark::Validator::Params {
     option $self->data->{$key};
   }
 
+  sub set($self, $key, $value) {
+    $self->data->{$key} = $value;
+  }
+
   sub to_hash($self) { $self->data }
 
   __PACKAGE__->meta->make_immutable;

@@ -52,12 +52,13 @@ package HirakataPapark::Web::Controller::User {
       Right => sub ($p) {
         HirakataPapark::Service::User::Login::Login->new({
           lang     => $self->lang,
-          id       => $p->param('id')->get,
-          password => $p->param('password')->get,
-          session  => $self->plack_session,
           users    => $self->users,
+          params   => HirakataPapark::Validator::Params->new({
+            map { $p->param($_)->get } qw( id password )
+          }),
+          session  => $self->plack_session,
         })->login;
-        { is_success => 1, params => $p->to_hash };
+        +{ is_success => 1 };
       },
       Left => sub ($e) {
         if ( $e->isa('HirakataPapark::Validator') ) {

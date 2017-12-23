@@ -86,8 +86,13 @@ package HirakataPapark::Web::Controller::User::Twitter {
           ->get_or_else("/@{[ $self->lang ]}/user/mypage");
         $self->redirect_to($redirect_page);
       },
-      # エラー内容によって処理分岐(twitterからの登録を促したり)
-      Left => sub ($e) { die $e },
+      Left => sub ($message) {
+        if ($message eq 'No such user') {
+          $self->redirect_to("/@{[ $self->lang ]}/user/register");
+        } else {
+          $self->render(text => 'Bad Request', status => 400);
+        }
+      },
     );
   }
 

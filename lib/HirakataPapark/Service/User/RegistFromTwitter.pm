@@ -35,6 +35,9 @@ package HirakataPapark::Service::User::RegistFromTwitter {
       $self->users->add_row($params);
       right 1;
     } catch {
+      # twitter id と name の重複がある場合
+      # 既に登録している場合 -> twitter_idを検索, あればログイン画面に飛ばす
+      # なければ修正登録画面に飛ばす
       $txn_scope->rollback;
       left $_;
     };

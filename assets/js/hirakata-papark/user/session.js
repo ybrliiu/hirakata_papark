@@ -1,7 +1,6 @@
 'use strict';
 
 var Vue = require('vue');
-var VTooltip = require('v-tooltip');
 var superagent = require('superagent');
 
 /*
@@ -12,9 +11,11 @@ var superagent = require('superagent');
  */
 
 module.exports = function (args) {
-  Vue.use(VTooltip);
+
+  require('./sns-session');
+
   new Vue({
-    el: '#user-session',
+    el: '#v-user-session',
     data: {
       url: args.url,
       moveTo: args.moveTo,
@@ -56,5 +57,6 @@ module.exports = function (args) {
       },
     },
   });
+
 };
 

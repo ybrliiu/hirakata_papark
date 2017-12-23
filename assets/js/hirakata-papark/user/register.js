@@ -14,9 +14,13 @@ var superagent = require('superagent');
  */
 
 module.exports = function (args) {
+
   Vue.use(VTooltip);
+
+  require('./sns-session');
+
   new Vue({
-    el: '#user-register',
+    el: '#v-user-register',
     data: {
       id: '',
       password: '',
@@ -63,4 +67,5 @@ module.exports = function (args) {
       },
     },
   });
+
 };

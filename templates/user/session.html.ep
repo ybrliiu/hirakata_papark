@@ -6,8 +6,8 @@
 
   <h2><%= $title %></h2>
   
-  <div class="row" id="v-sns-session-form">
-    <div class="col l6 s12">
+  <div class="row">
+    <div class="col l6 s12" id="v-sns-session-form">
 
       <h3><%= $sns_title %></h3>
       <div class="row">
@@ -36,7 +36,7 @@
     <div class="col l6 s12">
 
       <h3><%= $direct_title %></h3>
-      <div class="row" id="user-session" v-cloak>
+      <div class="row" id="v-user-session" v-cloak>
         <div class="input-field col s12">
           <input placeholder="<%= $lang_dict->get('id') %>" type="text" v-model="id" requried>
           <ul class="errors">
@@ -69,7 +69,6 @@ window.addEventListener('load', function () {
     url: '<%= url_for "/$lang/user/login" %>',
     moveTo: '<%= url_for "/$lang/user/mypage" %>',
   });
-  hirakataPapark.user().snsSession();
 });
 </script>
 
