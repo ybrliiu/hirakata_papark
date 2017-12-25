@@ -51,22 +51,32 @@ package HirakataPapark::Web::Controller::User::Twitter {
   sub regist($self) {
     my $service = HirakataPapark::Service::User::RegistFromTwitter->new({
       db      => $self->users->db,
+      lang    => $self->lang,
       users   => $self->users,
       session => $self->plack_session,
     });
     $service->regist->match(
       Right => sub {
-        $self->login_service->login->match(
-          Right => sub {
+        $self->login_service->login->fold(
+          sub { die $_ },
+          sub {
             my $redirect_page = option( $self->plack_session->get('user.originally_seen_page') )
             ->get_or_else("/@{[ $self->lang ]}/user/mypage");
             $self->redirect_to($redirect_page);
           },
-          Left => sub { die $_ },
         );
       },
-      # 同じユーザー名, ID名だったときはどうする
-      Left  => sub ($e) { die $e },
+      Left  => sub ($e) {
+        if ( $e->isa('HirakataPapark::Validator') ) {
+          if (1) {
+            # redirect_to fix info
+          } else {
+            # redirect_to register and show error message
+          }
+        } else {
+          die $e;
+        }
+      },
     );
   }
 
@@ -87,11 +97,7 @@ package HirakataPapark::Web::Controller::User::Twitter {
         $self->redirect_to($redirect_page);
       },
       Left => sub ($message) {
-        if ($message eq 'No such user') {
-          $self->redirect_to("/@{[ $self->lang ]}/user/register");
-        } else {
-          $self->render(text => 'Bad Request', status => 400);
-        }
+        $self->redirect_to("/@{[ $self->lang ]}/user/register");
       },
     );
   }

@@ -141,18 +141,21 @@ package HirakataPapark::DB::Schema {
 
   create_table user => columns {
     integer 'seacret_id' => (primary_key, auto_increment);
-    string 'id' => (unique);
+    string 'id'; # => (unique);
     string 'name'; # => (unique);
     string 'password';
 
     string 'address' => (default => '');
     string 'profile' => (default => '');
-    smallint 'is_from_twitter' => (default => 0);
-    smallint 'is_from_facebook' => (default => 0);
+    string 'twitter_id' => (null);
+    string 'facebook_id' => (null);
 
     # SQL::Translator のunique制約へのCONSTRAINT自動命名がクソ(カラム名 + '_unque')
     # で容易に多テーブルと衝突してしまうので, ここで直接命名
+    add_unique_index 'user_id_unique' => ['id'];
     add_unique_index 'user_name_unique' => ['name'];
+    add_unique_index 'user_twitter_id_unique' => ['twitter_id'];
+    add_unique_index 'user_facebook_id_unique' => ['facebook_id'];
     add_index 'user_id_index' => ['id'];
   };
 

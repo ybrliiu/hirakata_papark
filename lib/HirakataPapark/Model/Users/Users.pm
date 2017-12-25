@@ -11,21 +11,21 @@ package HirakataPapark::Model::Users::Users {
 
   sub add_row {
     args my $self, my $id => 'Str',
-        my $name             => 'Str',
-        my $password         => 'Str',
-        my $address          => { isa => 'Str', default => '' },
-        my $profile          => { isa => 'Str', default => '' },
-        my $is_from_twitter  => { isa => 'Int', default => 0 },
-        my $is_from_facebook => { isa => 'Int', default => 0 };
+      my $name        => 'Str',
+      my $password    => 'Str',
+      my $address     => { isa => 'Str', default => '' },
+      my $profile     => { isa => 'Str', default => '' },
+      my $twitter_id  => { isa => 'Maybe[Str]', default => undef },
+      my $facebook_id => { isa => 'Maybe[Str]', default => undef };
 
     $self->insert({
-      id               => $id,
-      name             => $name,
-      password         => $password,
-      address          => $address,
-      profile          => $profile,
-      is_from_twitter  => $is_from_twitter,
-      is_from_facebook => $is_from_facebook,
+      id          => $id,
+      name        => $name,
+      password    => $password,
+      address     => $address,
+      profile     => $profile,
+      twitter_id  => $twitter_id,
+      facebook_id => $facebook_id,
     });
   }
 
@@ -39,6 +39,14 @@ package HirakataPapark::Model::Users::Users {
 
   sub get_row_by_name($self, $name) {
     $self->select({name => $name})->first_with_option;
+  }
+
+  sub get_row_by_twitter_id($self, $twitter_id) {
+    $self->select({twitter_id => $twitter_id})->first_with_option;
+  }
+
+  sub get_row_by_facebook_id($self, $facebook_id) {
+    $self->select({facebook_id => $facebook_id})->first_with_option;
   }
 
   __PACKAGE__->meta->make_immutable;
