@@ -33,7 +33,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
   };
 
   sub auth($self) {
-    $self->maybe_user_id->fold(sub {
+    $self->maybe_user_seacret_id->fold(sub {
       $self->render(states => 401, text => 'Unauthorized');
       0;
     })->(sub ($id) { 1 });

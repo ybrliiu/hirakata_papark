@@ -16,13 +16,13 @@ package HirakataPapark::Web::Controller {
 
   has 'users' => sub { HirakataPapark::Model::Users::Users->new };
 
-  has 'maybe_user_id' => sub ($self) {
-    option( $self->plack_session->get('user.id') );
+  has 'maybe_user_seacret_id' => sub ($self) {
+    option( $self->plack_session->get('user.seacret_id') );
   };
 
   has 'maybe_user' => sub ($self) {
-    $self->maybe_user_id->flat_map(sub ($id) {
-      $self->users->get_row_by_id($id)->map(sub ($user) { $user });
+    $self->maybe_user_seacret_id->flat_map(sub ($id) {
+      $self->users->get_row_by_seacret_id($id)->map(sub ($user) { $user });
     });
   };
 

@@ -70,7 +70,7 @@ package HirakataPapark::Service::User::Login::Login {
   sub login($self) {
     $self->validator->validate->map(sub ($user) {
       $self->session->set(change_id => 1);
-      $self->session->set('user.id' => $user->id);
+      $self->session->set('user.seacret_id' => $user->seacret_id);
     });
   }
 

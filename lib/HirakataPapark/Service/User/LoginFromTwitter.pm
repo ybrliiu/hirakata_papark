@@ -23,7 +23,7 @@ package HirakataPapark::Service::User::LoginFromTwitter {
     $self->users->get_row_by_twitter_id($twitter_id)->match(
       Some => sub ($user) {
         $self->session->set(change_id => 1);
-        $self->session->set('user.id' => $user->id);
+        $self->session->set('user.seacret_id' => $user->seacret_id);
         right 1;
       },
       None => sub { left 'No such user' },
