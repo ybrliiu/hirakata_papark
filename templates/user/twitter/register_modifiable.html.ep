@@ -1,0 +1,61 @@
+% layout "default_${lang}";
+
+<div class="card centering">
+  <div class="card-content center-align" id="v-user-twitter-register-modifiable" v-cloak>
+    
+    <h2 class="card-title"><%= $lang_dict->get('regist_from_twitter') %></h2>
+
+    % $maybe_register_errors->map(sub {
+      % my $e = shift;
+      <ul class="errors">
+      % for my $error ($e->get_error_messages) {
+        <li class="red-text"><%= $error %></li>
+      % }
+      </ul>
+    % });
+
+    <div class="input-field col s12">
+      <input
+        placeholder="ID" type="text"
+        v-tooltip.top-center="idConditions" v-model="id"
+      requried>
+      <ul class="errors">
+        <li class="red-text" v-for="err in idErrors">
+          {{ err }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="input-field">
+      <input
+        placeholder="<%= $lang_dict->get('name') %>" type="text"
+        v-tooltip.top-center="nameConditions" v-model="name"
+      required>
+      <ul class="errors">
+        <li class="red-text" v-for="err in nameErrors">
+          {{ err }}
+        </li>
+      </ul>
+    </div>
+    <div class="input-field">
+      <button class="waves-effect btn" v-on:click="send">
+        <%= $lang_dict->get('registration') %>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+'use strict';
+window.addEventListener('load', function () {
+  hirakataPapark.user().twitterRegisterModifiable({
+    url: '<%= url_for "/$lang/user/twitter/regist-modifiable" %>',
+    id: '<%= $maybe_register_errors->map(sub { $_->param('id') })->get_or_else('') %>',
+    name: '<%= $maybe_register_errors->map(sub { $_->param('name') })->get_or_else('') %>',
+    idConditions: "<%= $id_condition %><br><%= $message_data->get_message('id.regexp')->get %>",
+    nameConditions: "<%= $name_condition %>",
+  });
+});
+</script>
+

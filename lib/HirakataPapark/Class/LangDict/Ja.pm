@@ -34,6 +34,7 @@ package HirakataPapark::Class::LangDict::Ja {
       registration         => '登録',
       profile              => 'プロフィール',
       login                => 'ログイン',
+      regist_from_twitter  => 'Twitterから登録',
     }
   }
 

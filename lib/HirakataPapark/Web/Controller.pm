@@ -35,10 +35,7 @@ package HirakataPapark::Web::Controller {
 
     my ($template, $args) = (@_ % 2 ? shift : undef, {@_});
     $args->{template} = $template if $template;
-    $args->{template} //= do {
-      my $defaults = $self->match->endpoint->pattern->defaults;
-      Mojo::Util::decamelize($self->stash->{controller}) . '/' . $self->stash->{action};
-    };
+    $args->{template} //= $self->app->renderer->template_for($self);
     $args->{template} .= '_' . $self->lang;
     $args->{lang} = $self->lang;
 

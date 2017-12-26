@@ -3,6 +3,7 @@ package HirakataPapark::Service::User::LoginFromTwitter {
   use Mouse;
   use HirakataPapark;
   use Either;
+  use Option;
 
   has 'users' => (
     is       => 'ro',
@@ -10,21 +11,18 @@ package HirakataPapark::Service::User::LoginFromTwitter {
     required => 1,
   );
 
-  with 'HirakataPapark::Service::User::TwitterAuth::TwitterAuth';
+  with qw( HirakataPapark::Service::User::Role::UseTwitterAPI );
 
-  # Either[Int|Str]
+  # Either[ Option[Str] | Str ]
   sub login($self) {
-    my $session = $self->session;
-    my $res = $self->twitter_api->get('account/verify_credentials', {
-      -token        => $session->get('user.twitter.oauth_token'),
-      -token_secret => $session->get('user.twitter.oauth_token_secret'),
-    });
+    my $res = $self->api_caller->account_verify_credentials;
     my $twitter_id = $res->{id};
     $self->users->get_row_by_twitter_id($twitter_id)->match(
       Some => sub ($user) {
-        $self->session->set(change_id => 1);
-        $self->session->set('user.seacret_id' => $user->seacret_id);
-        right 1;
+        my $session = $self->session;
+        $session->set(change_id => 1);
+        $session->set('user.seacret_id' => $user->seacret_id);
+        right option $session->get('user.originally_seen_page');
       },
       None => sub { left 'No such user' },
     );

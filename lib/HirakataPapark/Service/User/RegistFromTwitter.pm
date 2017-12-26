@@ -2,10 +2,13 @@ package HirakataPapark::Service::User::RegistFromTwitter {
 
   use Mouse;
   use HirakataPapark;
+  use Option;
   use Either;
   use Try::Tiny;
   use HirakataPapark::Validator;
   use HirakataPapark::Validator::DefaultMessageData;
+
+  use constant ERRORS_SESSION_KEY => 'sns_register.errors';
 
   has 'lang' => ( is => 'ro', isa => 'HirakataPapark::lang', required => 1 );
 
@@ -31,7 +34,7 @@ package HirakataPapark::Service::User::RegistFromTwitter {
 
   with qw(
     HirakataPapark::Service::Role::DB
-    HirakataPapark::Service::User::TwitterAuth::TwitterAuth
+    HirakataPapark::Service::User::Role::UseTwitterAPI
   );
 
   sub _build_message_data($self) {
@@ -44,13 +47,9 @@ package HirakataPapark::Service::User::RegistFromTwitter {
     $v;
   }
 
-  # -> Either[HirakataPapark::Validator|HirakataPapark::DB::Exception]
+  # -> Either[ Int | Validator | Exception ]
   sub regist($self) {
-    my $session = $self->session;
-    my $res = $self->twitter_api->get('account/verify_credentials', {
-      -token        => $session->get('user.twitter.oauth_token'),
-      -token_secret => $session->get('user.twitter.oauth_token_secret'),
-    });
+    my $res = $self->api_caller->account_verify_credentials;
     my $params = {
       id         => $res->{screen_name},
       name       => $res->{name},
@@ -61,7 +60,7 @@ package HirakataPapark::Service::User::RegistFromTwitter {
     my $txn_scope = $self->txn_scope;
     my $result = try {
       $self->users->add_row($params);
-      right $self->validator;
+      right 1;
     } catch {
       my $e = $_;
       $txn_scope->rollback;
@@ -69,11 +68,17 @@ package HirakataPapark::Service::User::RegistFromTwitter {
         # エラーメッセージ表示のためにvalidatorの機能を使っている
         my @must_be_change = grep { $e->message =~ /$_/ } qw( id name );
         if (@must_be_change) {
+          $self->validator->query({
+            id   => [ $res->{screen_name} ],
+            name => [ $res->{name} ],
+          });
           $self->validator->set_error($_ => 'already_exist') for @must_be_change;
+          $self->session->set(ERRORS_SESSION_KEY ,=> $self->validator);
           $self->validator;
         }
         elsif ( $e->message =~ /twitter_id/ ) {
           $self->validator->set_error(twitter_id => 'already_exist');
+          $self->session->set(ERRORS_SESSION_KEY ,=> $self->validator);
           $self->validator;
         }
         else {

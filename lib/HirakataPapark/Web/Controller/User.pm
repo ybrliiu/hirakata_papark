@@ -54,7 +54,7 @@ package HirakataPapark::Web::Controller::User {
           lang     => $self->lang,
           users    => $self->users,
           params   => HirakataPapark::Validator::Params->new({
-            map { $p->param($_)->get } qw( id password )
+            map { $_ => $p->param($_)->get } qw( id password )
           }),
           session  => $self->plack_session,
         })->login;

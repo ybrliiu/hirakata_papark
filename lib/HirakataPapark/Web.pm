@@ -119,12 +119,14 @@ package HirakataPapark::Web {
       }
       {
         my $twitter = $user->any('/twitter')->to(controller => 'User::Twitter');
-        $twitter->post('/register'         )->to(action => 'register');
-        $twitter->get( '/callback-register')->to(action => 'callback_register');
-        $twitter->get( '/regist'           )->to(action => 'regist');
-        $twitter->post('/session'          )->to(action => 'action_session');
-        $twitter->get( '/callback-session' )->to(action => 'callback_session');
-        $twitter->get( '/login'            )->to(action => 'login');
+        $twitter->post('/register'           )->to(action => 'register');
+        $twitter->get( '/callback-register'  )->to(action => 'callback_register');
+        $twitter->get( '/regist'             )->to(action => 'regist');
+        $twitter->get( '/register-modifiable')->to(action => 'register_modifiable');
+        $twitter->post('/regist-modifiable'  )->to(action => 'regist_modifiable');
+        $twitter->post('/session'            )->to(action => 'action_session');
+        $twitter->get( '/callback-session'   )->to(action => 'callback_session');
+        $twitter->get( '/login'              )->to(action => 'login');
       }
     }
 
