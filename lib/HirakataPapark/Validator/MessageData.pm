@@ -20,6 +20,14 @@ package HirakataPapark::Validator::MessageData {
     option $self->function->{$key};
   }
 
+  sub to_hash($self) {
+    +{
+      param    => $self->param,
+      message  => $self->message,
+      function => $self->function,
+    };
+  }
+
   __PACKAGE__->meta->make_immutable;
 
 }

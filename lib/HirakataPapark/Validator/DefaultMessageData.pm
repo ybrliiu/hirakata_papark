@@ -7,7 +7,7 @@ package HirakataPapark::Validator::DefaultMessageData {
   with 'HirakataPapark::Validator::MessageDataDelegator';
 
   sub create_japanese_data($self) {
-    state $data = HirakataPapark::Validator::MessageData->new({
+    HirakataPapark::Validator::MessageData->new({
       param => {
         name        => '名前',
         id          => 'ID',
@@ -32,7 +32,7 @@ package HirakataPapark::Validator::DefaultMessageData {
   }
 
   sub create_english_data($self) {
-    state $data = HirakataPapark::Validator::MessageData->new({
+    HirakataPapark::Validator::MessageData->new({
       param => {
         name        => 'Name',
         id          => 'ID',

@@ -11,23 +11,19 @@ package HirakataPapark::Service::User::Login::MessageData {
     is      => 'ro',
     isa     => 'HirakataPapark::Validator::DefaultMessageData',
     lazy    => 1,
-    default => sub ($self) {
-      HirakataPapark::Validator::DefaultMessageData->instance;
-    },
+    default => sub ($self) { HirakataPapark::Validator::DefaultMessageData->new },
   );
 
   sub create_japanese_data($self) {
-    state $data = HirakataPapark::Validator::MessageData->new({
-      $self->default_data->create_japanese_data->%*,
-      message => { 'id.not_found' => q{そのIDのユーザーは存在しません。} },
-    });
+    my $message_data = $self->default_data->message_data('ja');
+    $message_data->{message}{'id.not_found'} = 'そのIDのユーザーは存在しません。';
+    HirakataPapark::Validator::MessageData->new( $message_data->to_hash );
   }
 
   sub create_english_data($self) {
-    state $data = HirakataPapark::Validator::MessageData->new({
-      $self->default_data->create_english_data->%*,
-      message => { 'id.not_found' => q{No such user.} },
-    });
+    my $message_data = $self->default_data->message_data('en');
+    $message_data->{message}{'id.not_found'} = 'No such user.';
+    HirakataPapark::Validator::MessageData->new( $message_data->to_hash );
   }
 
   __PACKAGE__->meta->make_immutable;

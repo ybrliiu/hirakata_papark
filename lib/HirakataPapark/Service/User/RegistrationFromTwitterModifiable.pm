@@ -1,4 +1,4 @@
-package HirakataPapark::Service::User::RegistFromTwitterModifiable {
+package HirakataPapark::Service::User::RegistrationFromTwitterModifiable {
 
   use Mouse;
   use HirakataPapark;

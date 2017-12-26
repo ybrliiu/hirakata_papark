@@ -5,8 +5,8 @@ package HirakataPapark::Web::Controller::User::Twitter {
 
   use Option;
   use HirakataPapark::Service::User::LoginFromTwitter;
-  use HirakataPapark::Service::User::RegistFromTwitter;
-  use HirakataPapark::Service::User::RegistFromTwitterModifiable;
+  use HirakataPapark::Service::User::RegistrationFromTwitter::Register;
+  use HirakataPapark::Service::User::RegistrationFromTwitterModifiable;
   use HirakataPapark::Service::User::TwitterAuth::PrepareRequestToken;
   use HirakataPapark::Service::User::TwitterAuth::PrepareAccessToken;
 
@@ -15,11 +15,6 @@ package HirakataPapark::Web::Controller::User::Twitter {
       users   => $self->users,
       session => $self->plack_session,
     });
-  };
-
-  has 'maybe_register_errors' => sub ($self) {
-    my $key = HirakataPapark::Service::User::RegistFromTwitter->ERRORS_SESSION_KEY;
-    option $self->plack_session->get($key);
   };
 
   sub prepare_request_token($self, $callback_url) {
@@ -55,7 +50,7 @@ package HirakataPapark::Web::Controller::User::Twitter {
   }
 
   sub regist($self) {
-    my $service = HirakataPapark::Service::User::RegistFromTwitter->new({
+    my $service = HirakataPapark::Service::User::RegistrationFromTwitter::Register->new({
       db      => $self->users->db,
       lang    => $self->lang,
       users   => $self->users,
@@ -74,11 +69,8 @@ package HirakataPapark::Web::Controller::User::Twitter {
       },
       Left  => sub ($e) {
         if ( $e->isa('HirakataPapark::Validator') ) {
-          if ( $e->is_error('id') || $e->is_error('name') ) {
-            $self->redirect_to("/@{[ $self->lang ]}/user/twitter/register-modifiable");
-          } else {
-            $self->redirect_to("/@{[ $self->lang ]}/user/twitter/login");
-          }
+          my $redirect_to = $e->is_error('twitter_id') ? 'login' : 'register-modifiable';
+          $self->redirect_to("/@{[ $self->lang ]}/user/twitter/${redirect_to}");
         } else {
           die $e;
         }
@@ -108,18 +100,19 @@ package HirakataPapark::Web::Controller::User::Twitter {
   sub register_modifiable($self) {
     my $message_data = HirakataPapark::Service::User::Regist::MessageData
       ->instance->message_data($self->lang);
+    my $key = HirakataPapark::Service::User::RegistrationFromTwitter::Register->ERRORS_SESSION_KEY;
+    my $maybe_register_errors = option $self->plack_session->get($key);
     $self->stash({
       message_data          => $message_data,
       validator             => 'HirakataPapark::Service::User::Regist::Validator',
-      maybe_register_errors => $self->maybe_register_errors,
+      maybe_register_errors => $maybe_register_errors,
     });
-    my $key = HirakataPapark::Service::User::RegistFromTwitter->ERRORS_SESSION_KEY;
     $self->plack_session->remove($key);
     $self->render_to_multiple_lang;
   }
 
   sub regist_modifiable($self) {
-    my $service = HirakataPapark::Service::User::RegistFromTwitterModifiable->new({
+    my $service = HirakataPapark::Service::User::RegistrationFromTwitterModifiable->new({
       db      => $self->users->db,
       lang    => $self->lang,
       users   => $self->users,
