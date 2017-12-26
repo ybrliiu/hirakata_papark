@@ -2,20 +2,15 @@
 
 ## 予定
 
-* クライアント-サーバー間のJSONのやり取りについて考える
-  * キーのキャメルケース, スネークケースの差異による問題とか
-  * クライアント側に寄せたほうが(スネークケース)JSの処理をまとめやすくて良い?
-    * あるいは変換するメソッド使うとか
-* Object::Container使う, Extend user, park 作り直し
-* Contollerに$self->dbを追加
-* Model::get_row SQLの型が違うときに例外がでるのはどう対処する
-* render_unauthorized (401 Unauthorized)
+* Contollerに$self->dbを追加, Bread::Boardの使用
 * ユーザー登録機能追加
   * ログインしているユーザーは以下のことが可能
     * 公園の画像投稿
     * 名前付きのコメント
     * 公園情報の編集
     * 公園の追加
+* Model::get_row SQLの型が違うときに例外がでるのはどう対処する
+* render_unauthorized (401 Unauthorized)
 * ひらかたパパークのログイン機能をoauth2で実装することを検討する
 * SNSとの連携ログイン
   * facebook, twitterのアカウントをもっている人はそのアカウントのIDでログイン可能

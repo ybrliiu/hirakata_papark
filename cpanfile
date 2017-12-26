@@ -20,10 +20,10 @@ requires 'Mojolicious::Plugin::ProxyPassReverse::SubDir';
 requires 'Plack';
 requires 'Plack::Middleware::Session';
 requires 'Twitter::API', '0.0113';
+requires 'Bread::Board';
 
 on 'test' => sub {
   requires 'Path::Tiny';
-  requires 'Bread::Board';
   requires 'IO::Scalar';
   requires 'SQL::SplitStatement';
   requires 'Test::More';
