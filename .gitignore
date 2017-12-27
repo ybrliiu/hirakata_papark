@@ -12,5 +12,8 @@ local/*
 node_modules/*
 log/*
 script/hypnotoad.pid
-public/js/bundle.js
+public/images/parks/*
+!public/images/parks/.gitkeep
+t/for_test/park_images/*
+!t/for_test/park_images/.gitkeep
 .perl-version

@@ -13,6 +13,10 @@ package HirakataPapark::Model::Role::DB::RelatedToPark {
   # methods
   requires qw( add_row select );
 
+  sub get_row($self, $park_id, $name) {
+    $self->get_row_by_park_id_and_name($self, $park_id, $name);
+  }
+
   sub get_row_by_park_id_and_name($self, $park_id, $name) {
     $self->select({
       $self->TABLE . '.park_id' => $park_id,

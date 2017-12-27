@@ -168,6 +168,19 @@ package HirakataPapark::DB::Schema {
     foreign_key 'user_seacret_id' => (user => 'seacret_id');
   };
 
+  create_table park_image => columns {
+    integer 'park_id';
+    integer 'posted_user_seacret_id';
+    string 'title';
+    string 'filename_without_extension';
+    string 'filename_extension';
+    bigint 'posted_time';
+
+    add_unique_index 'park_image_unique' => ['park_id', 'filename_without_extension'];
+    foreign_key 'park_id' => (park => 'id');
+    foreign_key 'posted_user_seacret_id' => (user => 'seacret_id');
+  };
+
 }
 
 1;
