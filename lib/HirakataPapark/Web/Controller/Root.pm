@@ -5,7 +5,9 @@ package HirakataPapark::Web::Controller::Root {
   use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
 
   has 'parks' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Parks->new->model( $self->lang );
+    HirakataPapark::Model::MultilingualDelegator::Parks::Parks
+      ->new(db => $self->db)
+      ->model($self->lang);
   };
 
   sub top($self) {

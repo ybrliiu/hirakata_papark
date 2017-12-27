@@ -4,23 +4,13 @@ package HirakataPapark::Model::Role::DB {
   use HirakataPapark;
 
   use HirakataPapark::DB;
-  use HirakataPapark::Exception;
   use HirakataPapark::Model::Config;
   use HirakataPapark::Model::Result;
 
   requires qw( TABLE );
 
   sub db;
-  has 'db' => ( is => 'ro', isa => 'HirakataPapark::DB', default => \&default_db );
-
-  sub default_db($class) {
-    state $db;
-    return $db if defined $db;
-    HirakataPapark::Model::Config->instance->get_config('db')->match(
-      Some => sub ($config) { $db = HirakataPapark::DB->new(%$config) },
-      None => sub { HirakataPapark::Exception->throw('db config data is not exists.') },
-    );
-  }
+  has 'db' => ( is => 'ro', isa => 'HirakataPapark::DB', required => 1 );
 
   sub delete($self, $where) {
     $self->db->delete($self->TABLE, $where);

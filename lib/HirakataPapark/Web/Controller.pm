@@ -3,21 +3,26 @@ package HirakataPapark::Web::Controller {
   use Mojo::Base 'Mojolicious::Controller';
   use HirakataPapark;
   use Option;
-  use Mojo::Util;
+  use HirakataPapark::Container;
   use HirakataPapark::Model::Users::Users;
   use HirakataPapark::Class::LangDict::MultilingualDelegator;
 
   use constant NOT_FOUND => 404;
+
+  has 'db' => sub ($self) {
+    my $c = HirakataPapark::Container->new;
+    $c->get_sub_container('DB')->get_service('psql')->get;
+  };
+
+  has 'users' => sub ($self) { HirakataPapark::Model::Users::Users->new(db => $self->db) };
 
   has 'lang' => sub ($self) {
     my $lang = $self->param('lang');
     exists HirakataPapark->LANG_TABLE->{$lang} ? $lang : HirakataPapark->DEFAULT_LANG;
   };
 
-  has 'users' => sub { HirakataPapark::Model::Users::Users->new };
-
-  has 'maybe_user_seacret_id' => sub ($self) {
-    option( $self->plack_session->get('user.seacret_id') );
+  has 'lang_dict' => sub ($self) {
+    HirakataPapark::Class::LangDict::MultilingualDelegator->instance->lang_dict($self->lang)
   };
 
   has 'maybe_user' => sub ($self) {
@@ -26,8 +31,8 @@ package HirakataPapark::Web::Controller {
     });
   };
 
-  has 'lang_dict' => sub ($self) {
-    HirakataPapark::Class::LangDict::MultilingualDelegator->instance->lang_dict($self->lang)
+  has 'maybe_user_seacret_id' => sub ($self) {
+    option( $self->plack_session->get('user.seacret_id') );
   };
 
   sub render_to_multiple_lang {

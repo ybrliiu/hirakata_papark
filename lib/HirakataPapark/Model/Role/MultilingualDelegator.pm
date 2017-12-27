@@ -6,9 +6,9 @@ package HirakataPapark::Model::Role::MultilingualDelegator {
   use Smart::Args ();
 
   has 'db' => (
-    is      => 'ro',
-    isa     => 'HirakataPapark::DB',
-    default => \&HirakataPapark::Model::Role::DB::default_db,
+    is       => 'ro',
+    isa      => 'HirakataPapark::DB',
+    required => 1,
   );
 
   has 'lang_to_model_table' => (

@@ -51,7 +51,7 @@ package HirakataPapark::Web::Controller::User::Twitter {
 
   sub regist($self) {
     my $service = HirakataPapark::Service::User::RegistrationFromTwitter::Register->new({
-      db      => $self->users->db,
+      db      => $self->db,
       lang    => $self->lang,
       users   => $self->users,
       session => $self->plack_session,
@@ -113,7 +113,7 @@ package HirakataPapark::Web::Controller::User::Twitter {
 
   sub regist_modifiable($self) {
     my $service = HirakataPapark::Service::User::RegistrationFromTwitterModifiable->new({
-      db      => $self->users->db,
+      db      => $self->db,
       lang    => $self->lang,
       users   => $self->users,
       params  => HirakataPapark::Validator::Params->new({

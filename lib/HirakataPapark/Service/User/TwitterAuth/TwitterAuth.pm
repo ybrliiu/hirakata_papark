@@ -19,7 +19,7 @@ package HirakataPapark::Service::User::TwitterAuth::TwitterAuth {
   );
   
   sub _build_twitter_api($self) {
-    my $config = HirakataPapark::Model::Config->instance->get_config('twitter')->get;
+    my $config = HirakataPapark::Model::Config->instance->get_config('twitter');
     Twitter::API->new(
       consumer_key    => $config->{consumer_key},
       consumer_secret => $config->{consumer_secret},

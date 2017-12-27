@@ -19,27 +19,36 @@ package HirakataPapark::Web::Controller::Park {
   has 'park_id' => sub ($self) { $self->param('park_id') };
 
   has 'parks' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Parks->new->model( $self->lang );
-  };
-
-  has 'park_tags' => sub ($self) { HirakataPapark::Model::Parks::Tags->new };
-
-  has 'park_stars' => sub ($self) { HirakataPapark::Model::Parks::Stars->new };
-
-  has 'park_plants' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Plants->new->model( $self->lang );
-  };
-
-  has 'park_equipments' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Equipments->new->model( $self->lang );
-  };
-
-  has 'park_facilities' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities->new
+    HirakataPapark::Model::MultilingualDelegator::Parks::Parks
+      ->new(db => $self->db)
       ->model( $self->lang );
   };
 
-  has 'park_comments' => sub ($self) { HirakataPapark::Model::Parks::Comments->new };
+  has 'park_tags' => sub ($self) { HirakataPapark::Model::Parks::Tags->new(db => $self->db) };
+
+  has 'park_stars' => sub ($self) { HirakataPapark::Model::Parks::Stars->new(db => $self->db) };
+
+  has 'park_plants' => sub ($self) {
+    HirakataPapark::Model::MultilingualDelegator::Parks::Plants
+      ->new(db => $self->db)
+      ->model( $self->lang );
+  };
+
+  has 'park_equipments' => sub ($self) {
+    HirakataPapark::Model::MultilingualDelegator::Parks::Equipments
+      ->new(db => $self->db)
+      ->model( $self->lang );
+  };
+
+  has 'park_facilities' => sub ($self) {
+    HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities
+      ->new(db => $self->db)
+      ->model( $self->lang );
+  };
+
+  has 'park_comments' => sub ($self) {
+    HirakataPapark::Model::Parks::Comments->new(db => $self->db)
+  };
 
   sub show_park_by_id($self) {
     $self->parks->get_row_by_id($self->park_id)->match(

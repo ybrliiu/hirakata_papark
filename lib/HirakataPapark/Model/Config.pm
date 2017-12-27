@@ -2,8 +2,6 @@ package HirakataPapark::Model::Config {
 
   use Mouse;
   use HirakataPapark;
-
-  use Option;
   use Config::PL;
 
   use constant {
@@ -31,7 +29,7 @@ package HirakataPapark::Model::Config {
   }
 
   sub get_config($self, $key) {
-    option $self->_config_data->{$key};
+    $self->_config_data->{$key};
   }
 
 }

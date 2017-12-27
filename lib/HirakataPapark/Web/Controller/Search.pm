@@ -11,22 +11,29 @@ package HirakataPapark::Web::Controller::Search {
   use HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities;
   use HirakataPapark::Service::Park::CalcDistance;
 
-  has 'park_tags' => sub { HirakataPapark::Model::Parks::Tags->new };
-
   has 'parks' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Parks->new->model( $self->lang );
+    HirakataPapark::Model::MultilingualDelegator::Parks::Parks
+      ->new(db => $self->db)
+      ->model( $self->lang );
   };
 
+  has 'park_tags' => sub ($self) { HirakataPapark::Model::Parks::Tags->new(db => $self->db) };
+
   has 'park_plants' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Plants->new->model( $self->lang );
+    HirakataPapark::Model::MultilingualDelegator::Parks::Plants
+      ->new(db => $self->db)
+      ->model( $self->lang );
   };
 
   has 'park_equipments' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Equipments->new->model( $self->lang );
+    HirakataPapark::Model::MultilingualDelegator::Parks::Equipments
+      ->new(db => $self->db)
+      ->model( $self->lang );
   };
 
   has 'park_surrounding_facilities' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities->new
+    HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities
+      ->new(db => $self->db)
       ->model( $self->lang );
   };
 

@@ -15,16 +15,18 @@ package HirakataPapark::Web::Controller::AuthedUser {
   has 'user' => sub ($self) { $self->maybe_user->get };
 
   has 'parks' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Parks->new->model($self->lang);
+    HirakataPapark::Model::MultilingualDelegator::Parks::Parks
+      ->new(db => $self->db)
+      ->model($self->lang);
   };
 
-  has 'park_stars' => sub { HirakataPapark::Model::Parks::Stars->new };
+  has 'park_tags' => sub ($self) { HirakataPapark::Model::Parks::Tags->new(db => $self->db) };
 
-  has 'park_tags' => sub { HirakataPapark::Model::Parks::Tags->new };
+  has 'park_stars' => sub ($self) { HirakataPapark::Model::Parks::Stars->new(db => $self->db) };
 
   has 'park_star_service' => sub ($self) {
     HirakataPapark::Service::User::ParkStar::ParkStar->new({
-      db         => $self->park_stars->db,
+      db         => $self->db,
       lang       => $self->lang,
       user       => $self->user,
       params     => HirakataPapark::Validator::Params->new({ park_id => $self->param('park_id') }),
@@ -88,7 +90,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
 
   sub add_park_tag($self) {
     my $service = HirakataPapark::Service::User::ParkTagger::ParkTagger->new({
-      db         => $self->park_tags->db,
+      db         => $self->db,
       lang       => $self->lang,
       params     => HirakataPapark::Validator::Params->new({
         map { $_ => $self->param($_) } qw( park_id tag_name )

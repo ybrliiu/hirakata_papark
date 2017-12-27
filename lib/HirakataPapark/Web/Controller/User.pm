@@ -38,7 +38,7 @@ package HirakataPapark::Web::Controller::User {
 
   sub regist($self) {
     my $service = HirakataPapark::Service::User::Regist::Register->new({
-      db     => $self->users->db,
+      db     => $self->db,
       users  => $self->users,
       lang   => $self->lang,
       params => HirakataPapark::Validator::Params->new({
