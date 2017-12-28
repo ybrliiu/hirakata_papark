@@ -1,11 +1,11 @@
-package HirakataPapark::Service::User::ParkTagger::ParkTagger {
+package HirakataPapark::Service::User::Park::Tagger::Tagger {
 
   use Mouse;
   use HirakataPapark;
   use Either;
   use Try::Tiny;
   use HirakataPapark::Validator::DefaultMessageData;
-  use HirakataPapark::Service::User::ParkTagger::Validator;
+  use HirakataPapark::Service::User::Park::Tagger::Validator;
 
   has 'lang' => ( is => 'ro', isa => 'HirakataPapark::lang', required => 1 );
 
@@ -32,7 +32,7 @@ package HirakataPapark::Service::User::ParkTagger::ParkTagger {
 
   has 'validator' => (
     is      => 'ro',
-    isa     => 'HirakataPapark::Service::User::ParkTagger::Validator',
+    isa     => 'HirakataPapark::Service::User::Park::Tagger::Validator',
     lazy    => 1,
     builder => '_build_validator',
   );
@@ -40,7 +40,7 @@ package HirakataPapark::Service::User::ParkTagger::ParkTagger {
   with 'HirakataPapark::Service::Role::DB';
 
   sub _build_validator($self) {
-    HirakataPapark::Service::User::ParkTagger::Validator->new({
+    HirakataPapark::Service::User::Park::Tagger::Validator->new({
       params       => $self->params,
       message_data => $self->message_data,
     });

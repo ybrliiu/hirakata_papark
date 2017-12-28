@@ -1,11 +1,11 @@
-package HirakataPapark::Service::User::ParkStar::ParkStar {
+package HirakataPapark::Service::User::Park::StarHandler::Handler {
 
   use Mouse;
   use HirakataPapark;
   use Either;
   use Try::Tiny;
   use HirakataPapark::Validator::DefaultMessageData;
-  use HirakataPapark::Service::User::ParkStar::Validator;
+  use HirakataPapark::Service::User::Park::StarHandler::Validator;
 
   has 'lang' => ( is => 'ro', isa => 'HirakataPapark::lang', required => 1 );
 
@@ -38,7 +38,7 @@ package HirakataPapark::Service::User::ParkStar::ParkStar {
 
   has 'validator' => (
     is      => 'ro',
-    isa     => 'HirakataPapark::Service::User::ParkStar::Validator',
+    isa     => 'HirakataPapark::Service::User::Park::StarHandler::Validator',
     lazy    => 1,
     builder => '_build_validator',
   );
@@ -46,7 +46,7 @@ package HirakataPapark::Service::User::ParkStar::ParkStar {
   with 'HirakataPapark::Service::Role::DB';
 
   sub _build_validator($self) {
-    HirakataPapark::Service::User::ParkStar::Validator->new({
+    HirakataPapark::Service::User::Park::StarHandler::Validator->new({
       params       => $self->params,
       message_data => $self->message_data,
     });

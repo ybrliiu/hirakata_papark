@@ -1,6 +1,6 @@
 use HirakataPapark 'test';
 use Test::HirakataPapark::Container;
-use HirakataPapark::Service::User::ParkStar::ParkStar;
+use HirakataPapark::Service::User::Park::StarHandler::Handler;
 
 my $c = Test::HirakataPapark::Container->new;
 my $db = $c->get_sub_container('DB')->get_service('db')->get;
@@ -10,7 +10,7 @@ my $park = $tc->get_sub_container('Park')->get_service('park')->get;
 my $park_stars = $c->get_sub_container('Model')->get_sub_container('Parks')->get_service('stars')->get;
 
 subtest 'add success_case' => sub {
-  my $service = HirakataPapark::Service::User::ParkStar::ParkStar->new(
+  my $service = HirakataPapark::Service::User::Park::StarHandler::Handler->new(
     db         => $db,
     lang       => 'ja',
     user       => $user,
@@ -22,7 +22,7 @@ subtest 'add success_case' => sub {
 };
 
 subtest 'add error_case' => sub {
-  my $service = HirakataPapark::Service::User::ParkStar::ParkStar->new(
+  my $service = HirakataPapark::Service::User::Park::StarHandler::Handler->new(
     db         => $db,
     lang       => 'ja',
     user       => $user,
@@ -38,7 +38,7 @@ subtest 'add error_case' => sub {
 };
 
 subtest 'remove success_case' => sub {
-  my $service = HirakataPapark::Service::User::ParkStar::ParkStar->new(
+  my $service = HirakataPapark::Service::User::Park::StarHandler::Handler->new(
     db         => $db,
     lang       => 'ja',
     user       => $user,

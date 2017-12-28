@@ -1,4 +1,4 @@
-package HirakataPapark::Service::Park::PostImage::Poster {
+package HirakataPapark::Service::User::Park::ImagePoster::Poster {
 
   use Mouse;
   use HirakataPapark;
@@ -51,12 +51,12 @@ package HirakataPapark::Service::Park::PostImage::Poster {
   }
 
   sub _build_message_data($self) {
-    HirakataPapark::Service::Park::PostImage::MessageData
+    HirakataPapark::Service::User::Park::ImagePoster::MessageData
       ->instance->message_data($self->lang);
   }
 
   sub _build_validator($self) {
-    HirakataPapark::Service::Park::PostImage::Validator->new({
+    HirakataPapark::Service::User::Park::ImagePoster::Validator->new({
       params       => $self->params,
       message_data => $self->message_data,
     });

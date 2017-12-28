@@ -1,12 +1,13 @@
-package HirakataPapark::Service::Park::PostImage::Validator {
+package HirakataPapark::Service::User::Park::ImagePoster::Validator {
 
   use Mouse;
   use HirakataPapark;
   use Either;
-  use HirakataPapark::Service::Park::PostImage::MessageData;
+  use HirakataPapark::Service::User::Park::ImagePoster::MessageData;
 
   # alias
-  use constant MessageData => 'HirakataPapark::Service::Park::PostImage::MessageData';
+  use constant MessageData =>
+    'HirakataPapark::Service::User::Park::ImagePoster::MessageData';
 
   use constant {
     MAX_TITLE_LEN   => 30,

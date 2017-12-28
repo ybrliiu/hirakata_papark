@@ -9,8 +9,8 @@ package HirakataPapark::Web::Controller::AuthedUser {
   use HirakataPapark::Model::Parks::Stars;
   use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
   use HirakataPapark::Service::User::MyPage::User;
-  use HirakataPapark::Service::User::ParkStar::ParkStar;
-  use HirakataPapark::Service::User::ParkTagger::ParkTagger;
+  use HirakataPapark::Service::User::Park::StarHandler::Handler;
+  use HirakataPapark::Service::User::Park::Tagger::Tagger;
   
   has 'user' => sub ($self) { $self->maybe_user->get };
 
@@ -25,7 +25,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
   has 'park_stars' => sub ($self) { HirakataPapark::Model::Parks::Stars->new(db => $self->db) };
 
   has 'park_star_service' => sub ($self) {
-    HirakataPapark::Service::User::ParkStar::ParkStar->new({
+    HirakataPapark::Service::User::Park::StarHandler::Handler->new({
       db         => $self->db,
       lang       => $self->lang,
       user       => $self->user,
@@ -83,13 +83,13 @@ package HirakataPapark::Web::Controller::AuthedUser {
     $self->stash({
       park_id   => $park_id,
       tag_list  => $self->park_tags->get_rows_by_park_id($park_id),
-      validator => "HirakataPapark::Service::User::ParkTagger::Validator",
+      validator => "HirakataPapark::Service::User::Park::Tagger::Validator",
     });
     $self->render_to_multiple_lang;
   }
 
   sub add_park_tag($self) {
-    my $service = HirakataPapark::Service::User::ParkTagger::ParkTagger->new({
+    my $service = HirakataPapark::Service::User::Park::Tagger::Tagger->new({
       db         => $self->db,
       lang       => $self->lang,
       params     => HirakataPapark::Validator::Params->new({

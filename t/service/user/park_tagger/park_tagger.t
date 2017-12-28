@@ -1,6 +1,6 @@
 use HirakataPapark 'test';
 use Test::HirakataPapark::Container;
-use HirakataPapark::Service::User::ParkTagger::ParkTagger;
+use HirakataPapark::Service::User::Park::Tagger::Tagger;
 
 my $c = Test::HirakataPapark::Container->new;
 my $db = $c->get_sub_container('DB')->get_service('db')->get;
@@ -18,13 +18,13 @@ my $params = {
 };
 
 subtest 'add success_case' => sub {
-  my $service = HirakataPapark::Service::User::ParkTagger::ParkTagger->new($params);
+  my $service = HirakataPapark::Service::User::Park::Tagger::Tagger->new($params);
   my $either = $service->add_tag;
   ok $either->is_right;
 };
 
 subtest 'add error_case' => sub {
-  my $service = HirakataPapark::Service::User::ParkTagger::ParkTagger->new($params);
+  my $service = HirakataPapark::Service::User::Park::Tagger::Tagger->new($params);
   my $either = $service->add_tag;
   ok $either->is_left;
   $either->left->map(sub ($exception) {

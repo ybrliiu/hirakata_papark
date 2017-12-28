@@ -1,4 +1,4 @@
-package HirakataPapark::Service::User::ParkTagger::Validator {
+package HirakataPapark::Service::User::Park::Tagger::Validator {
 
   use Mouse;
   use HirakataPapark;

@@ -1,4 +1,4 @@
-package HirakataPapark::Service::Park::PostImage::MessageData {
+package HirakataPapark::Service::User::Park::ImagePoster::MessageData {
 
   use Mouse;
   use HirakataPapark;
