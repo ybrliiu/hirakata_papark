@@ -2,6 +2,16 @@
 
 var Vue = require('vue');
 var superagent = require('superagent');
+var VueImages = require('vue-images');
+
+// vue-images の body.style.position = 'fixed' にする挙動が気に入らないので上書きする
+(function () {
+  var isShow = VueImages.default.watch.isShow;
+  VueImages.default.watch.isShow = function () {
+    (isShow.bind(this))();
+    document.body.style.position = 'static';
+  };
+}());
 
 /*
  * args: {
@@ -12,6 +22,7 @@ var superagent = require('superagent');
  *   starNum: Int,
  *   addStarUrl: Str,
  *   removeStarUrl: Str,
+ *   images: Array[Image],
  * };
  */
 
@@ -111,7 +122,7 @@ module.exports = function (args) {
   });
   
   var comment = new Vue({
-    el: '#comment',
+    el: '#v-comment',
     data: {
       comments: '',
     },
@@ -128,9 +139,9 @@ module.exports = function (args) {
       },
     },
   });
-  
+
   var commentForm = new Vue({
-    el: '#comment-form',
+    el: '#v-comment-form',
     data: {
       name: '',
       message: '',
@@ -149,6 +160,26 @@ module.exports = function (args) {
             comment.getComments();
           }.bind(this));
       },
+    },
+  });
+
+  var images = new Vue({
+    el: '#v-images',
+    data: function () {
+      return {
+        images: args.images,
+        modalclose: true,
+        keyinput: true,
+        mousescroll: true,
+        showclosebutton: true,
+        showcaption: true,
+        imagecountseparator: 'of',
+        showimagecount: true,
+        showthumbnails: true,
+      }
+    },
+    components: {
+      vueImages: VueImages.default,
     },
   });
 

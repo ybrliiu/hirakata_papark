@@ -30,6 +30,7 @@
     "superagent": "^3.8.1",
     "uglify-js": "^3.2.1",
     "v-tooltip": "^2.0.0-rc.25",
-    "vue": "^2.5.9"
+    "vue": "^2.5.9",
+    "vue-images": "^1.1.0"
   }
 }

@@ -4,10 +4,12 @@ package HirakataPapark::Web::Controller::Park {
   use HirakataPapark;
 
   use Option;
+  use Mojo::JSON qw( encode_json );
   use HirakataPapark::Service::User::ShowParkUser;
   use HirakataPapark::Service::Park::Park;
   use HirakataPapark::Model::Parks::Stars;
   use HirakataPapark::Model::Parks::Tags;
+  use HirakataPapark::Model::Parks::Images;
   use HirakataPapark::Model::Parks::Comments;
   use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
   use HirakataPapark::Model::MultilingualDelegator::Parks::Plants;
@@ -50,6 +52,10 @@ package HirakataPapark::Web::Controller::Park {
     HirakataPapark::Model::Parks::Comments->new(db => $self->db)
   };
 
+  has 'park_images' => sub ($self) {
+    HirakataPapark::Model::Parks::Images->new(db => $self->db);
+  };
+
   sub show_park_by_id($self) {
     $self->parks->get_row_by_id($self->park_id)->match(
       Some => sub ($row) {
@@ -58,11 +64,17 @@ package HirakataPapark::Web::Controller::Park {
           park_tags       => $self->park_tags,
           park_stars      => $self->park_stars,
           park_plants     => $self->park_plants,
+          park_images     => $self->park_images,
           park_equipments => $self->park_equipments,
           park_facilities => $self->park_facilities,
         });
+        my $base = $self->url_for('/images/parks');
         $self->stash(
           park       => $park,
+          images_json => encode_json( [ map {
+            $_->{imageUrl} = $base . '/' . $park->id . '/' . $_->{imageUrl};
+            $_;
+          } $park->images->to_hash_for_vue_images->@* ]),
           maybe_user => $self->maybe_user->map(sub ($user) {
             HirakataPapark::Service::User::ShowParkUser->new({
               row        => $user,

@@ -2,18 +2,9 @@
 
 ## 予定
 
-* 画像投稿機能作成中
-
-  * [仕様]
-  * public/park_images/$park_id/$sha1_sum で保存
-  * 画像情報はDBに格納して管理, Modelで画像ファイルとの整合性をとる
-  * 投稿可能な画像形式はpng, jpg, gif
-  * schema park_id, filename_without_extension: Str, filename_extension: Str, park_id & filename_without_extension: pkey
-
-  * [予定]
-  * 画像投稿service作成
-  * Contoller記述
-  * クライアント側記述, 画像はvue-imageで表示, 画像投稿画面作成
+  * 同じ画像が投稿された時の処理
+  * Model::Resultの扱いに問題があるので設計を変更する(result classの生成部分も制御できないと)
+  * Controllerの汚い部分をなおす
 
 * ユーザーができる機能
   * 公園の画像投稿
@@ -59,6 +50,7 @@
 #### 一貫性の崩れ
 * Model get_row_* unique制約によってrowを一個だけとってこれるパターンが決まっているならget_rowに省略してしまう[非整合]
 * lang_dict length_func
+* html, vue.js を使うところのidはv-をつける
 
 ### テスト関係
 * 書いていないテストを書く

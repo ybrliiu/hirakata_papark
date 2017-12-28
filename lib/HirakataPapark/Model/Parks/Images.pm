@@ -2,15 +2,23 @@ package HirakataPapark::Model::Parks::Images {
 
   use Mouse;
   use HirakataPapark;
+  use HirakataPapark::Model::Parks::ImagesResult;
   use Path::Tiny qw( path );
   use Mojo::Util qw( hmac_sha1_sum );
   use Smart::Args qw( args );
 
-  use constant TABLE => 'park_image';
+  use constant {
+    TABLE                 => 'park_image',
+    DEFAULT_SAVE_DIR_ROOT => 'public/images/parks',
+  };
 
-  has 'save_dir_root' => ( is => 'ro', isa => 'Str', default => './public/images/parks' );
+  has 'save_dir_root' => ( is => 'ro', isa => 'Str', default => DEFAULT_SAVE_DIR_ROOT );
 
   with 'HirakataPapark::Model::Role::DB';
+
+  around result_class => sub ($orig, $self) {
+    'HirakataPapark::Model::Parks::ImagesResult';
+  };
 
   sub add_row {
     args my $self, my $image_file => 'HirakataPapark::Class::Upload',
@@ -24,6 +32,7 @@ package HirakataPapark::Model::Parks::Images {
     my $filename = $filename_without_extension . '.' . $image_file->filename_extension;
     my $file_path = path "${save_dir}/${filename}";
     $image_file->move_to( $file_path->absolute );
+    $file_path->chmod(0664);
 
     $self->insert({
       park_id                    => $park_id,

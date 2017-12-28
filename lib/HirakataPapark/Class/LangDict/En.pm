@@ -35,6 +35,7 @@ package HirakataPapark::Class::LangDict::En {
       profile              => 'Profile',
       login                => 'Login',
       regist_from_twitter  => 'Regist From Twitter',
+      images               => 'Images',
       post_park_image      => 'Post Park Image',
       select_image         => 'Select Image',
       length_func          => sub ($min, $max) {

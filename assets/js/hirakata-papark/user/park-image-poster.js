@@ -43,11 +43,11 @@ module.exports = function (args) {
         this.imageFilePath = this.imageFile.name;
       },
       send: function () {
-        if ( !this.isFormEmpty() ) {
+        if ( !this.isFormEmpty() && !this.isImageFileUploading ) {
           this.isImageFileUploading = true;
           superagent
             .post(this.url)
-            .set('title', this.title)
+            .field('title', this.title)
             .attach('image_file', this.imageFile)
             .end(function (err, res) {
               var json = JSON.parse(res.text);

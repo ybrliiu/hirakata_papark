@@ -21,8 +21,7 @@ package HirakataPapark::Model::Parks::ParksResult {
     option $self->id_map->{$id}
   }
 
-  sub to_json_for_marker {
-    my $self = shift;
+  sub to_json_for_marker($self) {
     "[ " . (join ", ", map { $_->to_json_for_marker } $self->contents->@*) . " ]";
   }
 

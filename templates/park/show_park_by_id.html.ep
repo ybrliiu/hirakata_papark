@@ -98,7 +98,7 @@
   </div>
 
   <div class="row">
-    <div id="comment-form" class="col l6 s12">
+    <div id="v-comment-form" class="col l6 s12">
       <div class="row">
         <div class="col s12">
           <h3><%= $post_comment_title %></h3>
@@ -123,13 +123,30 @@
         </div>
       </div>
     </div>
-    <div id="comment" class="col l6 s12">
+    <div id="v-comment" class="col l6 s12">
       <div class="row">
         <div class="col s12">
           <h3><%= $comment_title %></h3>
           <div v-html="comments"></div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="row" id="v-images-parent">
+    <div id="v-images" class="col s12">
+      <h3><%= $lang_dict->get('images') %></h3>
+      <vue-images
+        :imgs="images"
+        :modalclose="modalclose"
+        :keyinput="keyinput"
+        :mousescroll="mousescroll"
+        :showclosebutton="showclosebutton"
+        :showcaption="showcaption"
+        :imagecountseparator="imagecountseparator"
+        :showimagecount="showimagecount"
+        :showthumbnails="showthumbnails"
+      ></vue-images>
     </div>
   </div>
 
@@ -152,6 +169,7 @@ window.addEventListener('load', function () {
     removeStarUrl: '<%= url_for "/$lang/user/remove-park-star/" . $park->id %>',
     getCommentsUrl: '<%= url_for "/$lang/park/get-comments/" . $park->id %>',
     addCommentUrl: '<%= url_for "/$lang/park/add-comment/" . $park->id %>',
+    images: JSON.parse('<%== $images_json %>'),
   });
 
 });
