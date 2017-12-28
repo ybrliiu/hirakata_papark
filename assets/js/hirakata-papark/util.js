@@ -13,5 +13,12 @@ util.mixin = function (trait, consume) {
   });
 };
 
+util.toCamelCase = function (str) {
+  var cameled = str.split('_').map(function (elem) {
+    return elem.charAt(0).toUpperCase() + elem.slice(1);
+  }).join('');
+  return cameled.charAt(0).toLowerCase() + cameled.slice(1);
+};
+
 module.exports = util;
 

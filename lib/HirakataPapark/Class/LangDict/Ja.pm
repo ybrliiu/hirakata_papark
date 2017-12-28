@@ -35,6 +35,11 @@ package HirakataPapark::Class::LangDict::Ja {
       profile              => 'プロフィール',
       login                => 'ログイン',
       regist_from_twitter  => 'Twitterから登録',
+      post_park_image      => '公園の画像を投稿',
+      select_image         => '画像を選択',
+      length_func          => sub ($min, $max) {
+        "${min}文字以上${max}文字以下で入力してください。";
+      },
     }
   }
 

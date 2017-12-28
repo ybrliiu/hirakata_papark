@@ -23,8 +23,8 @@ package HirakataPapark::Service::User::Park::ImagePoster::MessageData {
     my $message_data = $self->default_data->message_data('ja');
     $message_data->{message}{'filename_extension.choice'} =
       '投稿できる画像の種類は、' . join('、', FILENAME_EXTENSIONS->@*) . 'です。';
-    $message_data->{message}{file_size} =
-      '画像ファイルのサイズの上限は' . FILE_SIZE_LIMIT_MB . 'MB以下です。';
+    $message_data->{message}{'image_file.file_size'} =
+      '画像ファイルのサイズの上限は' . FILE_SIZE_LIMIT_MB . 'MBです。';
     HirakataPapark::Validator::MessageData->new( $message_data->to_hash );
   }
 
@@ -32,7 +32,7 @@ package HirakataPapark::Service::User::Park::ImagePoster::MessageData {
     my $message_data = $self->default_data->message_data('en');
     $message_data->{message}{'filename_extension.choice'} =
       'You can post ' . join(', ', FILENAME_EXTENSIONS->@*) . ' image files.';
-    $message_data->{message}{file_size} =
+      $message_data->{message}{'image_file.file_size'} =
       'The upper limit of image file is ' . FILE_SIZE_LIMIT_MB . ' MB.';
     HirakataPapark::Validator::MessageData->new( $message_data->to_hash );
   }

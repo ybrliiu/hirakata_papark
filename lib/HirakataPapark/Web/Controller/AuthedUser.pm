@@ -29,7 +29,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
     HirakataPapark::Model::Parks::Stars->new(db => $self->db)
   };
 
-  has 'park_image_poster' => sub ($self) {
+  has 'park_images' => sub ($self) {
     HirakataPapark::Model::Parks::Images->new(db => $self->db);
   };
 
@@ -131,8 +131,12 @@ package HirakataPapark::Web::Controller::AuthedUser {
   sub park_image_poster($self) {
     my $message_data = HirakataPapark::Service::User::Park::ImagePoster::MessageData
       ->instance->message_data($self->lang);
-    $self->stash(message_data => $message_data);
-    $self->render_to_multiple_lang;
+    $self->stash({
+      park_id      => $self->param('park_id'),
+      validator    => 'HirakataPapark::Service::User::Park::ImagePoster::Validator',
+      message_data => $message_data,
+    });
+    $self->render;
   }
 
   sub post_park_image($self) {
@@ -147,10 +151,8 @@ package HirakataPapark::Web::Controller::AuthedUser {
     });
     my $json = $poster->post->match(
       Right => sub ($params) {
-        +{
-          is_success  => 1,
-          redirect_to => "/@{[ $self->lang ]}/park/@{[ $params->param('park_id') ]}",
-        };
+        my $url = $self->url_for( '/' . $self->lang . '/park/' . $self->param('park_id') );
+        +{ is_success  => 1, redirect_to => $url };
       },
       Left => sub ($e) {
         if ( $e->isa('HirakataPapark::Validator') ) {
