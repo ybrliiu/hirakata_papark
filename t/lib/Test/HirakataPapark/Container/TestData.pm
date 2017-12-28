@@ -270,6 +270,22 @@ package Test::HirakataPapark::Container::TestData {
 
       };
 
+      container 'Web' => as {
+
+        service 'upload' => (
+          block => sub ($s) {
+            require Mojo::Asset::Memory;
+            require Mojo::Upload;
+            Mojo::Upload->new(
+              asset    => Mojo::Asset::Memory->new,
+              filename => 'park_image.png',
+            );
+          },
+          lifecycle => 'Singleton',
+        );
+
+      };
+
     };
 
   }

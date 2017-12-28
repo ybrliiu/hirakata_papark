@@ -98,6 +98,23 @@ package Test::HirakataPapark::Container {
             dependencies => {db => '../../DB/db'},
           );
 
+          service 'images_save_dir_root' => './t/for_test/park_images';
+
+          service 'images' => (
+            block => sub ($s) {
+              require HirakataPapark::Model::Parks::Images;
+              HirakataPapark::Model::Parks::Images->new(
+                db            => $s->param('db'),
+                save_dir_root => $s->param('save_dir_root'),
+              );
+            },
+            lifecycle    => 'Singleton',
+            dependencies => {
+              db            => '../../DB/db',
+              save_dir_root => 'images_save_dir_root',
+            },
+          );
+
         };
 
       };

@@ -5,9 +5,16 @@ package HirakataPapark::Service::User::Park::ImagePoster::Poster {
   use Either;
   use Try::Tiny;
   use HirakataPapark::Class::Upload;
+  use HirakataPapark::Service::User::Park::ImagePoster::MessageData;
+  use HirakataPapark::Service::User::Park::ImagePoster::Validator;
 
   has 'lang' => ( is => 'ro', isa => 'HirakataPapark::lang', required => 1 );
-  has 'user' => ( is => 'ro', isa => 'HirakataPapark::DB::Row', required => 1 );
+
+  has 'user' => (
+    is       => 'ro',
+    isa      => 'HirakataPapark::DB::Row::User',
+    required => 1,
+  );
 
   has 'park_images' => (
     is       => 'ro',
@@ -23,7 +30,7 @@ package HirakataPapark::Service::User::Park::ImagePoster::Poster {
 
   has 'maybe_image_file' => (
     is      => 'ro',
-    isa     => 'Option',
+    isa     => 'Option::Option',
     lazy    => 1,
     builder => '_build_maybe_image_file',
   );
@@ -37,7 +44,7 @@ package HirakataPapark::Service::User::Park::ImagePoster::Poster {
 
   has 'validator' => (
     is      => 'ro',
-    isa     => 'HirakataPapark::Service::User::Regist::Validator',
+    isa     => 'HirakataPapark::Service::User::Park::ImagePoster::Validator',
     lazy    => 1,
     builder => '_build_validator',
   );
@@ -62,14 +69,14 @@ package HirakataPapark::Service::User::Park::ImagePoster::Poster {
     });
   }
 
-  sub BUILD($self) {
+  sub BUILD($self, $args) {
     $self->maybe_image_file->foreach(sub ($image_file) {
       $self->params->set(filename_extension => $image_file->filename_extension);
     });
   }
 
   # -> Either[ Params | Validator | Exception ]
-  sub regist($self) {
+  sub post($self) {
     $self->validator->validate->flat_map(sub {
       my $image_file = $self->maybe_image_file->get;
       $self->params->param('title')->match(
