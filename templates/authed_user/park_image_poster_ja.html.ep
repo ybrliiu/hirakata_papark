@@ -1,0 +1,3 @@
+<%= include 'authed_user/park_image_poster' => (
+  title => '公園の画像を投稿',
+); %>

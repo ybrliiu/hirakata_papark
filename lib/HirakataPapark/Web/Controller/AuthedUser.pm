@@ -3,7 +3,6 @@ package HirakataPapark::Web::Controller::AuthedUser {
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
   use Option;
-  use HirakataPapark::Exception;
   use HirakataPapark::Validator::Params;
   use HirakataPapark::Model::Parks::Tags;
   use HirakataPapark::Model::Parks::Stars;
@@ -111,14 +110,14 @@ package HirakataPapark::Web::Controller::AuthedUser {
     });
     my $json = $service->add_tag->match(
       Right => sub {
-        {
+        +{
           is_success => 1,
           redirect_to => $self->url_for("/@{[ $self->lang ]}/park/@{[ $self->param('park_id') ]}"),
         }
       },
       Left => sub ($e) {
         if ( $e->isa('HirakataPapark::Validator') ) {
-          { is_success => 0, errors => $e->errors_and_messages };
+          +{ is_success => 0, errors => $e->errors_and_messages };
         } else {
           die $e;
         }
@@ -127,11 +126,10 @@ package HirakataPapark::Web::Controller::AuthedUser {
     $self->render(json => $json);
   }
 
-  sub park_editer($self) {
-  }
+  sub park_editer($self) {}
 
   sub park_image_poster($self) {
-    my $message_data = HirakataPapark::Service::User::Regist::MessageData
+    my $message_data = HirakataPapark::Service::User::Park::ImagePoster::MessageData
       ->instance->message_data($self->lang);
     $self->stash(message_data => $message_data);
     $self->render_to_multiple_lang;
@@ -139,9 +137,9 @@ package HirakataPapark::Web::Controller::AuthedUser {
 
   sub post_park_image($self) {
     my $poster = HirakataPapark::Service::User::Park::ImagePoster::Poster->new({
-      db     => $db,
+      db     => $self->db,
       lang   => 'ja',
-      user   => $user,
+      user   => $self->user,
       params => HirakataPapark::Validator::Params->new({
         map { $_ => $self->param($_) } qw( park_id title image_file )
       }),

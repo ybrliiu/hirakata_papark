@@ -1,0 +1,50 @@
+% layout "default_${lang}";
+
+<div class="card centering">
+  <div class="card-content center-align" id="v-user-twitter-register-modifiable" v-cloak>
+    
+    <h2 class="card-title"><%= $title %></h2>
+
+    <div class="input-field col s12">
+      <input
+        type="text"
+        placeholder="title"
+        v-tooltip.top-center="idConditions"
+        v-model="title"
+      requried>
+      <ul class="errors">
+        <li class="red-text" v-for="err in titleErrors">
+          {{ err }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="file-field input-field col s12">
+      <input
+        type="file"
+        placeholder="画像を選んでください"
+        v-tooltip.top-center="imageConditions"
+        v-on:change="selectImage"
+      requried>
+      <ul class="errors">
+        <li class="red-text" v-for="err in imageErrors">
+          {{ err }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="input-field">
+      <button class="waves-effect btn" v-on:click="send">
+        <%= $lang_dict->get('post') %>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+'use strict';
+window.addEventListener('load', function () {
+});
+</script>
+

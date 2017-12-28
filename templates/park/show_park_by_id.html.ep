@@ -27,6 +27,10 @@
           href="<%= url_for "/$lang/user/park-tagger/" . $park->id %>"
           class="collection-item"
         ><%= $add_a_tag %></a>
+        <a
+          href="<%= url_for "/$lang/user/park-image-poster/" . $park->id %>"
+          class="collection-item"
+        ><%= $post_park_image %></a>
         <a   
           href="<%= url_for "/$lang/user/park-editer/" . $park->id %>"
           class="collection-item"
