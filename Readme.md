@@ -2,20 +2,24 @@
 
 ## 予定
 
-* 画像投稿機能追加
+* 画像投稿機能作成中
+
+  * [仕様]
   * public/park_images/$park_id/$sha1_sum で保存
   * 画像情報はDBに格納して管理, Modelで画像ファイルとの整合性をとる
   * 投稿可能な画像形式はpng, jpg, gif
-  * schema park_id, filename: Str, filename_extension: Str, park_id & filename: pkey
+  * schema park_id, filename_without_extension: Str, filename_extension: Str, park_id & filename_without_extension: pkey
 
-  * 公園のユーザーメニューに画像投稿画面を作成
+  * [予定]
+  * 画像投稿service作成
+  * Contoller記述
+  * クライアント側記述, 画像はvue-imageで表示, 画像投稿画面作成
 
-* ユーザー登録機能追加
-  * ログインしているユーザーは以下のことが可能
-    * 公園の画像投稿
-    * 名前付きのコメント
-    * 公園情報の編集
-    * 公園の追加
+* ユーザーができる機能
+  * 公園の画像投稿
+  * 名前付きのコメント
+  * 公園情報の編集
+  * 公園の追加
 * Model::get_row SQLの型が違うときに例外がでるのはどう対処する
 * render_unauthorized (401 Unauthorized)
 * ひらかたパパークのログイン機能をoauth2で実装することを検討する
@@ -41,7 +45,8 @@
   * 全ての条件を複合的に合わせて調べるページも作る
 
 ### リファクタリング関係
-* Model get_row_* unique制約によってrowを一個だけとってこれるパターンが決まっているならget_rowに省略してしまう
+* Model get_row_* unique制約によってrowを一個だけとってこれるパターンが決まっているならget_rowに省略してしまう[非整合]
+* Service の名前空間について考える[非整合]
 * コーデイングスタイルの統一(命名規則)
   * 引数なしのメソッド呼び出しは()つけない
   * 関数の最後のreturnは必要ないなら書かない

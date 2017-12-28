@@ -22,6 +22,8 @@ package HirakataPapark::Validator::Params {
     option $self->data->{$key};
   }
 
+  __PACKAGE__->meta->add_method(get => \&param);
+
   sub set($self, $key, $value) {
     $self->data->{$key} = $value;
   }
