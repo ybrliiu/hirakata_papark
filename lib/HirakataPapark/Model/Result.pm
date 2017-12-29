@@ -12,14 +12,7 @@ package HirakataPapark::Model::Result {
 
   has 'contents' => ( is => 'ro', isa => 'ArrayRef', required => 1 );
 
-  around BUILDARGS => sub {
-    my ($orig, $class) = (shift, shift);
-    @_ == 1 ? $class->$orig(contents => shift) : $class->$orig(@_);
-  };
-
-  sub len($self) {
-    $#{ $self->contents } + 1;
-  }
+  sub len($self) { $#{ $self->contents } + 1 }
 
   sub get($self, $index) { option $self->contents->[$index] }
 

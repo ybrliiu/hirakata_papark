@@ -23,12 +23,12 @@ package HirakataPapark::Model::Parks::Comments {
   }
 
   sub get_rows_by_park_id($self, $park_id, $num) {
-    $self->result_class->new([
+    $self->create_result(
       $self->select(
         { park_id => $park_id },
         { limit => $num, order_by => {id => 'DESC'} },
-      )->all
-    ]);
+      )->rows
+    );
   }
   
   __PACKAGE__->meta->make_immutable;

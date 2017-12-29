@@ -16,8 +16,8 @@ package HirakataPapark::Model::Parks::Images {
 
   with 'HirakataPapark::Model::Role::DB';
 
-  around result_class => sub ($orig, $self) {
-    'HirakataPapark::Model::Parks::ImagesResult';
+  around create_result => sub ($orig, $self, $contents) {
+    HirakataPapark::Model::Parks::ImagesResult->new(contents => $contents);
   };
 
   sub add_row {
@@ -71,7 +71,7 @@ package HirakataPapark::Model::Parks::Images {
   }
 
   sub get_rows_by_park_id($self, $park_id, $num = 10) {
-    $self->result_class->new([
+    $self->create_result([
       $self->select(
         { park_id => $park_id },
         { limit => $num, order_by => {filename_without_extension => 'DESC'} },

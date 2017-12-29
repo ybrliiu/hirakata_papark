@@ -25,23 +25,23 @@ package HirakataPapark::Model::Role::DB::RelatedToPark {
   }
 
   sub get_rows_by_park_id($self, $park_id) {
-    $self->result_class->new([ $self->select({ $self->TABLE . '.park_id' => $park_id })->all ]);
+    $self->create_result( $self->select({ $self->TABLE . '.park_id' => $park_id })->rows );
   }
 
   sub get_rows_by_name($self, $name) {
-    $self->result_class->new([ $self->select({ $self->TABLE . '.name' => $name })->all ]);
+    $self->create_result( $self->select({ $self->TABLE . '.name' => $name })->rows );
   }
 
   sub get_rows_by_names($self, $names) {
     my @ary = map { ('=', $_) } @$names;
-    $self->result_class->new([ $self->select({ $self->TABLE . '.name' => \@ary })->all ]);
+    $self->create_result( $self->select({ $self->TABLE . '.name' => \@ary })->rows );
   }
 
   sub PREFETCH_TABLE_NAME { 'park' }
 
   sub get_rows_by_names_with_prefetch($self, $names) {
     my @ary = map { ('=', $_) } @$names;
-    $self->result_class->new([ $self->select( { $self->TABLE . '.name' => \@ary }, { prefetch => [$self->PREFETCH_TABLE_NAME] } )->all ]);
+    $self->create_result( $self->select( { $self->TABLE . '.name' => \@ary }, { prefetch => [$self->PREFETCH_TABLE_NAME] } )->rows );
   }
 
   # and (?)

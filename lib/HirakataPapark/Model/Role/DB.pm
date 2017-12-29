@@ -16,7 +16,9 @@ package HirakataPapark::Model::Role::DB {
     $self->db->delete($self->TABLE, $where);
   }
 
-  sub result_class { 'HirakataPapark::Model::Result' }
+  sub create_result($self, $contents) {
+    HirakataPapark::Model::Result->new(contents => $contents);
+  }
 
   sub insert {
     my $self = shift;
@@ -34,7 +36,7 @@ package HirakataPapark::Model::Role::DB {
   }
 
   sub get_rows_all($self) {
-    $self->result_class->new([ $self->select({})->all ]);
+    $self->create_result($self->select({})->rows);
   }
 
   sub txn_scope($self) {

@@ -18,11 +18,11 @@ package HirakataPapark::Model::Parks::Stars {
   }
 
   sub get_rows_by_park_id($self, $park_id) {
-    $self->result_class->new([ $self->select({ park_id => $park_id })->all ]);
+    $self->create_result( $self->select({ park_id => $park_id })->rows );
   }
   
   sub get_rows_by_user_seacret_id($self, $user_seacret_id) {
-    $self->result_class->new([ $self->select({ user_seacret_id => $user_seacret_id })->all ]);
+    $self->create_result( $self->select({ user_seacret_id => $user_seacret_id })->rows );
   }
 
   sub get_row_by_park_id_and_user_seacret_id($self, $park_id, $user_seacret_id) {

@@ -14,6 +14,7 @@ lives_ok {
     park_tags       => $mc->get_service('tags')->get,
     park_stars      => $mc->get_service('stars')->get,
     park_plants     => $mc->get_service('plants')->get,
+    park_images     => $mc->get_service('images')->get,
     park_equipments => $mc->get_service('equipments')->get,
     park_facilities => $mc->get_service('surrounding_facilities')->get,
   )
@@ -22,6 +23,7 @@ lives_ok { $park->tags };
 lives_ok { $park->stars };
 is $park->stars->len, 0;
 lives_ok { $park->plants };
+lives_ok { $park->images };
 lives_ok { $park->plants_categories };
 lives_ok { $park->surrounding_facility_names };
 is $park->size, '大';

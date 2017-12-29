@@ -41,7 +41,7 @@ SELECT DISTINCT @{[ join ', ', @$columns ]}
   ON @{[ $sc_maker->output_join_condition_for_sql ]}
 EOS
     my $rows = $self->db->select_by_sql($sql, [], {});
-    $self->result_class->new([ $rows->all ]);
+    $self->create_result($rows->rows);
   }
 
   sub get_categories($self) {

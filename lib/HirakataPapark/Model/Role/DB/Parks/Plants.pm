@@ -12,21 +12,21 @@ package HirakataPapark::Model::Role::DB::Parks::Plants {
   );
 
   sub get_rows_by_park_id_order_by_category($self, $park_id) {
-    $self->result_class->new([
+    $self->create_result(
       $self->select(
         { $self->TABLE . '.park_id' => $park_id },
         { order_by => 'category DESC' }
-      )->all
-    ]);
+      )->rows
+    );
   }
 
   sub get_rows_by_category($self, $category) {
-    $self->result_class->new([ $self->select({ $self->TABLE . '.category' => $category })->all ]);
+    $self->create_result( $self->select({ $self->TABLE . '.category' => $category })->rows );
   }
 
   sub get_rows_by_categories($self, $categories) {
     my @ary = map { ('=', $_) } @$categories;
-    $self->result_class->new([ $self->select({ $self->TABLE . '.category' => \@ary })->all ]);
+    $self->create_result( $self->select({ $self->TABLE . '.category' => \@ary })->rows );
   }
 
   sub get_park_id_list_has_category_names($self, $category_names) {

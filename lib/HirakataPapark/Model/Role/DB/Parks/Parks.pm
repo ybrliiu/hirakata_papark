@@ -8,7 +8,9 @@ package HirakataPapark::Model::Role::DB::Parks::Parks {
   # methods
   requires qw( add_row );
 
-  around result_class => sub { 'HirakataPapark::Model::Parks::ParksResult' };
+  around create_result => sub ($orig, $self, $contents) {
+    HirakataPapark::Model::Parks::ParksResult->new(contents => $contents);
+  };
 
   sub add_rows($self, $hash_list) {
     $self->insert_multi($hash_list);
@@ -23,15 +25,15 @@ package HirakataPapark::Model::Role::DB::Parks::Parks {
   }
 
   sub get_rows_like_name($self, $name) {
-    $self->result_class->new([ $self->select({ $self->TABLE . '.name' => {like => "%${name}%"} })->all ]);
+    $self->create_result( $self->select({ $self->TABLE . '.name' => {like => "%${name}%"} })->rows );
   }
 
   sub get_rows_like_address($self, $address) {
-    $self->result_class->new([ $self->select({ $self->TABLE . '.address' => {like => "%${address}%"}})->all ]);
+    $self->create_result( $self->select({ $self->TABLE . '.address' => {like => "%${address}%"}})->rows );
   }
 
   sub get_rows_by_id_list($self, $id_list = []) {
-    $self->result_class->new([ $self->select({ $self->TABLE . '.id' => $id_list })->all ]);
+    $self->create_result( $self->select({ $self->TABLE . '.id' => $id_list })->rows );
   }
 
   sub _get_stared_rows_by_user_seacret_id_sql($self, $user_seacret_id) {
@@ -48,7 +50,7 @@ package HirakataPapark::Model::Role::DB::Parks::Parks {
 
   sub get_stared_rows_by_user_seacret_id($self, $user_seacret_id) {
     my $select = $self->_get_stared_rows_by_user_seacret_id_sql($user_seacret_id);
-    $self->result_class->new([ $self->db->select_by_sql($select->as_sql, [$select->bind], {})->all ]);
+    $self->create_result( $self->db->select_by_sql($select->as_sql, [$select->bind], {})->rows );
   }
 
 }

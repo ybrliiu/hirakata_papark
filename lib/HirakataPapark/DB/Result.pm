@@ -1,18 +1,15 @@
 package HirakataPapark::DB::Result {
 
   use Mouse;
+  use Option;
   use HirakataPapark;
   extends qw( Aniki::Result::Collection );
 
-  use Option;
-
-  sub first_with_option {
-    my $self = shift;
+  sub first_with_option($self) {
     option $self->first;
   }
 
-  sub last_with_option {
-    my $self = shift;
+  sub last_with_option($self) {
     option $self->last;
   }
 

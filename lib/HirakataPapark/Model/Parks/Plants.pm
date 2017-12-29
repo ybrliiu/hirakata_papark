@@ -29,9 +29,7 @@ package HirakataPapark::Model::Parks::Plants {
   }
 
   sub get_all_distinct_rows($self, $columns) {
-    $self->result_class->new([
-      $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => $columns } )->all
-    ]);
+    $self->create_result( $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => $columns } )->rows );
   }
 
   sub get_categories($self) {

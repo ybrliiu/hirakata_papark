@@ -124,7 +124,7 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage {
 =cut
 
   sub get_orig_rows_all($self) {
-    $self->result_class->new([ $self->db->select($self->TABLE => {})->all ]);
+    $self->create_result( $self->db->select($self->TABLE => {})->rows );
   }
 
 }
