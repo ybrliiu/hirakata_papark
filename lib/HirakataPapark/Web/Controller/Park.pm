@@ -4,7 +4,8 @@ package HirakataPapark::Web::Controller::Park {
   use HirakataPapark;
 
   use Option;
-  use Mojo::JSON qw( encode_json );
+  use Encode qw( decode_utf8 );
+  use JSON::XS qw( encode_json );
   use HirakataPapark::Service::User::ShowParkUser;
   use HirakataPapark::Service::Park::Park;
   use HirakataPapark::Model::Parks::Stars;
@@ -68,14 +69,16 @@ package HirakataPapark::Web::Controller::Park {
           park_equipments => $self->park_equipments,
           park_facilities => $self->park_facilities,
         });
-        my $base = $self->url_for('/images/parks');
+
+        my $base = $self->url_for('/images/parks/' . $park->id)->to_abs->to_string;
+        my $images = $park->images;
+        $images->static_url_root($base);
+        my $images_json = decode_utf8 encode_json $images->to_hash_for_vue_images;
+
         $self->stash(
-          park       => $park,
-          images_json => encode_json( [ map {
-            $_->{imageUrl} = $base . '/' . $park->id . '/' . $_->{imageUrl};
-            $_;
-          } $park->images->to_hash_for_vue_images->@* ]),
-          maybe_user => $self->maybe_user->map(sub ($user) {
+          park        => $park,
+          images_json => $images_json,
+          maybe_user  => $self->maybe_user->map(sub ($user) {
             HirakataPapark::Service::User::ShowParkUser->new({
               row        => $user,
               park_stars => $self->park_stars,

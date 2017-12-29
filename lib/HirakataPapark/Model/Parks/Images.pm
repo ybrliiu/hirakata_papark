@@ -17,7 +17,10 @@ package HirakataPapark::Model::Parks::Images {
   with 'HirakataPapark::Model::Role::DB';
 
   around create_result => sub ($orig, $self, $contents) {
-    HirakataPapark::Model::Parks::ImagesResult->new(contents => $contents);
+    HirakataPapark::Model::Parks::ImagesResult->new({
+      contents      => $contents,
+      save_dir_root => $self->save_dir_root,
+    });
   };
 
   sub add_row {
