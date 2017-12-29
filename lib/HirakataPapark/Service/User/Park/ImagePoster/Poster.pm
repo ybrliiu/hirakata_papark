@@ -95,8 +95,18 @@ package HirakataPapark::Service::User::Park::ImagePoster::Poster {
         });
         right 1;
       } catch {
+        my $e = $_;
         $txn_scope->rollback;
-        left $_;
+        left do {
+          if ( HirakataPapark::DB::DuplicateException->caught($e)
+            && $e->message =~ /filename_without_extension/ ) {
+            my $v = $self->validator->validator;
+            $v->set_error(image_file => 'already_exist');
+            $v;
+          } else {
+            $e;
+          }
+        };
       };
       $result->map(sub {
         $txn_scope->commit;

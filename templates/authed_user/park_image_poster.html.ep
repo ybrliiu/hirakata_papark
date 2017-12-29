@@ -36,6 +36,11 @@
           {{ err }}
         </li>
       </ul>
+      <ul class="errors">
+        <li class="red-text" v-for="err in filenameExtensionErrors">
+          {{ err }}
+        </li>
+      </ul>
     </div>
 
     <div class="input-field">

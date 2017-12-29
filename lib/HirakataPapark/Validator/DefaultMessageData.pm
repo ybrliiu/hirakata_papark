@@ -18,6 +18,7 @@ package HirakataPapark::Validator::DefaultMessageData {
         facebook_id => 'Facebook ID',
         park_id     => '公園ID',
         tag_name    => 'タグ名',
+        image_file  => '画像ファイル',
       },
       function => {
         not_null      => '[_1]を入力してください。',
@@ -43,6 +44,7 @@ package HirakataPapark::Validator::DefaultMessageData {
         facebook_id => 'Facebook ID',
         park_id     => 'Park ID',
         tag_name    => 'Tag Name',
+        image_file  => 'Image File',
       },
       function => {
         not_null      => 'Please input [_1].',

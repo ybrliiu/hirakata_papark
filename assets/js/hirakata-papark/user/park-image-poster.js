@@ -23,6 +23,7 @@ module.exports = function (args) {
       imageFilePath: '',
       imageFileErrors: [],
       imageFileConditions: args.imageFileConditions,
+      filenameExtensionErrors: [],
       title: '',
       titleErrors: [],
       titleConditions: args.titleConditions,
@@ -30,7 +31,9 @@ module.exports = function (args) {
     },
     methods: {
       clearErrors: function () {
-        ['titleErrors', 'imageFileErrors'].forEach(function (elem) {
+        ['title', 'imageFile', 'filenameExtension'].map(function (elem) {
+          return elem + 'Errors';
+        }).forEach(function (elem) {
           this[elem] = [];
         }.bind(this));
       },
@@ -50,9 +53,21 @@ module.exports = function (args) {
             .field('title', this.title)
             .attach('image_file', this.imageFile)
             .end(function (err, res) {
-              var json = JSON.parse(res.text);
               this.clearErrors();
               this.isImageFileUploading = false;
+              var json;
+              try {
+                json = JSON.parse(res.text);
+              } catch (e) {
+                if (e instanceof SyntaxError) {
+                  alert('サーバーでエラーが発生しました。サイト運営者に報告してください');
+                  console.log(e);
+                  console.log(res);
+                  return;
+                } else {
+                  throw e;
+                }
+              }
               if (json.is_success) {
                 location.assign(json.redirect_to);
               } else {
