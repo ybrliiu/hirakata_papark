@@ -1,57 +1,59 @@
 % layout "default_${lang}";
 
-<div class="card single-content">
-  <div class="card-content center-align" id="v-park-image-poster" v-cloak>
-    
-    <h2 class="card-title"><%= $lang_dict->get('post_park_image') %></h2>
-
-    <div class="input-field">
-      <input
-        type="text"
-        placeholder="title"
-        v-tooltip.top-center="titleConditions"
-        v-model="title"
-      requried>
-      <ul class="errors">
-        <li class="red-text" v-for="err in titleErrors">
-          {{ err }}
-        </li>
-      </ul>
-    </div>
-
-    <div class="file-field input-field">
-      <div class="btn">
-        <span><%= $lang_dict->get('select_image') %></span>
+<div class="container">
+  <div class="card single-content">
+    <div class="card-content center-align" id="v-park-image-poster" v-cloak>
+      
+      <h2 class="card-title"><%= $lang_dict->get('post_park_image') %></h2>
+  
+      <div class="input-field">
         <input
-          type="file"
-          v-tooltip.top-center="imageFileConditions"
-          v-on:change="selectImage"
+          type="text"
+          placeholder="title"
+          v-tooltip.top-center="titleConditions"
+          v-model="title"
         requried>
+        <ul class="errors">
+          <li class="red-text" v-for="err in titleErrors">
+            {{ err }}
+          </li>
+        </ul>
       </div>
-      <div class="file-path-wrapper">
-        <input class="file-path" type="text" v-model="imageFilePath">
+  
+      <div class="file-field input-field">
+        <div class="btn">
+          <span><%= $lang_dict->get('select_image') %></span>
+          <input
+            type="file"
+            v-tooltip.top-center="imageFileConditions"
+            v-on:change="selectImage"
+          requried>
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path" type="text" v-model="imageFilePath">
+        </div>
+        <ul class="errors">
+          <li class="red-text" v-for="err in imageFileErrors">
+            {{ err }}
+          </li>
+        </ul>
+        <ul class="errors">
+          <li class="red-text" v-for="err in filenameExtensionErrors">
+            {{ err }}
+          </li>
+        </ul>
       </div>
-      <ul class="errors">
-        <li class="red-text" v-for="err in imageFileErrors">
-          {{ err }}
-        </li>
-      </ul>
-      <ul class="errors">
-        <li class="red-text" v-for="err in filenameExtensionErrors">
-          {{ err }}
-        </li>
-      </ul>
+  
+      <div class="input-field">
+        <div class="progress" v-show="isImageFileUploading">
+          <div class="indeterminate"></div>
+        </div>
+        <button class="waves-effect btn" v-on:click="send">
+          <%= $lang_dict->get('post') %>
+        </button>
+      </div>
+  
     </div>
-
-    <div class="input-field">
-      <div class="progress" v-show="isImageFileUploading">
-        <div class="indeterminate"></div>
-      </div>
-      <button class="waves-effect btn" v-on:click="send">
-        <%= $lang_dict->get('post') %>
-      </button>
-    </div>
-
   </div>
 </div>
 

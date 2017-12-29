@@ -47,6 +47,14 @@
     </div>
   </div>
 
+  <div class="park-nav-bar">
+    <ul class="tabs">
+      <li class="tab"><a class="active" href="#test1">概要</a></li>
+      <li class="tab"><a href="#test2">コメント</a></li>
+      <li class="tab"><a href="#test4">画像</a></li>
+    </ul>
+  </div>
+
   <div class="row">
     <div class="col l6 s12">
       <h3><%= $details_title %></h3>
