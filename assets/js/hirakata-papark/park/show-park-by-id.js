@@ -36,15 +36,13 @@ module.exports = function (args) {
     el: '#' + parkMenuId,
     data: {
       isOpened: false,
+      menuButtonClassObject: {
+        clicked: false,
+      },
       menuStyleObject: {
-        'font-size': 'initial',
-        position: 'absolute',
-        width: 0,
-        display: 'none',
         top: '0px',
         left: '0px',
         right: '0px',
-        'z-index': 0,
       },
     },
     created: function () {
@@ -75,11 +73,13 @@ module.exports = function (args) {
       },
       openMenu: function () {
         this.isOpened = true;
+        this.menuButtonClassObject.clicked = true;
         this.menuStyleObject.display = 'block';
         this.menuStyleObject['z-index'] = Z_INDEX;
       },
       closeMenu: function () {
         this.isOpened = false;
+        this.menuButtonClassObject.clicked = false;
         this.menuStyleObject.display = 'none';
         this.menuStyleObject['z-index'] = 0;
       },

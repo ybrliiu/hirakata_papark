@@ -113,6 +113,11 @@ h3 {
   font-size: 2.1rem;
 }
 
+@media screen and (max-width: 600px) {
+  h2 { font-size: 2.2rem; }
+  h3 { font-size: 1.7rem; }
+}
+
 strong {
   font-weight: bold;
 }
@@ -156,6 +161,30 @@ ul.errors {
 
 i.medium-small {
   font-size: 3rem;
+}
+
+.material-icons.menu-btn {
+  padding: 3.5px;
+  border-radius: 1.5px;
+  transition: background-color 300ms 0s ease;
+  $bg-color: #CCC;
+  &:hover {
+    background-color: $bg-color;
+  }
+  &.clicked {
+    background-color: $bg-color;
+  }
+}
+
+.floating-menu {
+  font-size: initial;
+  position: absolute;
+  width: 0;
+  display: none;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 0;
 }
 
 .card.single-content {

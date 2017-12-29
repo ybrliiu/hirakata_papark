@@ -13,12 +13,6 @@
       <transition name="fade-menu">
       <ul class="side-nav" v-show="isShow" v-on:click="stopClose" v-cloak>
         <li><span class="title center green darken-3"><%= $config->{site}{name} %></span></li>
-        <form class="in-side-nav">
-          <div class="input-field">
-            <input id="search" type="search" placeholder="公園を検索">
-            <i class="material-icons">search</i>
-          </div>
-        </form>
         <li><a href="<%= url_for '/ja/' %>">公園マップ</a></li>
         <li><a href="<%= url_for '/ja/searcher/' %>">公園を検索</a></li>
         <li><a href="<%= url_for '/ja/current-location' %>">現在地周辺の公園をさがす</a></li>

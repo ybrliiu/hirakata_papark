@@ -11,13 +11,12 @@
     </span>
   % $maybe_user->map(sub {
     <span id="v-park-menu">
-      <a class="btn btn-floating btn-large right">
-        <i
-          class="material-icons medium-small cursor-pointer"
-          v-on:click="clickIcon"
-        >more_vert</i>
-      </a>
-      <div class="collection z-depth-3" v-bind:style="menuStyleObject" v-cloak>
+      <i
+        class="material-icons small cursor-pointer right menu-btn"
+        v-bind:class="menuButtonClassObject"
+        v-on:click="clickIcon"
+      >more_vert</i>
+      <div class="collection z-depth-3 floating-menu" v-bind:style="menuStyleObject" v-cloak>
         <a
           href="https://www.google.co.jp/maps/place/<%= $park->name %>/@<%= $park->y %>,<%= $park->x %>,18z"
           target="_blank"
