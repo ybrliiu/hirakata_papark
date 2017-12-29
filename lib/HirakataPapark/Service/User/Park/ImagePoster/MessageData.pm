@@ -24,7 +24,7 @@ package HirakataPapark::Service::User::Park::ImagePoster::MessageData {
     $message_data->{message}{'filename_extension.choice'} =
       '投稿できる画像の種類は、' . join('、', FILENAME_EXTENSIONS->@*) . 'です。';
     $message_data->{message}{'image_file.file_size'} =
-      '[_1]のサイズの上限は' . FILE_SIZE_LIMIT_MB . 'MBです。';
+      '画像ファイルのサイズの上限は' . FILE_SIZE_LIMIT_MB . 'MBです。';
     $message_data->{message}{'image_file.already_exist'} = 'その[_1]は既に投稿されています。';
     HirakataPapark::Validator::MessageData->new( $message_data->to_hash );
   }
@@ -34,7 +34,7 @@ package HirakataPapark::Service::User::Park::ImagePoster::MessageData {
     $message_data->{message}{'filename_extension.choice'} =
       'You can post ' . join(', ', FILENAME_EXTENSIONS->@*) . ' image files.';
     $message_data->{message}{'image_file.file_size'} =
-      'The upper limit of [_1] is ' . FILE_SIZE_LIMIT_MB . ' MB.';
+      'The upper limit of image file is ' . FILE_SIZE_LIMIT_MB . ' MB.';
     $message_data->{message}{'image_file.already_exist'} = 'The [_1] is already posted.';
     HirakataPapark::Validator::MessageData->new( $message_data->to_hash );
   }

@@ -61,6 +61,7 @@ module.exports = function (args) {
     methods: {
       clickIcon: function (eve) {
         eve.stopPropagation();
+        this.resize();
         if (this.isOpened) {
           this.closeMenu();
         } else {

@@ -95,24 +95,25 @@ package HirakataPapark::Service::User::Park::ImagePoster::Poster {
         });
         right 1;
       } catch {
-        my $e = $_;
         $txn_scope->rollback;
-        left do {
-          if ( HirakataPapark::DB::DuplicateException->caught($e)
-            && $e->message =~ /filename_without_extension/ ) {
-            my $v = $self->validator->validator;
-            $v->set_error(image_file => 'already_exist');
-            $v;
-          } else {
-            $e;
-          }
-        };
+        left $self->error_handling($_);
       };
       $result->map(sub {
         $txn_scope->commit;
         $self->params;
       });
     });
+  }
+
+  sub error_handling($self, $e) {
+    if ( HirakataPapark::DB::DuplicateException->caught($e)
+      && $e->message =~ /filename_without_extension/ ) {
+      my $v = $self->validator->validator;
+      $v->set_error(image_file => 'already_exist');
+      $v;
+    } else {
+      $e;
+    }
   }
 
   __PACKAGE__->meta->make_immutable;

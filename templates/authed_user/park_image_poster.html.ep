@@ -1,6 +1,6 @@
 % layout "default_${lang}";
 
-<div class="card centering">
+<div class="card single-content">
   <div class="card-content center-align" id="v-park-image-poster" v-cloak>
     
     <h2 class="card-title"><%= $lang_dict->get('post_park_image') %></h2>
