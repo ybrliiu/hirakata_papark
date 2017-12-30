@@ -9,7 +9,6 @@
         v-cloak>{{ starIcon() }}</i><span class="park-star-num" v-cloak>×
       {{ starNum }}</span>
     </span>
-  % $maybe_user->map(sub {
     <span id="v-park-menu">
       <i
         class="material-icons small cursor-pointer right menu-btn"
@@ -22,6 +21,7 @@
           target="_blank"
           class="collection-item"
         ><%= $watch_with_google_map %></a>
+      % $maybe_user->map(sub {
         <a
           href="<%= url_for "/$lang/user/park-tagger/" . $park->id %>"
           class="collection-item"
@@ -34,9 +34,9 @@
           href="<%= url_for "/$lang/user/park-editer/" . $park->id %>"
           class="collection-item"
         ><%= $edit_park_info %></a>
+      % });
       </div>
     </span>
-  % });
   </h2>
 
   <div class="row">
@@ -47,65 +47,8 @@
     </div>
   </div>
 
-  <div class="park-nav-bar">
-    <ul class="tabs">
-      <li class="tab"><a class="active" href="#test1">概要</a></li>
-      <li class="tab"><a href="#test2">コメント</a></li>
-      <li class="tab"><a href="#test4">画像</a></li>
-    </ul>
-  </div>
-
-  <div class="row">
+  <script type="text/x-template" id="comment-form-template">
     <div class="col l6 s12">
-      <h3><%= $details_title %></h3>
-      <p><%= $lang_dict->get('address') %> : <%= $park->address %></p>
-      <p><%= $lang_dict->get('latitude') %> : <%= $park->y %>, <%= $lang_dict->get('longitude') %> : <%= $park->x %>
-      <p><%= $lang_dict->get('area') %> : <%= $park->area %> ㎡ (<%= $lang_dict->get('extent') %> : <%= $park->size %>)</p>
-      <p><%= $lang_dict->get('scenery') %> : <%= $park->is_nice_scenery ? $lang_dict->get('nice') : '' %></p>
-      <p><%= $lang_dict->get('temp_evacuation_area') %> : <%= $park->is_evacuation_area ? '○' : '×' %></p>
-    </div>
-    <div class="col l6 s12">
-      <h3><%= $map_title %></h3>
-      <div id="park-map-small" class="card-content"></div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col l6 s12">
-      <h3><%= $equipment_title %></h3>
-      <table>
-        <thread>
-          <tr>
-            <th style="max-width: 33%"><%= $lang_dict->get('name') %></th>
-            <th><%= $lang_dict->get('num') %></th>
-            <th><%= $lang_dict->get('remarks') %></th>
-          </tr>
-        </thread>
-        <tbody>
-        % for my $equipment ($park->equipments->@*) {
-          <tr>
-            <td><%= $equipment->name %></td>
-            <td><%= $equipment->num %></td>
-            <td><%= $equipment->comment %></td>
-          </tr>
-        % }
-        </tbody>
-      </table>
-    </div>
-    <div class="col l6 s12">
-      <h3><%= $plants_title %></h3>
-      <p><%= join ', ', $park->plants_categories->@* %></p>
-      <a class="waves-effect btn" href="<%= url_for "/$lang/park/plants/" . $park->id %>">
-        <i class="material-icons right">arrow_forward</i><%= $lang_dict->get('details') %>
-      </a>
-
-      <h3><%= $surrounding_facility_title %></h3>
-      <p><%= join ', ', $park->surrounding_facility_names->@* %></p>
-    </div>
-  </div>
-
-  <div class="row">
-    <div id="v-comment-form" class="col l6 s12">
       <div class="row">
         <div class="col s12">
           <h3><%= $post_comment_title %></h3>
@@ -130,54 +73,113 @@
         </div>
       </div>
     </div>
-    <div id="v-comment" class="col l6 s12">
+  </script>
+
+  <script type="text/x-template" id="comment-template">
+    <div class="col l6 s12">
       <div class="row">
         <div class="col s12">
-          <h3><%= $comment_title %></h3>
+          <h3><%= $lang_dict->get('comments') %></h3>
           <div v-html="comments"></div>
         </div>
       </div>
     </div>
-  </div>
+  </script>
 
-  <div class="row" id="v-images-parent">
-    <div id="v-images" class="col s12">
-      <h3><%= $lang_dict->get('images') %></h3>
-      <vue-images
-        :imgs="images"
-        :modalclose="modalclose"
-        :keyinput="keyinput"
-        :mousescroll="mousescroll"
-        :showclosebutton="showclosebutton"
-        :showcaption="showcaption"
-        :imagecountseparator="imagecountseparator"
-        :showimagecount="showimagecount"
-        :showthumbnails="showthumbnails"
-      ></vue-images>
-    </div>
+  <div id="v-park-nav-bar" v-cloak>
+    <vue-nav-bar-tabs>
+      <tab title="<%= $lang_dict->get('overview') %>">
+
+        <div class="row">
+          <div class="col l6 s12">
+            <h3><%= $details_title %></h3>
+            <p><%= $lang_dict->get('address') %> : <%= $park->address %></p>
+            <p><%= $lang_dict->get('latitude') %> : <%= $park->y %>, <%= $lang_dict->get('longitude') %> : <%= $park->x %>
+            <p><%= $lang_dict->get('area') %> : <%= $park->area %> ㎡ (<%= $lang_dict->get('extent') %> : <%= $park->size %>)</p>
+            <p><%= $lang_dict->get('scenery') %> : <%= $park->is_nice_scenery ? $lang_dict->get('nice') : '' %></p>
+            <p><%= $lang_dict->get('temp_evacuation_area') %> : <%= $park->is_evacuation_area ? '○' : '×' %></p>
+          </div>
+          <div class="col l6 s12">
+            <h3><%= $map_title %></h3>
+            <div id="park-map-small" class="card-content"></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col l6 s12">
+            <h3><%= $equipment_title %></h3>
+            <table>
+              <tr>
+                <th style="max-width: 33%"><%= $lang_dict->get('name') %></th>
+                <th><%= $lang_dict->get('num') %></th>
+                <th><%= $lang_dict->get('remarks') %></th>
+              </tr>
+              <tbody>
+              % for my $equipment ($park->equipments->@*) {
+                <tr>
+                  <td><%= $equipment->name %></td>
+                  <td><%= $equipment->num %></td>
+                  <td><%= $equipment->comment %></td>
+                </tr>
+              % }
+              </tbody>
+            </table>
+          </div>
+          <div class="col l6 s12">
+            <h3><%= $plants_title %></h3>
+            <p><%= join ', ', $park->plants_categories->@* %></p>
+            <a class="waves-effect btn" href="<%= url_for "/$lang/park/plants/" . $park->id %>">
+              <i class="material-icons right">arrow_forward</i><%= $lang_dict->get('details') %>
+            </a>
+            <h3><%= $surrounding_facility_title %></h3>
+            <p><%= join ', ', $park->surrounding_facility_names->@* %></p>
+          </div>
+        </div>
+
+      </tab>
+      <tab title="<%= $lang_dict->get('comments') %>">
+        <div class="row">
+          <comment-form></comment-form>
+          <comment></comment>
+        </div>
+      </tab>
+      <tab title="<%= $lang_dict->get('images') %>">
+
+        <div class="row">
+          <div class="col s12">
+            <h3><%= $lang_dict->get('images') %></h3>
+            <vue-images
+              :imgs="images"
+              :modalclose="true"
+              :keyinput="true"
+              :mousescroll="true"
+              :showclosebutton="true"
+              :showcaption="true"
+              imagecountseparator="of"
+              :showimagecount="true"
+              :showthumbnails="true"
+            ></vue-images>
+          </div>
+        </div>
+
+      </tab>
+    </vue-nav-bar-tabs>
   </div>
 
 <script>
 window.addEventListener('load', function () {
   'use strict';
 
-  var parkMap = new hirakataPapark.ParkMap({
-    url: '<%= url_for("/$lang/park/") %>',
-    mapId: 'park-map-small',
+  var imports = hirakataPapark.park().ShowParkById({
+    park: JSON.parse('<%== $park->to_json_for_marker %>'),
+    rootUrl: '<%= url_for "/$lang" %>',
   });
-  parkMap.setView(<%= $park->y %>, <%= $park->x %>);
-  parkMap.registParkMarkers( [ JSON.parse('<%== $park->to_json_for_marker %>') ] );
-
-  hirakataPapark.park().ShowParkById({
+  imports.star({
+    starNum: <%= $park->stars->len %>,
     isUserAuthed: <%= $maybe_user->is_defined ? 'true' : 'false' %>,
     isUserStared: <%= $maybe_user->map(sub { $_->is_park_stared($park->id) ? 'true' : 'false' })->get_or_else('false') %>,
-    starNum: <%= $park->stars->len %>,
-    addStarUrl: '<%= url_for "/$lang/user/add-park-star/" . $park->id %>',
-    removeStarUrl: '<%= url_for "/$lang/user/remove-park-star/" . $park->id %>',
-    getCommentsUrl: '<%= url_for "/$lang/park/get-comments/" . $park->id %>',
-    addCommentUrl: '<%= url_for "/$lang/park/add-comment/" . $park->id %>',
-    images: JSON.parse('<%== $images_json %>'),
   });
+  imports.navBar({ images: JSON.parse('<%== $images_json %>') });
 
 });
 </script>

@@ -8,7 +8,6 @@
   plants_title               => 'Plants',
   surrounding_facility_title => 'Surrounding Facilities',
   post_comment_title         => 'Post a comment',
-  comment_title              => 'Comment',
   watch_with_google_map      => 'Watch with Google Map',
   add_a_tag                  => 'Add a tag',
   post_park_image            => 'Post park image',

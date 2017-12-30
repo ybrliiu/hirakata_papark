@@ -38,6 +38,8 @@ package HirakataPapark::Class::LangDict::En {
       images               => 'Images',
       post_park_image      => 'Post Park Image',
       select_image         => 'Select Image',
+      overview             => 'Overview',
+      comments             => 'Comments',
       length_func          => sub ($min, $max) {
         "Please enter from ${min} to ${max} characters.";
       },

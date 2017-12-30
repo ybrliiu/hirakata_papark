@@ -8,7 +8,6 @@
   plants_title               => '植物',
   surrounding_facility_title => '周辺施設',
   post_comment_title         => 'コメントを投稿する',
-  comment_title              => 'コメント',
   watch_with_google_map      => 'Google Map でみる',
   add_a_tag                  => 'タグをつける',
   post_park_image            => '公園の画像を投稿',

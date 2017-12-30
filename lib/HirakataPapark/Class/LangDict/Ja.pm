@@ -38,6 +38,8 @@ package HirakataPapark::Class::LangDict::Ja {
       images               => '画像',
       post_park_image      => '公園の画像を投稿',
       select_image         => '画像を選択',
+      overview             => '概要',
+      comments             => 'コメント',
       length_func          => sub ($min, $max) {
         "${min}文字以上${max}文字以下で入力してください。";
       },
