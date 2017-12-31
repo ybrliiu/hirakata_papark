@@ -1,4 +1,0 @@
-<%= include 'searcher/plants' => (
-  title                   => '植物から検索',
-  search_by_variety_title => '品種から検索',
-); %>

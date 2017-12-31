@@ -10,7 +10,7 @@ package HirakataPapark::Class::LangDict::Ja {
     ->instance->message_data('ja')->param;
 
   sub _build_lang_dict($self) {
-    +{
+    my $data = {
       %$param,
       address              => '住所',
       latitude             => '緯度',
@@ -27,6 +27,7 @@ package HirakataPapark::Class::LangDict::Ja {
       details              => '詳細',
       post                 => '投稿',
       category             => 'カテゴリ',
+      plants               => '植物',
       variety              => '品種名',
       back                 => '戻る',
       search               => '検索',
@@ -40,10 +41,22 @@ package HirakataPapark::Class::LangDict::Ja {
       select_image         => '画像を選択',
       overview             => '概要',
       comments             => 'コメント',
+      park_name            => '公園の名前',
+      tag                  => 'タグ',
+      equipment            => '遊具・施設',
+      surrounding_facility => '周辺施設',
+      search_park          => '公園を検索',
       length_func          => sub ($min, $max) {
         "${min}文字以上${max}文字以下で入力してください。";
       },
-    }
+    };
+    $data->{search_by_func} = sub ($key) {
+      "$data->{$key}から$data->{search}";
+    };
+    $data->{please_input_func} = sub ($key) {
+      "$data->{$key}を入力してください";
+    };
+    $data;
   }
 
   __PACKAGE__->meta->make_immutable;

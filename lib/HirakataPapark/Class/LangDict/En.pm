@@ -10,7 +10,7 @@ package HirakataPapark::Class::LangDict::En {
     ->instance->message_data('en')->param;
 
   sub _build_lang_dict($self) {
-    +{
+    my $data = {
       %$param,
       address              => 'Address',
       latitude             => 'Latitude',
@@ -27,6 +27,7 @@ package HirakataPapark::Class::LangDict::En {
       details              => 'Details',
       post                 => 'Post',
       category             => 'Category',
+      plants               => 'Plants',
       variety              => 'Variety',
       back                 => 'Back',
       search               => 'Search',
@@ -40,10 +41,22 @@ package HirakataPapark::Class::LangDict::En {
       select_image         => 'Select Image',
       overview             => 'Overview',
       comments             => 'Comments',
+      park_name            => 'park name',
+      tag                  => 'Tag',
+      equipment            => 'Equipments',
+      surrounding_facility => 'Surrounding Facility',
+      search_park          => 'Search Park',
       length_func          => sub ($min, $max) {
         "Please enter from ${min} to ${max} characters.";
       },
-    }
+    };
+    $data->{search_by_func} = sub ($key) {
+      "$data->{search} By $data->{$key}";
+    };
+    $data->{please_input_func} = sub ($key) {
+      "Please input @{[ lcfirst $data->{$key} ]}.";
+    };
+    $data;
   }
 
   __PACKAGE__->meta->make_immutable;

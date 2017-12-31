@@ -1,35 +1,24 @@
+% layout "default_$lang";
+
+% my $search_btn = begin
+  % my $keyword = shift;
+  % my $url = $keyword =~ s/_/-/r;
+  <div class="col l4 m6 s12 center-align">
+    <a
+      class="waves-effect btn-large search-park-btn"
+      href="/<%= url_for "${lang}/searcher/${url}" %>"
+    >
+      <i class="material-icons right">arrow_forward</i>
+      <%= $lang_dict->get('search_by_func')->($keyword) %>
+    </a>
+  </div>
+% end
+
 <div class="container">
-  <h2><%= $title %></h2>
+  <h2><%= $lang_dict->get('search_park') %></h2>
   <div class="row">
-    <div class="col l4 m6 s12 center-align">
-      <a class="waves-effect btn-large search-park-btn" href="/<%= url_for "${lang}/searcher/name" %>">
-        <i class="material-icons right">arrow_forward</i><%= $search_by_name %>
-      </a>
-    </div>
-    <div class="col l4 m6 s12 center-align">
-      <a class="waves-effect btn-large search-park-btn" href="/<%= url_for "${lang}/searcher/equipment" %>">
-        <i class="material-icons right">arrow_forward</i><%= $search_by_equipments %>
-      </a>
-    </div>
-    <div class="col l4 m6 s12 center-align">
-      <a class="waves-effect btn-large search-park-btn" href="/<%= url_for "${lang}/searcher/address" %>">
-        <i class="material-icons right">arrow_forward</i><%= $search_by_address %>
-      </a>
-    </div>
-    <div class="col l4 m6 s12 center-align">
-      <a class="waves-effect btn-large search-park-btn" href="/<%= url_for "${lang}/searcher/surrounding-facility" %>">
-        <i class="material-icons right">arrow_forward</i><%= $search_by_surrounding_facilities %>
-      </a>
-    </div>
-    <div class="col l4 m6 s12 center-align">
-      <a class="waves-effect btn-large search-park-btn" href="/<%= url_for "${lang}/searcher/plants" %>">
-        <i class="material-icons right">arrow_forward</i><%= $search_by_plants %>
-      </a>
-    </div>
-    <div class="col l4 m6 s12 center-align">
-      <a class="waves-effect btn-large search-park-btn" href="/<%= url_for "${lang}/searcher/tag" %>">
-        <i class="material-icons right">arrow_forward</i><%= $search_by_tags %>
-      </a>
-    </div>
+% for my $keyword (qw/ name equipment address surrounding_facility plants tag /) {
+    <%= $search_btn->($keyword) %>
+% }
   </div>
 </div>

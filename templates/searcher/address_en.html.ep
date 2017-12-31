@@ -1,6 +1,0 @@
-<%= include 'searcher/park_column' => (
-  title        => 'Search By Address',
-  search_item  => 'park_address',
-  url          => '/search/like-address',
-  placeholder  => 'Please input park address.',
-); %>

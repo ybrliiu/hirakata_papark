@@ -30,23 +30,40 @@ package HirakataPapark::Web::Controller::Searcher {
   };
 
   sub root($self) {
-    $self->render_to_multiple_lang;
+    $self->render;
   }
 
   sub name($self) {
-    $self->render_to_multiple_lang;
+    $self->stash({
+      title       => $self->lang_dict->get('search_by_func')->('name'),
+      search_item => 'park_name',
+      url         => '/search/like-name',
+      placeholder => $self->lang_dict->get('please_input_func')->('park_name'),
+    });
+    $self->render('searcher/park_column');
   }
 
   sub address($self) {
-    $self->render_to_multiple_lang;
+    $self->stash({
+      title       => $self->lang_dict->get('search_by_func')->('address'),
+      search_item  => 'park_address',
+      url          => '/search/like-address',
+      placeholder => $self->lang_dict->get('please_input_func')->('address'),
+    });
+    $self->render('searcher/park_column');
   }
 
   # Mojolicious::Plugin::AssetPack で tag というメソッド(helper?)が登録されているため,
   # Controllerでtag というmethodが定義できない
   sub tags($self) {
     my $tag_list = $self->park_tags->get_tag_list;
-    $self->stash(tag_list => $tag_list);
-    $self->render_to_multiple_lang(template => 'searcher/tag');
+    $self->stash({
+      title       => $self->lang_dict->get('search_by_func')->('tag'),
+      url         => '/search/has-tags',
+      search_item => 'tags',
+      check_boxes => $tag_list
+    });
+    $self->render('searcher/related_to_park');
   }
 
   sub plants($self) {
@@ -55,20 +72,34 @@ package HirakataPapark::Web::Controller::Searcher {
       my $s = HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories->new(rows => $rows);
       $s->exec;
     };
-    $self->stash(plants_categories => $plants_categories);
-    $self->render_to_multiple_lang();
+    $self->stash({
+      title                   => $self->lang_dict->get('search_by_func')->('plants'),
+      search_by_variety_title => $self->lang_dict->get('search_by_func')->('variety'),
+      plants_categories       => $plants_categories,
+    });
+    $self->render('searcher/plants');
   }
 
   sub equipment($self) {
     my $equipment_list = $self->park_equipments->get_equipment_list;
-    $self->stash(equipment_list => $equipment_list);
-    $self->render_to_multiple_lang();
+    $self->stash({
+      title        => $self->lang_dict->get('search_by_func')->('equipment'),
+      search_item  => 'equipments',
+      url          => '/search/has-equipments',
+      check_boxes  => $equipment_list,
+    });
+    $self->render('searcher/related_to_park');
   }
 
   sub surrounding_facility($self) {
     my $surrounding_facility_list = $self->park_facilities->get_surrounding_facility_list;
-    $self->stash(surrounding_facility_list => $surrounding_facility_list);
-    $self->render_to_multiple_lang();
+    $self->stash({
+      title        => $self->lang_dict->get('search_by_func')->('surrounding_facility'),
+      search_item  => 'surrounding_facilities',
+      url          => '/search/has-surrounding-facilities',
+      check_boxes  => $surrounding_facility_list,
+    });
+    $self->render('searcher/related_to_park');
   }
 
 }

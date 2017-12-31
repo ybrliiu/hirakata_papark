@@ -1,6 +1,0 @@
-<%= include 'searcher/park_column' => (
-  title        => '名前から検索',
-  search_item  => 'park_name',
-  url          => '/search/like-name',
-  placeholder  => '公園の名前を検索して下さい',
-); %>

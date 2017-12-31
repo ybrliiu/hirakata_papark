@@ -1,6 +1,0 @@
-<%= include 'searcher/park_column' => (
-  title        => '住所から検索',
-  search_item  => 'park_address',
-  url          => '/search/like-address',
-  placeholder  => '住所を入力して下さい',
-); %>

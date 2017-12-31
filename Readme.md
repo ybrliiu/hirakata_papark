@@ -42,8 +42,6 @@
 * Model add_row throw exception ではなくEither返却?
 * Web.pm sessionの設定
 * sessionで使うkeyって定数にしたほうがいい気がする
-* JSのコードりふぁくたりんぐ, mixinを使っていく
-* SCSSのリファクタリング
 * テンプレートをlang_dictで共通化させて,ファイル数を削減する
 
 #### 一貫性の崩れ

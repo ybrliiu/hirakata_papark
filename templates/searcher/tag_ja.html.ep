@@ -1,6 +1,0 @@
-<%= include 'searcher/related_to_park' => (
-  title        => 'タグから検索',
-  search_item  => 'tags',
-  url          => '/search/has-tags',
-  check_boxes  => $tag_list,
-); %>
