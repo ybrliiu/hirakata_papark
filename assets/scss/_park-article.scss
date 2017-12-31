@@ -1,0 +1,60 @@
+// /:lang/park/:park_id で使われるの
+
+.park-star-num {
+  font-size: 1.5rem;
+  vertical-align: middle;
+}
+
+.material-icons.menu-btn {
+  padding: 3.5px;
+  border-radius: 1.5px;
+  transition: background-color 300ms 0s ease;
+  $bg-color: #CCC;
+  &:hover {
+    background-color: $bg-color;
+  }
+  &.clicked {
+    background-color: $bg-color;
+  }
+}
+
+.tag-list {
+  white-space: nowrap;
+}
+@media screen and (max-width: 600px) {
+  .tag-list {
+    overflow-x: scroll;
+  }
+}
+
+.floating-menu {
+  font-size: initial;
+  position: absolute;
+  width: 0;
+  display: none;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 0;
+}
+
+.park-nav-bar {
+  $tails: 'top', 'bottom';
+  @each $tail in $tails {
+    border-#{$tail}: solid 1px #e0e0e0;
+  }
+  margin: 30px 0 15px 0;
+  .tab a {
+    color: #9e9e9e;
+    $emphasis-color: #000;
+    transition: border-bottom 300ms 0s ease;
+    &:hover {
+      color: $emphasis-color;
+    }
+    &.active {
+      color: $emphasis-color;
+      border-bottom: solid 3px #000;
+    }
+  }
+}
+

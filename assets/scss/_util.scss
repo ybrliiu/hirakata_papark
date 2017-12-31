@@ -1,0 +1,77 @@
+// 独自定義のスタイルで、汎用的なもの
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+// マテリアルアイコンのサイズ
+i.medium-small {
+  font-size: 3rem;
+}
+
+// テキストエリアをcssだけでそれなりにおしゃれに
+.original-textarea {
+  border: 2px solid #9e9e9e;
+  border-radius: 2px;
+  padding: 15px;
+  margin-top: 10px;
+  transition: border 800ms 0s ease;
+  &:focus {
+    border: 2px solid #26a69a;
+  }
+}
+
+/* 小さなフォーム向けのカード */
+.card.single-content {
+  width: 50%;
+  margin: 50px auto 0 auto;
+}
+
+@media screen and (max-width: 600px) {
+  .card.single-content {
+    width: 100% !important;
+    margin-top: 0px !important;
+    $prefixes: '-webkit-', '';
+    @each $prefix in $prefixes {
+      #{$prefix}box-shadow: none;
+    }
+    .card-content {
+      padding: 0px;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .card.single-content {
+    width: 70%;
+    margin-top: 30px;
+  }
+}
+
+// 公園検索機能のボタン
+.search-park-btn {
+  $margin: 9px;
+  width: 100%;
+  margin-top: $margin;
+  margin-bottom: $margin;
+}
+
+// 公園の検索結果
+.park-list {
+  li {
+    list-style-type: disc !important;
+    margin: 5px;
+  }
+}
+
+/* 公園マップの外枠 */
+#park-map {
+  width: 100%;
+  height: 500px;
+}
+
+#park-map-small {
+  width: 100%;
+  height: 300px;
+}
+

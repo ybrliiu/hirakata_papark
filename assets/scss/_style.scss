@@ -1,0 +1,24 @@
+// 独自定義のスタイルで, 広範囲に影響を及ぼすもの
+
+// v-croakでvue.jsがdomを解析する前に表示させない
+[v-cloak] { display: none; }
+
+// 小さい画面ではサイトタイトルの文字サイズを小さくする
+@media screen and (max-width: 600px) {
+  nav .brand-logo {
+    font-size: 1.5rem !important;
+  }
+}
+
+// サイズ変更
+h2 { font-size: 2.8rem; }
+h3 { font-size: 2.1rem; }
+
+@media screen and (max-width: 600px) {
+  h2 { font-size: 2.1rem; }
+  h3 { font-size: 1.6rem; }
+}
+
+textarea {
+  height: initial;
+}
