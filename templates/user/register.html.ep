@@ -70,7 +70,7 @@
       </ul>
     </div>
     <div class="input-field col s12">
-      <button class="waves-effect btn-large" v-on:click="send">
+      <button class="waves-effect btn-large" v-on:click="fetchResponce">
         <%= $lang_dict->get('registration') %>
       </button>
     </div>

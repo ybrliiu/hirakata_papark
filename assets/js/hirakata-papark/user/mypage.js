@@ -11,10 +11,11 @@ module.exports = function (removeStarUrl) {
       showList: {},
     },
     created: function () {
+      // (park listをjsonとして吐き出して v-for でやったほうが綺麗かも知れない)
       var list = document.getElementById(favoriteParksListId).getElementsByTagName('li');
       Array.prototype.forEach.call(list, function (el) {
         var parkId = el.getAttribute('data-park-id');
-        this.showList[parkId] = true;
+        this.$set(this.showList, parkId, true);
       }.bind(this));
     },
     methods: {
@@ -32,15 +33,7 @@ module.exports = function (removeStarUrl) {
           }.bind(this));
       },
       updateList: function (parkId) {
-        // objectの中身いじるだけではvueに変更を検知されないので
-        // cloneしてあたらしいobject代入
-        // (park listをjsonとして吐き出して v-for でやったほうが綺麗かも知れない)
-        var showList = {};
-        Object.keys(this.showList).forEach(function (el) {
-          showList[el] = this.showList[el];
-        }.bind(this));
-        showList[parkId] = false;
-        this.showList = showList;
+        this.showList[parkId] = false;
       },
     },
   });

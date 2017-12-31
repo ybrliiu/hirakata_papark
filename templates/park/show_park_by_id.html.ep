@@ -39,13 +39,16 @@
     </span>
   </h2>
 
+% my @tags = $park->tags->@*;
+% if (@tags) {
   <div class="row">
-    <div class="col s12">
-    % for my $tag ($park->tags->@*) {
+    <div class="col s12 tag-list">
+    % for my $tag (@tags) {
       <div class="chip"><%= $tag->name %></div>
     % }
     </div>
   </div>
+% }
 
   <script type="text/x-template" id="comment-form-template">
     <div class="col l6 s12">

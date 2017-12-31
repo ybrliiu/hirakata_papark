@@ -9,10 +9,12 @@
 }
 
 // side menu
+$side-nav-width: 250px;
 .side-nav {
   /* park-map の 拡大縮小ボタンの z-index が 1000 */
   z-index: 1001;
   transform: none;
+  width: $side-nav-width;
   -webkit-transform: none;
 }
 
@@ -49,7 +51,7 @@
 }
 
 .fade-menu-enter, .fade-menu-leave-to {
-  left: -300px;
+  left: -$side-nav-width;
 }
 
 // park-map
@@ -176,6 +178,15 @@ i.medium-small {
   }
 }
 
+.tag-list {
+  white-space: nowrap;
+}
+@media screen and (max-width: 600px) {
+  .tag-list {
+    overflow-x: scroll;
+  }
+}
+
 .floating-menu {
   font-size: initial;
   position: absolute;
@@ -196,6 +207,7 @@ i.medium-small {
   .tab a {
     color: #9e9e9e;
     $emphasis-color: #000;
+    transition: border-bottom 300ms 0s ease;
     &:hover {
       color: $emphasis-color;
     }

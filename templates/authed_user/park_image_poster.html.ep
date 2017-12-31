@@ -45,10 +45,10 @@
       </div>
   
       <div class="input-field">
-        <div class="progress" v-show="isImageFileUploading">
+        <div class="progress" v-show="isFetchingResponce">
           <div class="indeterminate"></div>
         </div>
-        <button class="waves-effect btn" v-on:click="send">
+        <button class="waves-effect btn" v-on:click="fetchResponce">
           <%= $lang_dict->get('post') %>
         </button>
       </div>

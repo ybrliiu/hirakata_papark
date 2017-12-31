@@ -2,6 +2,7 @@
 
 var Vue = require('vue');
 var superagent = require('superagent');
+var responceFetchable = require('../mixin/responceFetchable');
 
 /*
  * args :{
@@ -14,46 +15,28 @@ module.exports = function (args) {
 
   require('./sns-session');
 
-  new Vue({
+  return new Vue({
     el: '#v-user-session',
+    mixins: [responceFetchable],
     data: {
-      url: args.url,
-      moveTo: args.moveTo,
+      sendItems: ['id', 'password'],
       id: '',
       password: '',
       idErrors: [],
       passwordErrors: [],
+      url: args.url,
+      moveTo: args.moveTo,
     },
     methods: {
-      clearErrors: function () {
-        ['idErrors', 'passwordErrors'].forEach(function (elem) {
-          this[elem] = [];
-        }.bind(this));
+      onFetchResponceSuccess: function (json) {
+        location.assign(document.referrer === '' ? '../mypage' : document.referrer);
       },
-      isFormEmpty: function () {
-        return this.id === '' && this.password === '';
-      },
-      send: function () {
-        if ( !this.isFormEmpty() ) {
-          superagent
-            .post(this.url)
-            .query({
-              id: this.id,
-              password: this.password,
-            })
-            .end(function (err, res) {
-              var json = JSON.parse(res.text);
-              this.clearErrors();
-              if (json.is_success) {
-                location.assign(document.referrer === '' ? '../mypage' : document.referrer);
-              } else {
-                Object.keys(json.errors).forEach(function (key) {
-                  var error = json.errors[key];
-                  this[error.name + 'Errors'] = error.messages;
-                }.bind(this));
-              }
-            }.bind(this));
-        }
+      onFetchResponce: function () {
+        superagent
+          .post(this.url)
+          .type('form')
+          .send({id: this.id, password: this.password})
+          .end(this.onFetchResponceComplete);
       },
     },
   });

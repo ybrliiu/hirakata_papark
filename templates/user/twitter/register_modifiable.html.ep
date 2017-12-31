@@ -39,7 +39,7 @@
         </ul>
       </div>
       <div class="input-field">
-        <button class="waves-effect btn" v-on:click="send">
+        <button class="waves-effect btn" v-on:click="fetchResponce">
           <%= $lang_dict->get('registration') %>
         </button>
       </div>

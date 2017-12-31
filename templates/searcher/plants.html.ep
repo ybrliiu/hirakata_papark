@@ -22,7 +22,7 @@
   </div>
   <div class="row">
     <div class="col s12 right">
-      <button class="waves-effect btn right" v-on:click="sendToPlantsCategoriesSearcher('<%= url_for $search_by_category_url %>')"><%= $lang_dict->get('search') %></button>
+      <button class="waves-effect btn right" v-on:click="sendToPlantsCategoriesSearcher('<%= url_for $search_by_category_url %>')"><i class="material-icons">search</i></button>
     </div>
   </div>
   <h2><%= $search_by_variety_title %></h2>
@@ -36,7 +36,7 @@
   % }
   <div class="row">
     <div class="col s12 right">
-      <button class="waves-effect btn right" v-on:click="sendToPlantsSearcher('<%= url_for $search_by_name_url %>')"><%= $lang_dict->get('search') %></button>
+      <button class="waves-effect btn right" v-on:click="sendToPlantsSearcher('<%= url_for $search_by_name_url %>')"><i class="material-icons">search</i></button>
     </div>
   </div>
 % end

@@ -3,6 +3,7 @@
 var Vue = require('vue');
 var VTooltip = require('v-tooltip');
 var superagent = require('superagent');
+var responceFetchable = require('../mixin/responceFetchable');
 
 /*
  * args: {
@@ -13,35 +14,23 @@ var superagent = require('superagent');
 
 module.exports = function (args) {
   Vue.use(VTooltip);
-  new Vue({
+  return new Vue({
     el: '#v-park-tagger',
+    mixins: [responceFetchable],
     data: {
       url: args.url,
+      sendItems: ['tagName'],
       tagName: '',
       tagNameErrors: [],
       tagNameConditions: args.tagNameConditions,
     },
     methods: {
-      clearErrors: function () { this.tagNameErrors = []; },
-      isFormEmpty: function () { return this.tagName === ''; },
-      send: function () {
-        if ( !this.isFormEmpty() ) {
-          superagent
-            .post(this.url)
-            .query({tag_name: this.tagName})
-            .end(function (err, res) {
-              var json = JSON.parse(res.text);
-              this.clearErrors();
-              if (json.is_success) {
-                location.assign(json.redirect_to);
-              } else {
-                Object.keys(json.errors).forEach(function (key) {
-                  var error = json.errors[key];
-                  this.tagNameErrors = error.messages;
-                }.bind(this));
-              }
-            }.bind(this));
-        }
+      onFetchResponce: function () {
+        superagent
+          .post(this.url)
+          .type('form')
+          .send({tag_name: this.tagName})
+          .end(this.onFetchResponceComplete);
       },
     },
   });

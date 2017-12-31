@@ -3,6 +3,7 @@
 var Vue = require('vue');
 var VTooltip = require('v-tooltip');
 var superagent = require('superagent');
+var responceFetchable = require('../mixin/responceFetchable');
 
 /*
  * args :{
@@ -19,9 +20,11 @@ module.exports = function (args) {
 
   require('./sns-session');
 
-  new Vue({
+  return new Vue({
     el: '#v-user-register',
+    mixins: [responceFetchable],
     data: {
+      sendItems: ['id', 'password', 'name'],
       id: '',
       password: '',
       name: '',
@@ -34,36 +37,19 @@ module.exports = function (args) {
       nameConditions: args.nameConditions,
     },
     methods: {
-      clearErrors: function () {
-        ['idErrors', 'passwordErrors', 'nameErrors'].forEach(function (elem) {
-          this[elem] = [];
-        }.bind(this));
+      onFetchResponceSuccess: function (json) {
+        location.assign(document.referrer === '' ? '../mypage' : document.referrer);
       },
-      isFormEmpty: function () {
-        return this.id === '' && this.name === '' && this.password === '';
-      },
-      send: function () {
-        if ( !this.isFormEmpty() ) {
-          superagent
-            .post(this.url)
-            .query({
-              id: this.id,
-              password: this.password,
-              name: this.name,
-            })
-            .end(function (err, res) {
-              var json = JSON.parse(res.text);
-              this.clearErrors();
-              if (json.is_success) {
-                location.assign(document.referrer === '' ? '../mypage' : document.referrer);
-              } else {
-                Object.keys(json.errors).forEach(function (key) {
-                  var error = json.errors[key];
-                  this[error.name + 'Errors'] = error.messages;
-                }.bind(this));
-              }
-            }.bind(this));
-        }
+      onFetchResponce: function () {
+        superagent
+          .post(this.url)
+          .type('form')
+          .send({
+            id: this.id,
+            password: this.password,
+            name: this.name,
+          })
+          .end(this.onFetchResponceComplete);
       },
     },
   });

@@ -21,7 +21,7 @@ module.exports = function (args) {
       isUserStared: args.isUserStared,
       starNum: args.starNum,
       addStarUrl: args.rootUrl + '/user/add-park-star/' + args.park.id,
-      removeStarUrl: args.removeStarUrl + '/user/remove-park-star/' + args.park.id,
+      removeStarUrl: args.rootUrl + '/user/remove-park-star/' + args.park.id,
     },
     methods: {
       starIcon: function () {
