@@ -22,7 +22,7 @@
   
       <div class="file-field input-field">
         <div class="btn">
-          <span><%= $lang_dict->get('select_image') %></span>
+          <i class="material-icons">attach_file</i>
           <input
             type="file"
             v-tooltip.top-center="imageFileConditions"
