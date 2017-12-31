@@ -1,7 +1,6 @@
 <%= include 'searcher/related_to_park' => (
   title        => 'Search By Surrounding Facilities',
-  search_item  => 'surrounding-facility',
-  vue_property => 'surroundingFacility',
-  url          => '/en/search/has-surrounding-facilities',
+  search_item  => 'surrounding_facilities',
+  url          => '/search/has-surrounding-facilities',
   check_boxes  => $surrounding_facility_list,
 ); %>

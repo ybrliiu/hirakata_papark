@@ -1,7 +1,4 @@
 <%= include 'searcher/plants' => (
-  vue_property            => 'plants',
   title                   => '植物から検索',
   search_by_variety_title => '品種から検索',
-  search_by_name_url      => '/ja/search/has-plants',
-  search_by_category_url  => '/ja/search/has-plants-categories',
 ); %>

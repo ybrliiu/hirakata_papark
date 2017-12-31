@@ -1,8 +1,6 @@
 <%= include 'searcher/park_column' => (
   title        => 'Search By Address',
-  search_item  => 'address',
-  vue_property => 'address',
-  v_model      => 'parkAddress',
-  url          => '/en/search/like-address',
+  search_item  => 'park_address',
+  url          => '/search/like-address',
   placeholder  => 'Please input park address.',
 ); %>

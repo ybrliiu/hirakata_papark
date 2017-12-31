@@ -1,7 +1,6 @@
 <%= include 'searcher/related_to_park' => (
   title        => 'Search By Equipments',
-  search_item  => 'equipment',
-  vue_property => 'equipment',
-  url          => '/en/search/has-equipments',
+  search_item  => 'equipments',
+  url          => '/search/has-equipments',
   check_boxes  => $equipment_list,
 ) %>

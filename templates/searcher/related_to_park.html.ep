@@ -1,22 +1,18 @@
 % extends 'searcher/searcher';
 
-% my $check_box = begin
-  % my $name = shift;
-  <div class="col l3 s6">
-    <input type="checkbox" class="filled-in" id="<%= $name %>" value="<%= $name %>" v-model="items">
-    <label for="<%= $name %>"><%= $name %></label>
-  </div>
-% end
-
 % content search_form => begin
   <div class="row">
-  % for (@$check_boxes) {
-    <%= $check_box->($_) %>
+  % for my $name (@$check_boxes) {
+    <checkbox name="<%= $search_item %>" value="<%= $name %>"></checkbox>
   % }
   </div>
   <div class="row">
     <div class="col s12 right">
-      <button class="waves-effect btn right" v-on:click="send('<%= url_for $url %>')"><i class="material-icons">search</i></button>
+      <search-button
+        class="right"
+        url="<%= url_for "/$lang/$url" %>"
+        send-field-name="<%= $search_item %>"
+      ></search-button>
     </div>
   </div>
 % end

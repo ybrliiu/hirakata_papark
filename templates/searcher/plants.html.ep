@@ -1,28 +1,19 @@
 % extends 'searcher/searcher' => (search_item => 'plants');
 
-% my $check_box = begin
-  % my $v_model = shift;
-  % return begin
-    % my $name = shift;
-    <div class="col l3 s6">
-      <input type="checkbox" class="filled-in" id="<%= $name %>" value="<%= $name %>" v-model="<%= $v_model %>">
-      <label for="<%= $name %>"><%= $name %></label>
-    </div>
-  % end
-% end
-
-% my $plants_check_box   = $check_box->('plants');
-% my $category_check_box = $check_box->('plantsCategories');
-
 % content search_form => begin
   <div class="row">
   % for my $category (@$plants_categories) {
-  <%= $category_check_box->($category->name) %>
+    <checkbox name="plants_categories" value="<%= $category->name %>"></checkbox>
   % }
   </div>
   <div class="row">
     <div class="col s12 right">
-      <button class="waves-effect btn right" v-on:click="sendToPlantsCategoriesSearcher('<%= url_for $search_by_category_url %>')"><i class="material-icons">search</i></button>
+      <search-button
+        class="right"
+        url="<%= url_for "/$lang/search/has-plants-categories" %>"
+        send-field-name="plants_categories"
+      >
+      </search-button>
     </div>
   </div>
   <h2><%= $search_by_variety_title %></h2>
@@ -30,13 +21,18 @@
   <h3><i class="small material-icons">expand_more</i><%= $category->name %></h3>
     <div class="row">
     % for my $plants ($category->varieties->@*) {
-      <%= $plants_check_box->($plants) %>
+      <checkbox name="plants" value="<%= $plants %>"></checkbox>
     % }
     </div>
   % }
   <div class="row">
     <div class="col s12 right">
-      <button class="waves-effect btn right" v-on:click="sendToPlantsSearcher('<%= url_for $search_by_name_url %>')"><i class="material-icons">search</i></button>
+      <search-button
+        class="right"
+        url="<%= url_for "/$lang/search/has-plants" %>"
+        send-field-name="plants"
+      >
+      </search-button>
     </div>
   </div>
 % end

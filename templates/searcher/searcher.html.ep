@@ -1,18 +1,15 @@
 % layout "default_${lang}";
 
-<div class="container" id="search-<%= $search_item %>">
+<div class="container v-search-form" v-cloak>
   <h2><%= $title %></h2>
   %= content search_form => begin
   %= end
-  <div class="row">
-    <h3 v-if="showResult" v-cloak><%= $lang_dict->get('search_result') %></h3>
-    <div class="col s12" v-html="result"></div>
-  </div>
+  <result title="<%= $lang_dict->get('search_result') %>"></result>
 </div>
 
 <script>
 window.addEventListener('load', function () {
   'use strict';
-  hirakataPapark.searcher().<%= $vue_property %>();
+  hirakataPapark.searcher();
 });
 </script>

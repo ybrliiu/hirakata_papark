@@ -3,10 +3,10 @@
 % content search_form => begin
   <div class="row">
     <div class="input-field col s8">
-      <input v-model="<%= $v_model %>" placeholder="<%= $placeholder %>" type="text">
+      <text-field name="<%= $search_item %>" placeholder="<%= $placeholder %>"></text-field>
     </div>
     <div class="col s4">
-      <button class="waves-effect btn-large" v-on:click="send('<%= url_for $url %>')"><i class="material-icons">search</i></button>
+      <search-button url="<%= url_for "/$lang/$url" %>" send-field-name="<%= $search_item %>"></search-button>
     </div>
   </div>
 % end
