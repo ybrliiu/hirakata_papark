@@ -11,6 +11,8 @@ module.exports = new Vue({
     sendData: searchFormComponents.sharedState.sendData,
   },
   created: function () {
+    // 200でフォームの距離を初期化
+    this.sendData.distance = 200;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         function (position) {
@@ -29,6 +31,8 @@ module.exports = new Vue({
       alert(mes);
       throw(mes);
     }
+  },
+  mounted: function () {
   },
   components: searchFormComponents,
 });

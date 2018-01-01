@@ -4,7 +4,6 @@
 
 * templateの整理
 * デザイン
-  * tag追加のデザイン
   * park page, 上に行くボタン, スクロールしたときのみ表示
 
 * Model get_row_* unique制約によってrowを一個だけとってこれるパターンが決まっているならget_rowに省略してしまう[非整合]

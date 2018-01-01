@@ -2,7 +2,7 @@
 
 var superagent = require('superagent');
 
-module.exports = function (share) {
+module.exports = function (store) {
   return {
     props: {
       url: {
@@ -16,7 +16,7 @@ module.exports = function (share) {
     },
     data: function () {
       return {
-        sharedState: share.state,
+        sharedState: store.state,
         classObjects: {
           'waves-effect': true,
           'btn': true,

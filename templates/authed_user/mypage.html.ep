@@ -47,10 +47,15 @@
           <span class="card-title"><%= $favorite_parks_title %></span>
             <ul class="collection" id="v-favorite-parks-list">
             % for my $park ($user->favorite_parks->@*) {
-              <li class="collection-item avatar" data-park-id="<%= $park->id %>" v-show="showList['<%= $park->id %>']">
-                <i class="material-icons circle">photo</i>
-                <a href="<%= url_for "/$lang/park/" . $park->id %>" class="title"><%= $park->name %></a>
-                <p><%= $park->address %></p>
+              <li
+                class="collection-item double-line" 
+                data-park-id="<%= $park->id %>" 
+                v-show="showList['<%= $park->id %>']"
+              >
+                <a href="<%= url_for "/$lang/park/" . $park->id %>" class="first-line">
+                  <%= $park->name %>
+                </a>
+                <p class="second-line"><%= $park->address %></p>
                 <span class="secondary-content">
                   <i class="material-icons" @click="remove('<%= $park->id %>')">close</i>
                 </span>

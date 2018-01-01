@@ -58,6 +58,7 @@ i.medium-small {
 
 // 公園の検索結果
 .collection-item.double-line {
+  position: relative;
   .link {
     padding: 1px;
     background-color: #FFF;
@@ -75,6 +76,12 @@ i.medium-small {
     margin: 2px;
     font-size: 14px;
     color: #AAA;
+  }
+  .secondary-content {
+    cursor: pointer;
+    position: absolute;
+    top: 16px;
+    right: 16px;
   }
 }
 
