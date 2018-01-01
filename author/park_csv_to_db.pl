@@ -6,6 +6,7 @@ use Data::Dumper;
 use Try::Tiny;
 use Text::CSV_XS;
 use List::Util qw( sum );
+use HirakataPapark::Container;
 use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
 use HirakataPapark::Model::MultilingualDelegator::Parks::Equipments;
 use HirakataPapark::Model::MultilingualDelegator::Parks::Plants;
@@ -129,14 +130,15 @@ my @parks_equipment = map {
   \%new_park;
 } @$park_data_list_orig;
 
-my $model = HirakataPapark::Model::MultilingualDelegator::Parks::Parks->new;
+my $db = HirakataPapark::Container->new->get_sub_container('DB')->get_service('psql')->get;
+my $model = HirakataPapark::Model::MultilingualDelegator::Parks::Parks->new(db => $db);
 my $txn = $model->model('ja')->txn_scope;
 $model->model('ja')->add_rows(\@parks);
 $model->model('en')->add_rows(\@eparks);
 
-my $equipments_model = HirakataPapark::Model::MultilingualDelegator::Parks::Equipments->new;
-my $facilities_model = HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities->new;
-my $plants_model     = HirakataPapark::Model::MultilingualDelegator::Parks::Plants->new;
+my $equipments_model = HirakataPapark::Model::MultilingualDelegator::Parks::Equipments->new(db => $db);
+my $facilities_model = HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities->new(db => $db);
+my $plants_model     = HirakataPapark::Model::MultilingualDelegator::Parks::Plants->new(db => $db);
 for my $info (@parks_equipment) {
   my $park_id = $info->{id};
   my @equipments = map { $info->{$_} ? $_ : () } grep { $_ ne 'id' } keys %$info;

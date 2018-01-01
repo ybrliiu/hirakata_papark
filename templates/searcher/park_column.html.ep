@@ -8,7 +8,7 @@
     <div class="col s4">
       <search-button
         class="btn-large"
-        url="<%= url_for "/$lang/$url" %>"
+        url="<%= url_for "/${lang}${url}" %>"
         send-field-name="<%= $search_item %>"
       ></search-button>
     </div>

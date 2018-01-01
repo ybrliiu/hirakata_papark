@@ -10,7 +10,7 @@
     <div class="col s12 right">
       <search-button
         class="btn right"
-        url="<%= url_for "/$lang/$url" %>"
+        url="<%= url_for "/${lang}${url}" %>"
         send-field-name="<%= $search_item %>"
       ></search-button>
     </div>
