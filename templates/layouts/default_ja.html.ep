@@ -8,10 +8,10 @@
     <div id="side-menu" class="nav-wrapper green darken-3">
       <a href="<%= url_for '/ja/' %>" class="brand-logo center"><%= $config->{site}{name} %></a>
       <ul class="left">
-        <li v-on:click="showSideMenu"><a><i class="material-icons">menu</i></a></li>
+        <li @click="showSideMenu"><a><i class="material-icons">menu</i></a></li>
       </ul>
       <transition name="fade-menu">
-      <ul class="side-nav" v-show="isShow" v-on:click="stopClose" v-cloak>
+      <ul class="side-nav" v-show="isShow" @click="stopClose" v-cloak>
         <li><span class="title center green darken-3"><%= $config->{site}{name} %></span></li>
         <li><a href="<%= url_for '/ja/' %>">公園マップ</a></li>
         <li><a href="<%= url_for '/ja/searcher/' %>">公園を検索</a></li>

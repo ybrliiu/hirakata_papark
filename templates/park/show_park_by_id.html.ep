@@ -5,17 +5,17 @@
     <span id="v-park-star">
       <i
         class="material-icons small yellow-text cursor-pointer"
-        v-on:click="clickStar"
+        @click="clickStar"
         v-cloak>{{ starIcon() }}</i><span class="park-star-num" v-cloak>×
       {{ starNum }}</span>
     </span>
     <span id="v-park-menu">
       <i
         class="material-icons small cursor-pointer right menu-btn"
-        v-bind:class="menuButtonClassObject"
-        v-on:click="clickIcon"
+        :class="menuButtonClassObject"
+        @click="clickIcon"
       >more_vert</i>
-      <div class="collection z-depth-3 floating-menu" v-bind:style="menuStyleObject" v-cloak>
+      <div class="collection z-depth-3 floating-menu" :style="menuStyleObject" v-cloak>
         <a
           href="https://www.google.co.jp/maps/place/<%= $park->name %>/@<%= $park->y %>,<%= $park->x %>,18z"
           target="_blank"
@@ -72,7 +72,7 @@
       </div>
       <div class="row">
         <div class="col s12 right">
-          <button class="waves-effect btn right" v-on:click="send"><%= $lang_dict->get('post') %></button>
+          <button class="waves-effect btn right" @click="send"><%= $lang_dict->get('post') %></button>
         </div>
       </div>
     </div>

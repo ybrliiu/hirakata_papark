@@ -3,7 +3,7 @@
 var Vue = require('vue');
 var VTooltip = require('v-tooltip');
 var superagent = require('superagent');
-var responceFetchable = require('../mixin/responceFetchable');
+var responceFetchable = require('../mixin/responce-fetchable');
 
 /*
  * args: {

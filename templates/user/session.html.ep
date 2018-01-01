@@ -54,7 +54,7 @@
           </ul>
         </div>
         <div class="input-field col s12">
-          <button class="waves-effect btn-large" v-on:click="fetchResponce"><%= $title %></button>
+          <button class="waves-effect btn-large" @click="fetchResponce"><%= $title %></button>
         </div>
       </div>
     

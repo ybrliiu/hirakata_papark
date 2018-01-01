@@ -2,8 +2,8 @@
 
 ## 予定
 
-* vue.js v-bind, v-on の記法統一
 * vue-imagesのエラー回避
+* templateの整理
 * デザイン
 
 * Model get_row_* unique制約によってrowを一個だけとってこれるパターンが決まっているならget_rowに省略してしまう[非整合]

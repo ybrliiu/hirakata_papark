@@ -26,7 +26,7 @@
           <input
             type="file"
             v-tooltip.top-center="imageFileConditions"
-            v-on:change="selectImage"
+            @change="selectImage"
           requried>
         </div>
         <div class="file-path-wrapper">
@@ -48,7 +48,7 @@
         <div class="progress" v-show="isFetchingResponce">
           <div class="indeterminate"></div>
         </div>
-        <button class="waves-effect btn" v-on:click="fetchResponce">
+        <button class="waves-effect btn" @click="fetchResponce">
           <%= $lang_dict->get('post') %>
         </button>
       </div>

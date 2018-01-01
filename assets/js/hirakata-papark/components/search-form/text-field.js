@@ -21,6 +21,6 @@ module.exports = function (share) {
     created: function () {
       this.$set(this.sharedState.sendData, this.name, '');
     },
-    template: '<input v-model="sharedState.sendData[name]" v-bind:placeholder="placeholder" type="text">',
+    template: '<input v-model="sharedState.sendData[name]" :placeholder="placeholder" type="text">',
   };
 };

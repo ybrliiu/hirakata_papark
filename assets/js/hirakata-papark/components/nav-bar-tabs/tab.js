@@ -21,7 +21,7 @@ module.exports = function (store) {
         return this.virtual.isActive;
       },
     },
-    template: '<li class="tab cursor-pointer" v-on:click="clickTab"><a :class="{ active: isActive() }">{{ title }}</a></li>',
+    template: '<li class="tab cursor-pointer" @click="clickTab"><a :class="{ active: isActive() }">{{ title }}</a></li>',
   };
 };
 

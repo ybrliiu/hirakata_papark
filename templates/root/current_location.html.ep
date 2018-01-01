@@ -19,7 +19,7 @@
         </select>
       </div>
       <div class="col s4">
-        <button class="waves-effect btn-large" v-on:click="send"><%= $lang_dict->get('search') %></button>
+        <button class="waves-effect btn-large" @click="send"><%= $lang_dict->get('search') %></button>
       </div>
     </div>
   

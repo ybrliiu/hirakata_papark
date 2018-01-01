@@ -23,8 +23,10 @@ module.exports = function (share) {
       }
       this.$set(this.sharedState.sendData, this.name, this.sharedState.sendData[this.name]);
     },
-    template: '<div class="col l3 s6"><input type="checkbox" class="filled-in" v-bind:id="value" v-bind:value="value" v-model="sharedState.sendData[name]">'
-      + '<label v-bind:for="value">{{ value }}</label></div>',
+    template: '<div class="col l3 s6">'
+      + '<input type="checkbox" class="filled-in" :id="value" :value="value" v-model="sharedState.sendData[name]">'
+      + '<label v-bind:for="value">{{ value }}</label>'
+      + '</div>',
   };
 };
 

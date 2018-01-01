@@ -52,7 +52,7 @@
                 <a href="<%= url_for "/$lang/park/" . $park->id %>" class="title"><%= $park->name %></a>
                 <p><%= $park->address %></p>
                 <span class="secondary-content">
-                  <i class="material-icons" v-on:click="remove('<%= $park->id %>')">close</i>
+                  <i class="material-icons" @click="remove('<%= $park->id %>')">close</i>
                 </span>
               </li>
             % }

@@ -2,7 +2,7 @@
 
 var Vue = require('vue');
 var superagent = require('superagent');
-var responceFetchable = require('../mixin/responceFetchable');
+var responceFetchable = require('../mixin/responce-fetchable');
 
 /*
  * args :{
