@@ -57,7 +57,7 @@
                 </a>
                 <p class="second-line"><%= $park->address %></p>
                 <span class="secondary-content">
-                  <i class="material-icons" @click="remove('<%= $park->id %>')">close</i>
+                  <i class="material-icons" @click="remove('<%= $park->id %>')">delete</i>
                 </span>
               </li>
             % }

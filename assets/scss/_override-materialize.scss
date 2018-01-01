@@ -8,6 +8,9 @@ $side-nav-width: 250px;
   transform: none;
   width: $side-nav-width;
   -webkit-transform: none;
+  .material-icons {
+    margin-right: 15px !important;
+  }
 }
 
 .in-side-nav {
