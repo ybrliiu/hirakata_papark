@@ -1,8 +1,6 @@
 'use strict';
 
 // [mixin]
-// required data or props
-//   value: String
 
 module.exports = function (share) {
   return {

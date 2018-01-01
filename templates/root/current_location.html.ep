@@ -8,27 +8,26 @@
     </div>
   </div>
 
-  <div id="search-near-parks">
+  <div class="v-search-form">
 
     <div class="row">
       <div class="col s8">
-        <select class="browser-default" v-model="distance" action="/<%= $lang %>/search/near-parks">
+        <select-value name="distance">
         % for my $num ( map { $_ * 200 } 1 .. 10 ) {
           <option value="<%= $num %>"><%= $select_distance_mes->($num) %></option>
         % }
-        </select>
+        </select-value>
       </div>
       <div class="col s4">
-        <button class="waves-effect btn-large" @click="send"><%= $lang_dict->get('search') %></button>
+        <search-button
+          class="btn-large"
+          url="<%= url_for "/$lang/search/near-parks" %>"
+          send-field-name="distance"
+        ></search-button>
       </div>
     </div>
   
-    <div class="row">
-      <div class="col s12">
-        <h3 v-if="showResult"><%= $lang_dict->get('search_result') %></h3>
-      </div>
-      <div class="col s12" v-html="result"></div>
-    </div>
+    <result title="<%= $lang_dict->get('search_result') %>"></result>
   
   </div>
 
@@ -43,7 +42,7 @@ window.addEventListener('load', function () {
   parkMap.registParkMarkers( JSON.parse('<%== $parks_json %>') );
   parkMap.registCurrentLocation();
 
-  hirakataPapark.searcher().nearParks();
+  hirakataPapark.searcher();
 
 });
 </script>

@@ -3,15 +3,9 @@
 module.exports = function (formPartsMixin) {
   return {
     mixins: [formPartsMixin],
-    props: {
-      placeholder: {
-        type: String,
-        default: '',
-      },
-    },
     created: function () {
       this.$set(this.sharedState.sendData, this.name, '');
     },
-    template: '<input v-model="sharedState.sendData[name]" :placeholder="placeholder" type="text">',
+    template: '<select class="browser-default" v-model="sharedState.sendData[name]"><slot></slot></select>',
   };
 };
