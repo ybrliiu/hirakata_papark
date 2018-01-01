@@ -6,7 +6,11 @@
       <text-field name="<%= $search_item %>" placeholder="<%= $placeholder %>"></text-field>
     </div>
     <div class="col s4">
-      <search-button url="<%= url_for "/$lang/$url" %>" send-field-name="<%= $search_item %>"></search-button>
+      <search-button
+        class="btn-large"
+        url="<%= url_for "/$lang/$url" %>"
+        send-field-name="<%= $search_item %>"
+      ></search-button>
     </div>
   </div>
 % end

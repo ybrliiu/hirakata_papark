@@ -52,7 +52,7 @@ module.exports = function (share) {
           }.bind(this));
       },
     },
-    template: '<button class="wave-effect btn-large" v-on:click="fetchResponce">'
+    template: '<button class="wave-effect" v-on:click="fetchResponce">'
       + '<i class="material-icons">search</i>'
       + '</button>',
   };

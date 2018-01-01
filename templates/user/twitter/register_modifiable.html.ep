@@ -49,14 +49,16 @@
 </div>
 
 <script>
+% my $length_func = $lang_dict->get('length_func');
 'use strict';
 window.addEventListener('load', function () {
   hirakataPapark.user().twitterRegisterModifiable({
     url: '<%= url_for "/$lang/user/twitter/regist-modifiable" %>',
     id: '<%= $maybe_register_errors->map(sub { $_->param('id') })->get_or_else('') %>',
     name: '<%= $maybe_register_errors->map(sub { $_->param('name') })->get_or_else('') %>',
-    idConditions: "<%= $id_condition %><br><%= $message_data->get_message('id.regexp')->get %>",
-    nameConditions: "<%= $name_condition %>",
+    idConditions: "<%= $length_func->($validator->MIN_ID_LEN, $validator->MAX_ID_LEN) %>"
+      + "<br><%= $message_data->get_message('id.regexp')->get %>",
+    nameConditions: "<%= $length_func->($validator->MIN_NAME_LEN, $validator->MAX_NAME_LEN) %>",
   });
 });
 </script>

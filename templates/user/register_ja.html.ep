@@ -9,7 +9,4 @@
   twitter_btn    => 'Twitterで新規登録',
   facebook_btn   => 'Facebookで新規登録',
   name           => $lang_dict->get('name'),
-  id_condition   => $validator->MIN_ID_LEN . '文字以上' . $validator->MAX_ID_LEN . '文字以下で入力して下さい。',
-  pass_condition => $validator->MIN_PASSWORD_LEN . '文字以上' . $validator->MAX_PASSWORD_LEN . '文字以下で入力して下さい。',
-  name_condition => $validator->MIN_NAME_LEN . '文字以上' . $validator->MAX_NAME_LEN . '文字以下で入力して下さい。',
 ); %>

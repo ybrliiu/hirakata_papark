@@ -39,7 +39,7 @@
 window.addEventListener('load', function () {
   hirakataPapark.user().parkTagger({
     url: '<%= url_for "/$lang/user/add-park-tag/" . $park_id %>',
-    tagNameConditions: '<%= $tag_name_condition %>',
+    tagNameConditions: '<%= $lang_dict->get('lengh_func')->($validator->MIN_TAG_NAME_LEN, $validator->MAX_TAG_NAME_LEN) %>',
   });
 });
 </script>

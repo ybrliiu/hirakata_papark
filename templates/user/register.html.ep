@@ -82,12 +82,15 @@
 
 <script>
 'use strict';
+% my $length_func = $lang_dict->get('length_func');
 window.addEventListener('load', function () {
   hirakataPapark.user().register({
     url: '<%= url_for "/$lang/user/regist" %>',
-    idConditions: "<%= $id_condition %><br><%= $message_data->get_message('id.regexp')->get %>",
-    passWordConditions: "<%= $pass_condition %><br><%= $message_data->get_message('password.regexp')->get %>",
-    nameConditions: "<%= $name_condition %>",
+    idConditions: "<%= $length_func->($validator->MIN_ID_LEN, $validator->MAX_ID_LEN) %>"
+      + "<br><%= $message_data->get_message('id.regexp')->get %>",
+    passWordConditions: "<%= $length_func->($validator->MIN_PASSWORD_LEN, $validator->MAX_PASSWORD_LEN) %>"
+      + "<br><%= $message_data->get_message('password.regexp')->get %>",
+    nameConditions: "<%= $length_func->($validator->MIN_NAME_LEN, $validator->MAX_NAME_LEN) %>",
   });
 });
 </script>

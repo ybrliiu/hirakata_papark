@@ -9,7 +9,4 @@
   twitter_btn    => 'New registration from Twitter',
   facebook_btn   => 'New registration from Facebook',
   name           => 'Username',
-  id_condition   => 'Please enter from ' . $validator->MIN_ID_LEN . ' to ' . $validator->MAX_ID_LEN . ' characters.',
-  pass_condition => 'Please enter from ' . $validator->MIN_PASSWORD_LEN . ' to ' . $validator->MAX_PASSWORD_LEN . ' characters.',
-  name_condition => 'Please enter from ' . $validator->MIN_NAME_LEN . ' to ' . $validator->MAX_NAME_LEN . ' characters.',
 ); %>

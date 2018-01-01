@@ -108,7 +108,7 @@ package HirakataPapark::Web::Controller::User::Twitter {
       maybe_register_errors => $maybe_register_errors,
     });
     $self->plack_session->remove($key);
-    $self->render_to_multiple_lang;
+    $self->render;
   }
 
   sub regist_modifiable($self) {

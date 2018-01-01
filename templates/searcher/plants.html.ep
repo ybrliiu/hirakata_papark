@@ -9,7 +9,7 @@
   <div class="row">
     <div class="col s12 right">
       <search-button
-        class="right"
+        class="btn right"
         url="<%= url_for "/$lang/search/has-plants-categories" %>"
         send-field-name="plants_categories"
       >
@@ -28,7 +28,7 @@
   <div class="row">
     <div class="col s12 right">
       <search-button
-        class="right"
+        class="btn right"
         url="<%= url_for "/$lang/search/has-plants" %>"
         send-field-name="plants"
       >
