@@ -2,7 +2,6 @@
 
 ## 予定
 
-* vue-imagesのエラー回避
 * templateの整理
 * デザイン
 
@@ -83,4 +82,9 @@
 * anego migrate
 * author/park_csv_to_db.pl -> DBにデータ流し込む
 * npm run build-dev -> bundle.js 生成
+
+## 依存モジュールへの要望
+* vue-images, imagesの要素が0の場合エラー出ますよ
+* Mouse, アクセッサとメソッドの名前が同じとき警告かエラー出してくれ
+* Mojo::Base::has, アクセッサとメソッドの名前が同じとき警告かエラー出してくれ
 

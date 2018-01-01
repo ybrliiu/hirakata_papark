@@ -73,7 +73,9 @@ package HirakataPapark::Web::Controller::Park {
         my $base = $self->url_for('/images/parks/' . $park->id)->to_abs->to_string;
         my $images = $park->images;
         $images->static_url_root($base);
-        my $images_json = decode_utf8 encode_json $images->to_hash_for_vue_images;
+        my $hash_list = $images->to_hash_for_vue_images;
+        $hash_list = @$hash_list == 0 ? [{imageUrl => '', caption => ''}] : $hash_list;
+        my $images_json = decode_utf8 encode_json $hash_list;
 
         $self->stash(
           park        => $park,

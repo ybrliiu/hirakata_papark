@@ -1,22 +1,16 @@
 'use strict';
 
-module.exports = function (share) {
+module.exports = function (formPartsMixin) {
   return {
+    mixins: [formPartsMixin],
     props: {
-      name: {
-        type: String,
-        required: true,
-      },
       placeholder: {
         type: String,
         default: '',
       },
     },
     data: function () {
-      return {
-        value: '',
-        sharedState: share.state,
-      };
+      return { value: '' };
     },
     created: function () {
       this.$set(this.sharedState.sendData, this.name, '');
