@@ -48,7 +48,7 @@ i.medium-small {
   }
 }
 
-// 公園検索機能のボタン
+// 公園検索ボタン
 .search-park-btn {
   $margin: 9px;
   width: 100%;
@@ -57,10 +57,24 @@ i.medium-small {
 }
 
 // 公園の検索結果
-.park-list {
-  li {
-    list-style-type: disc !important;
-    margin: 5px;
+.collection-item.double-line {
+  .link {
+    padding: 1px;
+    background-color: #FFF;
+    transition: background-color 300ms 100ms ease;
+    &:hover {
+      background-color: #F8F8F8;
+    }
+  }
+  .first-line {
+    margin: 2px;
+    font-size: 17px;
+    color: #333;
+  }
+  .second-line {
+    margin: 2px;
+    font-size: 14px;
+    color: #AAA;
   }
 }
 

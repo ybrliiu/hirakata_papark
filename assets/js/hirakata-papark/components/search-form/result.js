@@ -20,7 +20,7 @@ module.exports = function (share) {
       }.bind(this));
     },
     template: '<div class="row">'
-      + '<h3 v-if="sharedState.isShowResult">{{ title }}</h3>'
+      + '<div class="col s12"><h3 v-if="sharedState.isShowResult">{{ title }}</h3></div>'
       + '<div class="col s12" v-html="sharedState.result"></div>'
       + '</div>',
   };
