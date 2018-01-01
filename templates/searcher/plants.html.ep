@@ -11,7 +11,7 @@
       <search-button
         class="btn right"
         url="<%= url_for "/$lang/search/has-plants-categories" %>"
-        send-field-name="plants_categories"
+        send-field="plants_categories"
       >
       </search-button>
     </div>
@@ -30,7 +30,7 @@
       <search-button
         class="btn right"
         url="<%= url_for "/$lang/search/has-plants" %>"
-        send-field-name="plants"
+        send-field="plants"
       >
       </search-button>
     </div>

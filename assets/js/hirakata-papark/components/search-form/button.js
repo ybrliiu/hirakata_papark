@@ -9,7 +9,7 @@ module.exports = function (share) {
         type: String,
         required: true,
       },
-      sendFieldName: {
+      sendField: {
         type: String,
         required: true,
       },
@@ -21,6 +21,7 @@ module.exports = function (share) {
           'waves-effect': true,
           'btn': true,
         },
+        sendFields: this.sendField.split(' '),
       };
     },
     mounted: function () {
@@ -31,13 +32,15 @@ module.exports = function (share) {
     methods: {
       fetchResponce: function () {
         var sendObject = {};
-        sendObject[this.sendFieldName] = this.sharedState.sendData[this.sendFieldName];
+        this.sendFields.forEach(function (key) {
+          sendObject[key] = this.sharedState.sendData[key];
+        }.bind(this));
         superagent
           .post(this.url)
           .type('form')
           .send(sendObject)
           .end(function (err, res) {
-            if (res.status === 404) {
+            if (res.status !== 200) {
               alert('サーバーでエラーが発生しました。運営者に報告してください。');
               console.log('[Error ocurred at searchForm.button.fetchResponce]');
               console.log({

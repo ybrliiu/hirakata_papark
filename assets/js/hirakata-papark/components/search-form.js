@@ -11,6 +11,7 @@ module.exports = function () {
   var selectValueFactory = require('./search-form/select-value');
   var checkboxFactory = require('./search-form/checkbox');
   return {
+    sharedState: store.state,
     searchForm: require('./search-form/search-form'),
     searchButton: buttonFactory(store),
     result: resultFactory(store),

@@ -11,7 +11,7 @@
       <search-button
         class="btn right"
         url="<%= url_for "/${lang}${url}" %>"
-        send-field-name="<%= $search_item %>"
+        send-field="<%= $search_item %>"
       ></search-button>
     </div>
   </div>

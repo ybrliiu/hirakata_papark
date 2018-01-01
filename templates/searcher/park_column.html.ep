@@ -9,7 +9,7 @@
       <search-button
         class="btn-large"
         url="<%= url_for "/${lang}${url}" %>"
-        send-field-name="<%= $search_item %>"
+        send-field="<%= $search_item %>"
       ></search-button>
     </div>
   </div>
