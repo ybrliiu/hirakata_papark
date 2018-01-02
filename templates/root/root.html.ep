@@ -1,3 +1,6 @@
+% layout "default_$lang";
+% push @$CSS_FILES, 'css/leaflet.css';
+
 <div class="card">
   <div id="park-map" class="card-content"></div>
 </div>

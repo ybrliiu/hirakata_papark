@@ -2,15 +2,10 @@
 % push @$CSS_FILES, 'css/leaflet.css';
 
 <% my @params = (
-  details_title              => 'データ',
-  map_title                  => 'マップ',
-  equipment_title            => '遊具・施設',
-  plants_title               => '植物',
-  surrounding_facility_title => '周辺施設',
-  post_comment_title         => 'コメントを投稿する',
-  watch_with_google_map      => 'Google Map でみる',
-  add_a_tag                  => 'タグをつける',
-  post_park_image            => '公園の画像を投稿',
-  edit_park_info             => '公園の情報を編集',
+  details_title         => 'データ',
+  post_comment_title    => 'コメントを投稿する',
+  watch_with_google_map => 'Google Map でみる',
+  post_park_image       => '公園の画像を投稿',
+  edit_park_info        => '公園の情報を編集',
 ); %>
 %= include 'park/show_park_by_id' => @params;

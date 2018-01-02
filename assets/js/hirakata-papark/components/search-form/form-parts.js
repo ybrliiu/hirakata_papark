@@ -9,9 +9,18 @@ module.exports = function (share) {
         type: String,
         required: true,
       },
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
     },
     data: function () {
       return { sharedState: share.state };
+    },
+    methods: {
+      setDisabled: function (val) {
+        this.disabled = val;
+      },
     },
   };
 };

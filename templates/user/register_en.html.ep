@@ -5,7 +5,7 @@
     Let's register user and take advantage of $config->{site}{english_name}'s features!<br>
   },
   sns_title      => 'New Registration From SNS',
-  direct_title   => 'Register Directly To The Site',
+  direct_title   => 'Registration',
   twitter_btn    => 'New registration from Twitter',
   facebook_btn   => 'New registration from Facebook',
   name           => 'Username',

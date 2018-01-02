@@ -16,8 +16,8 @@ module.exports = function (formPartsMixin) {
       this.$set(this.sharedState.sendData, this.name, this.sharedState.sendData[this.name]);
     },
     template: '<div class="col l3 s6">'
-      + '<input type="checkbox" class="filled-in" :id="value" :value="value" v-model="sharedState.sendData[name]">'
-      + '<label v-bind:for="value">{{ value }}</label>'
+      + '<input type="checkbox" class="filled-in" :id="value" :value="value" :disabled="disabled" v-model="sharedState.sendData[name]">'
+      + '<label :for="value">{{ value }}</label>'
       + '</div>',
   };
 };

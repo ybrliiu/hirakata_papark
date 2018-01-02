@@ -1,9 +1,0 @@
-% layout 'default_en';
-% push @$CSS_FILES, 'css/leaflet.css';
-<%= include 'root/current_location' => (
-  title               => 'Search Parks Near The Current Location',
-  select_distance_mes => sub {
-    my $num = shift;
-    "Search parks within ${num}m";
-  },
-); %>

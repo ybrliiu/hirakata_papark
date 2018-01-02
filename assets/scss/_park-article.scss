@@ -36,6 +36,11 @@
   left: 0px;
   right: 0px;
   z-index: 0;
+  .material-icons {
+    float: left;
+    margin-right: 7px;
+    line-height: 0.94;
+  }
 }
 
 .park-nav-bar {

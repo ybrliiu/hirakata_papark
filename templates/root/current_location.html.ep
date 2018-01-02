@@ -1,6 +1,9 @@
+% layout "default_$lang";
+% push @$CSS_FILES, 'css/leaflet.css';
+
 <div class="container">
 
-  <h2><%= $title %></h2>
+  <h2><%= $lang_dict->get('nearby_parks') %></h2>
 
   <div class="row">
     <div class="col s12 card">
@@ -13,8 +16,9 @@
     <div class="row">
       <div class="col s8">
         <select-value name="distance">
+        % my $distance_func = $lang_dict->get('distance_func');
         % for my $num ( map { $_ * 200 } 1 .. 10 ) {
-          <option value="<%= $num %>"><%= $select_distance_mes->($num) %></option>
+          <option value="<%= $num %>"><%= $distance_func->($num) %></option>
         % }
         </select-value>
       </div>

@@ -1,2 +1,0 @@
-% layout 'default_en';
-%= include 'park/show_park_plants_by_id' => (title => 'Details of plants in ' . $park->name);

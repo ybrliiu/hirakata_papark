@@ -1,5 +1,7 @@
+% layout "default_$lang";
+
 <div class="container">
-  <h2><%= $title %></h2>
+  <h2><%= $lang_dict->get('plants_in_func')->($park->name) %></h2>
   <div class="row">
     <div class="col s12">
       <table>

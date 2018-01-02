@@ -20,20 +20,28 @@
           href="https://www.google.co.jp/maps/place/<%= $park->name %>/@<%= $park->y %>,<%= $park->x %>,18z"
           target="_blank"
           class="collection-item"
-        ><%= $watch_with_google_map %></a>
+        >
+          <i class="material-icons">open_in_new</i><%= $watch_with_google_map %>
+        </a>
       % $maybe_user->map(sub {
         <a
           href="<%= url_for "/$lang/user/park-tagger/" . $park->id %>"
           class="collection-item"
-        ><%= $add_a_tag %></a>
+          >
+          <i class="material-icons">add_circle</i><%= $lang_dict->get('add_tag') %>
+        </a>
         <a
           href="<%= url_for "/$lang/user/park-image-poster/" . $park->id %>"
           class="collection-item"
-        ><%= $post_park_image %></a>
+        >
+          <i class="material-icons">add_a_photo</i><%= $post_park_image %>
+        </a>
         <a   
           href="<%= url_for "/$lang/user/park-editer/" . $park->id %>"
           class="collection-item"
-        ><%= $edit_park_info %></a>
+        >
+          <i class="material-icons">edit</i><%= $edit_park_info %>
+        </a>
       % });
       </div>
     </span>
@@ -103,14 +111,14 @@
             <p><%= $lang_dict->get('temp_evacuation_area') %> : <%= $park->is_evacuation_area ? '○' : '×' %></p>
           </div>
           <div class="col l6 s12">
-            <h3><%= $map_title %></h3>
+            <h3><%= $lang_dict->get('map') %></h3>
             <div id="park-map-small" class="card-content"></div>
           </div>
         </div>
 
         <div class="row">
           <div class="col l6 s12">
-            <h3><%= $equipment_title %></h3>
+            <h3><%= $lang_dict->get('equipment') %></h3>
             <table>
               <tr>
                 <th style="max-width: 33%"><%= $lang_dict->get('name') %></th>
@@ -129,12 +137,12 @@
             </table>
           </div>
           <div class="col l6 s12">
-            <h3><%= $plants_title %></h3>
+            <h3><%= $lang_dict->get('plants') %></h3>
             <p><%= join ', ', $park->plants_categories->@* %></p>
             <a class="waves-effect btn" href="<%= url_for "/$lang/park/plants/" . $park->id %>">
               <i class="material-icons right">arrow_forward</i><%= $lang_dict->get('details') %>
             </a>
-            <h3><%= $surrounding_facility_title %></h3>
+            <h3><%= $lang_dict->get('surrounding_facility') %></h3>
             <p><%= join ', ', $park->surrounding_facility_names->@* %></p>
           </div>
         </div>

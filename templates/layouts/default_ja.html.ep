@@ -1,36 +1,9 @@
 <% extends 'layouts/wrapper' => (
-  site_name        => $config->{site}{name},
   meta_description => '枚方市の公園の情報が見れます。',
 ); %>
 
 % content container => begin
-  <nav>
-    <div id="side-menu" class="nav-wrapper green darken-3">
-      <a href="<%= url_for '/ja/' %>" class="brand-logo center"><%= $config->{site}{name} %></a>
-      <ul class="left">
-        <li @click="showSideMenu"><a><i class="material-icons">menu</i></a></li>
-      </ul>
-      <transition name="fade-menu">
-      <ul class="side-nav" v-show="isShow" @click="stopClose" v-cloak>
-        <li><span class="title center green darken-3"><%= $config->{site}{name} %></span></li>
-        <li><a href="<%= url_for '/ja/' %>"><i class="material-icons">map</i>公園マップ</a></li>
-        <li><a href="<%= url_for '/ja/searcher/' %>"><i class="material-icons">search</i>検索</a></li>
-        <li><a href="<%= url_for '/ja/current-location' %>"><i class="material-icons">my_location</i>現在地周辺の公園</a></li>
-      % $maybe_user->match(
-      %   Some => sub {
-        <li><a href="<%= url_for '/ja/user/mypage' %>"><i class="material-icons">account_circle</i>マイページ</a></li>
-        <li><a href="<%= url_for '/ja/user/logout' %>"><i class="material-icons">exit_to_app</i>ログアウト</a></li>
-      %   },
-      %   None => sub {
-        <li><a href="<%= url_for '/ja/user/session' %>"><i class="material-icons">exit_to_app</i>ログイン</a></li>
-        <li><a href="<%= url_for '/ja/user/register' %>"><i class="material-icons">person_add</i>ユーザー登録</a></li>
-      %   },
-      % );
-        <li><a href="<%= url_for '/ja/about' %>"><i class="material-icons">info</i>about</a></li>
-      </ul>
-      </transition>
-    </div>
-  </nav>
+  %= include 'layouts/parts/side_menu';
   <%= content %>
 % end
 %= content 'container'

@@ -12,6 +12,6 @@ module.exports = function (formPartsMixin) {
     created: function () {
       this.$set(this.sharedState.sendData, this.name, '');
     },
-    template: '<input v-model="sharedState.sendData[name]" :placeholder="placeholder" type="text">',
+    template: '<input v-model="sharedState.sendData[name]" :placeholder="placeholder" :disabled="disabled" type="text">',
   };
 };

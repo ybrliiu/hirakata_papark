@@ -1,0 +1,62 @@
+% my $site_name = $lang_dict->get('site_name');
+<nav>
+  <div id="side-menu" class="nav-wrapper green darken-3">
+    <a href="<%= url_for "/$lang" %>" class="brand-logo center"><%= $site_name %></a>
+    <ul class="left">
+      <li @click="showSideMenu"><a><i class="material-icons">menu</i></a></li>
+    </ul>
+    <transition name="fade-menu">
+      <ul class="side-nav" v-show="isShow" @click="stopClose" v-cloak>
+        <li>
+          <span class="title center green darken-3"><%= $site_name %></span>
+        </li>
+        <li>
+          <a href="<%= url_for "/$lang" %>">
+            <i class="material-icons">map</i><%= $lang_dict->get('park_map') %>
+          </a>
+        </li>
+        <li>
+          <a href="<%= url_for "/$lang/searcher" %>">
+            <i class="material-icons">search</i><%= $lang_dict->get('search') %>
+          </a>
+        </li>
+        <li>
+          <a href="<%= url_for "/$lang/current-location" %>">
+            <i class="material-icons">my_location</i><%= $lang_dict->get('nearby_parks') %>
+          </a>
+        </li>
+      % $maybe_user->match(
+      %   Some => sub {
+        <li>
+          <a href="<%= url_for "/$lang/user/mypage" %>">
+            <i class="material-icons">account_circle</i><%= $lang_dict->get('mypage') %>
+          </a>
+        </li>
+        <li>
+          <a href="<%= url_for "/$lang/user/logout" %>">
+            <i class="material-icons">exit_to_app</i><%= $lang_dict->get('logout') %>
+          </a>
+        </li>
+      %   },
+      %   None => sub {
+        <li>
+          <a href="<%= url_for "/$lang/user/session" %>">
+            <i class="material-icons">exit_to_app</i><%= $lang_dict->get('login') %>
+          </a>
+        </li>
+        <li>
+          <a href="<%= url_for "/$lang/user/register" %>">
+            <i class="material-icons">person_add</i><%= $lang_dict->get('user_registration') %>
+          </a>
+        </li>
+      %   },
+      % );
+        <li>
+          <a href="<%= url_for "/$lang/about" %>">
+            <i class="material-icons">info</i>About
+          </a>
+        </li>
+      </ul>
+    </transition>
+  </div>
+</nav>

@@ -1,36 +1,9 @@
 <% extends 'layouts/wrapper' => (
-  site_name        => $config->{site}{english_name},
   meta_description => 'You can see park infomation in Hirakata city,',
 ); %>
 
 % content container => begin
-  <nav>
-    <div id="side-menu" class="nav-wrapper green darken-3">
-      <a href="<%= url_for '/en/' %>" class="brand-logo center"><%= $config->{site}{english_name} %></a>
-      <ul class="left">
-        <li @click="showSideMenu"><a><i class="material-icons">menu</i></a></li>
-      </ul>
-      <transition name="fade-menu">
-      <ul class="side-nav" v-show="isShow" @click="stopClose" v-cloak>
-        <li><span class="title center green darken-3"><%= $config->{site}{english_name} %></span></li>
-        <li><a href="<%= url_for '/en/' %>">Park Map</a></li>
-        <li><a href="<%= url_for '/en/searcher/' %>">Search Park</a></li>
-        <li><a href="<%= url_for '/en/current-location' %>">Search Nearby Parks</a></li>
-      % $maybe_user->match(
-      %   Some => sub {
-        <li><a href="<%= url_for '/en/user/mypage' %>">Mypage</a></li>
-        <li><a href="<%= url_for '/en/user/logout' %>">Logout</a></li>
-      %   },
-      %   None => sub {
-        <li><a href="<%= url_for '/en/user/session' %>">Login</a></li>
-        <li><a href="<%= url_for '/en/user/register' %>">User Registration</a></li>
-      %   },
-      % );
-        <li><a href="<%= url_for '/en/about' %>">About</a></li>
-      </ul>
-      </transition>
-    </div>
-  </nav>
+  %= include 'layouts/parts/side_menu';
   <%= content %>
 % end
 %= content 'container'

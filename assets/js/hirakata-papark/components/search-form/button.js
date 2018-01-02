@@ -30,7 +30,7 @@ module.exports = function (store) {
       }.bind(this));
     },
     methods: {
-      fetchResponce: function () {
+      onFetchResponce: function () {
         var sendObject = {};
         this.sendFields.forEach(function (key) {
           sendObject[key] = this.sharedState.sendData[key];
@@ -53,6 +53,20 @@ module.exports = function (store) {
               this.sharedState.result = res.text;
             }
           }.bind(this));
+      },
+      fetchResponce: function () {
+        var undefinedFields = this.sendFields.map(function (key) {
+          return this.sharedState.sendData[key] === undefined ? key : undefined;
+        }.bind(this)).filter(function (elem) {
+          return elem !== undefined;
+        });
+        if (undefinedFields.length === 0) {
+          this.onFetchResponce();
+        } else {
+          alert('検索できません。');
+          console.log('[Cant search]');
+          console.log({ undefinedFields: undefinedFields });
+        }
       },
     },
     template: '<button class="wave-effect" @click="fetchResponce">'

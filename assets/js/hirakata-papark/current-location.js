@@ -9,6 +9,7 @@ module.exports = new Vue({
   el: '#v-search-near-parks',
   data: {
     sendData: searchFormComponents.sharedState.sendData,
+    canSearch: false,
   },
   created: function () {
     // 200でフォームの距離を初期化
@@ -19,6 +20,7 @@ module.exports = new Vue({
           var coords = position.coords;
           this.sendData.x = coords.longitude;
           this.sendData.y = coords.latitude;
+          this.canSearch = true;
         }.bind(this),
         function () {
           var mes = '位置情報を取得できませんでした';
@@ -31,8 +33,6 @@ module.exports = new Vue({
       alert(mes);
       throw(mes);
     }
-  },
-  mounted: function () {
   },
   components: searchFormComponents,
 });

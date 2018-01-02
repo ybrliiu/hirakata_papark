@@ -12,6 +12,13 @@ package HirakataPapark::Class::LangDict::En {
   sub _build_lang_dict($self) {
     my $data = {
       %$param,
+      site_name            => 'Hirakata Papark',
+      park_map             => 'Park Map',
+      nearby_parks         => 'Nearby Parks',
+      mypage               => 'Your Profile',
+      login                => 'Login',
+      logout               => 'Logout',
+      user_registration    => 'User Registration',
       address              => 'Address',
       latitude             => 'Latitude',
       longitude            => 'Longitude',
@@ -36,6 +43,7 @@ package HirakataPapark::Class::LangDict::En {
       profile              => 'Profile',
       login                => 'Login',
       regist_from_twitter  => 'Regist From Twitter',
+      map                  => 'Map',
       images               => 'Images',
       post_park_image      => 'Post Park Image',
       select_image         => 'Select Image',
@@ -44,10 +52,15 @@ package HirakataPapark::Class::LangDict::En {
       park_name            => 'park name',
       tag                  => 'Tag',
       equipment            => 'Equipments',
-      surrounding_facility => 'Surrounding Facility',
+      surrounding_facility => 'Surrounding Facilities',
       search_park          => 'Search Park',
+      add_tag              => 'Add Tag',
+      tag_list             => 'Tag List',
       length_func          => sub ($min, $max) {
         "Please enter from ${min} to ${max} characters.";
+      },
+      distance_func        => sub ($distance) {
+        "Search parks within ${distance}m";
       },
     };
     $data->{search_by_func} = sub ($key) {
@@ -55,6 +68,9 @@ package HirakataPapark::Class::LangDict::En {
     };
     $data->{please_input_func} = sub ($key) {
       "Please input @{[ lcfirst $data->{$key} ]}.";
+    };
+    $data->{plants_in_func} = sub ($park_name) {
+      "$data->{plants} in $park_name";
     };
     $data;
   }

@@ -57,26 +57,28 @@ package HirakataPapark::Web::Controller::Park {
     HirakataPapark::Model::Parks::Images->new(db => $self->db);
   };
 
+  sub create_extend_park($self, $row) {
+    HirakataPapark::Service::Park::Park->new({
+      row             => $row,
+      park_tags       => $self->park_tags,
+      park_stars      => $self->park_stars,
+      park_plants     => $self->park_plants,
+      park_images     => $self->park_images,
+      park_equipments => $self->park_equipments,
+      park_facilities => $self->park_facilities,
+    });
+  }
+
   sub show_park_by_id($self) {
     $self->parks->get_row_by_id($self->park_id)->match(
       Some => sub ($row) {
-        my $park = HirakataPapark::Service::Park::Park->new({
-          row             => $row,
-          park_tags       => $self->park_tags,
-          park_stars      => $self->park_stars,
-          park_plants     => $self->park_plants,
-          park_images     => $self->park_images,
-          park_equipments => $self->park_equipments,
-          park_facilities => $self->park_facilities,
-        });
-
-        my $base = $self->url_for('/images/parks/' . $park->id)->to_abs->to_string;
+        my $park   = $self->create_extend_park($row);
+        my $base   = $self->url_for('/images/parks/' . $park->id)->to_abs->to_string;
         my $images = $park->images;
         $images->static_url_root($base);
         my $hash_list = $images->to_hash_for_vue_images;
         $hash_list = @$hash_list == 0 ? [{imageUrl => '', caption => ''}] : $hash_list;
         my $images_json = decode_utf8 encode_json $hash_list;
-
         $self->stash(
           park        => $park,
           images_json => $images_json,
@@ -94,7 +96,14 @@ package HirakataPapark::Web::Controller::Park {
   }
 
   sub show_park_plants_by_id($self) {
-    $self->show_park_by_id;
+    $self->parks->get_row_by_id($self->park_id)->match(
+      Some => sub ($row) {
+        my $park = $self->create_extend_park($row);
+        $self->stash(park => $park),
+        $self->render;
+      },
+      None => sub { $self->render_not_found },
+    );
   }
 
   sub add_comment_by_id($self) {

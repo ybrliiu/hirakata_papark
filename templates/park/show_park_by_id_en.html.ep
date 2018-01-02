@@ -2,15 +2,10 @@
 % push @$CSS_FILES, 'css/leaflet.css';
 
 <% my @params = (
-  details_title              => 'Details',
-  map_title                  => 'Map',
-  equipment_title            => 'Equipments',
-  plants_title               => 'Plants',
-  surrounding_facility_title => 'Surrounding Facilities',
-  post_comment_title         => 'Post a comment',
-  watch_with_google_map      => 'Watch with Google Map',
-  add_a_tag                  => 'Add a tag',
-  post_park_image            => 'Post park image',
-  edit_park_info             => 'Edit park infomation',
+  details_title         => 'Details',
+  post_comment_title    => 'Post a comment',
+  watch_with_google_map => 'Watch with Google Map',
+  post_park_image       => 'Post park image',
+  edit_park_info        => 'Edit park infomation',
 ); %>
 %= include 'park/show_park_by_id' => @params;

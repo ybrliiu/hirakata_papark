@@ -4,7 +4,7 @@ var Vue = require('vue');
 var superagent = require('superagent');
 
 var Z_INDEX = 500;
-var MENU_WIDTH = 200;
+var MENU_WIDTH = 220;
 var MENU_TOP_MARGIN = 5;
 
 module.exports = new Vue({

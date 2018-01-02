@@ -1,3 +1,0 @@
-% layout 'default_en';
-% push @$CSS_FILES, 'css/leaflet.css';
-%= include 'root/root';

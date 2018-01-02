@@ -1,5 +1,0 @@
-% layout "default_${lang}";
-<%= include 'authed_user/park_tagger' => (
-  title              => 'Add Tag',
-  tag_list_title     => 'Tag List',
-); %>

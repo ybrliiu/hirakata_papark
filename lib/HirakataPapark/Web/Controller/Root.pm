@@ -18,7 +18,7 @@ package HirakataPapark::Web::Controller::Root {
     my $parks = $self->parks->get_rows_all;
     my $parks_json = $parks->to_json_for_marker;
     $self->stash(parks_json => $parks_json);
-    $self->render_to_multiple_lang;
+    $self->render;
   }
 
   sub current_location($self) {

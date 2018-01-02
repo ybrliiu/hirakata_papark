@@ -96,7 +96,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
       tag_list  => $self->park_tags->get_rows_by_park_id($park_id),
       validator => "HirakataPapark::Service::User::Park::Tagger::Validator",
     });
-    $self->render_to_multiple_lang;
+    $self->render;
   }
 
   sub add_park_tag($self) {
