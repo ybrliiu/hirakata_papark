@@ -17,10 +17,5 @@ module.exports = function (share) {
     data: function () {
       return { sharedState: share.state };
     },
-    methods: {
-      setDisabled: function (val) {
-        this.disabled = val;
-      },
-    },
   };
 };

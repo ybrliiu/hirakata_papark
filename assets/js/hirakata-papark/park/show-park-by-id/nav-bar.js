@@ -5,6 +5,7 @@ var superagent = require('superagent');
 var VueImages = require('vue-images');
 var ParkMap = require('../../park-map');
 var vueNavBarTabs = require('../../components/nav-bar-tabs');
+var vScrollToTop = require('../../components/scroll-to-top');
 
 // vue-images の body.style.position = 'fixed' にする挙動が気に入らないので上書きする
 (function () {
@@ -101,6 +102,7 @@ module.exports = function (args) {
       vueImages: VueImages.default,
       comment: comment,
       commentForm: commentForm,
+      scrollToTop: vScrollToTop,
     },
   });
 

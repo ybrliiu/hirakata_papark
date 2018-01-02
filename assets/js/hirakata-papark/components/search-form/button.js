@@ -17,10 +17,6 @@ module.exports = function (store) {
     data: function () {
       return {
         sharedState: store.state,
-        classObjects: {
-          'waves-effect': true,
-          'btn': true,
-        },
         sendFields: this.sendField.split(' '),
       };
     },

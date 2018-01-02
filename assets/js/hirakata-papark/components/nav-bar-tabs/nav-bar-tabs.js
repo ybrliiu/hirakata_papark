@@ -4,7 +4,11 @@ module.exports = function (store) {
   return {
     data: function () {
       var tabVnodes = this.$slots.default.filter(function (vnode) {
-        return vnode.componentOptions;
+        if (vnode.componentOptions !== undefined) {
+          return vnode.componentOptions.tag === 'tab';
+        } else {
+          return false;
+        }
       });
       var tabTitles = tabVnodes.map(function (vnode) {
         return vnode.componentOptions.propsData.title;

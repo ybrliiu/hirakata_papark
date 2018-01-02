@@ -1,0 +1,10 @@
+// vue.js のカスタムコンポーネントに適用するためのcss
+
+/* for scroll-to-top */
+.scroll-to-top {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 501;
+}
+
