@@ -31,6 +31,9 @@ package CSVEditer {
           $_;
         }
       } @$columns;
+      for my $key ($self->columns->@*) {
+        $park{$key} //= '';
+      }
       push @park_data, \%park;
     }
     $fh->close;
@@ -40,7 +43,8 @@ package CSVEditer {
   sub save_csv_data($self, $park_data) {
     my @data = map {
       my %park = %{$_};
-      join(',', map { qq{"$park{$_}"} } $self->columns->@*) . "\n";
+      my $line = join(',', map { qq{"$park{$_}"} } $self->columns->@*) . "\n";
+      Encode::encode_utf8($line);
     } @$park_data;
     Path::Tiny::path($self->save_file_name)->touch->spew(\@data);
   }
