@@ -2,6 +2,7 @@ package HirakataPapark::Class::LangDict::Ja {
 
   use Mouse;
   use HirakataPapark;
+  use HirakataPapark::Model::Config;
   use HirakataPapark::Validator::DefaultMessageData;
 
   with 'HirakataPapark::Class::LangDict::LangDict';

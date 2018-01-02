@@ -56,12 +56,12 @@ subtest 'select' => sub {
   ok $jpark->isa('HirakataPapark::DB::Row::Park');
   ok $epark->isa('HirakataPapark::DB::Row::EnglishPark');
   is $epark->name, 'english_park A';
+  is $epark->zipcode, $jpark->zipcode;
   is $epark->address, 'somewhere';
   is $epark->explain, 'english row test insert';
   is $epark->x, $jpark->x;
   is $epark->y, $jpark->y;
   is $epark->area, $jpark->area;
-  is $epark->is_nice_scenery, $jpark->is_nice_scenery;
 };
 
 subtest 'update' => sub {

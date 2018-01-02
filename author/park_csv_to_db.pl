@@ -11,22 +11,23 @@ use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
 use HirakataPapark::Model::MultilingualDelegator::Parks::Equipments;
 use HirakataPapark::Model::MultilingualDelegator::Parks::Plants;
 use HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities;
+use HirakataPapark::Model::Parks::Tags;
 
 my @FACILITIES     = qw( 有料駐車場 無料駐車場 );
 my @PLANTS         = qw( ソメイヨシノ オオシマザクラ カンヒザクラ シダレザクラ カワヅザクラ ヤマザクラ );
 my @ANOTHER_PLANTS = qw( 桜_その他 桜_合計 桜_その他_品種 );
 my @COLUMNS = (
   qw(
-    id name y x address area area_ha is_evacuation_area
+    id name name_kana address area area_ha y x is_evacuation_area
     ブランコ_2 ブランコ_3 ブランコ_4 すべり台
     鉄棒_1 鉄棒_2 鉄棒_3 鉄棒_4 鉄棒_5
-    シーソー ジャングルジム 複合遊具 砂場 ラダー 健康遊具 プレイスカルプチャー(遊戯彫刻)
+    シーソー ジャングルジム 鋼製複合遊具 砂場 ラダー 健康遊具 プレイスカルプチャー(遊戯彫刻)
     トイレ 水飲場 ベンチ 四阿・シェルター
   ),
   @FACILITIES,
   @PLANTS,
   @ANOTHER_PLANTS,
-  qw( is_nice_scenery english_name english_address ),
+  qw( is_nice_scenery english_name english_address zipcode address_kana ),
 );
 
 my $english_dict = {
@@ -52,7 +53,7 @@ my $english_dict = {
   '鉄棒'                           => 'Horizontal bar',
   'シーソー'                       => 'Seesaw',
   'ジャングルジム'                 => 'Jungle gym',
-  '複合遊具'                       => 'Combined play equipment',
+  '鋼製複合遊具'                       => 'Combined play equipment',
   '砂場'                           => 'Sandbox',
   'ラダー'                         => 'Ladder',
   '健康遊具'                       => 'Healthy play equipment',
@@ -75,7 +76,7 @@ sub get_csv_data {
   while ( my $columns = $parser->getline($fh) ) {
     my %park;
     @park{@COLUMNS} = @$columns;
-    next if $park{id} eq 'NO';
+    next if $park{id} eq 'id';
     $park{id} -= 1;
     $park{area} =~ s/,//g;
     $park{area} += 0;
@@ -90,10 +91,10 @@ sub get_csv_data {
   \@park_data;
 }
 
-my $park_data_list_orig = get_csv_data('./data/manually_fix_add_english_park_data.csv');
+my $park_data_list_orig = get_csv_data('./data/parks_add_english_data_2017_1212.csv');
 shift @$park_data_list_orig;
 
-my @PARK_FIELDS = qw( id name address y x area is_nice_scenery is_evacuation_area );
+my @PARK_FIELDS = qw( id name zipcode address y x area is_evacuation_area );
 my @parks = map {
   my $park = $_;
   my %new_park;
@@ -113,8 +114,9 @@ my @eparks = map {
 
 my @EQUIPMENTS = qw(
   id
+  is_nice_scenery
   ブランコ すべり台 鉄棒 シーソー ジャングルジム
-  複合遊具 砂場 ラダー 健康遊具 プレイスカルプチャー(遊戯彫刻)
+  鋼製複合遊具 砂場 ラダー 健康遊具 プレイスカルプチャー(遊戯彫刻)
   トイレ 水飲場 ベンチ 四阿・シェルター
 );
 my @EQUIPMENT_FIELD = (
@@ -139,6 +141,7 @@ $model->model('en')->add_rows(\@eparks);
 my $equipments_model = HirakataPapark::Model::MultilingualDelegator::Parks::Equipments->new(db => $db);
 my $facilities_model = HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities->new(db => $db);
 my $plants_model     = HirakataPapark::Model::MultilingualDelegator::Parks::Plants->new(db => $db);
+my $tags_model        = HirakataPapark::Model::Parks::Tags->new(db => $db);
 for my $info (@parks_equipment) {
   my $park_id = $info->{id};
   my @equipments = map { $info->{$_} ? $_ : () } grep { $_ ne 'id' } keys %$info;
@@ -171,7 +174,7 @@ for my $info (@parks_equipment) {
         category => $english_dict->{'桜'},
       });
     }
-    elsif ( grep { $equipment_name eq $_ } @EQUIPMENTS ) {
+    elsif ( grep { $equipment_name eq $_ && $equipment_name ne 'is_nice_scenery' } @EQUIPMENTS ) {
       $equipments_model->model('ja')->add_row({
         park_id => $park_id,
         name    => $equipment_name,
@@ -182,6 +185,17 @@ for my $info (@parks_equipment) {
         id      => $e->id,
         park_id => $park_id,
         name    => $english_dict->{$equipment_name},
+      });
+    }
+    # is_nice_scenery
+    elsif ( $equipment_name eq 'is_nice_scenery' ) {
+      $tags_model->add_row({
+        park_id => $park_id,
+        name    => '良い景観',
+      });
+      $tags_model->add_row({
+        park_id => $park_id,
+        name    => 'Nice Scenery',
       });
     }
   }

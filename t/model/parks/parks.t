@@ -10,11 +10,12 @@ my $model = HirakataPapark::Model::Parks::Parks->new(db => $db);
 subtest add_row => sub {
   lives_ok {
     $model->add_row({
-      name              => '淀川公園',
-      address           => 'A市B町20',
-      x                 => 0.0000,
-      y                 => 1.3030,
-      area              => 1000
+      name    => '淀川公園',
+      zipcode => '666-6666',
+      address => 'A市B町20',
+      x       => 0.0000,
+      y       => 1.3030,
+      area    => 1000
     });
   };
   ok my $park = $model->get_row_by_name('淀川公園')->get;
@@ -26,18 +27,20 @@ subtest add_rows => sub {
   lives_ok {
     $model->add_rows([
       {
-        name            => 'B公園',
-        address         => 'A市B町20',
-        x               => 0.0000,
-        y               => 1.3030,
-        area            => 1000
+        name    => 'B公園',
+        zipcode => '666-6666',
+        address => 'A市B町20',
+        x       => 0.0000,
+        y       => 1.3030,
+        area    => 1000
       },
       {
-        name            => 'C公園',
-        address         => 'A市B町20',
-        x               => 0.0000,
-        y               => 1.3030,
-        area            => 1000
+        name    => 'C公園',
+        zipcode => '666-6666',
+        address => 'A市B町20',
+        x       => 0.0000,
+        y       => 1.3030,
+        area    => 1000
       },
     ]);
   };

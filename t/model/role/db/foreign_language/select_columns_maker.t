@@ -14,7 +14,7 @@ subtest default_case => sub {
       orig_lang_table_name => 'park',
     );
   };
-  is_deeply $maker->select_columns, ['english_park.address', 'park.area', 'english_park.explain', 'english_park.id', 'park.is_evacuation_area', 'park.is_nice_scenery', 'english_park.name', 'park.remarks_about_plants', 'park.x', 'park.y'];
+  is_deeply $maker->select_columns, ['english_park.address', 'park.area', 'english_park.explain', 'english_park.id', 'park.is_evacuation_area', 'english_park.name', 'park.remarks_about_plants', 'park.x', 'park.y', 'park.zipcode'];
   is_deeply $maker->join_condition, { 'park.id' => 'english_park.id' };
 };
 
@@ -29,7 +29,7 @@ subtest specify_not_need_columns => sub {
       not_need_columns     => ['name'],
     );
   };
-  is_deeply $maker->select_columns, ['english_park.address', 'park.area', 'english_park.explain', 'english_park.id', 'park.is_evacuation_area', 'park.is_nice_scenery', 'park.remarks_about_plants', 'park.x', 'park.y'];
+  is_deeply $maker->select_columns, ['english_park.address', 'park.area', 'english_park.explain', 'english_park.id', 'park.is_evacuation_area', 'park.remarks_about_plants', 'park.x', 'park.y', 'park.zipcode'];
 };
 
 done_testing;

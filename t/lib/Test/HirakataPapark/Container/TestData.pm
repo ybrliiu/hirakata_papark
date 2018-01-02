@@ -19,6 +19,7 @@ package Test::HirakataPapark::Container::TestData {
           y       => 1.3030,
           name    => 'ほげ公園',
           area    => 1000,
+          zipcode => '777-7777',
           address => 'A市B町20',
         };
 
@@ -41,6 +42,7 @@ package Test::HirakataPapark::Container::TestData {
           y       => 13.3030,
           name    => 'ぞのはな',
           area    => 10000,
+          zipcode => '888-7777',
           address => 'A市C町500',
         };
 
@@ -63,6 +65,7 @@ package Test::HirakataPapark::Container::TestData {
           y       => 111.3030,
           name    => '空き地公園',
           area    => 1,
+          zipcode => '888-9999',
           address => 'A市D町0',
         };
 

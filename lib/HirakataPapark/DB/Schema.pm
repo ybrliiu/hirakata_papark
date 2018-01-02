@@ -11,13 +11,13 @@ package HirakataPapark::DB::Schema {
   create_table park => columns {
     integer 'id' => (primary_key, auto_increment);
     string 'name' => (unique);
+    string 'zipcode';
     string 'address';
     string 'explain' => (default => '');
     string 'remarks_about_plants' => (default => '');
     double 'x';
     double 'y';
     double 'area';
-    smallint 'is_nice_scenery' => (default => 0);
     smallint 'is_evacuation_area' => (default => 0);
 
     add_index 'park_name_index' => ['name'];
