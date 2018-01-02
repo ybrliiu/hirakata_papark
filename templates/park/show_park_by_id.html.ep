@@ -107,7 +107,6 @@
             <p><%= $lang_dict->get('address') %> : <%= $park->address %></p>
             <p><%= $lang_dict->get('latitude') %> : <%= $park->y %>, <%= $lang_dict->get('longitude') %> : <%= $park->x %>
             <p><%= $lang_dict->get('area') %> : <%= $park->area %> ㎡ (<%= $lang_dict->get('extent') %> : <%= $park->size %>)</p>
-            <p><%= $lang_dict->get('scenery') %> : <%= $park->is_nice_scenery ? $lang_dict->get('nice') : '' %></p>
             <p><%= $lang_dict->get('temp_evacuation_area') %> : <%= $park->is_evacuation_area ? '○' : '×' %></p>
           </div>
           <div class="col l6 s12">
