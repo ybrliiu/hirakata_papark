@@ -4,8 +4,6 @@ package HirakataPapark::Web::Controller::Park {
   use HirakataPapark;
 
   use Option;
-  use Encode qw( decode_utf8 );
-  use JSON::XS qw( encode_json );
   use HirakataPapark::Service::User::ShowParkUser;
   use HirakataPapark::Service::Park::Park;
   use HirakataPapark::Model::Parks::Stars;
@@ -59,29 +57,23 @@ package HirakataPapark::Web::Controller::Park {
 
   sub create_extend_park($self, $row) {
     HirakataPapark::Service::Park::Park->new({
-      row             => $row,
-      park_tags       => $self->park_tags,
-      park_stars      => $self->park_stars,
-      park_plants     => $self->park_plants,
-      park_images     => $self->park_images,
-      park_equipments => $self->park_equipments,
-      park_facilities => $self->park_facilities,
+      row                          => $row,
+      static_path                  => $self->url_for('/')->to_abs->to_string,
+      tags_model                   => $self->park_tags,
+      stars_model                  => $self->park_stars,
+      plants_model                 => $self->park_plants,
+      images_model                 => $self->park_images,
+      equipments_model             => $self->park_equipments,
+      surrounding_facilities_model => $self->park_facilities,
     });
   }
 
   sub show_park_by_id($self) {
     $self->parks->get_row_by_id($self->park_id)->match(
       Some => sub ($row) {
-        my $park   = $self->create_extend_park($row);
-        my $base   = $self->url_for('/images/parks/' . $park->id)->to_abs->to_string;
-        my $images = $park->images;
-        $images->static_url_root($base);
-        my $hash_list = $images->to_hash_for_vue_images;
-        $hash_list = @$hash_list == 0 ? [{imageUrl => '', caption => ''}] : $hash_list;
-        my $images_json = decode_utf8 encode_json $hash_list;
+        my $park = $self->create_extend_park($row);
         $self->stash(
           park        => $park,
-          images_json => $images_json,
           maybe_user  => $self->maybe_user->map(sub ($user) {
             HirakataPapark::Service::User::ShowParkUser->new({
               row        => $user,

@@ -190,7 +190,7 @@ window.addEventListener('load', function () {
     isUserAuthed: <%= $maybe_user->is_defined ? 'true' : 'false' %>,
     isUserStared: <%= $maybe_user->map(sub { $_->is_park_stared($park->id) ? 'true' : 'false' })->get_or_else('false') %>,
   });
-  imports.navBar({ images: JSON.parse('<%== $images_json %>') });
+  imports.navBar({ images: JSON.parse('<%== $park->images_json %>') });
 
 });
 </script>

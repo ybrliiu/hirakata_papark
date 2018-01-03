@@ -2,7 +2,9 @@ package HirakataPapark::Service::Park::Park {
 
   use Mouse;
   use HirakataPapark;
+  use Mojo::Util qw( camelize );
   use HirakataPapark::DB::Schema;
+  use HirakataPapark::Service::Park::ImagesJSONGenerator;
 
   {
     # park table カラムは全て委譲
@@ -16,81 +18,85 @@ package HirakataPapark::Service::Park::Park {
     );
   }
 
-  has 'park_tags' => (
-    is       => 'ro',
-    isa      => 'HirakataPapark::Model::Parks::Tags',
-    required => 1,
-  );
+  for my $name (qw/ tags stars images /) {
+    my $accessor_name = $name . '_model';
+    my $class_name    = 'HirakataPapark::Model::Parks::' . ucfirst $name;
+    has $accessor_name => (
+      is       => 'ro',
+      isa      => $class_name,
+      required => 1,
+    );
+  }
 
-  has 'park_stars' => (
-    is       => 'ro',
-    isa      => 'HirakataPapark::Model::Parks::Stars',
-    required => 1,
-  );
-
-  has 'park_plants' => (
-    is       => 'ro',
-    does     => 'HirakataPapark::Model::Role::DB::Parks::Plants',
-    required => 1,
-  );
-
-  has 'park_equipments' => (
-    is       => 'ro',
-    does     => 'HirakataPapark::Model::Role::DB::Parks::Equipments',
-    required => 1,
-  );
-
-  has 'park_facilities' => (
-    is       => 'ro',
-    does     => 'HirakataPapark::Model::Role::DB::Parks::SurroundingFacilities',
-    required => 1,
-  );
-  
-  has 'park_images' => (
-    is       => 'ro',
-    isa      => 'HirakataPapark::Model::Parks::Images',
-    required => 1,
-  );
+  for my $name (qw/ plants equipments surrounding_facilities /) {
+    my $accessor_name = $name . '_model';
+    my $role_name     = 'HirakataPapark::Model::Role::DB::Parks::' . camelize $name;
+    has $accessor_name => (
+      is       => 'ro',
+      does     => $role_name,
+      required => 1,
+    );
+  }
 
   has 'plants' => (
     is      => 'ro',
     isa     => 'ArrayRef',
     lazy    => 1,
-    default => sub {
-      my $self = shift;
+    default => sub ($self) {
       $self->park_plants->get_rows_by_park_id_order_by_category($self->id)->get_all;
     },
   );
 
+  has 'static_path' => (
+    is       => 'ro',
+    isa      => 'Str',
+    required => 1,
+  );
+
+  has 'images_json_generator' => (
+    is      => 'ro',
+    isa     => 'HirakataPapark::Service::Park::ImagesJSONGenerator',
+    lazy    => 1,
+    handles => { images_json => 'generate' },
+    builder => '_build_images_json_generator',
+  );
+
   with 'HirakataPapark::Role::Coord';
 
+  sub _build_images_json_generator($self) {
+    HirakataPapark::Service::Park::ImagesJSONGenerator->new({
+      park_id     => $self->id,
+      images      => $self->images,
+      static_path => $self->static_path,
+    });
+  }
+
   sub plants_categories($self) {
-    $self->park_plants->get_categories_by_park_id($self->id);
+    $self->plants_model->get_categories_by_park_id($self->id);
   }
 
   sub surrounding_facility_names($self) {
-    $self->park_facilities->get_names_by_park_id($self->id);
+    $self->surrounding_facilities_model->get_names_by_park_id($self->id);
   }
 
   sub equipments($self) {
-    $self->park_equipments->get_rows_by_park_id($self->id);
+    $self->equipments_model->get_rows_by_park_id($self->id);
   }
 
   sub tags($self) {
-    $self->park_tags->get_rows_by_park_id($self->id);
+    $self->tags_model->get_rows_by_park_id($self->id);
   }
 
   sub stars($self) {
-    $self->park_stars->get_rows_by_park_id($self->id);
+    $self->stars_model->get_rows_by_park_id($self->id);
   }
 
   sub images($self) {
-    $self->park_images->get_rows_by_park_id($self->id);
+    $self->images_model->get_rows_by_park_id($self->id);
   }
 
-  __PACKAGE__->meta->make_immutable();
+  __PACKAGE__->meta->make_immutable;
 
 }
 
 1;
-

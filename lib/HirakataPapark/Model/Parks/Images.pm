@@ -2,25 +2,27 @@ package HirakataPapark::Model::Parks::Images {
 
   use Mouse;
   use HirakataPapark;
-  use HirakataPapark::Model::Parks::ImagesResult;
   use Path::Tiny qw( path );
   use Mojo::Util qw( hmac_sha1_sum );
   use Smart::Args qw( args );
+  use HirakataPapark::Model::Parks::Images::Result;
+  use HirakataPapark::Model::Parks::Images::SaveDirPath;
 
-  use constant {
-    TABLE                 => 'park_image',
-    DEFAULT_SAVE_DIR_ROOT => 'public/images/parks',
-  };
+  # alias
+  use constant SaveDirPath => 'HirakataPapark::Model::Parks::Images::SaveDirPath';
 
-  has 'save_dir_root' => ( is => 'ro', isa => 'Str', default => DEFAULT_SAVE_DIR_ROOT );
+  use constant TABLE => 'park_image';
+
+  has 'save_dir_root' => (
+    is      => 'ro',
+    isa     => 'Str',
+    default => SaveDirPath->DEFAULT_SAVE_DIR_ROOT,
+  );
 
   with 'HirakataPapark::Model::Role::DB';
 
   around create_result => sub ($orig, $self, $contents) {
-    HirakataPapark::Model::Parks::ImagesResult->new({
-      contents      => $contents,
-      save_dir_root => $self->save_dir_root,
-    });
+    HirakataPapark::Model::Parks::Images::Result->new(contents => $contents);
   };
 
   sub add_row {
@@ -30,7 +32,7 @@ package HirakataPapark::Model::Parks::Images {
       my $title                  => 'Str';
 
     my $filename_without_extension = hmac_sha1_sum $image_file->slurp;
-    my $save_dir = path $self->save_dir_root . '/' . $park_id;
+    my $save_dir = path SaveDirPath->save_dir_path($self->save_dir_root, $park_id);
     $save_dir->mkpath unless $save_dir->exists;
     my $filename = $filename_without_extension . '.' . $image_file->filename_extension;
     my $file_path = path "${save_dir}/${filename}";
