@@ -43,7 +43,7 @@ package HirakataPapark::Service::Park::Park {
     isa     => 'ArrayRef',
     lazy    => 1,
     default => sub ($self) {
-      $self->park_plants->get_rows_by_park_id_order_by_category($self->id)->get_all;
+      $self->plants_model->get_rows_by_park_id_order_by_category($self->id)->get_all;
     },
   );
 

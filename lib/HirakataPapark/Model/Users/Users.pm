@@ -11,21 +11,23 @@ package HirakataPapark::Model::Users::Users {
 
   sub add_row {
     args my $self, my $id => 'Str',
-      my $name        => 'Str',
-      my $password    => 'Str',
-      my $address     => { isa => 'Str', default => '' },
-      my $profile     => { isa => 'Str', default => '' },
-      my $twitter_id  => { isa => 'Maybe[Str]', default => undef },
-      my $facebook_id => { isa => 'Maybe[Str]', default => undef };
+      my $name          => 'Str',
+      my $password      => 'Str',
+      my $address       => { isa => 'Str', default => '' },
+      my $profile       => { isa => 'Str', default => '' },
+      my $twitter_id    => { isa => 'Maybe[Str]', default => undef },
+      my $facebook_id   => { isa => 'Maybe[Str]', default => undef },
+      my $can_edit_park => { isa => 'Bool', default => 1 };
 
     $self->insert({
-      id          => $id,
-      name        => $name,
-      password    => $password,
-      address     => $address,
-      profile     => $profile,
-      twitter_id  => $twitter_id,
-      facebook_id => $facebook_id,
+      id            => $id,
+      name          => $name,
+      password      => $password,
+      address       => $address,
+      profile       => $profile,
+      twitter_id    => $twitter_id,
+      facebook_id   => $facebook_id,
+      can_edit_park => $can_edit_park,
     });
   }
 

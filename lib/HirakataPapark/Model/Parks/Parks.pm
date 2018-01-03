@@ -12,27 +12,26 @@ package HirakataPapark::Model::Parks::Parks {
   );
 
   sub add_row {
-    args my $self,
-      my $name                 => 'Str',
-      my $zipcode              => 'Str',
-      my $address              => 'Str',
-      my $explain              => { isa => 'Str', default => '' },
-      my $remarks_about_plants => { isa => 'Str', default => '' },
-      my $x                    => 'Num',
-      my $y                    => 'Num',
-      my $area                 => 'Num',
-      my $is_evacuation_area   => { isa => 'Int', default => 0 };
+    args my $self, my $name => 'Str',
+      my $zipcode            => 'Str',
+      my $address            => 'Str',
+      my $explain            => { isa => 'Str', default => '' },
+      my $x                  => 'Num',
+      my $y                  => 'Num',
+      my $area               => 'Num',
+      my $is_locked          => { isa => 'Bool', default => 0 },
+      my $is_evacuation_area => { isa => 'Int', default => 0 };
 
     $self->insert({
-      name                 => $name,
-      zipcode              => $zipcode,
-      address              => $address,
-      explain              => $explain,
-      remarks_about_plants => $remarks_about_plants,
-      x                    => $x,
-      y                    => $y,
-      area                 => $area,
-      is_evacuation_area   => $is_evacuation_area,
+      name               => $name,
+      zipcode            => $zipcode,
+      address            => $address,
+      explain            => $explain,
+      x                  => $x,
+      y                  => $y,
+      area               => $area,
+      is_locked          => $is_locked,
+      is_evacuation_area => $is_evacuation_area,
     });
   }
 

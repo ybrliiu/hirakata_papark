@@ -14,11 +14,11 @@ package HirakataPapark::DB::Schema {
     string 'zipcode';
     string 'address';
     string 'explain' => (default => '');
-    string 'remarks_about_plants' => (default => '');
     double 'x';
     double 'y';
     double 'area';
     smallint 'is_evacuation_area' => (default => 0);
+    smallint 'is_locked' => (default => 0);
 
     add_index 'park_name_index' => ['name'];
   };
@@ -150,6 +150,8 @@ package HirakataPapark::DB::Schema {
     string 'twitter_id' => (null);
     string 'facebook_id' => (null);
 
+    smallint 'can_edit_park' => (default => 1);
+
     # SQL::Translator のunique制約へのCONSTRAINT自動命名がクソ(カラム名 + '_unque')
     # で容易に多テーブルと衝突してしまうので, ここで直接命名
     add_unique_index 'user_id_unique' => ['id'];
@@ -181,7 +183,119 @@ package HirakataPapark::DB::Schema {
     foreign_key 'posted_user_seacret_id' => (user => 'seacret_id');
   };
 
+  create_table user_park_edit_history => columns {
+    integer 'id' => (primary_key, auto_increment);
+    integer 'park_id';
+    integer 'editer_seacret_id';
+    bigint 'edited_time';
+
+    string 'park_name';
+    string 'park_zipcode';
+    string 'park_address';
+    string 'park_explain';
+    double 'park_x';
+    double 'park_y';
+    double 'park_area';
+    smallint 'park_is_evacuation_area';
+
+    foreign_key 'park_id' => (park => 'id');
+    foreign_key 'editer_seacret_id' => (user => 'seacret_id');
+  };
+
+  create_table user_english_park_edit_history => columns {
+    integer 'history_id' => (primary_key);
+    string 'park_name';
+    string 'park_address';
+    string 'park_explain';
+
+    foreign_key 'history_id' => (user_park_edit_history => 'id');
+  };
+
+  create_table user_park_plants_edit_history => columns {
+    integer 'id' => (primary_key, auto_increment);
+    integer 'park_id';
+    integer 'editer_seacret_id';
+    bigint 'edited_time';
+
+    foreign_key 'park_id' => (park => 'id');
+    foreign_key 'editer_seacret_id' => (user => 'seacret_id');
+  };
+
+  create_table user_park_plants_edit_history_row => columns {
+    integer 'history_id';
+    integer 'plants_name';
+    string 'plants_category';
+    string 'plants_comment';
+    integer 'plants_num';
+
+    foreign_key 'history_id' => (user_park_plants_edit_history => 'id');
+  };
+
+  create_table user_english_park_plants_edit_history_row => columns {
+    integer 'history_id';
+    integer 'plants_name';
+    string 'plants_category';
+    string 'plants_comment';
+
+    foreign_key 'history_id' => (user_park_plants_edit_history => 'id');
+  };
+
+  create_table user_park_equipment_edit_history => columns {
+    integer 'id' => (primary_key, auto_increment);
+    integer 'park_id';
+    integer 'editer_seacret_id';
+    bigint 'edited_time';
+
+    foreign_key 'park_id' => (park => 'id');
+    foreign_key 'editer_seacret_id' => (user => 'seacret_id');
+  };
+
+  create_table user_park_equipment_edit_history_row => columns {
+    integer 'history_id';
+    integer 'equipment_name';
+    string 'equipment_comment';
+    integer 'equipment_recommended_age';
+    integer 'equipment_num';
+
+    foreign_key 'history_id' => (user_park_equipment_edit_history => 'id');
+  };
+
+  create_table user_english_park_equipment_edit_history_row => columns {
+    integer 'history_id';
+    integer 'equipment_name';
+    string 'equipment_comment';
+
+    foreign_key 'history_id' => (user_park_equipment_edit_history => 'id');
+  };
+
+  create_table user_park_surrounding_facilitiy_edit_history => columns {
+    integer 'id' => (primary_key, auto_increment);
+    integer 'park_id';
+    integer 'editer_seacret_id';
+    bigint 'edited_time';
+
+    foreign_key 'park_id' => (park => 'id');
+    foreign_key 'editer_seacret_id' => (user => 'seacret_id');
+  };
+
+  create_table user_park_surrounding_facilitiy_edit_history_row => columns {
+    integer 'history_id';
+    integer 'surrounding_facilitiy_name';
+    string 'surrounding_facilitiy_comment';
+
+    foreign_key 'history_id' =>
+      (user_park_surrounding_facilitiy_edit_history => 'id');
+  };
+
+  create_table user_english_park_surrounding_facilitiy_edit_history_row => columns {
+    integer 'history_id';
+    integer 'surrounding_facilitiy_name';
+    string 'surrounding_facilitiy_comment';
+
+    foreign_key 'history_id' =>
+      (user_park_surrounding_facilitiy_edit_history => 'id');
+  };
+
 }
 
 1;
-
