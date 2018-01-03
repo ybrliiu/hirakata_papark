@@ -128,7 +128,7 @@ package Test::HirakataPapark::Container::TestData {
             my $param      = $s->param('param');
             my $equipments = $s->param('equipments');
             $equipments->add_row($param);
-            $equipments->get_row_by_park_id_and_name($param->{park_id}, $param->{name})->get;
+            $equipments->get_row($param->{park_id}, $param->{name})->get;
           },
           lifecycle => 'Singleton',
           dependencies => {
@@ -154,7 +154,7 @@ package Test::HirakataPapark::Container::TestData {
             my $param      = $s->param('param');
             my $equipments = $s->param('equipments');
             $equipments->add_row($param);
-            $equipments->get_row_by_park_id_and_name($param->{park_id}, $param->{name})->get;
+            $equipments->get_row($param->{park_id}, $param->{name})->get;
           },
           lifecycle => 'Singleton',
           dependencies => {
@@ -181,7 +181,7 @@ package Test::HirakataPapark::Container::TestData {
             my $param  = $s->param('param');
             my $plants = $s->param('plants');
             $plants->add_row($param);
-            $plants->get_row_by_park_id_and_name($param->{park_id}, $param->{name})->get;
+            $plants->get_row($param->{park_id}, $param->{name})->get;
           },
           lifecycle => 'Singleton',
           dependencies => {
@@ -207,7 +207,7 @@ package Test::HirakataPapark::Container::TestData {
             my $param  = $s->param('param');
             my $sf     = $s->param('surrounding_facilities');
             $sf->add_row($param);
-            $sf->get_row_by_park_id_and_name($param->{park_id}, $param->{name})->get;
+            $sf->get_row($param->{park_id}, $param->{name})->get;
           },
           lifecycle => 'Singleton',
           dependencies => {

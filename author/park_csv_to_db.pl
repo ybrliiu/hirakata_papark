@@ -92,7 +92,6 @@ sub get_csv_data {
 }
 
 my $park_data_list_orig = get_csv_data('./data/parks_add_english_data_2017_1212.csv');
-shift @$park_data_list_orig;
 
 my @PARK_FIELDS = qw( id name zipcode address y x area is_evacuation_area );
 my @parks = map {
@@ -152,7 +151,7 @@ for my $info (@parks_equipment) {
         park_id => $park_id,
         name    => $equipment_name,
       });
-      my $fc = $facilities_model->model('ja')->get_row_by_park_id_and_name($park_id, $equipment_name)->get;
+      my $fc = $facilities_model->model('ja')->get_row($park_id, $equipment_name)->get;
       $facilities_model->model('en')->add_row({
         id      => $fc->id,
         park_id => $park_id,
@@ -166,7 +165,7 @@ for my $info (@parks_equipment) {
         category => '桜',
         num      => $info->{$equipment_name},
       });
-      my $plants = $plants_model->model('ja')->get_row_by_park_id_and_name($park_id, $equipment_name)->get;
+      my $plants = $plants_model->model('ja')->get_row($park_id, $equipment_name)->get;
       $plants_model->model('en')->add_row({
         id       => $plants->id,
         park_id  => $park_id,
@@ -180,7 +179,7 @@ for my $info (@parks_equipment) {
         name    => $equipment_name,
         num     => $info->{$equipment_name},
       });
-      my $e = $equipments_model->model('ja')->get_row_by_park_id_and_name($park_id, $equipment_name)->get;
+      my $e = $equipments_model->model('ja')->get_row($park_id, $equipment_name)->get;
       $equipments_model->model('en')->add_row({
         id      => $e->id,
         park_id => $park_id,
@@ -218,7 +217,7 @@ for my $info (@parks_equipment) {
       },
     };
     $plants_model->model('ja')->add_row($param);
-    my $plants = $plants_model->model('ja')->get_row_by_park_id_and_name($park_id, $param->{name})->get;
+    my $plants = $plants_model->model('ja')->get_row($park_id, $param->{name})->get;
     my $eparam = {
       id       => $plants->id,
       park_id  => $park_id,
