@@ -64,19 +64,19 @@ package HirakataPapark::Model::LangDict::Common::En {
   sub _build_functions_dict($self) {
     my $words = $self->words_dict;
     +{
-      length_func => sub ($min, $max) {
+      length => sub ($min, $max) {
         "Please enter from ${min} to ${max} characters.";
       },
-      distance_func => sub ($distance) {
+      distance => sub ($distance) {
         "Search parks within ${distance}m";
       },
-      search_by_func => sub ($key) {
+      search_by => sub ($key) {
         "$words->{search} By $words->{$key}";
       },
-      please_input_func => sub ($key) {
+      please_input => sub ($key) {
         "Please input @{[ lcfirst $words->{$key} ]}.";
       },
-      plants_in_func => sub ($park_name) {
+      plants_in => sub ($park_name) {
         "$words->{plants} in $park_name";
       },
     };
