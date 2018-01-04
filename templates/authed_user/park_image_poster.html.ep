@@ -4,7 +4,7 @@
   <div class="card single-content">
     <div class="card-content center-align" id="v-park-image-poster" v-cloak>
       
-      <h2 class="card-title"><%= $lang_dict->get('post_park_image') %></h2>
+      <h2 class="card-title"><%= $lang_dict->get_word('post_park_image')->get %></h2>
   
       <div class="input-field">
         <input
@@ -49,7 +49,7 @@
           <div class="indeterminate"></div>
         </div>
         <button class="waves-effect btn" @click="fetchResponce">
-          <%= $lang_dict->get('post') %>
+          <%= $lang_dict->get_word('post')->get %>
         </button>
       </div>
   
@@ -62,7 +62,7 @@
 window.addEventListener('load', function () {
   hirakataPapark.user().parkImagePoster({
     url: '<%= url_for "/$lang/user/post-park-image/$park_id" %>',
-    titleConditions: "<%= $lang_dict->get('length_func')->(0, $validator->MAX_TITLE_LEN) %>",
+    titleConditions: "<%= $lang_dict->get_func('length')->get->(0, $validator->MAX_TITLE_LEN) %>",
     imageFileConditions: "<%= $message_data->get_message('image_file.file_size')->get %>"
       + "<br><%= $message_data->get_message('filename_extension.choice')->get %>",
   });

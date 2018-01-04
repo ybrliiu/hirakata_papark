@@ -4,7 +4,7 @@
   <h2><%= $title %></h2>
   %= content search_form => begin
   %= end
-  <result title="<%= $lang_dict->get('search_result') %>"></result>
+  <result title="<%= $lang_dict->get_word('search_result')->get %>"></result>
 </div>
 
 <script>

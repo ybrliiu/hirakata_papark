@@ -1,6 +1,6 @@
 % layout "default_${lang}";
 % push @$CSS_FILES, '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css';
-% my $title = $lang_dict->get('login');
+% my $title = $lang_dict->get_word('login')->get;
 
 <div class="container">
 
@@ -38,7 +38,7 @@
       <h3><%= $direct_title %></h3>
       <div class="row" id="v-user-session" v-cloak>
         <div class="input-field col s12">
-          <input placeholder="<%= $lang_dict->get('id') %>" type="text" v-model="id" requried>
+          <input placeholder="<%= $lang_dict->get_word('id')->get %>" type="text" v-model="id" requried>
           <ul class="errors">
             <li class="red-text" v-for="err in idErrors">
               {{ err }}
@@ -46,7 +46,7 @@
           </ul>
         </div>
         <div class="input-field col s12">
-          <input placeholder="<%= $lang_dict->get('password') %>" type="password" v-model="password" requried>
+          <input placeholder="<%= $lang_dict->get_word('password')->get %>" type="password" v-model="password" requried>
           <ul class="errors">
             <li class="red-text" v-for="err in passwordErrors">
               {{ err }}

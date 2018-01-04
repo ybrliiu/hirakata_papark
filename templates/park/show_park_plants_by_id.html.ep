@@ -1,16 +1,16 @@
 % layout "default_$lang";
 
 <div class="container">
-  <h2><%= $lang_dict->get('plants_in_func')->($park->name) %></h2>
+  <h2><%= $lang_dict->get_func('plants_in')->get->($park->name) %></h2>
   <div class="row">
     <div class="col s12">
       <table>
         <thread>
           <tr>
-            <th><%= $lang_dict->get('category') %></th>
-            <th><%= $lang_dict->get('variety') %></th>
-            <th><%= $lang_dict->get('num') %></th>
-            <th><%= $lang_dict->get('remarks') %></th>
+            <th><%= $lang_dict->get_word('category')->get %></th>
+            <th><%= $lang_dict->get_word('variety')->get %></th>
+            <th><%= $lang_dict->get_word('num')->get %></th>
+            <th><%= $lang_dict->get_word('remarks')->get %></th>
           </tr>
         </thread>
         <tbody>
@@ -29,7 +29,7 @@
   <div class="row">
     <div class="col s12">
       <a class="waves-effect btn" href="<%= url_for "/$lang/park/" . $park->id %>">
-        <i class="material-icons left">arrow_back</i><%= $lang_dict->get('back') %>
+        <i class="material-icons left">arrow_back</i><%= $lang_dict->get_word('back')->get %>
       </a>
     </div>
   </div>

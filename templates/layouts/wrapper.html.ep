@@ -13,7 +13,7 @@
     % for (@$CSS_FILES) {
       %= stylesheet url_for "/$_";
     % }
-    <title><%= $lang_dict->get('site_name') %></title>
+    <title><%= $lang_dict->get_word('site_name')->get %></title>
   </head>
   <body>
     % content container => begin

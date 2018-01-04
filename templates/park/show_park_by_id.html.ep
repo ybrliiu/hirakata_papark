@@ -28,7 +28,7 @@
           href="<%= url_for "/$lang/user/park-tagger/" . $park->id %>"
           class="collection-item"
           >
-          <i class="material-icons">add_circle</i><%= $lang_dict->get('add_tag') %>
+          <i class="material-icons">add_circle</i><%= $lang_dict->get_word('add_tag')->get %>
         </a>
         <a
           href="<%= url_for "/$lang/user/park-image-poster/" . $park->id %>"
@@ -68,19 +68,19 @@
       </div>
       <div class="row">
         <div class="col s12">
-          <label for="name"><%= $lang_dict->get('name') %></label>
+          <label for="name"><%= $lang_dict->get_word('name')->get %></label>
           <input id="name" type="text" v-model="name">
         </div>
       </div>
       <div class="row">
         <div class="col s12">
-          <label for="name"><%= $lang_dict->get('text_body') %></label>
+          <label for="name"><%= $lang_dict->get_word('text_body')->get %></label>
           <textarea class="original-textarea" rows="6" v-model="message"></textarea>
         </div>
       </div>
       <div class="row">
         <div class="col s12 right">
-          <button class="waves-effect btn right" @click="send"><%= $lang_dict->get('post') %></button>
+          <button class="waves-effect btn right" @click="send"><%= $lang_dict->get_word('post')->get %></button>
         </div>
       </div>
     </div>
@@ -90,7 +90,7 @@
     <div class="col l6 s12">
       <div class="row">
         <div class="col s12">
-          <h3><%= $lang_dict->get('comments') %></h3>
+          <h3><%= $lang_dict->get_word('comments')->get %></h3>
           <div v-html="comments"></div>
         </div>
       </div>
@@ -99,30 +99,30 @@
 
   <div id="v-park-nav-bar" v-cloak>
     <vue-nav-bar-tabs>
-      <tab title="<%= $lang_dict->get('overview') %>">
+      <tab title="<%= $lang_dict->get_word('overview')->get %>">
 
         <div class="row">
           <div class="col l6 s12">
             <h3><%= $details_title %></h3>
-            <p><%= $lang_dict->get('address') %> : <%= $park->address %></p>
-            <p><%= $lang_dict->get('latitude') %> : <%= $park->y %>, <%= $lang_dict->get('longitude') %> : <%= $park->x %>
-            <p><%= $lang_dict->get('area') %> : <%= $park->area %> ㎡ (<%= $lang_dict->get('extent') %> : <%= $park->size %>)</p>
-            <p><%= $lang_dict->get('temp_evacuation_area') %> : <%= $park->is_evacuation_area ? '○' : '×' %></p>
+            <p><%= $lang_dict->get_word('address')->get %> : <%= $park->address %></p>
+            <p><%= $lang_dict->get_word('latitude')->get %> : <%= $park->y %>, <%= $lang_dict->get_word('longitude')->get %> : <%= $park->x %>
+            <p><%= $lang_dict->get_word('area')->get %> : <%= $park->area %> ㎡ (<%= $lang_dict->get_word('extent')->get %> : <%= $park->size %>)</p>
+            <p><%= $lang_dict->get_word('temp_evacuation_area')->get %> : <%= $park->is_evacuation_area ? '○' : '×' %></p>
           </div>
           <div class="col l6 s12">
-            <h3><%= $lang_dict->get('map') %></h3>
+            <h3><%= $lang_dict->get_word('map')->get %></h3>
             <div id="park-map-small" class="card-content"></div>
           </div>
         </div>
 
         <div class="row">
           <div class="col l6 s12">
-            <h3><%= $lang_dict->get('equipment') %></h3>
+            <h3><%= $lang_dict->get_word('equipment')->get %></h3>
             <table>
               <tr>
-                <th style="max-width: 33%"><%= $lang_dict->get('name') %></th>
-                <th><%= $lang_dict->get('num') %></th>
-                <th><%= $lang_dict->get('remarks') %></th>
+                <th style="max-width: 33%"><%= $lang_dict->get_word('name')->get %></th>
+                <th><%= $lang_dict->get_word('num')->get %></th>
+                <th><%= $lang_dict->get_word('remarks')->get %></th>
               </tr>
               <tbody>
               % for my $equipment ($park->equipments->@*) {
@@ -136,28 +136,28 @@
             </table>
           </div>
           <div class="col l6 s12">
-            <h3><%= $lang_dict->get('plants') %></h3>
+            <h3><%= $lang_dict->get_word('plants')->get %></h3>
             <p><%= join ', ', $park->plants_categories->@* %></p>
             <a class="waves-effect btn" href="<%= url_for "/$lang/park/plants/" . $park->id %>">
-              <i class="material-icons right">arrow_forward</i><%= $lang_dict->get('details') %>
+              <i class="material-icons right">arrow_forward</i><%= $lang_dict->get_word('details')->get %>
             </a>
-            <h3><%= $lang_dict->get('surrounding_facility') %></h3>
+            <h3><%= $lang_dict->get_word('surrounding_facility')->get %></h3>
             <p><%= join ', ', $park->surrounding_facility_names->@* %></p>
           </div>
         </div>
 
       </tab>
-      <tab title="<%= $lang_dict->get('comments') %>">
+      <tab title="<%= $lang_dict->get_word('comments')->get %>">
         <div class="row">
           <comment-form></comment-form>
           <comment></comment>
         </div>
       </tab>
-      <tab title="<%= $lang_dict->get('images') %>">
+      <tab title="<%= $lang_dict->get_word('images')->get %>">
 
         <div class="row">
           <div class="col s12">
-            <h3><%= $lang_dict->get('images') %></h3>
+            <h3><%= $lang_dict->get_word('images')->get %></h3>
             <vue-images
               :imgs="images"
               :modalclose="true"

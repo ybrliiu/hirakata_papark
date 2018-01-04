@@ -4,7 +4,7 @@
   <div class="card single-content">
     <div class="card-content center-align" id="v-user-twitter-register-modifiable" v-cloak>
       
-      <h2 class="card-title"><%= $lang_dict->get('regist_from_twitter') %></h2>
+      <h2 class="card-title"><%= $lang_dict->get_word('regist_from_twitter')->get %></h2>
   
       % $maybe_register_errors->map(sub {
         % my $e = shift;
@@ -29,7 +29,7 @@
   
       <div class="input-field">
         <input
-          placeholder="<%= $lang_dict->get('name') %>" type="text"
+          placeholder="<%= $lang_dict->get_word('name')->get %>" type="text"
           v-tooltip.top-center="nameConditions" v-model="name"
         required>
         <ul class="errors">
@@ -40,7 +40,7 @@
       </div>
       <div class="input-field">
         <button class="waves-effect btn" @click="fetchResponce">
-          <%= $lang_dict->get('registration') %>
+          <%= $lang_dict->get_word('registration')->get %>
         </button>
       </div>
   
@@ -49,7 +49,7 @@
 </div>
 
 <script>
-% my $length_func = $lang_dict->get('length_func');
+% my $length_func = $lang_dict->get_func('length')->get;
 'use strict';
 window.addEventListener('load', function () {
   hirakataPapark.user().twitterRegisterModifiable({

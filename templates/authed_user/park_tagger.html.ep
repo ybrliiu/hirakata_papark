@@ -1,6 +1,6 @@
 % layout "default_${lang}";
 
-% my $add_tag = $lang_dict->get('add_tag');
+% my $add_tag = $lang_dict->get_word('add_tag')->get;
 <div class="container">
   <div class="card single-content">
     <div class="card-content center-align" id="v-park-tagger" v-cloak>
@@ -8,7 +8,7 @@
       <h2 class="card-title"><%= $add_tag %></h2>
 
       <div class="left-align">
-        <%= $lang_dict->get('tag_list') %><br>
+        <%= $lang_dict->get_word('tag_list')->get %><br>
       % for my $tag (@$tag_list) {
         <div class="chip"><%= $tag->name %></div>
       % }
@@ -16,7 +16,7 @@
     
       <div class="input-field">
         <input
-          placeholder="<%= $lang_dict->get('tag_name') %>"
+          placeholder="<%= $lang_dict->get_word('tag_name')->get %>"
           type="text"
           v-model="tagName"
           v-tooltip.top-center="tagNameConditions"
@@ -40,7 +40,7 @@
 window.addEventListener('load', function () {
   hirakataPapark.user().parkTagger({
     url: '<%= url_for "/$lang/user/add-park-tag/" . $park_id %>',
-    tagNameConditions: '<%= $lang_dict->get('length_func')->($validator->MIN_TAG_NAME_LEN, $validator->MAX_TAG_NAME_LEN) %>',
+    tagNameConditions: '<%= $lang_dict->get_func('length')->get->($validator->MIN_TAG_NAME_LEN, $validator->MAX_TAG_NAME_LEN) %>',
   });
 });
 </script>

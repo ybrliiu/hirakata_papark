@@ -9,13 +9,13 @@
       href="/<%= url_for "${lang}/searcher/${url}" %>"
     >
       <i class="material-icons right">arrow_forward</i>
-      <%= $lang_dict->get('search_by_func')->($keyword) %>
+      <%= $lang_dict->get_func('search_by')->get->($keyword) %>
     </a>
   </div>
 % end
 
 <div class="container">
-  <h2><%= $lang_dict->get('search_park') %></h2>
+  <h2><%= $lang_dict->get_word('search_park')->get %></h2>
   <div class="row">
 % for my $keyword (qw/ name equipment address surrounding_facility plants tag /) {
     <%= $search_btn->($keyword) %>

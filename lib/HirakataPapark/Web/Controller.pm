@@ -5,7 +5,7 @@ package HirakataPapark::Web::Controller {
   use Option;
   use HirakataPapark::Container;
   use HirakataPapark::Model::Users::Users;
-  use HirakataPapark::Class::LangDict::MultilingualDelegator;
+  use HirakataPapark::Model::MultilingualDelegator::LangDict::Common;
 
   use constant NOT_FOUND => 404;
 
@@ -22,7 +22,8 @@ package HirakataPapark::Web::Controller {
   };
 
   has 'lang_dict' => sub ($self) {
-    HirakataPapark::Class::LangDict::MultilingualDelegator->instance->lang_dict($self->lang)
+    HirakataPapark::Model::MultilingualDelegator::LangDict::Common
+      ->instance->lang_dict($self->lang)
   };
 
   has 'maybe_user' => sub ($self) {

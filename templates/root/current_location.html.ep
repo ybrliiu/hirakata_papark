@@ -3,7 +3,7 @@
 
 <div class="container">
 
-  <h2><%= $lang_dict->get('nearby_parks') %></h2>
+  <h2><%= $lang_dict->get_word('nearby_parks')->get %></h2>
 
   <div class="row">
     <div class="col s12 card">
@@ -16,7 +16,7 @@
     <div class="row">
       <div class="col s8">
         <select-value name="distance">
-        % my $distance_func = $lang_dict->get('distance_func');
+        % my $distance_func = $lang_dict->get_func('distance')->get;
         % for my $num ( map { $_ * 200 } 1 .. 10 ) {
           <option value="<%= $num %>"><%= $distance_func->($num) %></option>
         % }
@@ -31,7 +31,7 @@
       </div>
     </div>
   
-    <result title="<%= $lang_dict->get('search_result') %>"></result>
+    <result title="<%= $lang_dict->get_word('search_result')->get %>"></result>
   
   </div>
 

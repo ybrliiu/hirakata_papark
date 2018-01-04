@@ -1,4 +1,4 @@
-% my $site_name = $lang_dict->get('site_name');
+% my $site_name = $lang_dict->get_word('site_name')->get;
 <nav>
   <div id="side-menu" class="nav-wrapper green darken-3">
     <a href="<%= url_for "/$lang" %>" class="brand-logo center"><%= $site_name %></a>
@@ -12,41 +12,41 @@
         </li>
         <li>
           <a href="<%= url_for "/$lang" %>">
-            <i class="material-icons">map</i><%= $lang_dict->get('park_map') %>
+            <i class="material-icons">map</i><%= $lang_dict->get_word('park_map')->get %>
           </a>
         </li>
         <li>
           <a href="<%= url_for "/$lang/searcher" %>">
-            <i class="material-icons">search</i><%= $lang_dict->get('search') %>
+            <i class="material-icons">search</i><%= $lang_dict->get_word('search')->get %>
           </a>
         </li>
         <li>
           <a href="<%= url_for "/$lang/current-location" %>">
-            <i class="material-icons">my_location</i><%= $lang_dict->get('nearby_parks') %>
+            <i class="material-icons">my_location</i><%= $lang_dict->get_word('nearby_parks')->get %>
           </a>
         </li>
       % $maybe_user->match(
       %   Some => sub {
         <li>
           <a href="<%= url_for "/$lang/user/mypage" %>">
-            <i class="material-icons">account_circle</i><%= $lang_dict->get('mypage') %>
+            <i class="material-icons">account_circle</i><%= $lang_dict->get_word('mypage')->get %>
           </a>
         </li>
         <li>
           <a href="<%= url_for "/$lang/user/logout" %>">
-            <i class="material-icons">exit_to_app</i><%= $lang_dict->get('logout') %>
+            <i class="material-icons">exit_to_app</i><%= $lang_dict->get_word('logout')->get %>
           </a>
         </li>
       %   },
       %   None => sub {
         <li>
           <a href="<%= url_for "/$lang/user/session" %>">
-            <i class="material-icons">exit_to_app</i><%= $lang_dict->get('login') %>
+            <i class="material-icons">exit_to_app</i><%= $lang_dict->get_word('login')->get %>
           </a>
         </li>
         <li>
           <a href="<%= url_for "/$lang/user/register" %>">
-            <i class="material-icons">person_add</i><%= $lang_dict->get('user_registration') %>
+            <i class="material-icons">person_add</i><%= $lang_dict->get_word('user_registration')->get %>
           </a>
         </li>
       %   },

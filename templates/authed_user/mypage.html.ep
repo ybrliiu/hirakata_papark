@@ -2,7 +2,7 @@
 
 <div class="container">
 
-  <h2><%= $lang_dict->get('mypage') %></h2>
+  <h2><%= $lang_dict->get_word('mypage')->get %></h2>
 
   <div class="row">
 
@@ -13,23 +13,23 @@
           <table>
             <tbody>
               <tr>
-                <th><%= $lang_dict->get('id') %></th>
+                <th><%= $lang_dict->get_word('id')->get %></th>
                 <td><%= $user->id %></td>
               </tr>
               <tr>
-                <th><%= $lang_dict->get('name') %></th>
+                <th><%= $lang_dict->get_word('name')->get %></th>
                 <td><%= $user->name %></td>
               </tr>
               <tr>
-                <th><%= $lang_dict->get('password') %></th>
+                <th><%= $lang_dict->get_word('password')->get %></th>
                 <td><%= '*' x length $user->password %></td>
               </tr>
               <tr>
-                <th><%= $lang_dict->get('address') %></th>
+                <th><%= $lang_dict->get_word('address')->get %></th>
                 <td><%= $user->address %></td>
               </tr>
               <tr>
-                <th><%= $lang_dict->get('profile') %></th>
+                <th><%= $lang_dict->get_word('profile')->get %></th>
                 <td><%= $user->profile %></td>
               </tr>
             </tbody>

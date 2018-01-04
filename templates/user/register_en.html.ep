@@ -2,7 +2,7 @@
   title => 'User Registration',
   description => qq{
     By registering users, you will be able to post pictures of parks, edit and add park information, and more.<br>
-    Let's register user and take advantage of $config->{site}{english_name}'s features!<br>
+    Let's register user and take advantage of @{[ $lang_dict->get_word('site_name')->get ]}'s features!<br>
   },
   sns_title      => 'New Registration From SNS',
   direct_title   => 'Registration',

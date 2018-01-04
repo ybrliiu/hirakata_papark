@@ -3,23 +3,15 @@ package HirakataPapark::Validator::DefaultMessageData {
   use Mouse;
   use HirakataPapark;
   use HirakataPapark::Validator::MessageData;
+  use HirakataPapark::Model::MultilingualDelegator::LangDict::Common;
 
   with 'HirakataPapark::Validator::MessageDataDelegator';
 
+  my $dict = HirakataPapark::Model::MultilingualDelegator::LangDict::Common->instance;
+
   sub create_japanese_data($self) {
     HirakataPapark::Validator::MessageData->new({
-      param => {
-        name        => '名前',
-        id          => 'ID',
-        password    => 'パスワード',
-        address     => '住所',
-        profile     => 'プロフィール',
-        twitter_id  => 'Twitter ID',
-        facebook_id => 'Facebook ID',
-        park_id     => '公園ID',
-        tag_name    => 'タグ名',
-        image_file  => '画像ファイル',
-      },
+      param => $dict->lang_dict('ja')->words_dict,
       function => {
         not_null      => '[_1]を入力してください。',
         int           => '[_1]には整数以外の値は入力できません。',
@@ -34,18 +26,7 @@ package HirakataPapark::Validator::DefaultMessageData {
 
   sub create_english_data($self) {
     HirakataPapark::Validator::MessageData->new({
-      param => {
-        name        => 'Name',
-        id          => 'ID',
-        password    => 'Password',
-        address     => 'Address',
-        profile     => 'Profile',
-        twitter_id  => 'Twitter ID',
-        facebook_id => 'Facebook ID',
-        park_id     => 'Park ID',
-        tag_name    => 'Tag Name',
-        image_file  => 'Image File',
-      },
+      param => $dict->lang_dict('en')->words_dict,
       function => {
         not_null      => 'Please input [_1].',
         int           => 'You cannot enter value other than integers on the [_1].',
@@ -55,7 +36,6 @@ package HirakataPapark::Validator::DefaultMessageData {
         equal         => 'Wrong [_1].',
         already_exist => 'The [_1] is already used.',
       },
-      message => {},
     });
   }
 

@@ -58,7 +58,7 @@
     </div>
     <div class="input-field col s12">
       <input
-        placeholder="<%= $lang_dict->get('password') %>"
+        placeholder="<%= $lang_dict->get_word('password')->get %>"
         type="password"
         v-tooltip.top-center="passWordConditions"
         v-model="password"
@@ -71,7 +71,7 @@
     </div>
     <div class="input-field col s12">
       <button class="waves-effect btn-large" @click="fetchResponce">
-        <%= $lang_dict->get('registration') %>
+        <%= $lang_dict->get_word('registration')->get %>
       </button>
     </div>
 
@@ -82,7 +82,7 @@
 
 <script>
 'use strict';
-% my $length_func = $lang_dict->get('length_func');
+% my $length_func = $lang_dict->get_func('length')->get;
 window.addEventListener('load', function () {
   hirakataPapark.user().register({
     url: '<%= url_for "/$lang/user/regist" %>',
