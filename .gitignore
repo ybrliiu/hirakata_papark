@@ -5,6 +5,7 @@ etc/config/twitter.conf
 etc/sessions/*
 !etc/sessions/.gitkeep
 assets/assetpack.db
+assets/json/lang-dicts/.lang_dicts_hitstory.pl
 assets/js/.js_histories.db
 assets/js/bundle.js
 assets/cache/*

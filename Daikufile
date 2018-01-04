@@ -4,12 +4,13 @@ task default => 'run';
 
 desc '本番モードで起動';
 task 'run' => sub {
-  sh qw( hypnotoad script/hirakata_papark );
+  sh qw( ./local/bin/hypnotoad script/hirakata_papark );
 };
 
 desc '開発モードで起動';
 task 'run-dev' => sub {
-  sh 'MOJO_MODE=development ./local/bin/morbo script/hirakata_papark';
+  sh 'MOJO_MODE=development ./local/bin/hypnotoad script/hirakata_papark';
+  sh qw( perl script/build.pl );
 };
 
 desc 'JavaScriptビルド(本番用)';
