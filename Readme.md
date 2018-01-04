@@ -5,6 +5,8 @@
 * 1/4
 * 公園情報の編集
 1. 辞書ライブラリを作成
+  1. Class::LangDict -> Model::LangDict に切り替えていく
+  1. Model::LangDict::Park::*をJSONに変換して出力するプログラム作成, runするたびに変更がないか確かめて変更があればJSONを出力
 1. Model::Park::EditHistory::Park, Plants, Equipments, SurroundingFacilities作成
 1. Service作成
 1. クライアント側作成
