@@ -11,7 +11,7 @@ package HirakataPapark::Web {
   use constant SESSION_EXPIRES_TIME => 60 * 60 * 24;
 
   sub load_and_set_up_plugins($self) {
-    $self->plugin(Config => { file => "etc/config/$_.conf" }) for qw( site plugin hypnotoad );
+    $self->plugin(Config => { file => "etc/config/$_.conf" }) for qw( plugin hypnotoad );
     $self->plugin( AssetPack =>
         { pipes => [qw/ Css Sass HirakataPapark::Web::Plugin::AssetPack::Pipe::BundleJS /] } );
     $self->asset->process('base.css' => 'scss/base.scss');

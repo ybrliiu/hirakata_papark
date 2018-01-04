@@ -34,6 +34,8 @@ package HirakataPapark::Class::LangDict::MultilingualDelegator {
     $instances_table->{$lang} = $self->lang_dict_class_names_table->{$lang}->new;
   }
 
+  __PACKAGE__->meta->make_immutable;
+
 }
 
 1;

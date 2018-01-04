@@ -24,9 +24,13 @@ package HirakataPapark::Class::Upload {
     builder => '_build_filename_without_extension',
   );
 
-  sub _build_filename_extension($self) { ($self->filename =~ /.*?\.(.*)/)[0] }
+  sub _build_filename_extension($self) {
+    ($self->filename =~ /.*?\.(.*)/)[0]
+  }
 
-  sub _build_filename_without_extension($self) { ($self->filename =~ /(.*?)\..*/)[0] }
+  sub _build_filename_without_extension($self) {
+    ($self->filename =~ /(.*?)\..*/)[0]
+  }
 
   __PACKAGE__->meta->make_immutable;
 
