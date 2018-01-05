@@ -54,18 +54,15 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park::History {
 
   has 'foreign_lang_table_sets' => (
     is       => 'ro',
-    isa      => LangAndDiffColumnSetsPairs,
+    isa      => ForeignLangTableSets,
     handles  => [qw( has_all )],
     required => 1,
   );
 
   my $meta = __PACKAGE__->meta;
-  for my $column_name ( map { "park_$_" } qw( name zipcode address explain ) ) {
+  for my $column_name ( map { "park_$_" } qw( name address explain ) ) {
     $meta->add_method($column_name => sub ($self) {
-      $self->lang_and_diff_column_sets_pairs
-        ->get_sets($self->lang)
-        ->get_value($column_name)
-        ->get;
+      $self->foreign_lang_table_sets->get_sets($self->lang)->get->$column_name;
     })
   }
 

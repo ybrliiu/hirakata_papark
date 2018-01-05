@@ -10,7 +10,7 @@ package Option::Option {
 
   sub fold;
 
-  sub foreach {
+  sub foreach :method {
     my ($self, $code) = @_;
     Carp::croak 'Too few arguments (required: $code)' if @_ < 2;
     $self->yield($code);
@@ -33,7 +33,7 @@ package Option::Option {
 
   sub is_empty { !shift->is_defined }
 
-  sub map;
+  sub map :method;
 
   sub match;
 

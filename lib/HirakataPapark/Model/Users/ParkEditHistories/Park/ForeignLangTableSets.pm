@@ -27,6 +27,11 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park::ForeignLangTableS
 
   }
 
+  sub get_sets($self, $lang) {
+    my $attr_name = "maybe_$lang";
+    $self->can($attr_name) ? $self->$attr_name : none;
+  }
+
   sub has_all($self) {
     my $has_empty = grep { $self->$_->is_empty } 
       map { "maybe_$_" } HirakataPapark::Types->LANGS->@*;

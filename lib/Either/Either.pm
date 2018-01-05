@@ -5,8 +5,6 @@ package Either::Either {
   use parent 'Either::Projection';
 
   use Carp ();
-  use Option::Some;
-  use Option::None;
   use Either::LeftProjection;
   use Either::RightProjection;
 

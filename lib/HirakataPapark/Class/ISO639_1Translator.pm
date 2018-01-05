@@ -10,7 +10,7 @@ package HirakataPapark::Class::ISO639_1Translator {
       en => 'eng',
       ja => 'jpn',
     };
-    $table->{$iso639_1} // HirakataPapark::Exception->throw('not found.');
+    $table->{$iso639_1} // HirakataPapark::Exception->throw("not found $_.");
   }
 
   sub to_word($iso639_1) {
@@ -18,7 +18,7 @@ package HirakataPapark::Class::ISO639_1Translator {
       en => 'english',
       ja => 'japanese',
     };
-    $table->{$iso639_1} // HirakataPapark::Exception->throw('not found.');
+    $table->{$iso639_1} // HirakataPapark::Exception->throw("not found $_.");
   }
 
 }

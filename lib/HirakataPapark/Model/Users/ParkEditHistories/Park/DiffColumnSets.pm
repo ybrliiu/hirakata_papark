@@ -2,7 +2,6 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park::DiffColumnSets {
 
   use Mouse;
   use HirakataPapark;
-  use Option;
 
   use constant DIFF_COLUMNS => [ map { "park_$_" } qw( name address explain ) ];
 

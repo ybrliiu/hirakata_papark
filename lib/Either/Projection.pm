@@ -2,8 +2,8 @@ package Either::Projection {
 
   use v5.14;
   use warnings;
-
   use Carp ();
+
   use Option::Some;
   use Option::None;
 

@@ -5,12 +5,11 @@ package Option {
 
   our $VERSION = '0.03';
 
-  use Carp;
   use Option::Some;
   use Option::None;
 
   use Exporter qw( import );
-  our @EXPORT = qw( option some none for_each for_yield );
+  our @EXPORT = qw( option some none );
 
   sub option($) {
     defined $_[0] ? Option::Some->new($_[0]) : Option::None->new;
