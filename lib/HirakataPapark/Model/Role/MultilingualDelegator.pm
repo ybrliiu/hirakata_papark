@@ -2,6 +2,7 @@ package HirakataPapark::Model::Role::MultilingualDelegator {
 
   use Mouse::Role;
   use HirakataPapark;
+  use HirakataPapark::Types;
 
   use Smart::Args ();
 
@@ -24,7 +25,7 @@ package HirakataPapark::Model::Role::MultilingualDelegator {
   requires qw( _build_lang_to_model_table );
 
   sub model {
-    Smart::Args::args_pos my $self, my $lang => 'HirakataPapark::lang';
+    Smart::Args::args_pos my $self, my $lang => 'HirakataPapark::Types::Lang';
     my $model_instances = $self->model_instances;
     return $model_instances->{$lang} if exists $model_instances->{$lang};
     $model_instances->{$lang} = $self->lang_to_model_table->{$lang}->new(db => $self->db);

@@ -2,6 +2,7 @@ package HirakataPapark::Service::Build::TranslateLangDictToJSONAndSave::Job {
 
   use Mouse;
   use HirakataPapark;
+  use HirakataPapark::Types;
   use JSON::XS qw( encode_json );
   use Path::Tiny qw( path );
 
@@ -45,7 +46,7 @@ package HirakataPapark::Service::Build::TranslateLangDictToJSONAndSave::Job {
   }
 
   sub run($self) {
-    for my $lang (HirakataPapark->LANG->@*) {
+    for my $lang (HirakataPapark::Types->LANGS->@*) {
       $self->translate_and_save($lang);
     }
   }

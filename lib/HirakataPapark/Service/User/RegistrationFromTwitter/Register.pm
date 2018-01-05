@@ -2,6 +2,7 @@ package HirakataPapark::Service::User::RegistrationFromTwitter::Register {
 
   use Mouse;
   use HirakataPapark;
+  use HirakataPapark::Types;
   use Either;
   use Try::Tiny;
   use HirakataPapark::Validator::Params;
@@ -10,7 +11,7 @@ package HirakataPapark::Service::User::RegistrationFromTwitter::Register {
 
   use constant ERRORS_SESSION_KEY => 'sns_register.errors';
 
-  has 'lang' => ( is => 'ro', isa => 'HirakataPapark::lang', required => 1 );
+  has 'lang' => ( is => 'ro', isa => 'HirakataPapark::Types::Lang', required => 1 );
 
   has 'users' => (
     is       => 'ro',

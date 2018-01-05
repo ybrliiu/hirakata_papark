@@ -2,13 +2,14 @@ package HirakataPapark::Service::User::Park::ImagePoster::Poster {
 
   use Mouse;
   use HirakataPapark;
+  use HirakataPapark::Types;
   use Either;
   use Try::Tiny;
   use HirakataPapark::Class::Upload;
   use HirakataPapark::Service::User::Park::ImagePoster::MessageData;
   use HirakataPapark::Service::User::Park::ImagePoster::Validator;
 
-  has 'lang' => ( is => 'ro', isa => 'HirakataPapark::lang', required => 1 );
+  has 'lang' => ( is => 'ro', isa => 'HirakataPapark::Types::Lang', required => 1 );
 
   has 'user' => (
     is       => 'ro',

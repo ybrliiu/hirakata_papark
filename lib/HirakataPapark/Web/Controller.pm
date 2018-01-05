@@ -1,8 +1,9 @@
 package HirakataPapark::Web::Controller {
 
   use Mojo::Base 'Mojolicious::Controller';
-  use HirakataPapark;
   use Option;
+  use HirakataPapark;
+  use HirakataPapark::Types;
   use HirakataPapark::Container;
   use HirakataPapark::Model::Users::Users;
   use HirakataPapark::Model::MultilingualDelegator::LangDict::Common;
@@ -18,7 +19,8 @@ package HirakataPapark::Web::Controller {
 
   has 'lang' => sub ($self) {
     my $lang = $self->param('lang');
-    exists HirakataPapark->LANG_TABLE->{$lang} ? $lang : HirakataPapark->DEFAULT_LANG;
+    exists HirakataPapark::Types->LANGS_TABLE->{$lang}
+      ? $lang : HirakataPapark::Types->DEFAULT_LANG;
   };
 
   has 'lang_dict' => sub ($self) {

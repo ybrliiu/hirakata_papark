@@ -2,12 +2,13 @@ package HirakataPapark::Service::User::Park::Tagger::Tagger {
 
   use Mouse;
   use HirakataPapark;
+  use HirakataPapark::Types;
   use Either;
   use Try::Tiny;
   use HirakataPapark::Validator::DefaultMessageData;
   use HirakataPapark::Service::User::Park::Tagger::Validator;
 
-  has 'lang' => ( is => 'ro', isa => 'HirakataPapark::lang', required => 1 );
+  has 'lang' => ( is => 'ro', isa => 'HirakataPapark::Types::Lang', required => 1 );
 
   has 'params' => (
     is       => 'ro',

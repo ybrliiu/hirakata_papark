@@ -2,6 +2,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park {
 
   use Mouse;
   use HirakataPapark;
+  use HirakataPapark::Types;
   use Smart::Args qw( args );
 
   use Option;
@@ -10,7 +11,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park {
   has 'db' => ( is => 'ro', isa => 'HirakataPapark::DB', required => 1 );
 
   sub add_history {
-    args my $self, my $lang => 'HirakataPapark::lang', 
+    args my $self, my $lang => 'HirakataPapark::Types::Lang', 
   }
 
   sub get_histories_by_park_id($self, $park_id, $num) {

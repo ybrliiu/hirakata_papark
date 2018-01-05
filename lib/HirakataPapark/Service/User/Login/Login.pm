@@ -7,7 +7,7 @@ package HirakataPapark::Service::User::Login::Login {
   use HirakataPapark::Service::User::Login::Validator;
   use HirakataPapark::Service::User::Login::MessageData;
 
-  has 'lang' => ( is => 'ro', isa => 'HirakataPapark::lang', required => 1 );
+  has 'lang' => ( is => 'ro', isa => 'HirakataPapark::Types::Lang', required => 1 );
   
   has 'params' => (
     is       => 'ro',

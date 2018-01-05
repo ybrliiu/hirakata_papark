@@ -2,12 +2,13 @@ package HirakataPapark::Service::User::Regist::Register {
 
   use Mouse;
   use HirakataPapark;
+  use HirakataPapark::Types;
   use Either;
   use Try::Tiny;
   use HirakataPapark::Service::User::Regist::Validator;
   use HirakataPapark::Service::User::Regist::MessageData;
 
-  has 'lang' => ( is => 'ro', isa => 'HirakataPapark::lang', required => 1 );
+  has 'lang' => ( is => 'ro', isa => 'HirakataPapark::Types::Lang', required => 1 );
 
   has 'users' => (
     is       => 'ro',

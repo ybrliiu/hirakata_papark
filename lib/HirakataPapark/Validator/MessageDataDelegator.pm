@@ -2,6 +2,7 @@ package HirakataPapark::Validator::MessageDataDelegator {
 
   use Mouse::Role;
   use HirakataPapark;
+  use HirakataPapark::Types;
   use Smart::Args ();
 
   with 'HirakataPapark::Role::Singleton';
@@ -27,7 +28,7 @@ package HirakataPapark::Validator::MessageDataDelegator {
   }
 
   sub message_data {
-    Smart::Args::args_pos my $self, my $lang => 'HirakataPapark::lang';
+    Smart::Args::args_pos my $self, my $lang => 'HirakataPapark::Types::Lang';
     $self->lang_to_data_table->{$lang};
   }
 
