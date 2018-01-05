@@ -20,48 +20,6 @@ package Option {
 
   sub none { Option::None->new() }
 
-  sub _rec_for_each {
-    my ($iters, $index, $params, $code) = @_;
-    if ($index == @$iters - 1) {
-      $iters->[$index]->foreach(sub {
-        my $c = shift;
-        $code->(@$params, $c);
-      });
-    } else {
-      $iters->[$index]->foreach(sub {
-        my $c = shift;
-        push @$params, $c;
-        _rec_for_each($iters, $index + 1, $params, $code);
-      });
-    }
-  }
-
-  sub for_each {
-    my ($iters, $code) = @_;
-    _rec_for_each($iters, 0, [], $code);
-  }
-
-  sub _rec_for_yield {
-    my ($iters, $index, $params, $code) = @_;
-    if ($index == @$iters - 1) {
-      $iters->[$index]->map(sub {
-        my $c = shift;
-        $code->(@$params, $c);
-      });
-    } else {
-      $iters->[$index]->flat_map(sub {
-        my $c = shift;
-        push @$params, $c;
-        _rec_for_yield($iters, $index + 1, $params, $code);
-      });
-    }
-  }
-
-  sub for_yield {
-    my ($iters, $code) = @_;
-    _rec_for_yield($iters, 0, [], $code);
-  }
-
 }
 
 1;

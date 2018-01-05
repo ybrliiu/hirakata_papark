@@ -11,6 +11,7 @@
 1. 終わったらスキーマとModel::Role::DBをスキーマの変更に強くする, 
    また, Model::Role::DB, SelectColumnesMaker, Model::Users::ParkEditHistories::Base
    と共通化させるべき部分はくくりだす
+1. ForeignLanguage -> ForeignLang
 
 * 1/5
 *公園の追加

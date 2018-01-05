@@ -2,6 +2,8 @@ package HirakataPapark::Class::ISO639_1Translator {
 
   use HirakataPapark;
   use HirakataPapark::Exception;
+  use Exporter qw( import );
+  our @EXPORT_OK = qw( to_iso639_2 to_word );
 
   sub to_iso639_2($iso639_1) {
     state $table = {
