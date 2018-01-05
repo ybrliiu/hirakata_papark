@@ -4,34 +4,17 @@ package HirakataPapark 0.01 {
   use warnings;
   use utf8;
   use feature qw( :5.24 signatures );
-
-  use Data::Dumper;
-  use Module::Load 'autoload_remote';
-  use Mouse::Util::TypeConstraints qw( enum );
   no warnings 'experimental::signatures';
 
   # Data::Dumper utf8対応
+  use Data::Dumper;
   {
     no warnings 'redefine';
     *Data::Dumper::qquote = sub { shift };
   }
   $Data::Dumper::Useperl = 1;
 
-  sub import($class, $option = '') {
-
-    my $pkg = caller;
-
-    if ($option eq 'test') {
-      unshift @INC, './t/lib'; # テストの時パス追加
-      my @load = qw(
-        Test::More
-        Test::Exception
-        Test2::Plugin::UTF8
-      );
-      autoload_remote($pkg, $_) for @load;
-      autoload_remote($pkg, 'Test2::Plugin::Name::FromLine', is_guess_test_line => 1);
-    }
-
+  sub import($class) {
     $class->import_pragma;
   }
   

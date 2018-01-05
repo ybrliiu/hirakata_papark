@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 use HirakataPapark::Exception;
 
 dies_ok { HirakataPapark::Exception->throw('test throw') };

@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 use Test::HirakataPapark::Container;
 use Mojo::Upload;
 use Mojo::Asset::Memory;

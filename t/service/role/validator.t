@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 use HirakataPapark::Validator::Params;
 use HirakataPapark::Validator::DefaultMessageData;
 

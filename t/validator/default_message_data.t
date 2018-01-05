@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 use HirakataPapark::Validator::DefaultMessageData;
 
 ok my $factory = HirakataPapark::Validator::DefaultMessageData->instance;

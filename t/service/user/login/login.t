@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 use Plack::Session;
 use Plack::Session::Store::File;
 use Plack::Session::State::Cookie;

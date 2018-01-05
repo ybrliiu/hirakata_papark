@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 use Path::Tiny;
 use JSON::XS;
 use HirakataPapark::Service::Build::TranslateLangDictToJSONAndSave::JobRunner;

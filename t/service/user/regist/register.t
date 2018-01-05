@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 use Test::HirakataPapark::Container;
 use HirakataPapark::Validator::Params;
 use HirakataPapark::Service::User::Regist::MessageData;

@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 
 use Test::HirakataPapark::Container;
 my $c = Test::HirakataPapark::Container->new;

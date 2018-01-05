@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 use Mojo::Upload;
 use HirakataPapark::Class::Upload;
 

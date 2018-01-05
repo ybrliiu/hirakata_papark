@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 use HirakataPapark::Model::MultilingualDelegator::LangDict::Common;
 
 my $delegator;

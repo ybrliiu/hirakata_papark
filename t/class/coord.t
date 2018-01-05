@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 
 use_ok 'HirakataPapark::Class::Coord';
 

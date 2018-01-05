@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 use Path::Tiny;
 use HirakataPapark::Web::Plugin::AssetPack::Pipe::BundleJS;
 

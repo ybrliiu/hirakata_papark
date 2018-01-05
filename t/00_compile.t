@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 use Path::Tiny;
 
 my $itr = path('./lib')->iterator({recurse => 1});

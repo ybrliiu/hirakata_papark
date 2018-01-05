@@ -1,5 +1,6 @@
 -PHarriet=./t/harriet/
 --lib
+-It/lib
 -Ilocal/lib/perl5
 --color
 --failures

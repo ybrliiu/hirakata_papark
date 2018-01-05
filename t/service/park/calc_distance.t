@@ -1,4 +1,4 @@
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 use HirakataPapark::Class::Coord;
 
 use_ok 'HirakataPapark::Service::Park::CalcDistance';

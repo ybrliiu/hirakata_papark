@@ -1,5 +1,5 @@
 use Mojo::Base -strict;
-use HirakataPapark 'test';
+use Test::HirakataPapark;
 
 use Test::Mojo;
 
