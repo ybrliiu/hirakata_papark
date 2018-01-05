@@ -51,8 +51,8 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage {
       $select->add_where($col => $val);
     }
 
-    _add_option($select, $opt, $_) for qw/ limit offset prefix /;
-    _add_options($select, $opt, $_) for qw/ order_by group_by /;
+    _add_option($select, $opt, $_) for qw( limit offset prefix );
+    _add_options($select, $opt, $_) for qw( order_by group_by );
 
     $self->db->select_by_sql($select->as_sql, [$select->bind], { %$opt, table_name => $self->TABLE });
   }
@@ -85,10 +85,13 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage {
   }
 
   sub update($self, $set, $where) {
-    my $maker = HirakataPapark::Model::Role::DB::ForeignLanguage::UpdateSetColumnsMaker->new({
-      set                  => $set,
-      select_columns_maker => $self->select_columns_maker,
-    });
+    my $sc_maker = $self->select_columns_maker;
+    my $maker = 
+      HirakataPapark::Model::Role::DB::ForeignLanguage::UpdateSetColumnsMaker->new({
+        set             => $set,
+        table           => $sc_maker->table,
+        orig_lang_table => $sc_maker->orig_lang_table,
+      });
     if ($maker->set_of_table->%*) {
       $self->db->update($self->TABLE, $maker->set_of_table, $where);
     }

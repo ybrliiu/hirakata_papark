@@ -1,11 +1,9 @@
 package HirakataPapark::Model::Role::DB::ForeignLanguage::SelectColumnsMaker {
 
   use Mouse;
-  use HirakataPapark;
-
   use Option;
+  use HirakataPapark;
   use HirakataPapark::Exception;
-  use HirakataPapark::DB::Schema;
 
   has 'schema' => (
     is       => 'ro',
@@ -91,6 +89,7 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage::SelectColumnsMaker {
       );
     };
     my $table_pk = $func->($self->table);
+    # olt = orig_lang_table :(
     my $olt_pk   = $func->($self->orig_lang_table);
     +{ map { $_->table->name . '.' . $_->name } ($olt_pk, $table_pk) };
   }

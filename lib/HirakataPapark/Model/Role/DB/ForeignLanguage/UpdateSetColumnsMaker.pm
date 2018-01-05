@@ -3,13 +3,13 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage::UpdateSetColumnsMaker 
   use Mouse;
   use HirakataPapark;
 
-  has 'select_columns_maker' => (
+  has [qw/ table orig_lang_table /] => (
     is       => 'ro',
-    isa      => 'HirakataPapark::Model::Role::DB::ForeignLanguage::SelectColumnsMaker',
-    handles  => [qw( table orig_lang_table )],
+    isa      => 'Aniki::Schema::Table',
     required => 1,
   );
 
+  # カラム名 => 値のハッシュ
   has 'set' => (
     is       => 'ro',
     isa      => 'HashRef',
@@ -78,4 +78,5 @@ package HirakataPapark::Model::Role::DB::ForeignLanguage::UpdateSetColumnsMaker 
 __END__
 
 Model::DB::Role::ForeignLanguage::update での 元の言語のデータが入っているテーブルと外国語テーブルの更新するカラムを求めてくるクラス
+カラム名 => 値 ペアが格納されたハッシュを返す
 
