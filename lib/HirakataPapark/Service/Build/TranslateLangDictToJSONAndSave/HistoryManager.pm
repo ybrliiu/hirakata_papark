@@ -57,13 +57,17 @@ package HirakataPapark::Service::Build::TranslateLangDictToJSONAndSave::HistoryM
   sub is_class_need_translate($self, $class_name) {
     my $path = class_to_path $class_name;
     my $file = path $INC{$path};
-    $self->get_record($file)->{mtime} <= $file->stat->mtime;
+    if ( $self->get_record($file)->{mtime} < $file->stat->mtime ) {
+      $self->history_record->{$file}{mtime} = $file->stat->mtime;
+    } else {
+      0;
+    }
   }
 
   sub get_record($self, $file) {
     $self->history_record->{$file} //= {
       name  => $file->stringify,
-      mtime => $file->stat->mtime,
+      mtime => $file->stat->mtime - 1,
     };
   }
 
