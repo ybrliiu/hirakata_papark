@@ -53,9 +53,12 @@ subtest add_history => sub {
 };
 
 subtest get_histories_by_user_seacret_id => sub {
-  my $result = $model->get_histories_by_user_seacret_id('ja', $user->seacret_id, 10);
+  my $result = $model->get_histories_by_user_seacret_id(
+    lang            => 'ja', 
+    num             => 10,
+    user_seacret_id => $user->seacret_id, 
+  );
   ok $result;
-  diag explain $result;
 };
 
 done_testing;

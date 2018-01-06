@@ -5,7 +5,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park::SelectColumnsMake
   use HirakataPapark;
   use HirakataPapark::Exception;
 
-  has [qw/ table join_table /] => (
+  has [qw( table join_table )] => (
     is         => 'ro',
     isa        => 'Aniki::Schema::Table',
     lazy_build => 1,

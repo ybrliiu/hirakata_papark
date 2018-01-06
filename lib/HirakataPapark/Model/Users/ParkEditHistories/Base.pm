@@ -1,12 +1,8 @@
 package HirakataPapark::Model::Users::ParkEditHistories::Base {
 
   use Mouse::Role;
-  use Option ();
   use HirakataPapark;
   use HirakataPapark::Model::Result;
-
-  # constants
-  requires qw( TABLE_NAME );
 
   has 'db' => (
     is       => 'ro',
@@ -14,33 +10,21 @@ package HirakataPapark::Model::Users::ParkEditHistories::Base {
     required => 1,
   );
 
-  has 'table' => (
+  has 'tables' => (
     is      => 'ro',
-    isa     => 'Aniki::Schema::Table',
+    does    => 'HirakataPapark::Model::Users::ParkEditHistories::Role::Tables',
+    handles => [qw(
+      BODY_TABLE_NAME
+      FOREIGN_LANGS_TABLE_NAMES
+      body_table
+      select_columns_makers
+    )],
     lazy    => 1,
-    builder => '_build_table',
-  );
-
-  has 'select_columns_makers' => (
-    is      => 'ro',
-    isa     => 'HashRef',
-    lazy    => 1,
-    builder => '_build_select_columns_makers',
+    builder => '_build_tables',
   );
 
   # methods
-  requires qw( _build_select_columns_makers );
-
-  sub _table_builder($self, $table_name) {
-    Option::option( $self->db->schema->get_table($table_name) )->match(
-      Some => sub ($table) { $table },
-      None => sub { HirakataPapark::Exception->throw("table ${table_name} is not defined.") },
-    );
-  }
-
-  sub _build_table($self) {
-    $self->_table_builder($self->TABLE_NAME);
-  }
+  requires qw( _build_tables );
 
   sub create_result($self, $contents) {
     HirakataPapark::Model::Result->new(contents => $contents);

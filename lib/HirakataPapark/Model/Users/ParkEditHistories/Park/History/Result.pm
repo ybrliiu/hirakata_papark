@@ -10,6 +10,11 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park::History::Result {
     required => 1,
   );
 
+  sub BUILD($self, $args) {
+    HirakataPapark::Exception->throw('History dont has all lang data.')
+      unless $self->has_all;
+  }
+
   __PACKAGE__->meta->make_immutable;
 
 }
