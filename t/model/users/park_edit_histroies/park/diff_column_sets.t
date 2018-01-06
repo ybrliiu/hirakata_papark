@@ -12,5 +12,6 @@ my $params = +{
 };
 lives_ok { $sets = Sets->new($params) };
 is_deeply $sets->to_params, $params;
+ok $sets->has_all;
 
 done_testing;

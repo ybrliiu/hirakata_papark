@@ -33,8 +33,13 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park::ForeignLangTableS
   }
 
   sub has_all($self) {
-    my $has_empty = grep { $self->$_->is_empty } 
-      map { "maybe_$_" } HirakataPapark::Types->LANGS->@*;
+    my $has_empty = grep {
+      my $attr_name = "maybe_$_";
+      !$self->$attr_name->match(
+        Some => sub ($sets) { $sets->has_all },
+        None => sub { 0 },
+      );
+    } HirakataPapark::Types->LANGS->@*;
     !$has_empty;
   }
 
