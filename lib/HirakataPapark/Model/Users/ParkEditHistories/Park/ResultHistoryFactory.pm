@@ -41,12 +41,6 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park::ResultHistoryFact
     required => 1,
   );
 
-  has 'user_seacret_id' => (
-    is       => 'ro',
-    isa      => 'Str',
-    required => 1,
-  );
-
   has 'history_params' => (
     is      => 'ro',
     isa     => 'HashRef',
@@ -139,11 +133,8 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park::ResultHistoryFact
   }
 
   sub build_history($self) {
-    my $history_params = $self->history_params;
-    $history_params->{editer_seacret_id} = $self->user_seacret_id;
-    $history_params->{lang} = $self->lang;
-    $history_params->{history_id} = $history_params->{id};
-    ResultHistory->new($history_params);
+    $self->history_params->{lang} = $self->lang;
+    ResultHistory->new($self->history_params);
   }
 
   sub get_history($self) {

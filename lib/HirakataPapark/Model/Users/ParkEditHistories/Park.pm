@@ -69,12 +69,21 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park {
   sub get_histories_by_park_id($self, $park_id, $num) {
     my $select = $self->_histories_select($num);
     $select->add_where($self->BODY_TABLE_NAME . '.park_id' => $park_id);
-    my $result = $self->db->dbh->selectall_hashref(
-      $select->as_sql, 
-      $self->BODY_TABLE_NAME . '.user_seacret_id',
-      {},
-      $select->bind,
-    );
+    my $dbh = $self->db->dbh;
+    my $sth = $dbh->prepare($select->as_sql);
+    $sth->execute($select->bind);
+    my $rows = $sth->fetchall_arrayref;
+    my @histories = map {
+      my $row = $_;
+      my $factory = ResultHistoryFactory->new({
+        row    => $row,
+        sth    => $sth,
+        lang   => HirakataPapark::Types->DEFAULT_LANG,
+        tables => $self->tables,
+      });
+      $factory->get_history;
+    } @$rows;
+    $self->create_result(\@histories);
   }
 
   sub get_histories_by_user_seacret_id {
@@ -91,11 +100,10 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park {
     my @histories = map {
       my $row = $_;
       my $factory = ResultHistoryFactory->new({
-        row             => $row,
-        sth             => $sth,
-        lang            => $lang,
-        tables          => $self->tables,
-        user_seacret_id => $user_seacret_id,
+        row    => $row,
+        sth    => $sth,
+        lang   => $lang,
+        tables => $self->tables,
       });
       $factory->get_history;
     } @$rows;

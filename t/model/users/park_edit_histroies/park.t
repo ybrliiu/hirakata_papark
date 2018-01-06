@@ -61,4 +61,9 @@ subtest get_histories_by_user_seacret_id => sub {
   ok $result;
 };
 
+subtest get_histories_by_park_id => sub {
+  my $result = $model->get_histories_by_park_id($park->id, 10);
+  ok $result;
+};
+
 done_testing;
