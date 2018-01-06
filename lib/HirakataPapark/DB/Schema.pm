@@ -228,6 +228,7 @@ package HirakataPapark::DB::Schema {
     string 'plants_comment';
     integer 'plants_num';
 
+    set_primary_key qw( history_id plants_name );
     foreign_key 'history_id' => (user_park_plants_edit_history => 'id');
   };
 
@@ -237,6 +238,7 @@ package HirakataPapark::DB::Schema {
     string 'plants_category';
     string 'plants_comment';
 
+    set_primary_key qw( history_id plants_name );
     foreign_key 'history_id' => (user_park_plants_edit_history => 'id');
   };
 
@@ -257,6 +259,7 @@ package HirakataPapark::DB::Schema {
     integer 'equipment_recommended_age';
     integer 'equipment_num';
 
+    set_primary_key qw( history_id equipment_name );
     foreign_key 'history_id' => (user_park_equipment_edit_history => 'id');
   };
 
@@ -265,6 +268,7 @@ package HirakataPapark::DB::Schema {
     integer 'equipment_name';
     string 'equipment_comment';
 
+    set_primary_key qw( history_id equipment_name );
     foreign_key 'history_id' => (user_park_equipment_edit_history => 'id');
   };
 
@@ -283,6 +287,7 @@ package HirakataPapark::DB::Schema {
     integer 'surrounding_facilitiy_name';
     string 'surrounding_facilitiy_comment';
 
+    set_primary_key qw( history_id surrounding_facilitiy_name );
     foreign_key 'history_id' =>
       (user_park_surrounding_facilitiy_edit_history => 'id');
   };
@@ -292,6 +297,7 @@ package HirakataPapark::DB::Schema {
     integer 'surrounding_facilitiy_name';
     string 'surrounding_facilitiy_comment';
 
+    set_primary_key qw( history_id surrounding_facilitiy_name );
     foreign_key 'history_id' =>
       (user_park_surrounding_facilitiy_edit_history => 'id');
   };

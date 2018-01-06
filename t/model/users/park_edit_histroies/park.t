@@ -53,8 +53,7 @@ subtest add_history => sub {
 };
 
 subtest get_histories_by_user_seacret_id => sub {
-  local $SIG{__DIE__} = \&Carp::confess;
-  my $result = $model->get_histories_by_user_seacret_id($user->seacret_id, 10);
+  my $result = $model->get_histories_by_user_seacret_id('ja', $user->seacret_id, 10);
   ok $result;
   diag explain $result;
 };

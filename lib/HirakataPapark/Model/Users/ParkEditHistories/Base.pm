@@ -21,11 +21,9 @@ package HirakataPapark::Model::Users::ParkEditHistories::Base {
     builder => '_build_table',
   );
 
-  my $select_columns_maker = 
-    'HirakataPapark::Model::Role::DB::ForeignLanguage::SelectColumnsMaker';
   has 'select_columns_makers' => (
     is      => 'ro',
-    isa     => "HashRef[$select_columns_maker]",
+    isa     => 'HashRef',
     lazy    => 1,
     builder => '_build_select_columns_makers',
   );
