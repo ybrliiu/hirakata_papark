@@ -20,6 +20,13 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::Tables {
     required => 1,
   );
 
+  has 'foreign_lang_tables' => (
+    is      => 'ro',
+    isa     => 'HashRef[Aniki::Schema::Table]',
+    lazy    => 1,
+    builder => '_build_foreign_lang_tables',
+  );
+
   has 'select_columns_makers' => (
     is      => 'ro',
     isa     => 'HashRef',
@@ -49,6 +56,14 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::Tables {
 
   sub _build_body_table($self) {
     $self->_table_builder($self->BODY_TABLE_NAME);
+  }
+
+  sub _build_foreign_lang_tables($self) {
+    my %tables = map {
+      my $table_name = $self->FOREIGN_LANGS_TABLE_NAMES->{$_};
+      $_ => $self->_table_builder($table_name);
+    } HirakataPapark::Types->FOREIGN_LANGS->@*;
+    \%tables;
   }
 
 }

@@ -147,8 +147,8 @@ Park(モデル本体) -
                  |- ForeignLangTableSets(履歴情報のうち、外国語テーブルに格納するデータの集合)
                  |- DiffColumnSets(外国語テーブルに格納するカラムのデータクラス)
                  |- SelectColumnsMaker(データベースから取ってくるデータのカラムを求めるクラス)
-                 |- DB(データベースに関する情報)
-                 |- ResultHistoryBuilder(ResultHistoryを作成するファクトリクラス)
+                 |- Tables(関連テーブルに関する情報)
+                 |- ResultHistoryBuilder(DBのレコードからResultHistoryを組み立てるクラス)
 
 =encoding utf8
 
