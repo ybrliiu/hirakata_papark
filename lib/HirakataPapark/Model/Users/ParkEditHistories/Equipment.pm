@@ -31,7 +31,7 @@ Equipment(モデル本体) -
                  |- DiffColumnSets(外国語テーブルに格納するカラムのデータクラス)
                  |- SelectColumnsMaker(データベースから取ってくるデータのカラムを求めるクラス)
                  |- DB(データベースに関する情報)
-                 |- ResultHistoryFactory(ResultHistoryを作成するファクトリクラス)
+                 |- ResultHistoryBuilder(ResultHistoryを作成するファクトリクラス)
 
 =encoding utf8
 

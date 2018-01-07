@@ -1,4 +1,4 @@
-package HirakataPapark::Model::Users::ParkEditHistories::Park::ResultHistoryFactory {
+package HirakataPapark::Model::Users::ParkEditHistories::Park::ResultHistoryBuilder {
   
   use Mouse;
   use HirakataPapark;
@@ -133,16 +133,12 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park::ResultHistoryFact
   }
 
   sub build_history($self) {
-    $self->history_params->{lang} = $self->lang;
-    ResultHistory->new($self->history_params);
-  }
-
-  sub get_history($self) {
     $self->set_params_from_body_table_row;
     $self->set_params_from_foreign_lang_tables_row;
     $self->build_diff_column_sets;
     $self->build_foreign_lang_table_sets;
-    $self->build_history;
+    $self->history_params->{lang} = $self->lang;
+    ResultHistory->new($self->history_params);
   }
   
   __PACKAGE__->meta->make_immutable;

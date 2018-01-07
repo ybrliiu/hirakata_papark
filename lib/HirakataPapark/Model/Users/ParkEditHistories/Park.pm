@@ -8,7 +8,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park {
   use Smart::Args qw( args args_pos );
   use HirakataPapark::Util qw( for_yield );
   use HirakataPapark::Model::Users::ParkEditHistories::Park::Tables;
-  use HirakataPapark::Model::Users::ParkEditHistories::Park::ResultHistoryFactory;
+  use HirakataPapark::Model::Users::ParkEditHistories::Park::ResultHistoryBuilder;
 
   # alias
   use constant {
@@ -16,8 +16,8 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park {
       'HirakataPapark::Model::Users::ParkEditHistories::Park::Tables',
     AddHistory => 
       'HirakataPapark::Model::Users::ParkEditHistories::Park::History::Add',
-    ResultHistoryFactory => 
-      'HirakataPapark::Model::Users::ParkEditHistories::Park::ResultHistoryFactory',
+    ResultHistoryBuilder => 
+      'HirakataPapark::Model::Users::ParkEditHistories::Park::ResultHistoryBuilder',
   };
 
   with 'HirakataPapark::Model::Users::ParkEditHistories::Base';
@@ -75,13 +75,13 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park {
     my $rows = $sth->fetchall_arrayref;
     my @histories = map {
       my $row = $_;
-      my $factory = ResultHistoryFactory->new({
+      my $builder = ResultHistoryBuilder->new({
         row    => $row,
         sth    => $sth,
         lang   => HirakataPapark::Types->DEFAULT_LANG,
         tables => $self->tables,
       });
-      $factory->get_history;
+      $builder->build_history;
     } @$rows;
     $self->create_result(\@histories);
   }
@@ -99,13 +99,13 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park {
     my $rows = $sth->fetchall_arrayref;
     my @histories = map {
       my $row = $_;
-      my $factory = ResultHistoryFactory->new({
+      my $builder = ResultHistoryBuilder->new({
         row    => $row,
         sth    => $sth,
         lang   => $lang,
         tables => $self->tables,
       });
-      $factory->get_history;
+      $builder->build_history;
     } @$rows;
     $self->create_result(\@histories);
   }
@@ -148,7 +148,7 @@ Park(モデル本体) -
                  |- DiffColumnSets(外国語テーブルに格納するカラムのデータクラス)
                  |- SelectColumnsMaker(データベースから取ってくるデータのカラムを求めるクラス)
                  |- DB(データベースに関する情報)
-                 |- ResultHistoryFactory(ResultHistoryを作成するファクトリクラス)
+                 |- ResultHistoryBuilder(ResultHistoryを作成するファクトリクラス)
 
 =encoding utf8
 
