@@ -6,11 +6,6 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment::Tables {
   use HirakataPapark::Exception;
   use Option;
   use HirakataPapark::Class::ISO639_1Translator qw( to_word );
-  use HirakataPapark::Model::Users::ParkEditHistories::Park::SelectColumnsMaker;
-
-  # alias
-  use constant SelectColumnsMaker => 
-    'HirakataPapark::Model::Users::ParkEditHistories::Park::SelectColumnsMaker';
 
   use constant {
     BODY_TABLE_NAME           => 'user_park_equipment_edit_history',
