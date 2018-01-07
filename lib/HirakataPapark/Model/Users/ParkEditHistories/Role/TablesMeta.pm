@@ -99,6 +99,13 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::TablesMeta {
     \@duplicate_columns;
   }
 
+  sub get_foreign_lang_table_name_by_lang($self, $lang) {
+    Option::option( $self->FOREIGN_LANG_TABLE_NAMES_MAPPED_TO_LANG->{$lang} )->match(
+      Some => sub ($table_name) { $table_name },
+      None => sub { "'$lang' table is not found." },
+    );
+  }
+
 }
 
 1;

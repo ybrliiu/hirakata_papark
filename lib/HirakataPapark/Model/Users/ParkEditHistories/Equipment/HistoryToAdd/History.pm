@@ -12,7 +12,9 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment::HistoryToAdd
 
   sub equipments_lang_records_to_params_by_lang($self, $lang, $history_id) {
     $self->equipments_map(sub ($equipment) {
-      $equipment->lang_records->get_lang_record($lang)->maybe_to_params($history_id)->get;
+      $equipment->lang_records
+        ->get_lang_record($lang)->get
+        ->maybe_to_params($history_id)->get;
     });
   }
 

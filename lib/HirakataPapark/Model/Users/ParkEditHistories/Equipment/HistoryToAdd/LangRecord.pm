@@ -44,7 +44,8 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment::HistoryToAdd
   sub maybe_to_params($self, $history_id) {
     for_yield [ map { $self->$_ } $self->ATTR_NAMES->@* ], sub {
       my %params;
-      @params{$self->COLUMNS->@*} = @_;
+      my @keys = map { "equipment_$_" } $self->COLUMNS->@*;
+      @params{@keys} = @_;
       $params{history_id} = $history_id;
       \%params;
     };

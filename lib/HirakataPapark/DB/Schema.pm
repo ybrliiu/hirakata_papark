@@ -223,7 +223,7 @@ package HirakataPapark::DB::Schema {
 
   create_table user_park_plants_edit_history_row => columns {
     integer 'history_id';
-    integer 'plants_name';
+    string 'plants_name';
     string 'plants_category';
     string 'plants_comment';
     integer 'plants_num';
@@ -234,7 +234,7 @@ package HirakataPapark::DB::Schema {
 
   create_table user_english_park_plants_edit_history_row => columns {
     integer 'history_id';
-    integer 'plants_name';
+    string 'plants_name';
     string 'plants_category';
     string 'plants_comment';
 
@@ -254,7 +254,7 @@ package HirakataPapark::DB::Schema {
 
   create_table user_park_equipment_edit_history_row => columns {
     integer 'history_id';
-    integer 'equipment_name';
+    string 'equipment_name';
     string 'equipment_comment';
     integer 'equipment_recommended_age';
     integer 'equipment_num';
@@ -265,7 +265,7 @@ package HirakataPapark::DB::Schema {
 
   create_table user_english_park_equipment_edit_history_row => columns {
     integer 'history_id';
-    integer 'equipment_name';
+    string 'equipment_name';
     string 'equipment_comment';
 
     set_primary_key qw( history_id equipment_name );
@@ -284,7 +284,7 @@ package HirakataPapark::DB::Schema {
 
   create_table user_park_surrounding_facilitiy_edit_history_row => columns {
     integer 'history_id';
-    integer 'surrounding_facilitiy_name';
+    string 'surrounding_facilitiy_name';
     string 'surrounding_facilitiy_comment';
 
     set_primary_key qw( history_id surrounding_facilitiy_name );
@@ -294,7 +294,7 @@ package HirakataPapark::DB::Schema {
 
   create_table user_english_park_surrounding_facilitiy_edit_history_row => columns {
     integer 'history_id';
-    integer 'surrounding_facilitiy_name';
+    string 'surrounding_facilitiy_name';
     string 'surrounding_facilitiy_comment';
 
     set_primary_key qw( history_id surrounding_facilitiy_name );
