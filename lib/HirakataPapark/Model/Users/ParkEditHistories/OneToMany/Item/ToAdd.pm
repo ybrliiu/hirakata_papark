@@ -15,7 +15,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::OneToMany::Item::ToAdd 
 
   sub to_params($self, $history_id) {
     my %params = map {;
-      "@{[ $self->prefix ]}_$_" => $self->$_
+      $self->prefix . $_ => $self->$_
     } $self->COLUMN_NAMES->@*;
     $params{history_id} = $history_id;
     \%params;

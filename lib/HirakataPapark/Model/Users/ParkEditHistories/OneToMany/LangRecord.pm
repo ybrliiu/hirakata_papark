@@ -35,11 +35,12 @@ package HirakataPapark::Model::Users::ParkEditHistories::OneToMany::LangRecord {
     is      => 'ro',
     isa     => 'Str',
     lazy    => 1,
-    builder => '_build_prefix',
+    builder => 'build_prefix',
   );
 
-  sub _build_prefix($self) {
-    Mojo::Util::decamelize( (split /::/, ref $self)[-2] );
+  sub build_prefix($self) {
+    my $class = ref $self || $self;
+    Mojo::Util::decamelize( (split /::/, $class)[-2] ) . '_';
   }
 
   sub has_all($self) {
@@ -50,7 +51,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::OneToMany::LangRecord {
   sub maybe_to_params($self, $history_id) {
     HirakataPapark::Util::for_yield([ map { $self->$_ } $self->COLUMN_NAMES->@* ], sub {
       my %params;
-      my @keys = map { "@{[ $self->prefix ]}_$_" } $self->COLUMN_NAMES->@*;
+      my @keys = map { $self->prefix . $_ } $self->COLUMN_NAMES->@*;
       @params{@keys} = @_;
       $params{history_id} = $history_id;
       \%params;

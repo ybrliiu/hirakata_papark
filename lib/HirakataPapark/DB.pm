@@ -16,7 +16,7 @@ package HirakataPapark::DB {
     my $exception_class_name =
       'HirakataPapark::DB::' . ( $e =~ /duplicate/ ? 'DuplicateException' : 'Exception' );
     my $bind_str = Data::Dumper::Dumper([
-       map { $_->can('value_ref') ? $_->value_ref->$* : $_ } @$bind
+       map { $_ eq '' ? '' : $_->can('value_ref') ? $_->value_ref->$* : $_ } @$bind
     ]);
     $exception_class_name->throw({
       # 先にMojoliciousに例外を検知されて(?)Mojo::Exceptionが来る場合があるので

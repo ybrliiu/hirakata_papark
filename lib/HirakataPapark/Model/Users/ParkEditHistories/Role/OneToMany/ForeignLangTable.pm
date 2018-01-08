@@ -2,6 +2,13 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany::Foreig
 
   use Mouse;
   use HirakataPapark;
+  use HirakataPapark::Types;
+
+  has 'lang' => (
+    is       => 'ro',
+    isa      => 'HirakataPapark::Types::Lang',
+    required => 1,
+  );
 
   my $DefaultLangTable =
     'HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany::DefaultLangTable';

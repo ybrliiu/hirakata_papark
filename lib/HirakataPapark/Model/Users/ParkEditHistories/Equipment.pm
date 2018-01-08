@@ -8,6 +8,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
   use Smart::Args qw( args args_pos );
   use HirakataPapark::Util qw( for_yield );
   use HirakataPapark::Model::Users::ParkEditHistories::Equipment::MetaTables;
+  use HirakataPapark::Model::Users::ParkEditHistories::Equipment::ResultHistoryBuilder;
 
   # alias
   my $MetaTables =
@@ -47,12 +48,10 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
 
   sub _insert_to_default_lang_table($self, $history, $history_id) {
     try {
-      my $rows = $self->db->insert_multi(
+      right $self->db->insert_multi(
         $self->DEFAULT_LANG_TABLE_NAME,
         $history->items_to_params($history_id),
       );
-      warn Data::Dumper::Dumper $rows;
-      right $rows;
     } catch {
       left $_;
     };
@@ -81,24 +80,12 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
     $query->add_where($body_table->name . '.' . $body_table->pkey->name => {
       IN => \[$sub_query->as_sql, $sub_query->bind]
     });
+
     my $dbh = $self->db->dbh;
     my $sth = $dbh->prepare($query->as_sql);
     $sth->execute($query->bind);
     my $rows = $sth->fetchall_arrayref;
-
-    return $rows;
-
-    my @histories = map {
-      my $row = $_;
-      my $builder = ResultHistoryBuilder->new({
-        row    => $row,
-        sth    => $sth,
-        lang   => HirakataPapark::Types->DEFAULT_LANG,
-        tables => $self->tables,
-      });
-      $builder->build_history;
-    } @$rows;
-    $self->create_result(\@histories);
+    $self->_create_result_histories($sth, $rows, HirakataPapark::Types->DEFAULT_LANG);
   }
 
   sub get_histories_by_user_seacret_id {
@@ -117,20 +104,40 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
     my $sth = $dbh->prepare($query->as_sql);
     $sth->execute($query->bind);
     my $rows = $sth->fetchall_arrayref;
+    $self->_create_result_histories($sth, $rows, $lang);
+  }
 
-    return $rows;
-
-    my @histories = map {
-      my $row = $_;
-      my $builder = ResultHistoryBuilder->new({
-        row    => $row,
-        sth    => $sth,
-        lang   => $lang,
-        tables => $self->tables,
-      });
-      $builder->build_history;
-    } @$rows;
+  sub _create_result_histories($self, $sth, $rows, $lang) {
+    my $ID_INDEX = 0;
+    my ($begin_index, $before_id) = (0, -1);
+    my @histories;
+    my @rows = @$rows;
+    for my $i (0 .. $#rows) {
+      my $row = $rows[$i];
+      if ($before_id != $row->[$ID_INDEX]) {
+        if ($i - $begin_index > 0) {
+          my @history_rows = @rows[$begin_index .. $i - 1];
+          push @histories, $self->_create_result_history($sth, \@history_rows, $lang);
+        }
+        $begin_index = $i;
+      }
+      elsif ($i == $#rows) {
+        my @history_rows = @rows[$begin_index .. $i];
+        push @histories, $self->_create_result_history($sth, \@history_rows, $lang);
+      }
+      $before_id = $row->[$ID_INDEX];
+    }
     $self->create_result(\@histories);
+  }
+
+  sub _create_result_history($self, $sth, $rows, $lang) {
+    my $builder = $ResultHistoryBuilder->new({
+      sth         => $sth,
+      rows        => $rows,
+      lang        => $lang,
+      meta_tables => $self->meta_tables,
+    });
+    $builder->build;
   }
 
   sub _histories_select($self, $num) {

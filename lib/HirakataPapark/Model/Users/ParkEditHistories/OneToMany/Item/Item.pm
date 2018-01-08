@@ -16,8 +16,12 @@ package HirakataPapark::Model::Users::ParkEditHistories::OneToMany::Item::Item {
   # attributes
   requires qw( lang );
 
-  around BUILDARGS => sub ($orig, $self, $item_impl) {
-    $self->$orig(item_impl => $item_impl);
+  around BUILDARGS => sub ($orig, $self, @args) {
+    if (@args == 1 && ref $args[0] ne 'HASH') {
+      $self->$orig(item_impl => shift @args);
+    } else {
+      $self->$orig(@args);
+    }
   };
 
   sub AUTOLOAD($self, @args) {

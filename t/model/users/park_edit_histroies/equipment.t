@@ -73,13 +73,22 @@ subtest add_history => sub {
   });
 };
 
+subtest get_histories_by_park_id => sub {
+  my $histories;
+  lives_ok { $histories = $model->get_histories_by_park_id($park->id, 1) };
+  is_deeply [ map { $_->name } $histories->[0]->items->@* ], ['滑り台', 'ブランコ'];
+};
+
 subtest get_histories_by_user_seacret_id => sub {
-  diag explain $model->get_histories_by_user_seacret_id({
-    num             => 2,
-    lang            => 'ja',
-    user_seacret_id => $user->seacret_id,
-  });
-  ok 1;
+  my $histories;
+  lives_ok {
+    $histories = $model->get_histories_by_user_seacret_id({
+      num             => 2,
+      lang            => 'en',
+      user_seacret_id => $user->seacret_id,
+    });
+  };
+  is_deeply [ map { $_->name } $histories->[0]->items->@* ], ['Suberidai', 'Swing'];
 };
 
 done_testing;

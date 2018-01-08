@@ -20,11 +20,12 @@ package HirakataPapark::Model::Users::ParkEditHistories::OneToMany::Item::ItemIm
     is      => 'ro',
     isa     => 'Str',
     lazy    => 1,
-    builder => '_build_prefix',
+    builder => 'build_prefix',
   );
 
-  sub _build_prefix($self) {
-    Mojo::Util::decamelize( (split /::/, ref $self)[-1] );
+  sub build_prefix($self) {
+    my $class = ref $self || $self;
+    Mojo::Util::decamelize( (split /::/, $class)[-1] ) . '_';
   }
 
 }
