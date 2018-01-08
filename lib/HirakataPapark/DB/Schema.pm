@@ -32,7 +32,10 @@ package HirakataPapark::DB::Schema {
     # SQL::Translator のunique制約へのCONSTRAINT自動命名がクソ(カラム名 + '_unque')
     # で容易に多テーブルと衝突してしまうので, ここで直接命名
     add_unique_index 'english_park_name_unique' => ['name'];
-    foreign_key 'id' => (park => 'id');
+    belongs_to park => (
+      column    => 'id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table park_equipment => columns {
@@ -44,7 +47,10 @@ package HirakataPapark::DB::Schema {
     integer 'num' => (default => 1);
 
     add_unique_index 'park_equipment_unique' => ['park_id', 'name'];
-    foreign_key 'park_id' => (park => 'id');
+    belongs_to park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table english_park_equipment => columns {
@@ -54,8 +60,14 @@ package HirakataPapark::DB::Schema {
     string 'comment';
 
     add_unique_index 'english_park_equipment_unique' => ['park_id', 'name'];
-    foreign_key 'id' => (park_equipment => 'id');
-    foreign_key 'park_id' => (english_park => 'id');
+    belongs_to park_equipment => (
+      column    => 'id',
+      on_delete => 'CASCADE',
+    );
+    belongs_to english_park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table park_surrounding_facility => columns {
@@ -65,7 +77,10 @@ package HirakataPapark::DB::Schema {
     string 'comment';
 
     add_unique_index 'park_surrounding_facility_unique' => ['park_id', 'name'];
-    foreign_key 'park_id' => (park => 'id');
+    belongs_to park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table english_park_surrounding_facility => columns {
@@ -74,9 +89,16 @@ package HirakataPapark::DB::Schema {
     string 'name';
     string 'comment';
 
-    add_unique_index 'english_park_surrounding_facility_unique' => ['park_id', 'name'];
-    foreign_key 'id' => (park_surrounding_facility => 'id');
-    foreign_key 'park_id' => (english_park => 'id');
+    add_unique_index 'english_park_surrounding_facility_unique' =>
+      ['park_id', 'name'];
+    belongs_to park_surrounding_facility => (
+      column    => 'id',
+      on_delete => 'CASCADE',
+    );
+    belongs_to english_park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table park_plants => columns {
@@ -88,7 +110,10 @@ package HirakataPapark::DB::Schema {
     integer 'num' => (default => 1);
 
     add_unique_index 'park_plants_unique' => ['park_id', 'name'];
-    foreign_key 'park_id' => (park => 'id');
+    belongs_to park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table english_park_plants => columns {
@@ -99,8 +124,14 @@ package HirakataPapark::DB::Schema {
     string 'comment';
 
     add_unique_index 'english_park_plants_unique' => ['park_id', 'name'];
-    foreign_key 'id' => (park_plants => 'id');
-    foreign_key 'park_id' => (english_park => 'id');
+    belongs_to park_plants => (
+      column    => 'id',
+      on_delete => 'CASCADE',
+    );
+    belongs_to english_park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table park_tag => columns {
@@ -108,7 +139,10 @@ package HirakataPapark::DB::Schema {
     string 'name';
 
     set_primary_key qw( park_id name );
-    foreign_key 'park_id' => (park => 'id');
+    belongs_to park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table park_event => columns {
@@ -117,7 +151,10 @@ package HirakataPapark::DB::Schema {
     string 'title';
     text 'explain';
 
-    foreign_key 'park_id' => (park => 'id');
+    belongs_to park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table park_comment => columns {
@@ -127,7 +164,10 @@ package HirakataPapark::DB::Schema {
     bigint 'time';
     text 'message';
 
-    foreign_key 'park_id' => (park => 'id');
+    belongs_to park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table park_news => columns {
@@ -136,7 +176,10 @@ package HirakataPapark::DB::Schema {
     string 'title';
     text 'message';
 
-    foreign_key 'park_id' => (park => 'id');
+    belongs_to park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table user => columns {
@@ -166,8 +209,14 @@ package HirakataPapark::DB::Schema {
     integer 'user_seacret_id';
 
     add_unique_index 'park_star_unique' => ['park_id', 'user_seacret_id'];
-    foreign_key 'park_id' => (park => 'id');
-    foreign_key 'user_seacret_id' => (user => 'seacret_id');
+    belongs_to park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
+    foreign_key user_seacret_id => (
+      user      => 'seacret_id',
+      on_delete => 'SET NULL',
+    );
   };
 
   create_table park_image => columns {
@@ -179,8 +228,14 @@ package HirakataPapark::DB::Schema {
     bigint 'posted_time';
 
     add_unique_index 'park_image_unique' => ['park_id', 'filename_without_extension'];
-    foreign_key 'park_id' => (park => 'id');
-    foreign_key 'posted_user_seacret_id' => (user => 'seacret_id');
+    belongs_to park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
+    foreign_key posted_user_seacret_id => (
+      user      => 'seacret_id',
+      on_delete => 'SET NULL',
+    );
   };
 
   create_table user_park_edit_history => columns {
@@ -198,8 +253,14 @@ package HirakataPapark::DB::Schema {
     double 'park_area';
     smallint 'park_is_evacuation_area';
 
-    foreign_key 'park_id' => (park => 'id');
-    foreign_key 'editer_seacret_id' => (user => 'seacret_id');
+    belongs_to park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
+    foreign_key editer_seacret_id => (
+      user      => 'seacret_id',
+      on_delete => 'SET NULL',
+    );
   };
 
   create_table user_english_park_edit_history => columns {
@@ -208,7 +269,10 @@ package HirakataPapark::DB::Schema {
     string 'park_address';
     string 'park_explain';
 
-    foreign_key 'history_id' => (user_park_edit_history => 'id');
+    belongs_to user_park_edit_history => (
+      column    => 'history_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table user_park_plants_edit_history => columns {
@@ -217,29 +281,49 @@ package HirakataPapark::DB::Schema {
     integer 'editer_seacret_id';
     bigint 'edited_time';
 
-    foreign_key 'park_id' => (park => 'id');
-    foreign_key 'editer_seacret_id' => (user => 'seacret_id');
+    belongs_to park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
+    foreign_key editer_seacret_id => (
+      user      => 'seacret_id',
+      on_delete => 'SET NULL',
+    );
   };
 
   create_table user_park_plants_edit_history_row => columns {
+    integer 'id' => (primary_key, auto_increment);
     integer 'history_id';
     string 'plants_name';
     string 'plants_category';
     string 'plants_comment';
     integer 'plants_num';
 
-    set_primary_key qw( history_id plants_name );
-    foreign_key 'history_id' => (user_park_plants_edit_history => 'id');
+    add_unique_index user_park_plants_edit_history_row_unique =>
+      [qw( history_id plants_name )];
+    belongs_to user_park_plants_edit_history => (
+      column    => 'history_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table user_english_park_plants_edit_history_row => columns {
+    integer 'row_id' => (primary_key, auto_increment);
     integer 'history_id';
     string 'plants_name';
     string 'plants_category';
     string 'plants_comment';
 
-    set_primary_key qw( history_id plants_name );
-    foreign_key 'history_id' => (user_park_plants_edit_history => 'id');
+    add_unique_index user_english_park_plants_edit_history_row_unique => 
+      [qw( history_id plants_name )];
+    belongs_to user_park_plants_edit_history_row => (
+      column    => 'row_id',
+      on_delete => 'CASCADE',
+    );
+    belongs_to user_park_plants_edit_history => (
+      column    => 'history_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table user_park_equipment_edit_history => columns {
@@ -248,28 +332,48 @@ package HirakataPapark::DB::Schema {
     integer 'editer_seacret_id';
     bigint 'edited_time';
 
-    foreign_key 'park_id' => (park => 'id');
-    foreign_key 'editer_seacret_id' => (user => 'seacret_id');
+    belongs_to park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
+    foreign_key editer_seacret_id => (
+      user      => 'seacret_id',
+      on_delete => 'SET NULL',
+    );
   };
 
   create_table user_park_equipment_edit_history_row => columns {
+    integer 'id' => (primary_key, auto_increment);
     integer 'history_id';
     string 'equipment_name';
     string 'equipment_comment';
     integer 'equipment_recommended_age';
     integer 'equipment_num';
 
-    set_primary_key qw( history_id equipment_name );
-    foreign_key 'history_id' => (user_park_equipment_edit_history => 'id');
+    add_unique_index 'user_park_equipment_edit_history_row_unique' =>
+      [qw( history_id equipment_name )];
+    belongs_to user_park_equipment_edit_history => (
+      column    => 'history_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table user_english_park_equipment_edit_history_row => columns {
+    integer 'row_id' => (primary_key, auto_increment);
     integer 'history_id';
     string 'equipment_name';
     string 'equipment_comment';
 
-    set_primary_key qw( history_id equipment_name );
-    foreign_key 'history_id' => (user_park_equipment_edit_history => 'id');
+    add_unique_index 'user_english_park_equipment_edit_history_row_unique' =>
+      [qw( history_id equipment_name )];
+    belongs_to user_park_equipment_edit_history_row => (
+      column    => 'row_id',
+      on_delete => 'CASCADE',
+    );
+    belongs_to user_park_equipment_edit_history => (
+      column    => 'history_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table user_park_surrounding_facilitiy_edit_history => columns {
@@ -278,28 +382,46 @@ package HirakataPapark::DB::Schema {
     integer 'editer_seacret_id';
     bigint 'edited_time';
 
-    foreign_key 'park_id' => (park => 'id');
-    foreign_key 'editer_seacret_id' => (user => 'seacret_id');
+    belongs_to park => (
+      column    => 'park_id',
+      on_delete => 'CASCADE',
+    );
+    foreign_key editer_seacret_id => (
+      user      => 'seacret_id',
+      on_delete => 'SET NULL',
+    );
   };
 
   create_table user_park_surrounding_facilitiy_edit_history_row => columns {
+    integer 'id' => (primary_key, auto_increment);
     integer 'history_id';
     string 'surrounding_facilitiy_name';
     string 'surrounding_facilitiy_comment';
 
-    set_primary_key qw( history_id surrounding_facilitiy_name );
-    foreign_key 'history_id' =>
-      (user_park_surrounding_facilitiy_edit_history => 'id');
+    add_unique_index user_park_surrounding_facilitiy_edit_history_row_unique =>
+      [qw( history_id surrounding_facilitiy_name )];
+    belongs_to user_park_surrounding_facilitiy_edit_history => (
+      column    => 'history_id',
+      on_delete => 'CASCADE',
+    );
   };
 
   create_table user_english_park_surrounding_facilitiy_edit_history_row => columns {
+    integer 'row_id' => (primary_key, auto_increment);
     integer 'history_id';
     string 'surrounding_facilitiy_name';
     string 'surrounding_facilitiy_comment';
 
-    set_primary_key qw( history_id surrounding_facilitiy_name );
-    foreign_key 'history_id' =>
-      (user_park_surrounding_facilitiy_edit_history => 'id');
+    add_unique_index user_english_park_surrounding_facilitiy_edit_history_row_unique =>
+      [qw( history_id surrounding_facilitiy_name )];
+    belongs_to user_park_surrounding_facilitiy_edit_history_row => (
+      column    => 'row_id',
+      on_delete => 'CASCADE',
+    );
+    belongs_to user_park_surrounding_facilitiy_edit_history => (
+      column    => 'history_id',
+      on_delete => 'CASCADE',
+    );
   };
 
 }

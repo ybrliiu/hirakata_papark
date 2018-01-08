@@ -5,8 +5,10 @@
 * 1/4
 * 公園情報の編集
 1. Model::Park::EditHistory::Park, Plants, Equipments, SurroundingFacilities作成
-  * TablesMeta, MetaTableも作成しより構造的にする
   * ResultBuilder作成, get_historiesを実装(クエリの構成にはtest.plが参考になる)
+    * items_row table にも主キーが必要なことが判明, それに合わせた変更を行う
+      * Meta table root に pkey 追加
+      * foreign_lang table に default_lang_table 追加
   * Model::Park::EditHistory::ParkをOneToOneで書き直し, こちらにもBridgeパターンを適用
   * HistoryToAddBuilder, 及び足りない値を補完する部分も作成
 1. Modelローダ, コンテナでのインスタンスの共通化
