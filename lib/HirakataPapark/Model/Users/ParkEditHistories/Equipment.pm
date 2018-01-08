@@ -13,7 +13,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
   my $TablesMeta =
       'HirakataPapark::Model::Users::ParkEditHistories::Equipment::TablesMeta';
   my $HistoryToAdd =
-      'HirakataPapark::Model::Users::ParkEditHistories::Equipment::HistoryToAdd::History';
+      'HirakataPapark::Model::Users::ParkEditHistories::OneToMany::History::ToAdd';
   my $ResultHistoryBuilder =
       'HirakataPapark::Model::Users::ParkEditHistories::Equipment::ResultHistoryBuilder';
 
@@ -49,7 +49,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
     try {
       right $self->db->insert_multi(
         $self->DEFAULT_LANG_TABLE_NAME,
-        $history->equipments_to_params($history_id),
+        $history->items_to_params($history_id),
       );
     } catch {
       left $_;
@@ -63,7 +63,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
       try {
         right $self->db->insert_multi(
           $table_name,
-          $history->equipments_lang_records_to_params_by_lang($lang, $history_id),
+          $history->items_lang_records_to_params_by_lang($lang, $history_id),
         );
       } catch {
         left $_;

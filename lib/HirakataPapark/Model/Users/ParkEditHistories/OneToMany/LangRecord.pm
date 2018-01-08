@@ -12,19 +12,6 @@ package HirakataPapark::Model::Users::ParkEditHistories::OneToMany::LangRecord {
   sub add_attributes($class) {
     my $meta = $class->meta;
 
-    for my $attr_name ($class->COLUMN_NAMES->@*) {
-      $meta->add_attribute($attr_name => {
-        is       => 'rw',
-        isa      => 'Option::Option',
-        lazy     => 1,
-        builder  => "_build_$attr_name",
-        init_arg => undef,
-      });
-      $meta->add_method("_build_$attr_name" => sub ($self) {
-        Option::option( $self->${\"_$attr_name"} );
-      });
-    }
-
     for my $attr_name ( map { "_$_" } $class->COLUMN_NAMES->@* ) {
       $meta->add_attribute($attr_name => {
         is       => 'ro',
@@ -32,6 +19,13 @@ package HirakataPapark::Model::Users::ParkEditHistories::OneToMany::LangRecord {
         lazy     => 1,
         default  => sub { undef },
         init_arg => substr($attr_name, 1),
+      });
+    }
+
+    for my $attr_name ($class->COLUMN_NAMES->@*) {
+      $meta->add_method($attr_name => sub {
+        my $self = shift;
+        @_ ? $self->${\"_$attr_name"}(shift) : Option::option($self->${\"_$attr_name"});
       });
     }
 

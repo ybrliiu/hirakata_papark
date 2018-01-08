@@ -18,19 +18,10 @@ package HirakataPapark::Model::Users::ParkEditHistories::OneToMany::LangRecords 
   }
 
   for my $attr_name (HirakataPapark::Types->LANGS->@*) {
-
-    has $attr_name => (
-      is       => 'rw',
-      isa      => 'Option::Option',
-      lazy     => 1,
-      builder  => "_build_$attr_name",
-      init_arg => undef,
-    );
-
-    __PACKAGE__->meta->add_method("_build_$attr_name" => sub ($self) {
-      Option::option( $self->${\"_$attr_name"} );
+    __PACKAGE__->meta->add_method($attr_name => sub {
+      my $self = shift;
+      @_ ? $self->${\"_$attr_name"}(shift) : Option::option($self->${\"_$attr_name"});
     });
-
   }
 
   sub has_all($self) {

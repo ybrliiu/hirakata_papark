@@ -36,9 +36,19 @@ subtest has_all => sub {
   );
   ok $history->has_all;
   is $history->items->[0]->name, 'ブランコ';
-  diag explain $history->to_params;
-  diag explain $history->items_to_params(3);
-  diag explain $history->items_lang_records_to_params_by_lang('ja', 3);
+  lives_ok { $history->to_params };
+  is_deeply $history->items_to_params(3), [{
+    history_id                => 3,
+    equipment_num             => 3,
+    equipment_name            => 'ブランコ',
+    equipment_comment         => 'ゆーらゆーら',
+    equipment_recommended_age => 10,
+  }];
+  is_deeply $history->items_lang_records_to_params_by_lang('en', 3), [{
+    history_id        => 3,
+    equipment_name    => 'Swing',
+    equipment_comment => 'swing swing...',
+  }];
 };
 
 done_testing;
