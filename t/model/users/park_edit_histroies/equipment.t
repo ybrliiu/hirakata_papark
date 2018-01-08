@@ -68,6 +68,9 @@ subtest add_history => sub {
   my $result;
   lives_ok { $result = $model->add_history($history) };
   ok $result->is_right;
+  $result->left->map(sub ($e) {
+    diag $e;
+  });
 };
 
 done_testing;

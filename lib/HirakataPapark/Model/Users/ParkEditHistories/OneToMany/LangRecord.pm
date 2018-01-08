@@ -14,7 +14,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::OneToMany::LangRecord {
 
     for my $attr_name ( map { "_$_" } $class->COLUMN_NAMES->@* ) {
       $meta->add_attribute($attr_name => {
-        is       => 'ro',
+        is       => 'rw',
         isa      => 'Maybe[Str]',
         lazy     => 1,
         default  => sub { undef },

@@ -9,7 +9,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::OneToMany::LangRecords 
     'HirakataPapark::Model::Users::ParkEditHistories::OneToMany::LangRecord';
   for my $attr_name ( map { "_$_" } HirakataPapark::Types->LANGS->@* ) {
     has $attr_name => (
-      is       => 'ro',
+      is       => 'rw',
       isa      => "Maybe[$LangRecord]",
       lazy     => 1,
       default  => sub { undef },

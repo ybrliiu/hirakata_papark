@@ -5,10 +5,6 @@
 * 1/4
 * 公園情報の編集
 1. Model::Park::EditHistory::Park, Plants, Equipments, SurroundingFacilities作成
-  * History, add_*とかを追加する -> rwにする
-  * History, Bridgeパターンを利用してクラス数削減
-    * 適用できるのはEquipment, LangRecordのみ
-    * それ以外は全て共通のクラスを使う感じで, EquipmentのインターフェースはItemで
   * TablesMeta, MetaTableも作成しより構造的にする
   * ResultBuilder作成, get_historiesを実装(クエリの構成にはtest.plが参考になる)
   * Model::Park::EditHistory::ParkをOneToOneで書き直し, こちらにもBridgeパターンを適用

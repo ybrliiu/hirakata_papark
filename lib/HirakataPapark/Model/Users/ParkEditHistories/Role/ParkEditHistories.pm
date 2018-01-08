@@ -11,7 +11,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::ParkEditHistories
   );
 
   # attributes
-  requires qw( tables_meta );
+  requires qw( meta_tables );
 
   # methods
   requires qw(

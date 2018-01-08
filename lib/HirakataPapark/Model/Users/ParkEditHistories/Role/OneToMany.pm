@@ -2,25 +2,26 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany {
 
   use Mouse::Role;
   use HirakataPapark;
-  use HirakataPapark::Model::Result;
 
   with 'HirakataPapark::Model::Users::ParkEditHistories::Role::ParkEditHistories';
 
-  sub tables_meta;
-  has 'tables_meta' => (
+  my $MetaTables =
+    'HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany::MetaTables';
+  sub meta_tables;
+  has 'meta_tables' => (
     is      => 'ro',
-    does    => 'HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany::TablesMeta',
+    does    => $MetaTables,
     handles => [qw(
       BODY_TABLE_NAME
       DEFAULT_LANG_TABLE_NAME
-      get_foreign_lang_table_name_by_lang
+      get_foreign_lang_table_by_lang
     )],
     lazy    => 1,
-    builder => '_build_tables_meta',
+    builder => '_build_meta_tables',
   );
 
   # methods
-  requires qw( _build_tables_meta );
+  requires qw( _build_meta_tables );
 
 }
 
