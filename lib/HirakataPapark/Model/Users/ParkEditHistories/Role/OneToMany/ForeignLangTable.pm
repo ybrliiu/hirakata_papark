@@ -3,6 +3,14 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany::Foreig
   use Mouse;
   use HirakataPapark;
 
+  my $DefaultLangTable =
+    'HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany::DefaultLangTable';
+  has 'default_lang_table' => (
+    is       => 'ro',
+    isa      => $DefaultLangTable,
+    required => 1,
+  );
+
   has 'duplicate_columns_with_default_lang_table' => (
     is       => 'ro',
     isa      => 'ArrayRef[Aniki::Schema::Table::Field]',
@@ -21,10 +29,21 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany::Foreig
   );
   
   sub _build_select_columns($self) {
-    $self->_select_columns_builder(
-      $self->table,
-      $self->duplicate_columns_with_default_lang_table
-    );
+    my @columns = grep {
+      $_->name ne $self->foreign_key_column_name;
+    } $self->duplicate_columns_with_default_lang_table->@*;
+    $self->_select_columns_builder($self->table, \@columns);
+  }
+
+  sub _build_join_condition($self) {
+    my ($body_table, $default_lang_table) = 
+      ($self->body_table, $self->default_lang_table);
+    +{
+      $self->name . '.' . $self->foreign_key_column_name =>
+        $body_table->name . '.' . $body_table->pkey->name,
+      $default_lang_table->name . '.' . $default_lang_table->pkey->name => 
+        $self->name . '.' . $self->pkey->name,
+    };
   }
 
   __PACKAGE__->meta->make_immutable;

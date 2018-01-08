@@ -16,16 +16,25 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany::Defaul
     HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany::JoinToBodyTable
   );
 
+  sub _build_join_condition($self) {
+    +{
+      $self->table->name . '.' . $self->foreign_key_column_name =>
+        $self->body_table->name . '.' . $self->body_table->pkey->name
+    };
+  }
+
   sub _build_foreign_key_column_name($self) {
     my ($foreign_key) = grep {
       $_->type eq FOREIGN_KEY
     } $self->table->get_constraints;
-    ($foreign_key->reference_fields)[0];
+    $foreign_key->fields->[0]->name;
   }
   
   sub _build_select_columns($self) {
-    my @columns = 
-      grep { $_->name ne $self->foreign_key_column_name } $self->table->get_fields;
+    my @columns = grep {
+      my $column_name = $_->name;
+      !grep { $column_name eq $_ } ($self->foreign_key_column_name, $self->pkey->name);
+    } $self->table->get_fields;
     $self->_select_columns_builder($self->table, \@columns);
   }
 

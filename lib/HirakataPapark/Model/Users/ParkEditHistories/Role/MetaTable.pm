@@ -23,6 +23,13 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::MetaTable {
     builder => '_build_table',
   );
 
+  has 'pkey' => (
+    is      => 'ro',
+    isa     => 'Aniki::Schema::Table::Field',
+    lazy    => 1,
+    builder => '_build_pkey',
+  );
+
   has 'select_columns' => (
     is      => 'ro',
     isa     => 'ArrayRef[Str]',
@@ -33,8 +40,22 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::MetaTable {
   # methods
   requires qw( _build_select_columns );
 
+  sub _build_pkey($self) {
+    $self->_get_pkey($self->table);
+  }
+
   sub _build_table($self) {
     $self->_get_table($self->name);
+  }
+
+  sub _get_pkey($self, $table) {
+    Option::option( $table->primary_key )->match(
+      Some => sub ($pk) { ($pk->fields)[0] },
+      None => sub {
+        HirakataPapark::Exception
+          ->throw("table @{[ $table->name ]} doesn't have primary key.");
+      },
+    );
   }
 
   sub _get_table($self, $table_name) {

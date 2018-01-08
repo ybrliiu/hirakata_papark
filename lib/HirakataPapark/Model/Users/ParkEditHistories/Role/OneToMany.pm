@@ -15,6 +15,11 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany {
       BODY_TABLE_NAME
       DEFAULT_LANG_TABLE_NAME
       get_foreign_lang_table_by_lang
+      body_table
+      default_lang_table
+      foreign_lang_tables
+      tables
+      join_tables
     )],
     lazy    => 1,
     builder => '_build_meta_tables',

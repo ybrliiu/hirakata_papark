@@ -30,7 +30,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
 
   sub _add_history($self, $history) {
     $self->_insert_to_body_table($history)->flat_map(sub ($history_id) {
-      $self->_insert_to_default_lang_table($history, $history_id)->flat_map(sub {
+      $self->_insert_to_default_lang_table($history, $history_id)->flat_map(sub ($rows) {
         my $results = $self->_insert_to_foreign_langs_tables($history, $history_id);
         for_yield $results, sub { 'Success add history.' };
       });
@@ -47,10 +47,12 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
 
   sub _insert_to_default_lang_table($self, $history, $history_id) {
     try {
-      right $self->db->insert_multi(
+      my $rows = $self->db->insert_multi(
         $self->DEFAULT_LANG_TABLE_NAME,
         $history->items_to_params($history_id),
       );
+      warn Data::Dumper::Dumper $rows;
+      right $rows;
     } catch {
       left $_;
     };
@@ -73,12 +75,19 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
   }
 
   sub get_histories_by_park_id($self, $park_id, $num) {
-    my $select = $self->_histories_select($num);
-    $select->add_where($self->BODY_TABLE_NAME . '.park_id' => $park_id);
+    my ($query, $sub_query) = $self->_histories_select($num);
+    my $body_table = $self->body_table;
+    $sub_query->add_where($body_table->name . '.park_id' => $park_id);
+    $query->add_where($body_table->name . '.' . $body_table->pkey->name => {
+      IN => \[$sub_query->as_sql, $sub_query->bind]
+    });
     my $dbh = $self->db->dbh;
-    my $sth = $dbh->prepare($select->as_sql);
-    $sth->execute($select->bind);
+    my $sth = $dbh->prepare($query->as_sql);
+    $sth->execute($query->bind);
     my $rows = $sth->fetchall_arrayref;
+
+    return $rows;
+
     my @histories = map {
       my $row = $_;
       my $builder = ResultHistoryBuilder->new({
@@ -97,12 +106,20 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
       my $user_seacret_id => 'Str',
       my $num             => 'Int';
 
-    my $select = $self->_histories_select($num);
-    $select->add_where($self->BODY_TABLE_NAME . '.editer_seacret_id' => $user_seacret_id);
+    my ($query, $sub_query) = $self->_histories_select($num);
+    my $body_table = $self->body_table;
+    $sub_query->add_where($body_table->name . '.editer_seacret_id' => $user_seacret_id);
+    $query->add_where($body_table->name . '.' . $body_table->pkey->name => {
+      IN => \[$sub_query->as_sql, $sub_query->bind]
+    });
+    
     my $dbh = $self->db->dbh;
-    my $sth = $dbh->prepare($select->as_sql);
-    $sth->execute($select->bind);
+    my $sth = $dbh->prepare($query->as_sql);
+    $sth->execute($query->bind);
     my $rows = $sth->fetchall_arrayref;
+
+    return $rows;
+
     my @histories = map {
       my $row = $_;
       my $builder = ResultHistoryBuilder->new({
@@ -117,27 +134,31 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
   }
 
   sub _histories_select($self, $num) {
-    my $select = $self->db->query_builder->new_select;
-    for my $field ($self->body_table->get_fields) {
-      $select->add_select($self->BODY_TABLE_NAME . '.' . $field->name);
-    }
-    for my $lang (HirakataPapark::Types->FOREIGN_LANGS->@*) {
-      my $table_name = $self->FOREIGN_LANGS_TABLE_NAMES->{$lang};
-      my $sc_maker = $self->select_columns_makers->{$table_name};
-      for my $select_column ($sc_maker->select_columns->@*) {
-        $select->add_select($select_column);
-      }
-      $select->add_join(
-        $table_name => {
+    my $sub_query = $self->db->query_builder->new_select;
+    my $body_table = $self->body_table;
+    $sub_query->add_from($body_table->name);
+    $sub_query->add_select($body_table->name . '.' . $body_table->pkey->name);
+    $sub_query->add_order_by($body_table->name . '.edited_time' => 'DESC');
+    $sub_query->limit($num);
+
+    my $query = $self->db->query_builder->new_select;
+    for my $table ($self->join_tables->@*) {
+      $query->add_join(
+        $body_table->name => {
           type      => 'inner',
-          table     => $self->BODY_TABLE_NAME,
-          condition => $sc_maker->join_condition,
+          table     => $table->name,
+          condition => $table->join_condition,
         }
       );
     }
-    $select->add_order_by($self->BODY_TABLE_NAME . '.edited_time' => 'DESC');
-    $select->limit($num);
-    $select;
+
+    for my $table ($self->tables->@*) {
+      for my $column ($table->select_columns->@*) {
+        $query->add_select($column);
+      }
+    }
+
+    ($query, $sub_query);
   }
 
   __PACKAGE__->meta->make_immutable;

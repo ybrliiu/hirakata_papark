@@ -2,7 +2,6 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany::JoinTo
 
   use Mouse::Role;
   use HirakataPapark;
-  use SQL::Translator::Schema::Constants qw( FOREIGN_KEY );
 
   my $BodyTable =
     'HirakataPapark::Model::Users::ParkEditHistories::Role::BodyTable';
@@ -19,14 +18,11 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany::JoinTo
     builder => '_build_join_condition',
   );
 
+  # attributes
   requires qw( foreign_key_column_name );
 
-  sub _build_join_condition($self) {
-    +{
-      $self->table->name . '.' . $self->foreign_key_column_name =>
-        $self->body_meta_table->name . '.' . $self->body_meta_table->pkey->name
-    };
-  }
+  # methods
+  requires qw( _build_join_condition );
 
 }
 

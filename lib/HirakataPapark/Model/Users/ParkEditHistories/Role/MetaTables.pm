@@ -34,6 +34,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::MetaTables {
   }
 
   sub _get_duplicate_columns($self, $tables) {
+    my @tables = @$tables;
     my %columns = map {
       my $table = $_;
       my %mapped_columns = map { 
@@ -41,10 +42,14 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::MetaTables {
         $column->name => $column;
       } $table->get_fields;
       $table->name => \%mapped_columns;
-    } @$tables;
-    my @duplicate_columns = map { $columns{ $tables->[0]->name }->{$_} }
-      grep { grep { exists $columns{$_->name}->{$_} } @$tables }
-      map { $_->name } $tables->[0]->get_fields;
+    } @tables;
+    my @duplicate_columns = map { $columns{ $tables[0]->name }->{$_} }
+      grep {
+        my $column_name = $_;
+        my $exists_num =
+          grep { exists $columns{$_->name}->{$column_name} } @tables;
+        $exists_num == @tables;
+      } map { $_->name } $tables[0]->get_fields;
     \@duplicate_columns;
   }
 

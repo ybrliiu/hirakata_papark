@@ -60,12 +60,28 @@ package HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany::MetaTa
         name                    => $table_name,
         schema                  => $self->schema,
         body_table              => $self->body_table,
+        default_lang_table      => $self->default_lang_table,
         foreign_key_column_name => $self->default_lang_table->foreign_key_column_name,
         duplicate_columns_with_default_lang_table => 
           $self->duplicate_columns_with_default_lang_table,
       });
     } HirakataPapark::Types->FOREIGN_LANGS->@*;
     \%map;
+  }
+
+  sub foreign_lang_tables($self) {
+    my @tables = map {
+      $self->foreign_lang_tables_mapped_to_lang->{$_};
+    } HirakataPapark::Types->FOREIGN_LANGS->@*;
+    \@tables;
+  }
+
+  sub tables($self) {
+    [ $self->body_table, $self->join_tables->@* ];
+  }
+
+  sub join_tables($self) {
+    [ $self->default_lang_table, $self->foreign_lang_tables->@* ];
   }
 
 }
