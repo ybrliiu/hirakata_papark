@@ -16,7 +16,11 @@ new Vue({
       this.show();
     },
   },
-  created: function () { window.addEventListener('click', this.close.bind(this)); },
-  destroyed: function () { window.removeEventListener('click', this.close.bind(this)); },
+  mounted: function () {
+    // iOSでもclickイベントを動作させられるように, bodyにはイベントを登録せず子要素に登録
+    [window, document.getElementsByClassName('click-wrapper')[0]].forEach(function (elem) {
+      elem.addEventListener('click', this.close.bind(this));
+    }.bind(this));
+  },
 });
 

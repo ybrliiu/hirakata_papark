@@ -1,5 +1,10 @@
 // 独自定義のスタイルで, 広範囲に影響を及ぼすもの
 
+// iOS safariでクリック時の影を消す
+nav, div {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
 // v-croakでvue.jsがdomを解析する前に表示させない
 [v-cloak] { display: none; }
 

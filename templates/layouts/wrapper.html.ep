@@ -16,10 +16,12 @@
     <title><%= $lang_dict->get_word('site_name')->get %></title>
   </head>
   <body>
-    % content container => begin
-      <%= content %>
-    % end
-    %= content 'container'
-    %= asset 'bundle.js';
+    <div class="click-wrapper">
+      % content container => begin
+        <%= content %>
+      % end
+      %= content 'container'
+      %= asset 'bundle.js';
+    </div>
   </body>
 </html>
