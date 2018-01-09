@@ -1,19 +1,15 @@
 use Test::HirakataPapark;
 use Test::HirakataPapark::Container;
 use HirakataPapark::Model::Users::ParkEditHistories::Park;
-use HirakataPapark::Model::Users::ParkEditHistories::Park::History::Add;
-use HirakataPapark::Model::Users::ParkEditHistories::Park::DiffColumnSets;
-use HirakataPapark::Model::Users::ParkEditHistories::Park::ForeignLangTableSets;
+use HirakataPapark::Model::Users::ParkEditHistories::Park::LangRecord;
+use HirakataPapark::Model::Users::ParkEditHistories::History::LangRecords;
+use HirakataPapark::Model::Users::ParkEditHistories::Park::Park;
+use HirakataPapark::Model::Users::ParkEditHistories::History::History::HasOne::ToAdd;
 
-# alias
-use constant {
-  History => 
-    'HirakataPapark::Model::Users::ParkEditHistories::Park::History::Add',
-  DiffColumnSets =>
-    'HirakataPapark::Model::Users::ParkEditHistories::Park::DiffColumnSets',
-  ForeignLangTableSets =>
-    'HirakataPapark::Model::Users::ParkEditHistories::Park::ForeignLangTableSets',
-};
+my $Park   = 'HirakataPapark::Model::Users::ParkEditHistories::Park::Park';
+my $LangRecord  = 'HirakataPapark::Model::Users::ParkEditHistories::Park::LangRecord';
+my $LangRecords = 'HirakataPapark::Model::Users::ParkEditHistories::History::LangRecords';
+my $History     = 'HirakataPapark::Model::Users::ParkEditHistories::History::History::HasOne::ToAdd';
 
 my $c = Test::HirakataPapark::Container->new;
 my $db = $c->get_sub_container('DB')->get_service('db')->get;
@@ -27,43 +23,49 @@ lives_ok {
 };
 
 subtest add_history => sub {
-  my $sets = ForeignLangTableSets->new(
-    ja => DiffColumnSets->new(
-      park_name    => 'A公園',
-      park_address => 'ahlfhkassa',
-      park_explain => 'sedl;dskals',
-    ),
-    en => DiffColumnSets->new(
-      park_name    => 'A Park',
-      park_address => 'ahlfhkassa',
-      park_explain => 'sedl;dskals',
+  my $history = $History->new(
+    park_id           => 1,
+    editer_seacret_id => 1,
+    item_impl => $Park->new(
+      x       => 1,
+      y       => 2,
+      area    => 1000,
+      zipcode => '661-0031',
+      is_evacuation_area => 0,
+      lang_records => $LangRecords->new(
+        ja => $LangRecord->new(
+          name    => 'ぞのはなこうえん',
+          address => 'A市B町',
+          explain => '',
+        ),
+        en => $LangRecord->new(
+          name    => 'Zonohana Park',
+          address => 'B town A city',
+          explain => '',
+        ),
+      ),
     ),
   );
-  my %params = map {
-    my $name = $_;
-    "park_$name" => $park->$name;
-  } qw( id zipcode x y area is_evacuation_area );
-  my $history = History->new(
-    lang                    => 'ja',
-    editer_seacret_id       => $user->seacret_id,
-    foreign_lang_table_sets => $sets,
-    %params,
-  );
-  lives_ok { $model->add_history($history) };
+  my $result;
+  lives_ok { $result = $model->add_history($history) };
+  ok $result->is_right;
+  $result->left->map(sub ($e) {
+    diag $e;
+  });
 };
 
 subtest get_histories_by_user_seacret_id => sub {
   my $result = $model->get_histories_by_user_seacret_id(
-    lang            => 'ja', 
+    lang            => 'en', 
     num             => 10,
     user_seacret_id => $user->seacret_id, 
   );
-  ok $result;
+  is $result->[0]->name, 'Zonohana Park';
 };
 
 subtest get_histories_by_park_id => sub {
   my $result = $model->get_histories_by_park_id($park->id, 10);
-  ok $result;
+  is $result->[0]->name, 'ぞのはなこうえん';
 };
 
 done_testing;

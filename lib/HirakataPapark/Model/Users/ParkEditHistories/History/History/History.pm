@@ -3,6 +3,8 @@ package HirakataPapark::Model::Users::ParkEditHistories::History::History::Histo
   use Mouse::Role;
   use HirakataPapark;
 
+  use constant COLUMN_NAMES => [qw( park_id editer_seacret_id edited_time )];
+
   has 'park_id' => (
     is       => 'ro',
     isa      => 'Int',

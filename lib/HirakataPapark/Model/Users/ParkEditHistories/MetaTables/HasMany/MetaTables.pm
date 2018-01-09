@@ -3,6 +3,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::MetaTables::HasMany::Me
   use Mouse::Role;
   use HirakataPapark;
   use HirakataPapark::Types;
+  use HirakataPapark::Model::Users::ParkEditHistories::MetaTables::BodyTable;
   use HirakataPapark::Model::Users::ParkEditHistories::MetaTables::HasMany::DefaultLangTable;
   use HirakataPapark::Model::Users::ParkEditHistories::MetaTables::HasMany::ForeignLangTable;
 
@@ -79,17 +80,6 @@ package HirakataPapark::Model::Users::ParkEditHistories::MetaTables::HasMany::Me
       });
     } HirakataPapark::Types->FOREIGN_LANGS->@*;
     \%map;
-  }
-
-  sub foreign_lang_tables($self) {
-    my @tables = map {
-      $self->foreign_lang_tables_mapped_to_lang->{$_};
-    } HirakataPapark::Types->FOREIGN_LANGS->@*;
-    \@tables;
-  }
-
-  sub tables($self) {
-    [ $self->body_table, $self->join_tables->@* ];
   }
 
   sub is_column_exists_in_duplicate_columns($self, $column_name) {

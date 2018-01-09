@@ -3,7 +3,6 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment::MetaTables {
   use Mouse;
   use HirakataPapark;
   use HirakataPapark::Types;
-  use HirakataPapark::Exception;
   use HirakataPapark::Class::ISO639_1Translator qw( to_word );
 
   use constant {

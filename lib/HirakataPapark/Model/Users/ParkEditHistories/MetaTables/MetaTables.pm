@@ -3,10 +3,14 @@ package HirakataPapark::Model::Users::ParkEditHistories::MetaTables::MetaTables 
   use Mouse::Role;
   use HirakataPapark;
   use Option ();
+  use HirakataPapark::Exception;
   use HirakataPapark::Model::Users::ParkEditHistories::MetaTables::BodyTable;
 
   # constants
   requires qw( BODY_TABLE_NAME FOREIGN_LANG_TABLE_NAMES_MAPPED_TO_LANG );
+
+  # attributes
+  requires qw( foreign_lang_tables_mapped_to_lang );
 
   has 'schema' => (
     is       => 'ro',
@@ -21,10 +25,8 @@ package HirakataPapark::Model::Users::ParkEditHistories::MetaTables::MetaTables 
     builder => '_build_body_table',
   );
 
-  # attributes
-  requires qw(
-    foreign_lang_tables_mapped_to_lang
-  );
+  # methods
+  requires qw( join_tables is_column_exists_in_duplicate_columns );
 
   sub _build_body_table($self) {
     HirakataPapark::Model::Users::ParkEditHistories::MetaTables::BodyTable->new({
@@ -53,11 +55,22 @@ package HirakataPapark::Model::Users::ParkEditHistories::MetaTables::MetaTables 
     \@duplicate_columns;
   }
 
+  sub foreign_lang_tables($self) {
+    my @tables = map {
+      $self->foreign_lang_tables_mapped_to_lang->{$_};
+    } HirakataPapark::Types->FOREIGN_LANGS->@*;
+    \@tables;
+  }
+
   sub get_foreign_lang_table_by_lang($self, $lang) {
     Option::option( $self->foreign_lang_tables_mapped_to_lang->{$lang} )->match(
       Some => sub ($table) { $table },
-      None => sub { "'$lang' table is not found." },
+      None => sub { HirakataPapark::Exception->throw("'$lang' table is not found.") },
     );
+  }
+
+  sub tables($self) {
+    [ $self->body_table, $self->join_tables->@* ];
   }
 
 }

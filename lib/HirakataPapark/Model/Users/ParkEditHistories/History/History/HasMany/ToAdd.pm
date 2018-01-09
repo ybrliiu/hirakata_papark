@@ -5,7 +5,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::History::History::HasMa
   with 'HirakataPapark::Model::Users::ParkEditHistories::History::History::HasMany::History';
 
   sub to_params($self) {
-    +{ map { $_ => $self->$_ } qw( park_id editer_seacret_id edited_time ) };
+    +{ map { $_ => $self->$_ } $self->COLUMN_NAMES->@* };
   }
 
   sub items_to_params($self, $history_id) {
@@ -14,7 +14,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::History::History::HasMa
     });
   }
 
-  sub items_lang_records_to_params_by_lang($self, $lang, $history_id) {
+  sub items_lang_record_to_params($self, $lang, $history_id) {
     $self->items_map(sub ($item) {
       $item->lang_records
         ->${\$lang}->get

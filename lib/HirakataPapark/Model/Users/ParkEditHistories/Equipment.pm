@@ -40,7 +40,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
 
   sub _insert_to_body_table($self, $history) {
     try {
-      right $self->db->insert_and_fetch_id($self->BODY_TABLE_NAME, $history->to_params);
+      right $self->db->insert_and_fetch_id($self->body_table->name, $history->to_params);
     } catch {
       left $_;
     };
@@ -49,7 +49,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
   sub _insert_to_default_lang_table($self, $history, $history_id) {
     try {
       right $self->db->insert_multi(
-        $self->DEFAULT_LANG_TABLE_NAME,
+        $self->default_lang_table->name,
         $history->items_to_params($history_id),
       );
     } catch {
@@ -64,7 +64,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
       try {
         right $self->db->insert_multi(
           $table->name,
-          $history->items_lang_records_to_params_by_lang($lang, $history_id),
+          $history->items_lang_record_to_params($lang, $history_id),
         );
       } catch {
         left $_;
@@ -192,6 +192,6 @@ History {
 }
 
 Equipment(モデル本体) -
-                 |- TablesMeta(使用するテーブル及びそれに関する情報)
+                 |- MetaTables(使用するテーブル及びそれに関する情報)
                  |- ResultHistoryBuilder(ResultHistoryを作成するファクトリクラス)
 
