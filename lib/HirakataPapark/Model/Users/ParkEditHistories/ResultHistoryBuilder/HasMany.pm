@@ -13,7 +13,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::ResultHistoryBuilder::H
 
   has 'meta_tables' => (
     is       => 'ro',
-    isa      => 'HirakataPapark::Model::Users::ParkEditHistories::Equipment::MetaTables',
+    does     => 'HirakataPapark::Model::Users::ParkEditHistories::MetaTables::MetaTables',
     required => 1,
   );
 
