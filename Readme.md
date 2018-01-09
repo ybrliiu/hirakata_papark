@@ -4,18 +4,11 @@
 
 * 1/4
 * 公園情報の編集
-1. Model::Park::EditHistory::Park, Plants, Equipments, SurroundingFacilities作成
-  * OneToMany すべてのモデルを実装
-  * 共通化
   * HistoryToAddBuilder, 及び足りない値を補完する部分も作成
 1. Modelローダ, コンテナでのインスタンスの共通化
 1. Service作成
 1. クライアント側作成
 1. HirakataPapark::Typesに分割
-1. 終わったらスキーマとModel::Role::DBをスキーマの変更に強くする, 
-   また, Model::Role::DB, SelectColumnesMaker, Model::Users::ParkEditHistories::Base
-   と共通化させるべき部分はくくりだす
-1. ForeignLanguage -> ForeignLang
 
 * 公園の追加
   * 本体
@@ -30,6 +23,11 @@
 * facebook
 
 * 設備、植物、植物カテゴリ、周辺施設のテーブルを作ればよかった
+
+* 終わったらスキーマとModel::Role::DBをスキーマの変更に強くする, 
+   また, Model::Role::DB, SelectColumnesMaker, Model::Users::ParkEditHistories::Base
+   と共通化させるべき部分はくくりだす
+* ForeignLanguage -> ForeignLang
 
 * linked open data
 

@@ -376,7 +376,7 @@ package HirakataPapark::DB::Schema {
     );
   };
 
-  create_table user_park_surrounding_facilitiy_edit_history => columns {
+  create_table user_park_surrounding_facility_edit_history => columns {
     integer 'id' => (primary_key, auto_increment);
     integer 'park_id';
     integer 'editer_seacret_id';
@@ -392,33 +392,33 @@ package HirakataPapark::DB::Schema {
     );
   };
 
-  create_table user_park_surrounding_facilitiy_edit_history_row => columns {
+  create_table user_park_surrounding_facility_edit_history_row => columns {
     integer 'id' => (primary_key, auto_increment);
     integer 'history_id';
-    string 'surrounding_facilitiy_name';
-    string 'surrounding_facilitiy_comment';
+    string 'surrounding_facility_name';
+    string 'surrounding_facility_comment';
 
-    add_unique_index user_park_surrounding_facilitiy_edit_history_row_unique =>
-      [qw( history_id surrounding_facilitiy_name )];
-    belongs_to user_park_surrounding_facilitiy_edit_history => (
+    add_unique_index user_park_surrounding_facility_edit_history_row_unique =>
+      [qw( history_id surrounding_facility_name )];
+    belongs_to user_park_surrounding_facility_edit_history => (
       column    => 'history_id',
       on_delete => 'CASCADE',
     );
   };
 
-  create_table user_english_park_surrounding_facilitiy_edit_history_row => columns {
+  create_table user_english_park_surrounding_facility_edit_history_row => columns {
     integer 'row_id' => (primary_key, auto_increment);
     integer 'history_id';
-    string 'surrounding_facilitiy_name';
-    string 'surrounding_facilitiy_comment';
+    string 'surrounding_facility_name';
+    string 'surrounding_facility_comment';
 
-    add_unique_index user_english_park_surrounding_facilitiy_edit_history_row_unique =>
-      [qw( history_id surrounding_facilitiy_name )];
-    belongs_to user_park_surrounding_facilitiy_edit_history_row => (
+    add_unique_index user_english_park_surrounding_facility_edit_history_row_unique =>
+      [qw( history_id surrounding_facility_name )];
+    belongs_to user_park_surrounding_facility_edit_history_row => (
       column    => 'row_id',
       on_delete => 'CASCADE',
     );
-    belongs_to user_park_surrounding_facilitiy_edit_history => (
+    belongs_to user_park_surrounding_facility_edit_history => (
       column    => 'history_id',
       on_delete => 'CASCADE',
     );
