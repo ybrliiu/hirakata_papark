@@ -5,8 +5,6 @@
 * 1/4
 * 公園情報の編集
 1. Model::Park::EditHistory::Park, Plants, Equipments, SurroundingFacilities作成
-  * pkg名変更, Role階層からRoot階層に, あとMetaTables/, History/, HasOne/, HasMany/
-  * Model::Park::EditHistory::ParkをOneToOneで書き直し, こちらにもBridgeパターンを適用
   * OneToMany すべてのモデルを実装
   * 共通化
   * HistoryToAddBuilder, 及び足りない値を補完する部分も作成
