@@ -15,7 +15,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment::MetaTables {
     },
   };
 
-  with 'HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany::MetaTables';
+  with 'HirakataPapark::Model::Users::ParkEditHistories::MetaTables::HasMany::MetaTables';
 
   __PACKAGE__->meta->make_immutable;
 

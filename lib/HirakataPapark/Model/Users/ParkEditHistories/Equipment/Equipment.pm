@@ -21,7 +21,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment::Equipment {
     required => 1,
   );
 
-  with 'HirakataPapark::Model::Users::ParkEditHistories::OneToMany::Item::ItemImpl';
+  with 'HirakataPapark::Model::Users::ParkEditHistories::History::Item::ItemImpl';
 
   __PACKAGE__->meta->make_immutable;
 

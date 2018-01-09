@@ -1,15 +1,15 @@
 use Test::HirakataPapark;
 use HirakataPapark::Model::Users::ParkEditHistories::Equipment::Equipment;
 use HirakataPapark::Model::Users::ParkEditHistories::Equipment::LangRecord;
-use HirakataPapark::Model::Users::ParkEditHistories::OneToMany::Item::ToAdd;
-use HirakataPapark::Model::Users::ParkEditHistories::OneToMany::LangRecords;
-use HirakataPapark::Model::Users::ParkEditHistories::OneToMany::History::ToAdd;
+use HirakataPapark::Model::Users::ParkEditHistories::History::Item::ToAdd;
+use HirakataPapark::Model::Users::ParkEditHistories::History::LangRecords;
+use HirakataPapark::Model::Users::ParkEditHistories::History::History::HasMany::ToAdd;
 
 my $Equipment   = 'HirakataPapark::Model::Users::ParkEditHistories::Equipment::Equipment';
 my $LangRecord  = 'HirakataPapark::Model::Users::ParkEditHistories::Equipment::LangRecord';
-my $Item        = 'HirakataPapark::Model::Users::ParkEditHistories::OneToMany::Item::ToAdd';
-my $LangRecords = 'HirakataPapark::Model::Users::ParkEditHistories::OneToMany::LangRecords';
-my $History     = 'HirakataPapark::Model::Users::ParkEditHistories::OneToMany::History::ToAdd';
+my $Item        = 'HirakataPapark::Model::Users::ParkEditHistories::History::Item::ToAdd';
+my $LangRecords = 'HirakataPapark::Model::Users::ParkEditHistories::History::LangRecords';
+my $History     = 'HirakataPapark::Model::Users::ParkEditHistories::History::History::HasMany::ToAdd';
 
 subtest has_all => sub {
   my $history = $History->new(

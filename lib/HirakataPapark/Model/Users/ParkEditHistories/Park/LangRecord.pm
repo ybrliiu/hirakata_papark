@@ -1,9 +1,9 @@
-package HirakataPapark::Model::Users::ParkEditHistories::Equipment::LangRecord {
+package HirakataPapark::Model::Users::ParkEditHistories::Park::LangRecord {
   
   use Mouse;
   use HirakataPapark;
 
-  use constant COLUMN_NAMES => [qw( name comment )];
+  use constant COLUMN_NAMES => [qw( name address explain )];
 
   with 'HirakataPapark::Model::Users::ParkEditHistories::History::LangRecord';
 

@@ -14,11 +14,11 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
   my $MetaTables =
       'HirakataPapark::Model::Users::ParkEditHistories::Equipment::MetaTables';
   my $HistoryToAdd =
-      'HirakataPapark::Model::Users::ParkEditHistories::OneToMany::History::ToAdd';
+      'HirakataPapark::Model::Users::ParkEditHistories::History::History::HasMany::ToAdd';
   my $ResultHistoryBuilder =
       'HirakataPapark::Model::Users::ParkEditHistories::Equipment::ResultHistoryBuilder';
 
-  with 'HirakataPapark::Model::Users::ParkEditHistories::Role::OneToMany';
+  with 'HirakataPapark::Model::Users::ParkEditHistories::HasMany';
 
   sub _build_meta_tables($self) {
     $MetaTables->new(schema => $self->db->schema);

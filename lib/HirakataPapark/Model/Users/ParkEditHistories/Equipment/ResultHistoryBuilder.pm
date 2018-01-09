@@ -5,15 +5,15 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment::ResultHistor
   use HirakataPapark::Types;
   use HirakataPapark::Model::Users::ParkEditHistories::Equipment::Equipment;
   use HirakataPapark::Model::Users::ParkEditHistories::Equipment::LangRecord;
-  use HirakataPapark::Model::Users::ParkEditHistories::OneToMany::Item::Result;
-  use HirakataPapark::Model::Users::ParkEditHistories::OneToMany::LangRecords;
-  use HirakataPapark::Model::Users::ParkEditHistories::OneToMany::History::Result;
+  use HirakataPapark::Model::Users::ParkEditHistories::History::Item::Result;
+  use HirakataPapark::Model::Users::ParkEditHistories::History::LangRecords;
+  use HirakataPapark::Model::Users::ParkEditHistories::History::History::HasMany::Result;
 
   my $Equipment   = 'HirakataPapark::Model::Users::ParkEditHistories::Equipment::Equipment';
   my $LangRecord  = 'HirakataPapark::Model::Users::ParkEditHistories::Equipment::LangRecord';
-  my $Item        = 'HirakataPapark::Model::Users::ParkEditHistories::OneToMany::Item::Result';
-  my $LangRecords = 'HirakataPapark::Model::Users::ParkEditHistories::OneToMany::LangRecords';
-  my $History     = 'HirakataPapark::Model::Users::ParkEditHistories::OneToMany::History::Result';
+  my $Item        = 'HirakataPapark::Model::Users::ParkEditHistories::History::Item::Result';
+  my $LangRecords = 'HirakataPapark::Model::Users::ParkEditHistories::History::LangRecords';
+  my $History     = 'HirakataPapark::Model::Users::ParkEditHistories::History::History::HasMany::Result';
 
   has 'meta_tables' => (
     is       => 'ro',

@@ -5,11 +5,10 @@
 * 1/4
 * 公園情報の編集
 1. Model::Park::EditHistory::Park, Plants, Equipments, SurroundingFacilities作成
-  * ResultBuilder作成, get_historiesを実装(クエリの構成にはtest.plが参考になる)
-    * items_row table にも主キーが必要なことが判明, それに合わせた変更を行う
-      * Meta table root に pkey 追加
-      * foreign_lang table に default_lang_table 追加
+  * pkg名変更, Role階層からRoot階層に, あとMetaTables/, History/, HasOne/, HasMany/
   * Model::Park::EditHistory::ParkをOneToOneで書き直し, こちらにもBridgeパターンを適用
+  * OneToMany すべてのモデルを実装
+  * 共通化
   * HistoryToAddBuilder, 及び足りない値を補完する部分も作成
 1. Modelローダ, コンテナでのインスタンスの共通化
 1. Service作成
@@ -20,24 +19,20 @@
    と共通化させるべき部分はくくりだす
 1. ForeignLanguage -> ForeignLang
 
-* 1/5
-*公園の追加
+* 公園の追加
   * 本体
   * 履歴
 
-* 1/6
 * 名前付きのコメント機能
 
-* 1/7
 * 管理者機能
 
-* 1/8
 * 公園管理者機能
 
-* 1/9
 * facebook
 
-* 1/10
+* 設備、植物、植物カテゴリ、周辺施設のテーブルを作ればよかった
+
 * linked open data
 
 * Model::get_row SQLの型が違うときに例外がでるのはどう対処する
