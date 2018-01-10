@@ -2,10 +2,9 @@
 
 ## 予定
 
-* 1/4
 * 公園情報の編集
   * HistoryToAddBuilder, 及び足りない値を補完する部分も作成
-1. Modelローダ, コンテナでのインスタンスの共通化
+1. コンテナクラスへのインスタンス変数
 1. Service作成
 1. クライアント側作成
 1. HirakataPapark::Typesに分割
@@ -20,16 +19,22 @@
 
 * 公園管理者機能
 
-* facebook
-
-* 設備、植物、植物カテゴリ、周辺施設のテーブルを作ればよかった
+* 設備、植物、周辺施設のテーブルを作ればよかった
+  * Park table は従来のまま
+  * Equipment, Plants, PlantsCategory, SurroundingFacility モデル
+  * equipmentとかはaccessor langを持ち, get_rowで普通のRow,
+    * get_joined_row(名前つき)Rowクラスを拡張したオブジェクトを返すようにする
 
 * 終わったらスキーマとModel::Role::DBをスキーマの変更に強くする, 
-   また, Model::Role::DB, SelectColumnesMaker, Model::Users::ParkEditHistories::Base
-   と共通化させるべき部分はくくりだす
+  * DBIx::Schema::DSL, SQL::Traslator を拡張
+    * mutable, immutable, lang_data をfieldに追加する
+    * そこまでやるのはしんどいのでほどほどに
+
 * ForeignLanguage -> ForeignLang
 
 * linked open data
+
+* facebook
 
 * Model::get_row SQLの型が違うときに例外がでるのはどう対処する
 * render_unauthorized (401 Unauthorized)

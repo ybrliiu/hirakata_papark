@@ -44,7 +44,7 @@ subtest has_all => sub {
     equipment_comment         => 'ゆーらゆーら',
     equipment_recommended_age => 10,
   }];
-  is_deeply $history->items_lang_records_to_params_by_lang('en', 3), [{
+  is_deeply $history->items_lang_record_to_params('en', 3), [{
     history_id        => 3,
     equipment_name    => 'Swing',
     equipment_comment => 'swing swing...',

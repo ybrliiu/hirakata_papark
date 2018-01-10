@@ -64,24 +64,28 @@ package HirakataPapark::Model::Users::ParkEditHistories::ResultHistoryBuilder::H
     }
     my $default_lang_record = 
       $self->_create_lang_record(\%default_lang_record_params);
-    my $lang_records = $self->_build_lang_records($row, $end + 1);
-    $lang_records->${\HirakataPapark::Types->DEFAULT_LANG}($default_lang_record);
     $Item->new({
       lang      => $self->lang,
       item_impl => $self->_create_item_impl({
         %params,
-        lang_records => $lang_records,
+        lang_records =>
+          $self->_build_lang_records($row, $end + 1, $default_lang_record),
       }),
     });
   }
 
-  sub _build_lang_records($self, $row, $begin) {
-    my %params = map {
-      my $table = $_;
-      my $lang_record = $self->_build_lang_record($row, $begin, $table);
-      $begin += $table->select_columns->@*;
-      $table->lang => $lang_record;
-    } $self->meta_tables->foreign_lang_tables->@*;
+  sub _build_lang_records($self, $row, $begin, $default_lang_record) {
+    my %params = (
+      (
+        map {
+          my $table = $_;
+          my $lang_record = $self->_build_lang_record($row, $begin, $table);
+          $begin += $table->select_columns->@*;
+          $table->lang => $lang_record;
+        } $self->meta_tables->foreign_lang_tables->@*
+      ),
+      ( HirakataPapark::Types->DEFAULT_LANG => $default_lang_record ),
+    );
     $LangRecords->new(\%params);
   }
 
