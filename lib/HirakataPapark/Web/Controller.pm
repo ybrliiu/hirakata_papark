@@ -10,12 +10,15 @@ package HirakataPapark::Web::Controller {
 
   use constant NOT_FOUND => 404;
 
-  has 'db' => sub ($self) {
-    my $c = HirakataPapark::Container->new;
-    $c->get_sub_container('DB')->get_service('psql')->get;
+  has 'container' => sub ($self) {
+    HirakataPapark::Container->instance;
   };
 
-  has 'users' => sub ($self) { HirakataPapark::Model::Users::Users->new(db => $self->db) };
+  has 'db' => sub ($self) {
+    $self->container->fetch('DB/psql')->get;
+  };
+
+  has 'users' => sub ($self) { $self->model('HirakataPapark::Model::Users::Users') };
 
   has 'lang' => sub ($self) {
     my $lang = $self->param('lang');
@@ -37,6 +40,10 @@ package HirakataPapark::Web::Controller {
   has 'maybe_user_seacret_id' => sub ($self) {
     option( $self->plack_session->get('user.seacret_id') );
   };
+
+  sub model($self, $path) {
+    $self->container->fetch("Model/$path")->get;
+  }
 
   sub render_to_multiple_lang {
     my $self = shift;

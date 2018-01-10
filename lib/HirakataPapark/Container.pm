@@ -1,15 +1,17 @@
 package HirakataPapark::Container {
 
-  use Moose;
+  use Mouse;
   use Bread::Board;
   use HirakataPapark;
-  use HirakataPapark::DB;
-  use HirakataPapark::Model::Config;
+  use HirakataPapark::Container::Model;
   extends qw( Bread::Board::Container );
 
   has 'name' => ( is => 'ro', isa => 'Str', default => 'hirakata_papark' );
 
+  with 'HirakataPapark::Role::Singleton';
+
   sub BUILD($self, $args) {
+    $self->add_sub_container(HirakataPapark::Container::Model->new);
     $self->add_sub_container($self->db_container);
   }
 
@@ -18,16 +20,10 @@ package HirakataPapark::Container {
 
       service 'psql' => (
         block => sub ($s) {
+          require HirakataPapark::DB;
+          require HirakataPapark::Model::Config;
           my $config = HirakataPapark::Model::Config->instance->get_config('db');
           HirakataPapark::DB->new(%$config);
-        },
-        lifecycle => 'Singleton',
-      );
-
-      service 'sqlite' => (
-        block => sub ($s) {
-          my $db_path = './etc/tmp/test.db';
-          HirakataPapark::DB->new(connect_info => ["dbi:SQLite:dbname='${db_path}'"]);
         },
         lifecycle => 'Singleton',
       );

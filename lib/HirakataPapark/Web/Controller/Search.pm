@@ -2,40 +2,25 @@ package HirakataPapark::Web::Controller::Search {
 
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
-
   use HirakataPapark::Class::Coord;
-  use HirakataPapark::Model::Parks::Tags;
-  use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
-  use HirakataPapark::Model::MultilingualDelegator::Parks::Plants;
-  use HirakataPapark::Model::MultilingualDelegator::Parks::Equipments;
-  use HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities;
   use HirakataPapark::Service::Park::CalcDistance;
 
-  has 'parks' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Parks
-      ->new(db => $self->db)
-      ->model( $self->lang );
-  };
+  {
+    my %accessors = (
+      parks           => 'HirakataPapark::Model::MultilingualDelegator::Parks::Parks',
+      park_plants     => 'HirakataPapark::Model::MultilingualDelegator::Parks::Plants',
+      park_equipments => 'HirakataPapark::Model::MultilingualDelegator::Parks::Equipments',
+      park_surrounding_facilities =>
+        'HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities',
+    );
+  
+    while ( my ($accessor_name, $model_name) = each %accessors ) {
+      has $accessor_name =>
+        sub ($self) { $self->model($model_name)->model($self->lang) };
+    }
+  }
 
-  has 'park_tags' => sub ($self) { HirakataPapark::Model::Parks::Tags->new(db => $self->db) };
-
-  has 'park_plants' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Plants
-      ->new(db => $self->db)
-      ->model( $self->lang );
-  };
-
-  has 'park_equipments' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Equipments
-      ->new(db => $self->db)
-      ->model( $self->lang );
-  };
-
-  has 'park_surrounding_facilities' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities
-      ->new(db => $self->db)
-      ->model( $self->lang );
-  };
+  has 'park_tags' => sub ($self) { $self->model('HirakataPapark::Model::Parks::Tags') };
 
   sub near_parks($self) {
     my $point = HirakataPapark::Class::Coord->new(

@@ -2,10 +2,9 @@
 
 ## 予定
 
+1. Service作成
 * 公園情報の編集
   * HistoryToAddBuilder, 及び足りない値を補完する部分も作成
-1. コンテナクラスへのインスタンス変数
-1. Service作成
 1. クライアント側作成
 1. HirakataPapark::Typesに分割
 
@@ -26,6 +25,7 @@
     * get_joined_row(名前つき)Rowクラスを拡張したオブジェクトを返すようにする
 
 * 終わったらスキーマとModel::Role::DBをスキーマの変更に強くする, 
+  * スキーマの管理, 共通化部分は共通化させる
   * DBIx::Schema::DSL, SQL::Traslator を拡張
     * mutable, immutable, lang_data をfieldに追加する
     * そこまでやるのはしんどいのでほどほどに
@@ -57,6 +57,10 @@
 
 ### バグ
 * 現在地周辺検索, 現在地の取得が上手くいかなかった場合, undefが渡されてバグることがある
+
+### 一貫性の崩れ
+* Bread::Board, fetchで短く書ける
+* Roleでnamespace::autocleanを使う
 
 ### デザイン関係
 * favicon.ico 設定

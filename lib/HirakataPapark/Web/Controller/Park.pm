@@ -2,58 +2,42 @@ package HirakataPapark::Web::Controller::Park {
 
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
-
   use Option;
   use HirakataPapark::Service::User::ShowParkUser;
   use HirakataPapark::Service::Park::Park;
-  use HirakataPapark::Model::Parks::Stars;
-  use HirakataPapark::Model::Parks::Tags;
-  use HirakataPapark::Model::Parks::Images;
-  use HirakataPapark::Model::Parks::Comments;
-  use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
-  use HirakataPapark::Model::MultilingualDelegator::Parks::Plants;
-  use HirakataPapark::Model::MultilingualDelegator::Parks::Equipments;
-  use HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities;
 
   use constant DEFAULT_COMMENT_NUM => 5;
 
   has 'park_id' => sub ($self) { $self->param('park_id') };
 
-  has 'parks' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Parks
-      ->new(db => $self->db)
-      ->model( $self->lang );
-  };
+  {
+    my %accessors = (
+      parks           => 'HirakataPapark::Model::MultilingualDelegator::Parks::Parks',
+      park_plants     => 'HirakataPapark::Model::MultilingualDelegator::Parks::Plants',
+      park_equipments => 'HirakataPapark::Model::MultilingualDelegator::Parks::Equipments',
+      park_facilities =>
+        'HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities',
+    );
+  
+    while ( my ($accessor_name, $model_name) = each %accessors ) {
+      has $accessor_name =>
+        sub ($self) { $self->model($model_name)->model($self->lang) };
+    }
+  }
 
-  has 'park_tags' => sub ($self) { HirakataPapark::Model::Parks::Tags->new(db => $self->db) };
+  {
+    my %accessors = (
+      park_tags     => 'HirakataPapark::Model::Parks::Tags',
+      park_stars    => 'HirakataPapark::Model::Parks::Stars',
+      park_images   => 'HirakataPapark::Model::Parks::Images',
+      park_comments => 'HirakataPapark::Model::Parks::Comments',
+    );
 
-  has 'park_stars' => sub ($self) { HirakataPapark::Model::Parks::Stars->new(db => $self->db) };
-
-  has 'park_plants' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Plants
-      ->new(db => $self->db)
-      ->model( $self->lang );
-  };
-
-  has 'park_equipments' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Equipments
-      ->new(db => $self->db)
-      ->model( $self->lang );
-  };
-
-  has 'park_facilities' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities
-      ->new(db => $self->db)
-      ->model( $self->lang );
-  };
-
-  has 'park_comments' => sub ($self) {
-    HirakataPapark::Model::Parks::Comments->new(db => $self->db)
-  };
-
-  has 'park_images' => sub ($self) {
-    HirakataPapark::Model::Parks::Images->new(db => $self->db);
-  };
+    while ( my ($accessor_name, $model_name) = each %accessors ) {
+      has $accessor_name =>
+        sub ($self) { $self->model($model_name) };
+    }
+  }
 
   sub create_extend_park($self, $row) {
     HirakataPapark::Service::Park::Park->new({

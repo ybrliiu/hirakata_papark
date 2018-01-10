@@ -2,32 +2,22 @@ package HirakataPapark::Web::Controller::Searcher {
 
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
-
-  use HirakataPapark::Model::Parks::Tags;
-  use HirakataPapark::Model::MultilingualDelegator::Parks::Plants;
-  use HirakataPapark::Model::MultilingualDelegator::Parks::Equipments;
-  use HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities;
   use HirakataPapark::Service::Park::Searcher::PlantsRowsToPlantsCategories;
 
-  has 'park_tags' => sub ($self) { HirakataPapark::Model::Parks::Tags->new(db => $self->db) };
+  has 'park_tags' => sub ($self) { $self->model('HirakataPapark::Model::Parks::Tags') };
 
-  has 'park_plants' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Plants
-      ->new(db => $self->db)
-      ->model( $self->lang );
-  };
+  my %accessors = (
+    park_plants     => 'HirakataPapark::Model::MultilingualDelegator::Parks::Plants',
+    park_equipments => 'HirakataPapark::Model::MultilingualDelegator::Parks::Equipments',
+    park_facilities =>
+      'HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities',
+  );
 
-  has 'park_equipments' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Equipments
-      ->new(db => $self->db)
-      ->model( $self->lang );
-  };
-
-  has 'park_facilities' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities
-      ->new(db => $self->db)
-      ->model( $self->lang );
-  };
+  while ( my ($accessor_name, $model_name) = each %accessors ) {
+    has $accessor_name => sub ($self) {
+      $self->model($model_name)->model($self->lang);
+    };
+  }
 
   for my $keyword (qw/ search_by please_input /) {
     has "${keyword}_func" => sub ($self) {

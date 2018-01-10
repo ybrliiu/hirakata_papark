@@ -2,11 +2,9 @@ package HirakataPapark::Web::Controller::Root {
 
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
-  use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
 
   has 'parks' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Parks
-      ->new(db => $self->db)
+    $self->model('HirakataPapark::Model::MultilingualDelegator::Parks::Parks')
       ->model($self->lang);
   };
 

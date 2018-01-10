@@ -4,10 +4,6 @@ package HirakataPapark::Web::Controller::AuthedUser {
   use HirakataPapark;
   use Option;
   use HirakataPapark::Validator::Params;
-  use HirakataPapark::Model::Parks::Tags;
-  use HirakataPapark::Model::Parks::Stars;
-  use HirakataPapark::Model::Parks::Images;
-  use HirakataPapark::Model::MultilingualDelegator::Parks::Parks;
   use HirakataPapark::Service::User::MyPage::User;
   use HirakataPapark::Service::User::Park::StarHandler::Handler;
   use HirakataPapark::Service::User::Park::Tagger::Tagger;
@@ -16,22 +12,20 @@ package HirakataPapark::Web::Controller::AuthedUser {
   has 'user' => sub ($self) { $self->maybe_user->get };
 
   has 'parks' => sub ($self) {
-    HirakataPapark::Model::MultilingualDelegator::Parks::Parks
-      ->new(db => $self->db)
+    $self->model('HirakataPapark::Model::MultilingualDelegator::Parks::Parks')
       ->model($self->lang);
   };
 
-  has 'park_tags' => sub ($self) {
-    HirakataPapark::Model::Parks::Tags->new(db => $self->db)
-  };
+  my %accessors = (
+    park_tags   => 'HirakataPapark::Model::Parks::Tags',
+    park_stars  => 'HirakataPapark::Model::Parks::::Stars',
+    park_images => 'HirakataPapark::Model::Parks::Images',
+  );
 
-  has 'park_stars' => sub ($self) {
-    HirakataPapark::Model::Parks::Stars->new(db => $self->db)
-  };
-
-  has 'park_images' => sub ($self) {
-    HirakataPapark::Model::Parks::Images->new(db => $self->db);
-  };
+  while ( my ($accessor_name, $model_name) = each %accessors ) {
+    has $accessor_name =>
+      sub ($self) { $self->model($model_name) };
+  }
 
   has 'park_star_service' => sub ($self) {
     HirakataPapark::Service::User::Park::StarHandler::Handler->new({
