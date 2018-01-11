@@ -60,7 +60,7 @@ package HirakataPapark::Service::User::Park::Tagger::Tagger {
         my $e = $_;
         $txn_scope->rollback;
         if ( HirakataPapark::DB::DuplicateException->caught($e) ) {
-          my $v = $self->validator->validator;
+          my $v = $self->validator;
           $v->set_error(tag_name => 'already_exist');
           left $v;
         } else {

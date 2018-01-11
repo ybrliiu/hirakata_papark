@@ -3,6 +3,17 @@
 ## 予定
 
 1. Service作成
+* JSON validator
+  * そもそもvalidatorを作りなおす必要があって
+  * Service::Validator をValidatorにして、内部のvalidatorは委譲する
+    validator / core
+              / messagedata
+              / default messagedata
+              / validator
+              / params
+              / json / validator
+                     / params
+
 * 公園情報の編集
   * HistoryToAddBuilder, 及び足りない値を補完する部分も作成
 1. クライアント側作成
@@ -29,6 +40,7 @@
   * DBIx::Schema::DSL, SQL::Traslator を拡張
     * mutable, immutable, lang_data をfieldに追加する
     * そこまでやるのはしんどいのでほどほどに
+  * それやったら以前作ったMetaTablesとかSelectColumnsMakerとか消せるかも
 
 * ForeignLanguage -> ForeignLang
 

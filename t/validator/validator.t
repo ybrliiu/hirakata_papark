@@ -7,15 +7,14 @@ package TestValidator {
   use Mouse;
   use HirakataPapark;
   use Either;
-  with 'HirakataPapark::Service::Role::Validator';
+  with 'HirakataPapark::Validator::Validator';
 
   sub validate($self) {
-    my $v = $self->validator;
-    $v->check(
+    $self->check(
       id   => [ 'NOT_NULL', [LENGTH => (3, 6)] ],
       name => [ 'NOT_NULL', [LENGTH => (5, 20)] ],
     );
-    $v->has_error ? left($v) : right(1);
+    $self->has_error ? left $self->core : right 1;
   }
 
   __PACKAGE__->meta->make_immutable;

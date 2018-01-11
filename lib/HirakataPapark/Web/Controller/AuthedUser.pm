@@ -59,7 +59,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
     my $json = $self->park_star_service->add_star->match(
       Right => sub { { is_success => 1 } },
       Left => sub ($e) {
-        if ( $e->isa('HirakataPapark::Validator') ) {
+        if ( $e->isa('HirakataPapark::Validator::Core') ) {
           +{ is_success => 0, errors => $e->errors_and_messages };
         } else {
           die $e;
@@ -73,7 +73,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
     my $json = $self->park_star_service->remove_star->match(
       Right => sub { { is_success => 1 } },
       Left => sub ($e) {
-        if ( $e->isa('HirakataPapark::Validator') ) {
+        if ( $e->isa('HirakataPapark::Validator::Core') ) {
           { is_success => 0, errors => $e->errors_and_messages };
         } else {
           die $e;
@@ -110,7 +110,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
         }
       },
       Left => sub ($e) {
-        if ( $e->isa('HirakataPapark::Validator') ) {
+        if ( $e->isa('HirakataPapark::Validator::Core') ) {
           +{ is_success => 0, errors => $e->errors_and_messages };
         } else {
           die $e;
@@ -149,7 +149,7 @@ package HirakataPapark::Web::Controller::AuthedUser {
         +{ is_success  => 1, redirect_to => $url };
       },
       Left => sub ($e) {
-        if ( $e->isa('HirakataPapark::Validator') ) {
+        if ( $e->isa('HirakataPapark::Validator::Core') ) {
           +{ is_success => 0, errors => $e->errors_and_messages };
         } else {
           die $e;

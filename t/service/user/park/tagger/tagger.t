@@ -27,8 +27,8 @@ subtest 'add error_case' => sub {
   my $service = HirakataPapark::Service::User::Park::Tagger::Tagger->new($params);
   my $either = $service->add_tag;
   ok $either->is_left;
-  $either->left->map(sub ($exception) {
-    my $error_messages = $exception->get_error_messages;
+  $either->left->map(sub ($e) {
+    my $error_messages = $e->get_error_messages;
     is @$error_messages, 1;
     is $error_messages->[0], 'そのタグ名は既に使用されています。';
   });

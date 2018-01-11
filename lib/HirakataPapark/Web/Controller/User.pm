@@ -61,7 +61,7 @@ package HirakataPapark::Web::Controller::User {
         +{ is_success => 1 };
       },
       Left => sub ($e) {
-        if ( $e->isa('HirakataPapark::Validator') ) {
+        if ( $e->isa('HirakataPapark::Validator::Core') ) {
           { is_success => 0, errors => $e->errors_and_messages };
         } else {
           die $e;

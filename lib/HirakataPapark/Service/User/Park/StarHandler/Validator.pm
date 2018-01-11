@@ -4,12 +4,11 @@ package HirakataPapark::Service::User::Park::StarHandler::Validator {
   use HirakataPapark;
   use Either;
 
-  with 'HirakataPapark::Service::Role::Validator';
+  with 'HirakataPapark::Validator::Validator';
 
   sub validate($self) {
-    my $v = $self->validator;
-    $v->check(park_id => ['NOT_NULL', 'INT']);
-    $v->has_error ? left $v : right $self->param('park_id')->get;
+    $self->check(park_id => ['NOT_NULL', 'INT']);
+    $self->has_error ? left $self->core : right $self->param('park_id')->get;
   }
 
   __PACKAGE__->meta->make_immutable;

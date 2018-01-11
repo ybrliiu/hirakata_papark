@@ -14,17 +14,16 @@ package HirakataPapark::Service::User::Park::ImagePoster::Validator {
     FILE_SIZE_LIMIT => MessageData->FILE_SIZE_LIMIT_MB * 1024 ** 2,
   };
 
-  with 'HirakataPapark::Service::Role::Validator';
+  with 'HirakataPapark::Validator::Validator';
 
-  around _build_validator => sub ($orig, $self) {
-    my $v = $self->$orig();
-    $v->load_constraints('File');
-    $v;
+  around _build_core => sub ($orig, $self) {
+    my $core = $self->$orig();
+    $core->load_constraints('File');
+    $core;
   };
 
   sub validate($self) {
-    my $v = $self->validator;
-    $v->check(
+    $self->check(
       park_id    => ['NOT_NULL', 'INT'],
       title      => [[LENGTH => (0, MAX_TITLE_LEN)]],
       image_file => ['NOT_NULL', [FILE_SIZE => FILE_SIZE_LIMIT]],
@@ -33,7 +32,7 @@ package HirakataPapark::Service::User::Park::ImagePoster::Validator {
         [CHOICE => MessageData->FILENAME_EXTENSIONS->@*],
       ],
     );
-    $v->has_error ? left $v : right $v;
+    $self->has_error ? left $self->core : right $self->core;
   }
 
   __PACKAGE__->meta->make_immutable;

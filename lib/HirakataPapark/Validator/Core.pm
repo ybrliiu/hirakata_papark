@@ -1,4 +1,4 @@
-package HirakataPapark::Validator {
+package HirakataPapark::Validator::Core {
 
   use HirakataPapark;
   use parent 'FormValidator::Lite';
@@ -38,12 +38,12 @@ package HirakataPapark::Validator {
 
 =head1 NAME
   
-  HirakataPapark::Validator - 値検証クラス
+  HirakataPapark::Validator::Core - 値検証クラスの本体
 
 =head1 SYNOPSIS
 
-  my $validator = HirakataPapark::Validator->new($controller);
-  my $message_data = HirakataPapark::Validator::MessageDataFactory->instance->create_japanese_data;
+  my $validator = HirakataPapark::Validator::Core->new($controller);
+  my $message_data = HirakataPapark::Validator::Core::MessageDataFactory->instance->create_japanese_data;
   $validator->set_message_data($message_data);
 
   # テンプレート側

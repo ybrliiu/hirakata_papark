@@ -21,11 +21,10 @@ package HirakataPapark::Service::User::Regist::Validator {
     required => 1,
   );
 
-  with 'HirakataPapark::Service::Role::Validator';
+  with 'HirakataPapark::Validator::Validator';
 
   sub validate($self) {
-    my $v = $self->validator;
-    $v->check(
+    $self->check(
       name => ['NOT_NULL', [LENGTH => (MIN_NAME_LEN, MAX_NAME_LEN)]],
       id => [
         'NOT_NULL',
@@ -42,14 +41,14 @@ package HirakataPapark::Service::User::Regist::Validator {
     );
 
     $self->users->get_row_by_id( $self->param('id')->get_or_else('') )->foreach(sub ($user) {
-      $v->set_error(id => 'already_exist');
+      $self->set_error(id => 'already_exist');
     });
 
     $self->users->get_row_by_name( $self->param('name')->get_or_else('') )->foreach(sub ($user) {
-      $v->set_error(name => 'already_exist');
+      $self->set_error(name => 'already_exist');
     });
 
-    $v->has_error ? left $v : right $v;
+    $self->has_error ? left $self->core : right $self->core;
   }
 
   __PACKAGE__->meta->make_immutable;

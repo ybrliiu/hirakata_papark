@@ -4,6 +4,7 @@ package HirakataPapark::Web::Controller::User::Twitter {
   use HirakataPapark;
 
   use Option;
+  use HirakataPapark::Validator::Params;
   use HirakataPapark::Service::User::LoginFromTwitter;
   use HirakataPapark::Service::User::RegistrationFromTwitter::Register;
   use HirakataPapark::Service::User::RegistrationFromTwitterModifiable;
@@ -68,7 +69,7 @@ package HirakataPapark::Web::Controller::User::Twitter {
         );
       },
       Left  => sub ($e) {
-        if ( $e->isa('HirakataPapark::Validator') ) {
+        if ( $e->isa('HirakataPapark::Validator::Core') ) {
           my $redirect_to = $e->is_error('twitter_id') ? 'login' : 'register-modifiable';
           $self->redirect_to("/@{[ $self->lang ]}/user/twitter/${redirect_to}");
         } else {
@@ -129,7 +130,7 @@ package HirakataPapark::Web::Controller::User::Twitter {
         };
       },
       Left => sub ($e) {
-        $e->isa('HirakataPapark::Validator')
+        $e->isa('HirakataPapark::Validator::Core')
           ? +{ is_success => 0, errors => $e->errors_and_messages }
           : die $e;
       },

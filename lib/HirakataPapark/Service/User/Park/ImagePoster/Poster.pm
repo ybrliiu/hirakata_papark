@@ -109,7 +109,7 @@ package HirakataPapark::Service::User::Park::ImagePoster::Poster {
   sub error_handling($self, $e) {
     if ( HirakataPapark::DB::DuplicateException->caught($e)
       && $e->message =~ /filename_without_extension/ ) {
-      my $v = $self->validator->validator;
+      my $v = $self->validator;
       $v->set_error(image_file => 'already_exist');
       $v;
     } else {
