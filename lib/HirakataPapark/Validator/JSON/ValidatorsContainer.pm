@@ -64,7 +64,7 @@ package HirakataPapark::Validator::JSON::ValidatorsContainer {
 
   sub errors_and_messages($self) {
     my $messages = $self->body->errors_and_messages;
-    while ( my ($key, $value) = $self->sub_validators_mapped->%* ) {
+    while ( my ($key, $value) = each $self->sub_validators_mapped->%* ) {
       warn "$key is already exists on body Validator" if exists $messages->{$key};
       $messages->{$key} = $value->errors_and_messages;
     }

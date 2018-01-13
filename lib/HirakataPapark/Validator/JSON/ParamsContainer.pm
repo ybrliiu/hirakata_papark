@@ -43,7 +43,7 @@ package HirakataPapark::Validator::JSON::ParamsContainer {
         ();
       }
     } $self->json->%*;
-    HirakataPapark::Validator::Params->new(\%params);
+    \%params;
   }
 
   sub get_sub_params($self, $name) {
