@@ -8,13 +8,31 @@ package Test::HirakataPapark::Container::TestData {
 
   has 'name' => ( is => 'ro', isa => 'Str', default => 'TestData' );
 
+  sub declare_park_service($service_name, $park_param) {
+    my $param_name = $service_name . '_param';
+    service $param_name => $park_param;
+    service $service_name => (
+      block => sub ($s) {
+        my $param = $s->param('param');
+        my $parks = $s->param('parks');
+        $parks->add_row($param);
+        $parks->get_row_by_name($param->{name})->get;
+      },
+      lifecycle => 'Singleton',
+      dependencies => {
+        parks => '../../Model/Parks/parks',
+        param => $param_name,
+      },
+    );
+  }
+
   sub BUILD($self, $args) {
 
     container $self => as {
 
       container 'Park' => as {
 
-        service 'park_param' => {
+        declare_park_service 'park' => {
           x       => 0.0000,
           y       => 1.3030,
           name    => 'ほげ公園',
@@ -23,21 +41,7 @@ package Test::HirakataPapark::Container::TestData {
           address => 'A市B町20',
         };
 
-        service 'park' => (
-          block => sub ($s) {
-            my $param = $s->param('param');
-            my $parks = $s->param('parks');
-            $parks->add_row($param);
-            $parks->get_row_by_name($param->{name})->get;
-          },
-          lifecycle => 'Singleton',
-          dependencies => {
-            parks => '../../Model/Parks/parks',
-            param => 'park_param',
-          },
-        );
-
-        service 'park2_param' => {
+        declare_park_service 'park2' => {
           x       => 111.0000,
           y       => 13.3030,
           name    => 'ぞのはな',
@@ -46,21 +50,7 @@ package Test::HirakataPapark::Container::TestData {
           address => 'A市C町500',
         };
 
-        service 'park2' => (
-          block => sub ($s) {
-            my $param = $s->param('param');
-            my $parks = $s->param('parks');
-            $parks->add_row($param);
-            $parks->get_row_by_name($param->{name})->get;
-          },
-          lifecycle => 'Singleton',
-          dependencies => {
-            parks => '../../Model/Parks/parks',
-            param => 'park2_param',
-          },
-        );
-
-        service 'park3_param' => {
+        declare_park_service 'park3' => {
           x       => 30.0000,
           y       => 111.3030,
           name    => '空き地公園',
@@ -68,20 +58,6 @@ package Test::HirakataPapark::Container::TestData {
           zipcode => '888-9999',
           address => 'A市D町0',
         };
-
-        service 'park3' => (
-          block => sub ($s) {
-            my $param = $s->param('param');
-            my $parks = $s->param('parks');
-            $parks->add_row($param);
-            $parks->get_row_by_name($param->{name})->get;
-          },
-          lifecycle => 'Singleton',
-          dependencies => {
-            parks => '../../Model/Parks/parks',
-            param => 'park3_param',
-          },
-        );
 
         service 'english_park_param' => (
           block => sub ($s) {
