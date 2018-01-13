@@ -12,10 +12,9 @@ my $LangRecords = 'HirakataPapark::Model::Users::ParkEditHistories::History::Lan
 my $History     = 'HirakataPapark::Model::Users::ParkEditHistories::History::History::HasOne::ToAdd';
 
 my $c = Test::HirakataPapark::Container->new;
-my $db = $c->get_sub_container('DB')->get_service('db')->get;
-my $tc = $c->get_sub_container('TestData');
-my $user = $tc->get_sub_container('User')->get_service('user')->get;
-my $park = $tc->get_sub_container('Park')->get_service('park')->get;
+my $db = $c->fetch('DB/db')->get;
+my $user = $c->fetch('TestData/User/user')->get;
+my $park = $c->fetch('TestData/Park/park')->get;
 
 my $model;
 lives_ok {

@@ -13,7 +13,6 @@ package HirakataPapark::Service::User::Park::Editer::Editer {
   use aliased 'HirakataPapark::Model::Users::ParkEditHistories::History::History::HasOne::ToAdd' => 'History';
 
   use constant {
-    LANGS         => HirakataPapark::Types->LANGS,
     DEFAULT_LANG  => HirakataPapark::Types->DEFAULT_LANG,
     FOREIGN_LANGS => HirakataPapark::Types->FOREIGN_LANGS,
   };
@@ -46,7 +45,7 @@ package HirakataPapark::Service::User::Park::Editer::Editer {
 
   has 'message_data' => (
     is      => 'ro',
-    isa     => MessageData,
+    isa     => 'HirakataPapark::Validator::MessageData',
     lazy    => 1,
     builder => '_build_message_data',
   );
@@ -71,14 +70,8 @@ package HirakataPapark::Service::User::Park::Editer::Editer {
     });
   }
 
-  sub BUILD($self, $args) {
-    $self->maybe_image_file->foreach(sub ($image_file) {
-      $self->params->set(filename_extension => $image_file->filename_extension);
-    });
-  }
-
   sub can_park_edit($self) {
-    $self->user->can_edit_park && !$self->park->is_locked;
+    $self->user->can_edit_park # && !$self->park->is_locked;
   }
 
   sub update($self, $params_container) {
@@ -86,39 +79,56 @@ package HirakataPapark::Service::User::Park::Editer::Editer {
       $self->parks_model_delegator->model(HirakataPapark::Types->DEFAULT_LANG);
     my $park_id = $params_container->body->param('park_id')->get;
     my $params = {
-      $params_container->body->to_hash->%*,
-      $params_container->get_sub_params(DEFAULT_LANG)->get->%*,
+      do {
+        my %body_params = $params_container->body->to_hash->%*;
+        delete $body_params{park_id};
+        %body_params;
+      },
+      $params_container->get_sub_params(DEFAULT_LANG)->get->to_hash->%*,
     };
-    $parks_model->update($params, { park_id => $park_id });
+    $parks_model->update($params, { id => $park_id });
     for my $lang (FOREIGN_LANGS->@*) {
       $params_container->get_sub_params($lang)->map(sub ($params) {
         my $model = $self->parks_model_delegator->model($lang);
-        $model->update($params->to_hash);
+        $model->update($params->to_hash, { id => $park_id });
       });
     }
   }
 
   sub add_edit_history($self, $params_container) {
     my $body_params = $params_container->body->to_hash;
-    my $history = History->new(
-      ( map {
-        exists $body_params->{$_} ? $body_params->{$_} : ()
-      } History->COLUMN_NAMES->@* ),
-      item_impl => Park->new({
-        @$body_params{ Park->COLUMN_NAMES->@* },
-        lang_records => LangRecords->new({
+    my $default_lang_record =
+      LangRecord->new( $params_container->get_sub_params(DEFAULT_LANG)->get->to_hash );
+    my $park = Park->new({
+      %$body_params{ Park->COLUMN_NAMES->@* },
+      lang_records => LangRecords->new({
+        DEFAULT_LANG ,=> $default_lang_record,
+        (
           map {
-            my $params = $params_container->get_sub_params($_)->get;
-            $_ => LangRecord->new($params);
-          } LANGS->@*
-        }),
+            my $lang = $_;
+            $params_container->get_sub_params($lang)->match(
+              Some => sub ($params) { $lang => LangRecord->new($params->to_hash) },
+              None => sub { () },
+            );
+          } FOREIGN_LANGS->@*
+        ),
       }),
-    );
+    });
+    my $history = History->new({
+      ( 
+        map {
+          my $attr_name = $_;
+          exists $body_params->{$attr_name} ? ($attr_name => $body_params->{$attr_name}) : ()
+        } History->COLUMN_NAMES->@*
+      ),
+      editer_seacret_id => $self->user->seacret_id,
+      item_impl         => $park,
+    });
     $self->histories_model->add_history($history);
   }
 
   # -> Either[ Params | Validator | Exception ]
-  sub post($self) {
+  sub edit($self) {
     $self->validators_container->validate->flat_map(sub ($params_container) {
       if ( $self->can_park_edit ) {
         my $txn_scope = $self->txn_scope;

@@ -3,8 +3,10 @@
 ## 予定
 
 1. Service作成
-* JSON validator container
-  * 枠組みは完成, service用の validator container を作成する
+  * park editer 作成中
+    1. 公園ロック機能を機能させる
+    1. 足りない値は補充させる(lang record validator からnot_nullを抜く)
+    1. park edit history 例外使っていないか？
 * 公園情報の編集
   * HistoryToAddBuilder, 及び足りない値を補完する部分も作成
 1. クライアント側作成

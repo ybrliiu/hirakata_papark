@@ -3,7 +3,6 @@ use JSON::XS qw( decode_json );
 use aliased 'HirakataPapark::Service::User::Park::Editer::ValidatorsContainer';
 use aliased 'HirakataPapark::Service::User::Park::Editer::MessageData';
 
-
 my $json = decode_json '{"id": 0, "sub": {"id": 1}}';
 my $container;
 lives_ok {

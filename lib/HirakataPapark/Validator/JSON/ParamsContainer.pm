@@ -30,7 +30,7 @@ package HirakataPapark::Validator::JSON::ParamsContainer {
     my %params = map {
       my ($key, $value) = ($_, $self->json->{$_});
       ref $value eq 'HASH' ? () : ($key => $value);
-    } $self->json->%*;
+    } keys $self->json->%*;
     HirakataPapark::Validator::Params->new(\%params);
   }
 

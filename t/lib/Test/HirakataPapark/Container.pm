@@ -33,20 +33,26 @@ package Test::HirakataPapark::Container {
 
       container 'Model' => as {
 
+        container 'MultilingualDelegator' => as {
+
+          declare_model_services +{
+            parks => 'HirakataPapark::Model::MultilingualDelegator::Parks::Parks',
+          };
+
+        };
+
         container 'Users' => as {
 
-          my %service_and_pkg_pairs = (
-            users => 'HirakataPapark::Model::Users::Users',
-            users_park_edit_histories 
-              => 'HirakataPapark::Model::Users::ParkEditHistories::Park',
-          );
-          declare_model_services \%service_and_pkg_pairs;
+          declare_model_services +{
+            users               => 'HirakataPapark::Model::Users::Users',
+            park_edit_histories => 'HirakataPapark::Model::Users::ParkEditHistories::Park',
+          };
           
         };
 
         container 'Parks' => as {
 
-          my %service_and_pkg_pairs = (
+          declare_model_services +{
             tags                   => 'HirakataPapark::Model::Parks::Tags',
             stars                  => 'HirakataPapark::Model::Parks::Stars',
             parks                  => 'HirakataPapark::Model::Parks::Parks',
@@ -54,9 +60,7 @@ package Test::HirakataPapark::Container {
             equipments             => 'HirakataPapark::Model::Parks::Equipments',
             english_parks          => 'HirakataPapark::Model::Parks::EnglishParks',
             surrounding_facilities => 'HirakataPapark::Model::Parks::SurroundingFacilities',
-          );
-
-          declare_model_services \%service_and_pkg_pairs;
+          };
 
           service 'images_save_dir_root' => './t/for_test/park_images';
 

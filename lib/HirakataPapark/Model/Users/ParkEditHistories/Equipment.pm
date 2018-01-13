@@ -23,7 +23,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Equipment {
 
   sub add_history {
     args_pos my $self, my $history => $HistoryToAdd;
-    $history->has_all ? $self->_add_history($history) : left 'History dont has all data.';
+    $history->has_all ? $self->_add_history($history) : left 'History doesnt has all data.';
   }
 
   sub _create_result_history($self, $sth, $rows, $lang) {
