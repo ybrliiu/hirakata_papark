@@ -7,12 +7,25 @@ package Test::HirakataPapark::Container {
   use Option;
   use Either;
   use IO::Scalar;
-  use HirakataPapark::DB;
+  use Module::Load qw( load );
   use Test::HirakataPapark::Container::TestData;
 
   extends qw( Bread::Board::Container );
 
   has 'name' => ( is => 'ro', isa => 'Str', default => 'test_hirakata_papark' );
+
+  sub declare_model_services($service_and_pkg_pairs) {
+    while ( my ($service_name, $pkg_name) = each %$service_and_pkg_pairs ) {
+      service $service_name => (
+        block => sub ($s) {
+          load $pkg_name;
+          $pkg_name->new(db => $s->param('db'));
+        },
+        lifecycle    => 'Singleton',
+        dependencies => {db => '../../DB/db'},
+      );
+    }
+  }
 
   sub BUILD($self, $args) {
 
@@ -22,81 +35,28 @@ package Test::HirakataPapark::Container {
 
         container 'Users' => as {
 
-          service 'users' => (
-            block => sub ($s) {
-              require HirakataPapark::Model::Users::Users;
-              HirakataPapark::Model::Users::Users->new(db => $s->param('db'));
-            },
-            lifecycle    => 'Singleton',
-            dependencies => {db => '../../DB/db'},
+          my %service_and_pkg_pairs = (
+            users => 'HirakataPapark::Model::Users::Users',
+            users_park_edit_histories 
+              => 'HirakataPapark::Model::Users::ParkEditHistories::Park',
           );
+          declare_model_services \%service_and_pkg_pairs;
           
         };
 
         container 'Parks' => as {
 
-          service 'parks' => (
-            block => sub ($s) {
-              require HirakataPapark::Model::Parks::Parks;
-              HirakataPapark::Model::Parks::Parks->new(db => $s->param('db'));
-            },
-            lifecycle    => 'Singleton',
-            dependencies => {db => '../../DB/db'},
+          my %service_and_pkg_pairs = (
+            tags                   => 'HirakataPapark::Model::Parks::Tags',
+            stars                  => 'HirakataPapark::Model::Parks::Stars',
+            parks                  => 'HirakataPapark::Model::Parks::Parks',
+            plants                 => 'HirakataPapark::Model::Parks::Plants',
+            equipments             => 'HirakataPapark::Model::Parks::Equipments',
+            english_parks          => 'HirakataPapark::Model::Parks::EnglishParks',
+            surrounding_facilities => 'HirakataPapark::Model::Parks::SurroundingFacilities',
           );
 
-          service 'english_parks' => (
-            block => sub ($s) {
-              require HirakataPapark::Model::Parks::EnglishParks;
-              HirakataPapark::Model::Parks::EnglishParks->new(db => $s->param('db'));
-            },
-            lifecycle    => 'Singleton',
-            dependencies => {db => '../../DB/db'},
-          );
-
-          service 'tags' => (
-            block => sub ($s) {
-              require HirakataPapark::Model::Parks::Tags;
-              HirakataPapark::Model::Parks::Tags->new(db => $s->param('db'));
-            },
-            lifecycle    => 'Singleton',
-            dependencies => {db => '../../DB/db'},
-          );
-
-          service 'equipments' => (
-            block => sub ($s) {
-              require HirakataPapark::Model::Parks::Equipments;
-              HirakataPapark::Model::Parks::Equipments->new(db => $s->param('db'));
-            },
-            lifecycle    => 'Singleton',
-            dependencies => {db => '../../DB/db'},
-          );
-
-          service 'plants' => (
-            block => sub ($s) {
-              require HirakataPapark::Model::Parks::Plants;
-              HirakataPapark::Model::Parks::Plants->new(db => $s->param('db'));
-            },
-            lifecycle    => 'Singleton',
-            dependencies => {db => '../../DB/db'},
-          );
-
-          service 'surrounding_facilities' => (
-            block => sub ($s) {
-              require HirakataPapark::Model::Parks::SurroundingFacilities;
-              HirakataPapark::Model::Parks::SurroundingFacilities->new(db => $s->param('db'));
-            },
-            lifecycle    => 'Singleton',
-            dependencies => {db => '../../DB/db'},
-          );
-
-          service 'stars' => (
-            block => sub ($s) {
-              require HirakataPapark::Model::Parks::Stars;
-              HirakataPapark::Model::Parks::Stars->new(db => $s->param('db'));
-            },
-            lifecycle    => 'Singleton',
-            dependencies => {db => '../../DB/db'},
-          );
+          declare_model_services \%service_and_pkg_pairs;
 
           service 'images_save_dir_root' => './t/for_test/park_images';
 
@@ -124,12 +84,13 @@ package Test::HirakataPapark::Container {
         service 'username' => $ENV{TEST_POSTGRESQL_USER};
         service 'sql' => (
           block => sub ($s) {
-            require SQL::Translator::Producer::PostgreSQL;
+            require HirakataPapark::DB::Schema;
             HirakataPapark::DB::Schema->output
           },
         );
         service 'db' => (
           block => sub ($s) {
+            require HirakataPapark::DB;
             require SQL::SplitStatement;
             my $db = HirakataPapark::DB->new(connect_info => [$s->param('dsn'), $s->param('username')]);
             my $splitter = SQL::SplitStatement->new(
