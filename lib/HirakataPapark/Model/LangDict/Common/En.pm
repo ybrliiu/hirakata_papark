@@ -11,6 +11,7 @@ package HirakataPapark::Model::LangDict::Common::En {
       id                   => 'ID',
       password             => 'Password',
       address              => 'Address',
+      zipcode              => 'Postal Code',
       profile              => 'Profile',
       twitter_id           => 'Twitter ID',
       facebook_id          => 'Facebook ID',

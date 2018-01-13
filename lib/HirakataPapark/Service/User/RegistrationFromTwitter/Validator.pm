@@ -3,7 +3,6 @@ package HirakataPapark::Service::User::RegistrationFromTwitter::Validator {
   use Mouse;
   use HirakataPapark;
   use Either;
-  use HirakataPapark::Validator;
 
   has 'users' => (
     is       => 'ro',

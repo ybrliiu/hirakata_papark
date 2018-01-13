@@ -3,27 +3,10 @@ package HirakataPapark::Service::User::Park::Editer::Validator {
   use Mouse;
   use HirakataPapark;
   use Either;
-  use aliased 'HirakataPapark::Service::User::Park::Editer::MessageData';
-  use namespace::autoclean;
 
   with 'HirakataPapark::Validator::Validator';
 
-=head1
-      lang_records => $LangRecords->new(
-        ja => $LangRecord->new(
-          name    => 'ぞのはなこうえん',
-          address => 'A市B町',
-          explain => '',
-        ),
-        en => $LangRecord->new(
-          name    => 'Zonohana Park',
-          address => 'B town A city',
-          explain => '',
-        ),
-      ),
-=cut
-
-  around _build_validator => sub ($orig, $self) {
+  around _build_core => sub ($orig, $self) {
     my $core = $self->$orig();
     $core->load_constraints($_) for qw( Japanese Number );
     $core;
