@@ -2,11 +2,15 @@
 
 ## 予定
 
+* 設備、植物、周辺施設のテーブルを作ればよかった
+  * Park table は従来のまま
+  * Equipment, Plants, PlantsCategory, SurroundingFacility モデル
+  * equipmentとかはaccessor langを持ち, get_rowで普通のRow,
+    * get_joined_row(名前つき)Rowクラスを拡張したオブジェクトを返すようにする
+
 1. Service作成
   * park editer 作成中
-    1. 公園ロック機能を機能させる
     1. 足りない値は補充させる(lang record validator からnot_nullを抜く)
-    1. park edit history 例外使っていないか？
 * 公園情報の編集
   * HistoryToAddBuilder, 及び足りない値を補完する部分も作成
 1. クライアント側作成
@@ -21,12 +25,6 @@
 * 管理者機能
 
 * 公園管理者機能
-
-* 設備、植物、周辺施設のテーブルを作ればよかった
-  * Park table は従来のまま
-  * Equipment, Plants, PlantsCategory, SurroundingFacility モデル
-  * equipmentとかはaccessor langを持ち, get_rowで普通のRow,
-    * get_joined_row(名前つき)Rowクラスを拡張したオブジェクトを返すようにする
 
 * 終わったらスキーマとModel::Role::DBをスキーマの変更に強くする, 
   * スキーマの管理, 共通化部分は共通化させる

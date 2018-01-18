@@ -26,6 +26,11 @@ subtest success_case => sub {
         address => '大阪府枚方市ほげほげ町1-1-1',
         explain => '楽しいよ！',
       },
+      en => {
+        name    => 'AA公園',
+        address => '大阪府枚方市ほげほげ町1-1-1',
+        explain => '楽しいよ！',
+      },
     },
     histories_model       => $edit_histories_model,
     parks_model_delegator => $parks_model_delegator,

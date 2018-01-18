@@ -57,6 +57,27 @@ package HirakataPapark::Service::User::Park::Editer::Editer {
     builder => '_build_validators_container',
   );
 
+  has 'validators_result' => (
+    is      => 'ro',
+    isa     => 'Either::Either',
+    lazy    => 1,
+    builder => '_build_validators_result',
+  );
+
+  has 'either_params_container' => (
+    is      => 'ro',
+    isa     => 'Either::Either',
+    lazy    => 1,
+    builder => '_build_either_params_container',
+  );
+
+  has 'either_park' => (
+    is      => 'ro',
+    isa     => 'Either::Either',
+    lazy    => 1,
+    builder => '_build_either_park',
+  );
+
   with 'HirakataPapark::Service::Role::DB';
 
   sub _build_message_data($self) {
@@ -70,14 +91,33 @@ package HirakataPapark::Service::User::Park::Editer::Editer {
     });
   }
 
-  sub can_park_edit($self) {
-    $self->user->can_edit_park # && !$self->park->is_locked;
+  sub _build_validators_result($self) {
+    $self->validators_container->validate;
   }
 
-  sub update($self, $params_container) {
-    my $parks_model = 
-      $self->parks_model_delegator->model(HirakataPapark::Types->DEFAULT_LANG);
-    my $park_id = $params_container->body->param('park_id')->get;
+  sub _build_either_params_container($self) {
+    $self->validators_result->map(sub ($params_container) { $params_container });
+  }
+
+  sub _build_either_park($self) {
+    $self->either_params_container->map(sub ($params_container) {
+      my $park_id = $params_container->body->param('park_id')->get;
+      my $parks_model = $self->parks_model_delegator->model(DEFAULT_LANG);
+      $parks_model->get_row_by_id($park_id)->get;
+    });
+  }
+
+  sub can_park_edit($self) {
+    $self->either_park->match(
+      Right => sub ($park) { $self->user->can_edit_park && !$park->is_locked },
+      Left => sub { 0 },
+    );
+  }
+
+  sub update($self) {
+    my $params_container = $self->either_params_container->get;
+    my $park_id = $self->either_park->get->id;
+    my $parks_model = $self->parks_model_delegator->model(DEFAULT_LANG);
     my $params = {
       do {
         my %body_params = $params_container->body->to_hash->%*;
@@ -95,7 +135,8 @@ package HirakataPapark::Service::User::Park::Editer::Editer {
     }
   }
 
-  sub add_edit_history($self, $params_container) {
+  sub add_edit_history($self) {
+    my $params_container = $self->either_params_container->get;
     my $body_params = $params_container->body->to_hash;
     my $default_lang_record =
       LangRecord->new( $params_container->get_sub_params(DEFAULT_LANG)->get->to_hash );
@@ -129,12 +170,12 @@ package HirakataPapark::Service::User::Park::Editer::Editer {
 
   # -> Either[ Params | Validator | Exception ]
   sub edit($self) {
-    $self->validators_container->validate->flat_map(sub ($params_container) {
+    $self->validators_result->flat_map(sub {
       if ( $self->can_park_edit ) {
         my $txn_scope = $self->txn_scope;
         my $result = try {
-          $self->update($params_container);
-          $self->add_edit_history($params_container);
+          $self->update;
+          $self->add_edit_history;
         } catch {
           $txn_scope->rollback;
           left $_;
