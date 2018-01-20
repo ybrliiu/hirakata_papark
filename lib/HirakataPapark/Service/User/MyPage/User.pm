@@ -7,7 +7,7 @@ package HirakataPapark::Service::User::MyPage::User {
 
   has 'parks' => (
     is       => 'ro',
-    isa      => 'HirakataPapark::Model::Role::DB::Parks::Parks',
+    does     => 'HirakataPapark::Model::Role::DB::Parks::Parks',
     required => 1,
   );
 

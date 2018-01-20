@@ -111,7 +111,7 @@ package HirakataPapark::Service::User::Park::ImagePoster::Poster {
       && $e->message =~ /filename_without_extension/ ) {
       my $v = $self->validator;
       $v->set_error(image_file => 'already_exist');
-      $v;
+      $v->core;
     } else {
       $e;
     }

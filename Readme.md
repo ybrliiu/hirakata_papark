@@ -10,6 +10,7 @@
 
 1. Service作成
   * park editer 作成中
+    1. 植物、施設のUI作成
     1. 足りない値は補充させる(lang record validator からnot_nullを抜く)
 * 公園情報の編集
   * HistoryToAddBuilder, 及び足りない値を補完する部分も作成

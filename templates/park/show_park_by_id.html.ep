@@ -25,19 +25,19 @@
         </a>
       % $maybe_user->map(sub {
         <a
-          href="<%= url_for "/$lang/user/park-tagger/" . $park->id %>"
+          href="<%= url_for "/$lang/user/park/tagger/" . $park->id %>"
           class="collection-item"
           >
           <i class="material-icons">add_circle</i><%= $lang_dict->get_word('add_tag')->get %>
         </a>
         <a
-          href="<%= url_for "/$lang/user/park-image-poster/" . $park->id %>"
+          href="<%= url_for "/$lang/user/park/image-poster/" . $park->id %>"
           class="collection-item"
         >
           <i class="material-icons">add_a_photo</i><%= $post_park_image %>
         </a>
         <a   
-          href="<%= url_for "/$lang/user/park-editer/" . $park->id %>"
+          href="<%= url_for "/$lang/user/park/editer/" . $park->id %>"
           class="collection-item"
         >
           <i class="material-icons">edit</i><%= $edit_park_info %>
@@ -103,8 +103,13 @@
 
         <div class="row">
           <div class="col l6 s12">
-            <h3><%= $details_title %></h3>
-            <p><%= $lang_dict->get_word('address')->get %> : <%= $park->address %></p>
+            <h3>
+              <%= $details_title %>
+              <a href="<%= url_for "/$lang/user/park/editer/" . $park->id %>">
+                <i class="material-icons small">edit</i>
+              </a>
+            </h3>
+            <p><%= $lang_dict->get_word('address')->get %> : 〒<%= $park->zipcode %> <%= $park->address %></p>
             <p><%= $lang_dict->get_word('latitude')->get %> : <%= $park->y %>, <%= $lang_dict->get_word('longitude')->get %> : <%= $park->x %>
             <p><%= $lang_dict->get_word('area')->get %> : <%= $park->area %> ㎡ (<%= $lang_dict->get_word('extent')->get %> : <%= $park->size %>)</p>
             <p><%= $lang_dict->get_word('temp_evacuation_area')->get %> : <%= $park->is_evacuation_area ? '○' : '×' %></p>

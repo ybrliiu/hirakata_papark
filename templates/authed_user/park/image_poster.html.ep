@@ -61,7 +61,7 @@
 'use strict';
 window.addEventListener('load', function () {
   hirakataPapark.user().parkImagePoster({
-    url: '<%= url_for "/$lang/user/post-park-image/$park_id" %>',
+    url: '<%= url_for "/$lang/user/park/post-image/$park_id" %>',
     titleConditions: "<%= $lang_dict->get_func('length')->get->(0, $validator->MAX_TITLE_LEN) %>",
     imageFileConditions: "<%= $message_data->get_message('image_file.file_size')->get %>"
       + "<br><%= $message_data->get_message('filename_extension.choice')->get %>",

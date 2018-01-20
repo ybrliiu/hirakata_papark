@@ -111,14 +111,17 @@ package HirakataPapark::Web {
 
       {
         my $authed_user = $root->under('/user')->to(controller => 'AuthedUser')->to(action => 'auth');
-        $authed_user->get( '/mypage'                    )->to(action => 'mypage');
-        $authed_user->post('/add-park-star/:park_id'    )->to(action => 'add_park_star');
-        $authed_user->post('/remove-park-star/:park_id' )->to(action => 'remove_park_star');
-        $authed_user->get( '/park-tagger/:park_id'      )->to(action => 'park_tagger');
-        $authed_user->post('/add-park-tag/:park_id'     )->to(action => 'add_park_tag');
-        $authed_user->get( '/park-editer/:park_id'      )->to(action => 'park_editer');
-        $authed_user->get( '/park-image-poster/:park_id')->to(action => 'park_image_poster');
-        $authed_user->post('/post-park-image/:park_id'  )->to(action => 'post_park_image');
+        $authed_user->get('/mypage')->to(action => 'mypage');
+        {
+          my $park = $authed_user->any('/park')->to(controller => 'AuthedUser::Park');
+          $park->post('/add-star/:park_id'    )->to(action => 'add_star');
+          $park->post('/remove-star/:park_id' )->to(action => 'remove_star');
+          $park->get( '/tagger/:park_id'      )->to(action => 'tagger');
+          $park->post('/add-tag/:park_id'     )->to(action => 'add_tag');
+          $park->get( '/editer/:park_id'      )->to(action => 'editer');
+          $park->get( '/image-poster/:park_id')->to(action => 'image_poster');
+          $park->post('/post-image/:park_id'  )->to(action => 'post_image');
+        }
       }
 
       {

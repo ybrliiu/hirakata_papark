@@ -1,0 +1,19 @@
+% layout "default_${lang}";
+
+<div class="container">
+  <div class="card single-content">
+    <div class="card-content center-align" id="v-park-image-poster">
+      <h2 class="card-title"><%= $lang_dict->get_word('post_park_image')->get %></h2>
+      <div class="left-align">
+        <p><%= $lang_dict->get_word('name')->get %></p>
+        <label for="name">現在の名前 : A公園</label>
+        <input id="name" type="text" v-model="name">
+      </div>
+      <div class="left-align">
+        <p><%= $lang_dict->get_word('address')->get %></p>
+        <label for="name"><%= $lang_dict->get_word('name')->get %></label>
+        <input id="name" type="text" v-model="name">
+      </div>
+    </div>
+  </div>
+</div>

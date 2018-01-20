@@ -43,6 +43,13 @@
   }
 }
 
+h3 .material-icons {
+  color: #444;
+  cursor: pointer;
+  float: right !important;
+  line-height: 1.15;
+}
+
 .park-nav-bar {
   $tails: 'top', 'bottom';
   @each $tail in $tails {
