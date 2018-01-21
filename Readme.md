@@ -10,6 +10,7 @@
 
 1. Service作成
   * park editer 作成中
+    1. parks modelから外国語も含むすべてのデータを取ってくるrow classを返却するメソッド追加して
     1. 植物、施設のUI作成
     1. 足りない値は補充させる(lang record validator からnot_nullを抜く)
 * 公園情報の編集
@@ -65,6 +66,7 @@
 ### 一貫性の崩れ
 * Bread::Board, fetchで短く書ける
 * Roleでnamespace::autocleanを使う
+* parks -> parks_model みたいな感じに
 
 ### デザイン関係
 * favicon.ico 設定

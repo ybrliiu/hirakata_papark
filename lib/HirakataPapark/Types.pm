@@ -10,6 +10,10 @@ package HirakataPapark::Types {
   use constant LANGS         => [ DEFAULT_LANG, FOREIGN_LANGS->@* ];
   use constant LANGS_TABLE   => { map { $_ => 1 } LANGS->@* };
 
+  sub other_langs($lang) {
+    [ grep { $lang ne $_ } LANGS->@* ];
+  }
+
   enum 'HirakataPapark::Types::Lang' => LANGS;
 
 }

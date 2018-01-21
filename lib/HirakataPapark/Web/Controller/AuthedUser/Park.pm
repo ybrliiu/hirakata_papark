@@ -7,8 +7,16 @@ package HirakataPapark::Web::Controller::AuthedUser::Park {
   use HirakataPapark::Service::User::Park::StarHandler::Handler;
   use HirakataPapark::Service::User::Park::Tagger::Tagger;
   use HirakataPapark::Service::User::Park::ImagePoster::Poster;
+  use HirakataPapark::Service::User::Park::Editer::Editer;
+  use aliased 'HirakataPapark::Service::User::Park::Editer::MessageData' =>
+    'EditerMessageData';
   
   has 'user' => sub ($self) { $self->maybe_user->get };
+
+  has 'parks_model' => sub ($self) {
+    $self->model('HirakataPapark::Model::MultilingualDelegator::Parks::Parks')
+      ->model($self->lang);
+  };
 
   my %accessors = (
     tags_model   => 'HirakataPapark::Model::Parks::Tags',
@@ -135,7 +143,18 @@ package HirakataPapark::Web::Controller::AuthedUser::Park {
   }
 
   sub editer($self) {
-    $self->render;
+    my $park_id   = $self->param('park_id');
+    $self->parks_model->get_row_by_id($park_id)->match(
+      Some => sub ($park) {
+        my $lang_dict = EditerMessageData->instance->message_data($self->lang);
+        $self->stash({
+          park      => $park,
+          lang_dict => $lang_dict,
+        });
+        $self->render;
+      },
+      None => sub { $self->render_not_found },
+    );
   }
 
 }

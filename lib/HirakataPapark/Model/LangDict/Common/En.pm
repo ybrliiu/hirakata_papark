@@ -12,6 +12,7 @@ package HirakataPapark::Model::LangDict::Common::En {
       password             => 'Password',
       address              => 'Address',
       zipcode              => 'Postal Code',
+      explain              => 'Explanatory Text',
       profile              => 'Profile',
       twitter_id           => 'Twitter ID',
       facebook_id          => 'Facebook ID',
@@ -79,6 +80,15 @@ package HirakataPapark::Model::LangDict::Common::En {
       },
       plants_in => sub ($park_name) {
         "$words->{plants} in $park_name";
+      },
+      editing => sub ($name) {
+        'Editing ' . ucfirst $name;
+      },
+      current => sub ($name) {
+        'Current ' . ucfirst $name;
+      },
+      ja => sub ($word) {
+        "${word}(Japanese)";
       },
     };
   }

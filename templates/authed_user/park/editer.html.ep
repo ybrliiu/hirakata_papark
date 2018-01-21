@@ -1,19 +1,34 @@
 % layout "default_${lang}";
 
+% my $current_func = $lang_dict->get_func('current')->get;
+% my $text_field = begin
+  % my $keyword = shift;
+  <div class="left-align">
+    % my $word = $lang_dict->get_word($keyword)->get;
+    <p><%= $word %></p>
+    <p class="current-value">
+      <%= $current_func->($word) %> : <%= $park->$keyword %>
+    </p>
+    <input type="text" v-model="name">
+  </div>
+% end
+
 <div class="container">
   <div class="card single-content">
     <div class="card-content center-align" id="v-park-image-poster">
-      <h2 class="card-title"><%= $lang_dict->get_word('post_park_image')->get %></h2>
-      <div class="left-align">
-        <p><%= $lang_dict->get_word('name')->get %></p>
-        <label for="name">現在の名前 : A公園</label>
-        <input id="name" type="text" v-model="name">
-      </div>
-      <div class="left-align">
-        <p><%= $lang_dict->get_word('address')->get %></p>
-        <label for="name"><%= $lang_dict->get_word('name')->get %></label>
-        <input id="name" type="text" v-model="name">
-      </div>
+      <h2 class="card-title">
+        <%= $lang_dict->get_func('editing')->get->($park->name) %>
+      </h2>
+      <%= $text_field->('name') %>
+      <%= $text_field->('zipcode') %>
+      <%= $text_field->('address') %>
+      <%= $text_field->('x') %>
+      <%= $text_field->('y') %>
+      <%= $text_field->('area') %>
+      <%= $text_field->('is_evacuation_area') %>
+      <%= $text_field->('explain') %>
+      % for my $lang ( HirakataPapark::Type->other_langs($lang) ) {
+      % }
     </div>
   </div>
 </div>
