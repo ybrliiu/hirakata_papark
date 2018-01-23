@@ -6,17 +6,17 @@
   * Park table は従来のまま
   * Equipment, Plants, PlantsCategory, SurroundingFacility モデル
   * equipmentとかはaccessor langを持ち, get_rowで普通のRow,
-    * get_joined_row(名前つき)Rowクラスを拡張したオブジェクトを返すようにする
+    * get_joined_(未定) (名前つき)Rowクラスを拡張したオブジェクトを返すようにする
 
 1. Service作成
   * park editer 作成中
-    1. parks modelから外国語も含むすべてのデータを取ってくるrow classを返却するメソッド追加して
+    1. park edit histories に tabels meta を適用
+    1. park edit page 作成
     1. 植物、施設のUI作成
     1. 足りない値は補充させる(lang record validator からnot_nullを抜く)
 * 公園情報の編集
   * HistoryToAddBuilder, 及び足りない値を補完する部分も作成
 1. クライアント側作成
-1. HirakataPapark::Typesに分割
 
 * 公園の追加
   * 本体
@@ -27,15 +27,6 @@
 * 管理者機能
 
 * 公園管理者機能
-
-* 終わったらスキーマとModel::Role::DBをスキーマの変更に強くする, 
-  * スキーマの管理, 共通化部分は共通化させる
-  * DBIx::Schema::DSL, SQL::Traslator を拡張
-    * mutable, immutable, lang_data をfieldに追加する
-    * そこまでやるのはしんどいのでほどほどに
-  * それやったら以前作ったMetaTablesとかSelectColumnsMakerとか消せるかも
-
-* ForeignLanguage -> ForeignLang
 
 * linked open data
 

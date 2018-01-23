@@ -4,10 +4,10 @@ package HirakataPapark::Model::Parks::Equipments {
   use HirakataPapark;
   use Smart::Args qw( args );
 
-  use constant TABLE => 'park_equipment';
+  use constant HANDLE_TABLE_NAME => 'park_equipment';
 
   with qw(
-    HirakataPapark::Model::Role::DB
+    HirakataPapark::Model::Role::DB::RowHandler
     HirakataPapark::Model::Role::DB::RelatedToPark
     HirakataPapark::Model::Role::DB::Parks::Equipments
   );
@@ -30,8 +30,8 @@ package HirakataPapark::Model::Parks::Equipments {
   }
 
   sub get_equipment_list($self) {
-    my @equipment_list =
-      map { $_->name } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['name'] } )->all;
+    my @equipment_list = map { $_->name }
+      $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['name'] } )->all;
     \@equipment_list;
   }
 

@@ -4,10 +4,10 @@ package HirakataPapark::Model::Parks::Parks {
   use HirakataPapark;
   use Smart::Args qw( args );
   
-  use constant TABLE => 'park';
+  use constant HANDLE_TABLE_NAME => 'park';
 
   with qw(
-    HirakataPapark::Model::Role::DB
+    HirakataPapark::Model::Role::DB::RowHandler
     HirakataPapark::Model::Role::DB::Parks::Parks
   );
 

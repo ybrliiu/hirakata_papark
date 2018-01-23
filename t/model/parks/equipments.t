@@ -28,8 +28,6 @@ subtest 'add_row' => sub {
 subtest 'get_rows_by_names' => sub {
   my $rows = $model->get_rows_by_names([qw/ブランコ 鉄棒/]);
   is @$rows, 2;
-  $rows = $model->get_rows_by_names_with_prefetch([qw/ブランコ 鉄棒/]);
-  is @$rows, 2;
 };
 
 subtest 'get_park_id_list_has_names' => sub {

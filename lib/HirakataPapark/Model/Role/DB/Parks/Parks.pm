@@ -2,7 +2,6 @@ package HirakataPapark::Model::Role::DB::Parks::Parks {
 
   use Mouse::Role;
   use HirakataPapark;
-
   use HirakataPapark::Model::Parks::ParksResult;
 
   # methods
@@ -17,23 +16,23 @@ package HirakataPapark::Model::Role::DB::Parks::Parks {
   }
 
   sub get_row_by_id($self, $id) {
-    $self->select({ $self->TABLE . '.id' => $id })->first_with_option;
+    $self->select({ $self->HANDLE_TABLE_NAME . '.id' => $id })->first_with_option;
   }
 
   sub get_row_by_name($self, $name) {
-    $self->select({ $self->TABLE . '.name' => $name })->first_with_option;
+    $self->select({ $self->HANDLE_TABLE_NAME . '.name' => $name })->first_with_option;
   }
 
   sub get_rows_like_name($self, $name) {
-    $self->create_result( $self->select({ $self->TABLE . '.name' => {like => "%${name}%"} })->rows );
+    $self->create_result( $self->select({ $self->HANDLE_TABLE_NAME . '.name' => {like => "%${name}%"} })->rows );
   }
 
   sub get_rows_like_address($self, $address) {
-    $self->create_result( $self->select({ $self->TABLE . '.address' => {like => "%${address}%"}})->rows );
+    $self->create_result( $self->select({ $self->HANDLE_TABLE_NAME . '.address' => {like => "%${address}%"}})->rows );
   }
 
   sub get_rows_by_id_list($self, $id_list = []) {
-    $self->create_result( $self->select({ $self->TABLE . '.id' => $id_list })->rows );
+    $self->create_result( $self->select({ $self->HANDLE_TABLE_NAME . '.id' => $id_list })->rows );
   }
 
   sub _get_stared_rows_by_user_seacret_id_sql($self, $user_seacret_id) {

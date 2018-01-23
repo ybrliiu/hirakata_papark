@@ -6,12 +6,10 @@ package HirakataPapark::Model::Parks::Images {
   use Mojo::Util qw( hmac_sha1_sum );
   use Smart::Args qw( args );
   use HirakataPapark::Model::Parks::Images::Result;
-  use HirakataPapark::Model::Parks::Images::SaveDirPath;
+  use aliased 'HirakataPapark::Model::Parks::Images::SaveDirPath';
+  use namespace::autoclean;
 
-  # alias
-  use constant SaveDirPath => 'HirakataPapark::Model::Parks::Images::SaveDirPath';
-
-  use constant TABLE => 'park_image';
+  use constant HANDLE_TABLE_NAME => 'park_image';
 
   has 'save_dir_root' => (
     is      => 'ro',
@@ -19,7 +17,7 @@ package HirakataPapark::Model::Parks::Images {
     default => SaveDirPath->DEFAULT_SAVE_DIR_ROOT,
   );
 
-  with 'HirakataPapark::Model::Role::DB';
+  with 'HirakataPapark::Model::Role::DB::RowHandler';
 
   around create_result => sub ($orig, $self, $contents) {
     HirakataPapark::Model::Parks::Images::Result->new(contents => $contents);

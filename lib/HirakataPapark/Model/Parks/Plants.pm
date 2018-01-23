@@ -4,10 +4,10 @@ package HirakataPapark::Model::Parks::Plants {
   use HirakataPapark;
   use Smart::Args qw( args );
 
-  use constant TABLE => 'park_plants';
+  use constant HANDLE_TABLE_NAME => 'park_plants';
 
   with qw(
-    HirakataPapark::Model::Role::DB
+    HirakataPapark::Model::Role::DB::RowHandler
     HirakataPapark::Model::Role::DB::RelatedToPark
     HirakataPapark::Model::Role::DB::Parks::Plants
   );
@@ -29,27 +29,27 @@ package HirakataPapark::Model::Parks::Plants {
   }
 
   sub get_all_distinct_rows($self, $columns) {
-    $self->create_result( $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => $columns } )->rows );
+    $self->create_result(
+      $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => $columns } )->rows );
   }
 
   sub get_categories($self) {
-    my @category_list =
-      map { $_->category } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['category']  } )->all;
+    my @category_list = map { $_->category }
+      $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['category'] } )->all;
     \@category_list;
   }
 
   sub get_categories_by_park_id($self, $park_id) {
-    my @category_list =
-      map { $_->category } $self->select(
-        { park_id => $park_id },
-        { prefix => 'SELECT DISTINCT ', columns => ['category'] }
-      )->all;
+    my @category_list = map { $_->category } $self->select(
+      { park_id => $park_id },
+      { prefix => 'SELECT DISTINCT ', columns => ['category'] }
+    )->all;
     \@category_list;
   }
 
   sub get_plants_list($self) {
-    my @plants_list =
-      map { $_->name } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['name'] } )->all;
+    my @plants_list = map { $_->name }
+      $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['name'] } )->all;
     \@plants_list;
   }
 

@@ -1,7 +1,7 @@
 package HirakataPapark::Types {
 
-  use HirakataPapark;
   use Mouse::Util::TypeConstraints qw( enum );
+  use HirakataPapark;
 
   # 言語の略名は ISO 639-1 を利用
   # see also https://ja.wikipedia.org/wiki/ISO_639-1%E3%82%B3%E3%83%BC%E3%83%89%E4%B8%80%E8%A6%A7

@@ -5,9 +5,9 @@ package HirakataPapark::Model::Parks::Stars {
 
   use Smart::Args qw( args );
 
-  use constant TABLE => 'park_star';
+  use constant HANDLE_TABLE_NAME => 'park_star';
 
-  with 'HirakataPapark::Model::Role::DB';
+  with 'HirakataPapark::Model::Role::DB::RowHandler';
 
   sub add_row {
     args my $self, my $park_id => 'Int', my $user_seacret_id => 'Int';

@@ -4,10 +4,10 @@ package HirakataPapark::Model::Parks::SurroundingFacilities {
   use HirakataPapark;
   use Smart::Args qw( args );
 
-  use constant TABLE => 'park_surrounding_facility';
+  use constant HANDLE_TABLE_NAME => 'park_surrounding_facility';
 
   with qw(
-    HirakataPapark::Model::Role::DB
+    HirakataPapark::Model::Role::DB::RowHandler
     HirakataPapark::Model::Role::DB::RelatedToPark
     HirakataPapark::Model::Role::DB::Parks::SurroundingFacilities
   );
@@ -35,8 +35,8 @@ package HirakataPapark::Model::Parks::SurroundingFacilities {
   }
 
   sub get_surrounding_facility_list($self) {
-    my @facility_list =
-      map { $_->name } $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['name'] } )->all;
+    my @facility_list = map { $_->name }
+      $self->select( {}, { prefix => 'SELECT DISTINCT ', columns => ['name'] } )->all;
     \@facility_list;
   }
 

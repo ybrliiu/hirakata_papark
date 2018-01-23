@@ -8,11 +8,12 @@ package TestModel {
   use Smart::Args;
 
   use constant {
-    TABLE           => 'english_park',
-    ORIG_LANG_TABLE => 'park',
+    LANG                    => 'en',
+    BODY_TABLE_NAME         => 'park',
+    FOREIGN_LANG_TABLE_NAME => 'english_park',
   };
 
-  with 'HirakataPapark::Model::Role::DB::ForeignLanguage';
+  with 'HirakataPapark::Model::Role::DB::ForeignLang';
 
   sub add_row {
     args my $self, my $id => 'Str',
@@ -29,7 +30,7 @@ package TestModel {
   }
 
   sub get_row_by_name($self, $name) {
-    $self->select({ $self->TABLE . '.name' => $name })->first_with_option;
+    $self->select({ $self->FOREIGN_LANG_TABLE_NAME . '.name' => $name })->first_with_option;
   }
 
   __PACKAGE__->meta->make_immutable;

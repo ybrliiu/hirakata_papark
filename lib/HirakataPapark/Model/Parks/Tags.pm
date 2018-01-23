@@ -4,10 +4,10 @@ package HirakataPapark::Model::Parks::Tags {
   use HirakataPapark;
   use Smart::Args qw( args );
 
-  use constant TABLE => 'park_tag';
+  use constant HANDLE_TABLE_NAME => 'park_tag';
 
   with qw(
-    HirakataPapark::Model::Role::DB
+    HirakataPapark::Model::Role::DB::RowHandler
     HirakataPapark::Model::Role::DB::RelatedToPark
   );
 
@@ -20,8 +20,8 @@ package HirakataPapark::Model::Parks::Tags {
   }
 
   sub get_tag_list($self) {
-    my @tag_list =
-      map { $_->name } $self->select( {}, { prefix => 'SELECT DISTINCT', columns => ['name'] } )->all;
+    my @tag_list = map { $_->name }
+      $self->select( {}, { prefix => 'SELECT DISTINCT', columns => ['name'] } )->all;
     \@tag_list;
   }
 

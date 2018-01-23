@@ -7,9 +7,9 @@ package HirakataPapark::Model::Parks::Comments {
   use HTML::Escape qw( escape_html );
   use HirakataPapark::Util qw( escape_indention );
 
-  use constant TABLE => 'park_comment';
+  use constant HANDLE_TABLE_NAME => 'park_comment';
 
-  with 'HirakataPapark::Model::Role::DB';
+  with 'HirakataPapark::Model::Role::DB::RowHandler';
 
   sub add_row {
     args my $self, my $park_id => 'Int', my $message => 'Str',

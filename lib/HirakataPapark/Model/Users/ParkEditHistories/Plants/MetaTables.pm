@@ -10,7 +10,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Plants::MetaTables {
     DEFAULT_LANG_TABLE_NAME  => 'user_park_plants_edit_history_row',
     FOREIGN_LANG_TABLE_NAMES_MAPPED_TO_LANG => +{
       map { $_ => 'user_' . to_word($_) . '_park_plants_edit_history_row' }
-          HirakataPapark::Types->FOREIGN_LANGS->@*
+        HirakataPapark::Types->FOREIGN_LANGS->@*
     },
   };
 

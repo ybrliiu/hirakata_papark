@@ -30,12 +30,8 @@ subtest 'add_row' => sub {
 };
 
 subtest 'get_rows_by_names' => sub {
-  diag $model->PREFETCH_TABLE_NAME;
   my $rows = $model->get_rows_by_names(['Swing', 'Horizontal Bar']);
   is @$rows, 2;
-  $rows = $model->get_rows_by_names_with_prefetch(['Horizontal Bar']);
-  is @$rows, 1;
-  is $rows->[0]->park->name, $epark->name;
 };
 
 subtest 'get_park_id_list_has_names' => sub {

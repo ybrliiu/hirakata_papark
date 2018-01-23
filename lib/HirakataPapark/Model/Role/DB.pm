@@ -2,13 +2,16 @@ package HirakataPapark::Model::Role::DB {
 
   use Mouse::Role;
   use HirakataPapark;
-  use HirakataPapark::DB;
   use HirakataPapark::Model::Result;
 
   requires qw( TABLE );
 
   sub db;
-  has 'db' => ( is => 'ro', isa => 'HirakataPapark::DB', required => 1 );
+  has 'db' => (
+    is       => 'ro',
+    isa      => 'HirakataPapark::DB',
+    required => 1,
+  );
 
   sub delete($self, $where) {
     $self->db->delete($self->TABLE, $where);

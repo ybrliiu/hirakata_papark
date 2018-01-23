@@ -14,19 +14,19 @@ package HirakataPapark::Model::Role::DB::Parks::Plants {
   sub get_rows_by_park_id_order_by_category($self, $park_id) {
     $self->create_result(
       $self->select(
-        { $self->TABLE . '.park_id' => $park_id },
+        { $self->HANDLE_TABLE_NAME . '.park_id' => $park_id },
         { order_by => 'category DESC' }
       )->rows
     );
   }
 
   sub get_rows_by_category($self, $category) {
-    $self->create_result( $self->select({ $self->TABLE . '.category' => $category })->rows );
+    $self->create_result( $self->select({ $self->HANDLE_TABLE_NAME . '.category' => $category })->rows );
   }
 
   sub get_rows_by_categories($self, $categories) {
     my @ary = map { ('=', $_) } @$categories;
-    $self->create_result( $self->select({ $self->TABLE . '.category' => \@ary })->rows );
+    $self->create_result( $self->select({ $self->HANDLE_TABLE_NAME . '.category' => \@ary })->rows );
   }
 
   sub get_park_id_list_has_category_names($self, $category_names) {
@@ -36,7 +36,7 @@ package HirakataPapark::Model::Role::DB::Parks::Plants {
       my @sql_list = map {
         my $category = $_;
         my $sql = $maker->new
-          ->add_from($self->TABLE)
+          ->add_from($self->HANDLE_TABLE_NAME)
           ->add_select('park_id')
           ->add_where(category => $category);
       } @$category_names;

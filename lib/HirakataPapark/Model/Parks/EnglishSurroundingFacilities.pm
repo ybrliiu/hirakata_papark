@@ -5,13 +5,13 @@ package HirakataPapark::Model::Parks::EnglishSurroundingFacilities {
   use Smart::Args qw( args );
 
   use constant {
-    TABLE           => 'english_park_surrounding_facility',
-    ORIG_LANG_TABLE => 'park_surrounding_facility',
+    LANG                    => 'en',
+    BODY_TABLE_NAME         => 'park_surrounding_facility',
+    FOREIGN_LANG_TABLE_NAME => 'english_park_surrounding_facility',
   };
 
   with qw(
-    HirakataPapark::Model::Role::DB::ForeignLanguage
-    HirakataPapark::Model::Role::DB::ForeignLanguage::RelatedToPark
+    HirakataPapark::Model::Role::DB::ForeignLang::RelatedToPark
     HirakataPapark::Model::Role::DB::Parks::SurroundingFacilities
   );
 
@@ -30,30 +30,16 @@ package HirakataPapark::Model::Parks::EnglishSurroundingFacilities {
   }
 
   sub get_names_by_park_id($self, $park_id) {
-    my $sc_maker = $self->select_columns_maker;
-    my $sql = << "EOS";
-SELECT DISTINCT "@{[ $self->TABLE ]}"."name"
-  FROM "@{[ $self->ORIG_LANG_TABLE ]}"
-  INNER JOIN "@{[ $self->TABLE ]}"
-  ON @{[ $sc_maker->output_join_condition_for_sql ]}
-  WHERE "@{[ $self->TABLE ]}"."park_id" = ?
-EOS
+    my $select = $self->create_distinct_select;
+    $select->add_select($self->FOREIGN_LANG_TABLE_NAME . '.name');
+    $select->add_where($self->FOREIGN_LANG_TABLE_NAME . '.park_id' => $park_id);
     my $dbh = $self->db->dbh;
-    my $result = $dbh->selectall_arrayref($sql, undef, $park_id);
+    my $result = $dbh->selectall_arrayref($select->as_sql, undef, $park_id);
     [ map { @$_ } @$result ];
   }
 
   sub get_surrounding_facility_list($self) {
-    my $sc_maker = $self->select_columns_maker;
-    my $sql = << "EOS";
-SELECT DISTINCT "@{[ $self->TABLE ]}"."name"
-  FROM "@{[ $self->ORIG_LANG_TABLE ]}"
-  INNER JOIN "@{[ $self->TABLE ]}"
-  ON @{[ $sc_maker->output_join_condition_for_sql ]}
-EOS
-    my $dbh = $self->db->dbh;
-    my $result = $dbh->selectall_arrayref($sql, undef);
-    [ map { @$_ } @$result ];
+    $self->get_name_list;
   }
 
   __PACKAGE__->meta->make_immutable;
