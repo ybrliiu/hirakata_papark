@@ -4,14 +4,10 @@ package HirakataPapark::Model::Users::ParkEditHistories::ParkEditHistories {
   use HirakataPapark;
   use HirakataPapark::Model::Result;
 
-  has 'db' => (
-    is       => 'ro',
-    isa      => 'HirakataPapark::DB',
-    required => 1,
-  );
+  with 'HirakataPapark::Model::Role::DB';
 
   # attributes
-  requires qw( meta_tables );
+  requires qw( tables_meta );
 
   # methods
   requires qw(
@@ -19,10 +15,6 @@ package HirakataPapark::Model::Users::ParkEditHistories::ParkEditHistories {
     get_histories_by_park_id
     get_histories_by_user_seacret_id
   );
-
-  sub create_result($self, $contents) {
-    HirakataPapark::Model::Result->new(contents => $contents);
-  }
 
 }
 

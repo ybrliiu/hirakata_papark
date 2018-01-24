@@ -4,22 +4,25 @@ package HirakataPapark::Model::Users::ParkEditHistories::Plants {
   use HirakataPapark;
   use Either;
   use Smart::Args qw( args_pos );
-  use HirakataPapark::Model::Users::ParkEditHistories::Plants::MetaTables;
-  use HirakataPapark::Model::Users::ParkEditHistories::Plants::ResultHistoryBuilder;
+  use aliased
+    'HirakataPapark::Model::Users::ParkEditHistories::Plants::ResultHistoryBuilder';
 
   # alias
-  my $MetaTables =
-      'HirakataPapark::Model::Users::ParkEditHistories::Plants::MetaTables';
   my $HistoryToAdd =
       'HirakataPapark::Model::Users::ParkEditHistories::History::History::HasMany::ToAdd';
-  my $ResultHistoryBuilder =
-      'HirakataPapark::Model::Users::ParkEditHistories::Plants::ResultHistoryBuilder';
+
+  use constant {
+    BODY_TABLE_NAME          => 'user_park_plants_edit_history',
+    DEFAULT_LANG_TABLE_NAME  => 'user_park_plants_edit_history_row',
+  };
+
+  sub foreign_lang_table_name($class) {
+    sub ($lang) {
+      "user_${lang}_park_plants_edit_history_row";
+    };
+  }
 
   with 'HirakataPapark::Model::Users::ParkEditHistories::HasMany';
-
-  sub _build_meta_tables($self) {
-    $MetaTables->new(schema => $self->db->schema);
-  }
 
   sub add_history {
     args_pos my $self, my $history => $HistoryToAdd;
@@ -27,11 +30,11 @@ package HirakataPapark::Model::Users::ParkEditHistories::Plants {
   }
 
   sub _create_result_history($self, $sth, $rows, $lang) {
-    my $builder = $ResultHistoryBuilder->new({
+    my $builder = ResultHistoryBuilder->new({
       sth         => $sth,
       rows        => $rows,
       lang        => $lang,
-      meta_tables => $self->meta_tables,
+      tables_meta => $self->tables_meta,
     });
     $builder->build;
   }

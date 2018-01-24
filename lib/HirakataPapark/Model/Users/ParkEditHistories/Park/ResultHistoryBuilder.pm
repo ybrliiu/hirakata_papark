@@ -3,19 +3,15 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park::ResultHistoryBuil
   use Mouse;
   use HirakataPapark;
   use HirakataPapark::Types;
-  use HirakataPapark::Model::Users::ParkEditHistories::Park::LangRecord;
-  use HirakataPapark::Model::Users::ParkEditHistories::History::LangRecords;
-  use HirakataPapark::Model::Users::ParkEditHistories::Park::Park;
-  use HirakataPapark::Model::Users::ParkEditHistories::History::History::HasOne::Result;
-  
-  my $Park        = 'HirakataPapark::Model::Users::ParkEditHistories::Park::Park';
-  my $LangRecord  = 'HirakataPapark::Model::Users::ParkEditHistories::Park::LangRecord';
-  my $LangRecords = 'HirakataPapark::Model::Users::ParkEditHistories::History::LangRecords';
-  my $History     = 'HirakataPapark::Model::Users::ParkEditHistories::History::History::HasOne::Result';
+  use aliased 'HirakataPapark::Model::Users::ParkEditHistories::Park::Park';
+  use aliased 'HirakataPapark::Model::Users::ParkEditHistories::Park::LangRecord';
+  use aliased 'HirakataPapark::Model::Users::ParkEditHistories::History::LangRecords';
+  use aliased 
+    'HirakataPapark::Model::Users::ParkEditHistories::History::History::HasOne::Result' => 'History';
 
-  has 'meta_tables' => (
+  has 'tables_meta' => (
     is       => 'ro',
-    isa      => 'HirakataPapark::Model::Users::ParkEditHistories::Park::MetaTables',
+    isa      => 'HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasOne',
     required => 1,
   );
 
@@ -39,7 +35,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park::ResultHistoryBuil
 
   sub _build_history_params($self) {
     my $params = {};
-    my $end    = $#{ $History->COLUMN_NAMES };
+    my $end    = $#{ History->COLUMN_NAMES };
     for my $i (0 .. $end) {
       my $column_name = $self->sth->{NAME}[$i];
       $params->{$column_name} = $self->row->[$i];
@@ -49,12 +45,12 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park::ResultHistoryBuil
 
   sub _build_lang_record($self, $begin, $table) {
     my $end = $begin + $#{ $table->select_columns };
-    my $prefix_length = length $LangRecord->build_prefix;
+    my $prefix_length = length LangRecord->build_prefix;
     my %params = map {
       my $attr_name = substr $self->sth->{NAME}[$_], $prefix_length;
       $attr_name => $self->row->[$_];
     } $begin .. $end;
-    $LangRecord->new(\%params);
+    LangRecord->new(\%params);
   }
 
   sub _build_lang_records($self, $begin) {
@@ -63,32 +59,32 @@ package HirakataPapark::Model::Users::ParkEditHistories::Park::ResultHistoryBuil
       my $lang_record = $self->_build_lang_record($begin, $table);
       $begin += $table->select_columns->@*;
       $table->lang => $lang_record;
-    } $self->meta_tables->foreign_lang_tables->@*;
-    $LangRecords->new(\%params);
+    } $self->tables_meta->foreign_lang_tables->@*;
+    LangRecords->new(\%params);
   }
 
   sub build($self) {
-    my $body_table = $self->meta_tables->body_table;
-    my $begin = $History->COLUMN_NAMES->@*;
+    my $body_table = $self->tables_meta->body_table;
+    my $begin = History->COLUMN_NAMES->@*;
     my $end   = $#{ $body_table->select_columns };
     my (%params, %default_lang_record_params);
-    my $prefix_length = length $Park->build_prefix;
+    my $prefix_length = length Park->build_prefix;
     for my $i ($begin .. $end) {
       my $column_name = $self->sth->{NAME}[$i];
       my $attr_name   = substr $column_name, $prefix_length;
-      if ( $self->meta_tables->is_column_exists_in_duplicate_columns($column_name) ) {
+      if ( $self->tables_meta->is_column_exists_in_duplicate_columns($column_name) ) {
         $default_lang_record_params{$attr_name} = $self->row->[$i];
       } else {
         $params{$attr_name} = $self->row->[$i];
       }
     }
-    my $default_lang_record = $LangRecord->new(\%default_lang_record_params);
+    my $default_lang_record = LangRecord->new(\%default_lang_record_params);
     my $lang_records = $self->_build_lang_records($end + 1);
     $lang_records->${\HirakataPapark::Types->DEFAULT_LANG}($default_lang_record);
-    $History->new({
+    History->new({
       $self->_build_history_params->%*,
       lang      => $self->lang,
-      item_impl => $Park->new({
+      item_impl => Park->new({
         %params,
         lang_records => $lang_records,
       }),

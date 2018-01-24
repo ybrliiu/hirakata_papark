@@ -2,6 +2,11 @@
 
 ## 予定
 
+* 公園編集機能
+* 設備、植物、周辺施設のテーブル
+* 設備、植物、周辺施設の編集
+* linked open data 公開
+
 * 設備、植物、周辺施設のテーブルを作ればよかった
   * Park table は従来のまま
   * Equipment, Plants, PlantsCategory, SurroundingFacility モデル
@@ -10,7 +15,6 @@
 
 1. Service作成
   * park editer 作成中
-    1. park edit histories に tabels meta を適用
     1. park edit page 作成
     1. 植物、施設のUI作成
     1. 足りない値は補充させる(lang record validator からnot_nullを抜く)

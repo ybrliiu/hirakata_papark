@@ -3,17 +3,16 @@ package HirakataPapark::Model::Users::ParkEditHistories::ResultHistoryBuilder::H
   use Mouse::Role;
   use HirakataPapark;
   use HirakataPapark::Types;
-  use HirakataPapark::Model::Users::ParkEditHistories::History::Item::Result;
-  use HirakataPapark::Model::Users::ParkEditHistories::History::LangRecords;
-  use HirakataPapark::Model::Users::ParkEditHistories::History::History::HasMany::Result;
+  use aliased 
+    'HirakataPapark::Model::Users::ParkEditHistories::History::Item::Result' => 'Item';
+  use aliased 
+    'HirakataPapark::Model::Users::ParkEditHistories::History::LangRecords' => 'LangRecords';
+  use aliased
+    'HirakataPapark::Model::Users::ParkEditHistories::History::History::HasMany::Result' => 'History';
 
-  my $Item        = 'HirakataPapark::Model::Users::ParkEditHistories::History::Item::Result';
-  my $LangRecords = 'HirakataPapark::Model::Users::ParkEditHistories::History::LangRecords';
-  my $History     = 'HirakataPapark::Model::Users::ParkEditHistories::History::History::HasMany::Result';
-
-  has 'meta_tables' => (
+  has 'tables_meta' => (
     is       => 'ro',
-    does     => 'HirakataPapark::Model::Users::ParkEditHistories::MetaTables::MetaTables',
+    isa      => 'HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasMany',
     required => 1,
   );
 
@@ -50,13 +49,13 @@ package HirakataPapark::Model::Users::ParkEditHistories::ResultHistoryBuilder::H
   }
 
   sub _build_item($self, $row) {
-    my $begin = $self->meta_tables->body_table->select_columns->@*;
-    my $end = $begin + $#{ $self->meta_tables->default_lang_table->select_columns };
+    my $begin = $self->tables_meta->body_table->select_columns->@*;
+    my $end = $begin + $#{ $self->tables_meta->default_lang_table->select_columns };
     my (%params, %default_lang_record_params);
     for my $i ($begin .. $end) {
       my $column_name = $self->sth->{NAME}[$i];
       my $attr_name = substr $column_name, $self->prefix_length;
-      if ( $self->meta_tables->is_column_exists_in_duplicate_columns($column_name) ) {
+      if ( $self->tables_meta->is_column_exists_in_duplicate_columns($column_name) ) {
         $default_lang_record_params{$attr_name} = $row->[$i];
       } else {
         $params{$attr_name} = $row->[$i];
@@ -64,7 +63,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::ResultHistoryBuilder::H
     }
     my $default_lang_record = 
       $self->_create_lang_record(\%default_lang_record_params);
-    $Item->new({
+    Item->new({
       lang      => $self->lang,
       item_impl => $self->_create_item_impl({
         %params,
@@ -82,11 +81,11 @@ package HirakataPapark::Model::Users::ParkEditHistories::ResultHistoryBuilder::H
           my $lang_record = $self->_build_lang_record($row, $begin, $table);
           $begin += $table->select_columns->@*;
           $table->lang => $lang_record;
-        } $self->meta_tables->foreign_lang_tables->@*
+        } $self->tables_meta->foreign_lang_tables->@*
       ),
       ( HirakataPapark::Types->DEFAULT_LANG => $default_lang_record ),
     );
-    $LangRecords->new(\%params);
+    LangRecords->new(\%params);
   }
 
   sub _build_lang_record($self, $row, $begin, $table) {
@@ -99,14 +98,14 @@ package HirakataPapark::Model::Users::ParkEditHistories::ResultHistoryBuilder::H
   }
 
   sub build($self) {
-    my $end = $#{ $self->meta_tables->body_table->select_columns };
+    my $end = $#{ $self->tables_meta->body_table->select_columns };
     my $row = $self->rows->[0];
     my %params;
     for my $i (0 .. $end) {
       my $attr_name = $self->sth->{NAME}[$i];
       $params{$attr_name} = $row->[$i];
     }
-    $History->new({
+    History->new({
       %params,
       items => $self->_build_items,
     });

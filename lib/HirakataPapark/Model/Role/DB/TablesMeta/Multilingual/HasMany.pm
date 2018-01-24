@@ -1,11 +1,12 @@
 package HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasMany {
 
-  use Mouse::Role;
+  use Mouse;
   use HirakataPapark;
   use HirakataPapark::Types;
   use HirakataPapark::Model::Role::DB::TablesMeta::BodyTable;
   use aliased 'HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasMany::DefaultLangTable';
   use aliased 'HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasMany::ForeignLangTable';
+  use namespace::autoclean;
 
   has 'default_lang_table_name' => (
     is       => 'ro',
@@ -54,7 +55,7 @@ package HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasMany {
 
   sub _build_duplicate_columns_with_default_lang_table($self) {
     my $foreign_lang_table_name = 
-      (values $self->foreign_lang_table_names_mapped_to_lang->%*)[0];
+      (values $self->foreign_lang_tables_names_mapped_to_lang->%*)[0];
     my $foreign_lang_table = $self->_get_table($foreign_lang_table_name);
     $self->_get_duplicate_columns([ $self->default_lang_table, $foreign_lang_table ]);
   }
@@ -66,7 +67,7 @@ package HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasMany {
   sub _build_foreign_lang_tables_mapped_to_lang($self) {
     my %map = map {
       my $lang = $_;
-      my $table_name = $self->foreign_lang_table_names_mapped_to_lang->{$lang};
+      my $table_name = $self->foreign_lang_tables_names_mapped_to_lang->{$lang};
       $lang => ForeignLangTable->new({
         name                    => $table_name,
         lang                    => $lang,
@@ -88,6 +89,8 @@ package HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasMany {
   sub join_tables($self) {
     [ $self->default_lang_table, $self->foreign_lang_tables->@* ];
   }
+
+  __PACKAGE__->meta->make_immutable;
 
 }
 

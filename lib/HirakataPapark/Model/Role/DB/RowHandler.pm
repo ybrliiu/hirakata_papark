@@ -3,7 +3,7 @@ package HirakataPapark::Model::Role::DB::RowHandler {
   use Mouse::Role;
   use HirakataPapark;
 
-  with 'HirakataPapark::Model::Role::DB::DB';
+  with 'HirakataPapark::Model::Role::DB';
 
   # constants
   requires qw( HANDLE_TABLE_NAME );

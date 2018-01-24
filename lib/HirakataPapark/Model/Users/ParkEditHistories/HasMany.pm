@@ -4,40 +4,23 @@ package HirakataPapark::Model::Users::ParkEditHistories::HasMany {
   use HirakataPapark;
   use Either;
   use Try::Tiny;
-  use Smart::Args ();
-  use HirakataPapark::Util ();
+  use Smart::Args;
+  use HirakataPapark::Util qw( for_yield );
   use namespace::autoclean;
 
-  with 'HirakataPapark::Model::Users::ParkEditHistories::ParkEditHistories';
-
-  my $MetaTables =
-    'HirakataPapark::Model::Users::ParkEditHistories::MetaTables::HasMany::MetaTables';
-  sub meta_tables;
-  has 'meta_tables' => (
-    is      => 'ro',
-    does    => $MetaTables,
-    handles => [qw(
-      BODY_TABLE_NAME
-      DEFAULT_LANG_TABLE_NAME
-      get_foreign_lang_table_by_lang
-      body_table
-      default_lang_table
-      foreign_lang_tables
-      tables
-      join_tables
-    )],
-    lazy    => 1,
-    builder => '_build_meta_tables',
+  with qw(
+    HirakataPapark::Model::Role::DB::Multilingual::HasMany
+    HirakataPapark::Model::Users::ParkEditHistories::ParkEditHistories
   );
 
   # methods
-  requires qw( _build_meta_tables _create_result_history );
+  requires qw( _create_result_history );
 
   sub _add_history($self, $history) {
     $self->_insert_to_body_table($history)->flat_map(sub ($history_id) {
       $self->_insert_to_default_lang_table($history, $history_id)->flat_map(sub ($rows) {
         my $results = $self->_insert_to_foreign_langs_tables($history, $history_id);
-        HirakataPapark::Util::for_yield $results, sub { 'Success add history.' };
+        for_yield $results, sub { 'Success add history.' };
       });
     })
   }
@@ -93,7 +76,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::HasMany {
   }
 
   sub get_histories_by_user_seacret_id {
-    Smart::Args::args my $self, my $lang => 'HirakataPapark::Types::Lang',
+    args my $self, my $lang => 'HirakataPapark::Types::Lang',
       my $user_seacret_id => 'Str',
       my $num             => 'Int';
 

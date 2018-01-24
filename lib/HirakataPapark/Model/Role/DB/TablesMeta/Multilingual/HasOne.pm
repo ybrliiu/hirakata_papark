@@ -1,6 +1,6 @@
 package HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasOne {
 
-  use Mouse::Role;
+  use Mouse;
   use HirakataPapark;
   use HirakataPapark::Types;
   use aliased 'HirakataPapark::Model::Role::DB::TablesMeta::BodyTable';
@@ -33,7 +33,7 @@ package HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasOne {
 
   sub _build_duplicate_columns_with_body_table($self) {
     my $foreign_lang_table_name = 
-      (values $self->foreign_lang_table_names_mapped_to_lang->%*)[0];
+      (values $self->foreign_lang_tables_names_mapped_to_lang->%*)[0];
     my $foreign_lang_table = $self->_get_table($foreign_lang_table_name);
     $self->_get_duplicate_columns([ $self->body_table, $foreign_lang_table ]);
   }
@@ -45,7 +45,7 @@ package HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasOne {
   sub _build_foreign_lang_tables_mapped_to_lang($self) {
     my %map = map {
       my $lang = $_;
-      my $table_name = $self->foreign_lang_table_names_mapped_to_lang->{$lang};
+      my $table_name = $self->foreign_lang_tables_names_mapped_to_lang->{$lang};
       $lang => ForeignLangTable->new({
         name       => $table_name,
         lang       => $lang,
@@ -64,6 +64,8 @@ package HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasOne {
   sub join_tables($self) {
     $self->foreign_lang_tables;
   }
+
+  __PACKAGE__->meta->make_immutable;
 
 }
 

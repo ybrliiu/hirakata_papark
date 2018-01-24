@@ -3,6 +3,7 @@ package HirakataPapark::Model::Role::DB::TablesMeta::Multilingual {
   use Mouse::Role;
   use HirakataPapark;
   use HirakataPapark::Types;
+  use Option;
   use HirakataPapark::Class::ISO639_1Translator qw( to_word );
   use namespace::autoclean;
 

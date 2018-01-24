@@ -5,9 +5,9 @@ package HirakataPapark::Model::Users::Users {
 
   use Smart::Args qw( args );
   
-  use constant TABLE => 'user';
+  use constant HANDLE_TABLE_NAME => 'user';
 
-  with qw( HirakataPapark::Model::Role::DB );
+  with 'HirakataPapark::Model::Role::DB::RowHandler';
 
   sub add_row {
     args my $self, my $id => 'Str',
