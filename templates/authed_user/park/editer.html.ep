@@ -45,7 +45,9 @@
       <%= $text_field->('area') %>
       <%= $text_field->('is_evacuation_area') %>
       <%= $lang_text_field->($lang, 'explain') %>
+      % my $data_func = $lang_dict->get_func('data')->get;
       % for my $lang ( HirakataPapark::Types->other_langs($lang)->@* ) {
+        <p class="lang-title"><%= $data_func->( $lang_dict->get_word($lang)->get ) %></p>
         % for my $column (@$duplicate_columns) {
           <%= $lang_text_field->($lang, $column->name) %>
         % }

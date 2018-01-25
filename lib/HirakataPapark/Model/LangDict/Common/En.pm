@@ -60,6 +60,7 @@ package HirakataPapark::Model::LangDict::Common::En {
       search_park          => 'Search Park',
       add_tag              => 'Add Tag',
       tag_list             => 'Tag List',
+      ja                   => 'Japanese',
     };
   }
 
@@ -87,8 +88,8 @@ package HirakataPapark::Model::LangDict::Common::En {
       current => sub ($name) {
         'Current ' . ucfirst $name;
       },
-      ja => sub ($word) {
-        "${word}(Japanese)";
+      data => sub ($word) {
+        "${word} Data";
       },
     };
   }

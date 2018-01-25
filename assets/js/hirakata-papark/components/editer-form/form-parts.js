@@ -23,7 +23,10 @@ module.exports = function (responceFetcher) {
     },
     methods: {
       clearErrors: function () {
-        this.errors.splice(0, this.errors.length - 1);
+        this.errors.splice(0, this.errors.length);
+      },
+      pushError: function (value) {
+        this.errors.push(value);
       },
     },
   };

@@ -94,6 +94,12 @@ i.medium-small {
   color: #9e9e9e !important;
 }
 
+// 公園編集画面 言語ごとのタイトル(英語のデータ とか)
+.lang-title {
+  font-size: 1.3rem;
+  padding: 5px 0 7px 0;
+}
+
 /* 公園マップの外枠 */
 #park-map {
   width: 100%;
