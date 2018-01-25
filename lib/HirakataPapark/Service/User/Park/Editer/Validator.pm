@@ -14,7 +14,7 @@ package HirakataPapark::Service::User::Park::Editer::Validator {
 
   sub validate($self) {
     $self->check(
-      ( map { $_ => ['NOT_NULL', 'INT'] } qw( park_id x y area ) ),
+      ( map { $_ => ['NOT_NULL'] } qw( park_id x y area ) ),
       zipcode            => ['NOT_NULL', 'JZIP'],
       is_evacuation_area => ['NOT_NULL', [BETWEEN => qw( 0 1 )]],
     );

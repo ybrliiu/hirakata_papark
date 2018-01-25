@@ -10,19 +10,17 @@ package HirakataPapark::Model::Multilingual::Parks::MultilingualRow {
     required => 1,
   );
 
-  has 'zipcode' => (
+  has [qw( id zipcode )] => (
     is       => 'ro',
     isa      => 'Str',
     required => 1,
   );
 
-  for my $name (qw/ x y area /) {
-    has $name => (
-      is       => 'ro',
-      isa      => 'Num',
-      required => 1,
-    );
-  }
+  has [qw( x y area )] => (
+    is       => 'ro',
+    isa      => 'Num',
+    required => 1,
+  );
 
   has 'is_evacuation_area' => (
     is       => 'ro',

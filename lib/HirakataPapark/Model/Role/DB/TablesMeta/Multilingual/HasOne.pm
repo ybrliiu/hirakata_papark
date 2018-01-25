@@ -3,6 +3,7 @@ package HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasOne {
   use Mouse;
   use HirakataPapark;
   use HirakataPapark::Types;
+  use SQL::Translator::Schema::Constants qw( FOREIGN_KEY );
   use aliased 'HirakataPapark::Model::Role::DB::TablesMeta::BodyTable';
   use aliased 'HirakataPapark::Model::Role::DB::TablesMeta::ForeignLangTable';
   use namespace::autoclean;
@@ -35,7 +36,13 @@ package HirakataPapark::Model::Role::DB::TablesMeta::Multilingual::HasOne {
     my $foreign_lang_table_name = 
       (values $self->foreign_lang_tables_names_mapped_to_lang->%*)[0];
     my $foreign_lang_table = $self->_get_table($foreign_lang_table_name);
-    $self->_get_duplicate_columns([ $self->body_table, $foreign_lang_table ]);
+    my $columns = $self->_get_duplicate_columns([ $self->body_table, $foreign_lang_table ]);
+    my $foreign_key_column_name = do {
+      my ($foreign_key) =
+        grep { $_->type eq FOREIGN_KEY } $foreign_lang_table->get_constraints;
+      $foreign_key->fields->[0]->name;
+    };
+    [ grep { $_->name ne $foreign_key_column_name } @$columns ];
   }
 
   sub _build_duplicate_column_names_with_body_table_mapped($self) {

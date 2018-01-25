@@ -8,21 +8,25 @@ package HirakataPapark::Web::Controller::AuthedUser::Park {
   use HirakataPapark::Service::User::Park::StarHandler::Handler;
   use HirakataPapark::Service::User::Park::Tagger::Tagger;
   use HirakataPapark::Service::User::Park::ImagePoster::Poster;
-  use HirakataPapark::Service::User::Park::Editer::Editer;
+  use aliased 'HirakataPapark::Service::User::Park::Editer::Editer';
   use aliased 'HirakataPapark::Service::User::Park::Editer::MessageData' =>
     'EditerMessageData';
   
   has 'user' => sub ($self) { $self->maybe_user->get };
 
-  has 'parks_model' => sub ($self) {
-    $self->model('HirakataPapark::Model::MultilingualDelegator::Parks::Parks')
-      ->model($self->lang);
+  has 'multilingual_parks_model' => sub ($self) {
+    $self->model('HirakataPapark::Model::Multilingual::Parks');
+  };
+
+  has 'parks_model_delegator' => sub ($self) {
+    $self->model('HirakataPapark::Model::MultilingualDelegator::Parks::Parks');
   };
 
   my %accessors = (
-    tags_model   => 'HirakataPapark::Model::Parks::Tags',
-    stars_model  => 'HirakataPapark::Model::Parks::Stars',
-    images_model => 'HirakataPapark::Model::Parks::Images',
+    tags_model                => 'HirakataPapark::Model::Parks::Tags',
+    stars_model               => 'HirakataPapark::Model::Parks::Stars',
+    images_model              => 'HirakataPapark::Model::Parks::Images',
+    park_edit_histories_model => 'HirakataPapark::Model::Users::ParkEditHistories::Park',
   );
 
   while ( my ($accessor_name, $model_name) = each %accessors ) {
@@ -144,8 +148,9 @@ package HirakataPapark::Web::Controller::AuthedUser::Park {
   }
 
   sub editer($self) {
-    my $park_id   = $self->param('park_id');
-    $self->parks_model->get_row_by_id($park_id)->match(
+    my $park_id = $self->param('park_id');
+    $self->multilingual_parks_model
+         ->get_multilingual_row_by_park_id($self->lang, $park_id)->match(
       Some => sub ($park) {
         my $lang_dict = EditerMessageData->instance->message_data($self->lang);
         my $duplicate_columns = do {
@@ -163,6 +168,34 @@ package HirakataPapark::Web::Controller::AuthedUser::Park {
       },
       None => sub { $self->render_not_found },
     );
+  }
+
+  sub edit($self) {
+    my $park_id = $self->param('park_id');
+    my $req_json = $self->req->json;
+    $req_json->{park_id} = $park_id;
+    my $editer = Editer->new({
+      db                    => $self->db,
+      lang                  => $self->lang,
+      user                  => $self->user,
+      json                  => $req_json,
+      histories_model       => $self->park_edit_histories_model,
+      parks_model_delegator => $self->parks_model_delegator,
+    });
+    my $json = $editer->edit->match(
+      Right => sub {
+        +{
+          is_success  => 1,
+          redirect_to => $self->url_for($self->lang . '/park/' . $park_id)->to_abs->to_string,
+        };
+      },
+      Left => sub ($e) {
+        $e->isa('HirakataPapark::Service::User::Park::Editer::ValidatorsContainer')
+          ? +{ is_success => 0, errors => $e->errors_and_messages }
+          : die $e;
+      },
+    );
+    $self->render(json => $json);
   }
 
 }

@@ -39,12 +39,10 @@ PROTOTYPE.sendData = function () {
 };
 
 PROTOTYPE.fetchResponce = function () {
-  return this.sendData();
   superagent
     .post(this.url)
-    .send(this.sendData)
+    .send(this.sendData())
     .end(function (err, res) {
-      this.sendData = {};
       if (res.status !== 200) {
         alert('サーバーでエラーが発生しました。運営者に報告してください。');
         console.log('[Error ocurred at searchForm.button.fetchResponce]');
@@ -54,7 +52,7 @@ PROTOTYPE.fetchResponce = function () {
           res: res,
         });
       } else {
-        this.errors = err;
+        console.log(res);
       }
     }.bind(this));
 };

@@ -6,14 +6,15 @@
   % my ($lang, $keyword) = @_;
   <div class="left-align">
     % my $word = $lang_dict->get_word($keyword)->get;
+    % my $current_value = $park->lang_records->$lang->$keyword;
     <p><%= $word %></p>
     <p class="current-value">
-      <%= $current_func->($word) %> : <%= $park->$keyword %>
+      <%= $current_func->($word) %> : <%= $current_value %>
     </p>
     <lang-text-field
       lang="<%= $lang %>"
       name="<%= $keyword %>"
-      default-value="<%= $park->$keyword %>">
+      default-value="<%= $current_value %>">
     </lang-text-field>
   </div>
 % end

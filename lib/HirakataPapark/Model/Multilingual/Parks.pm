@@ -2,9 +2,10 @@ package HirakataPapark::Model::Multilingual::Parks {
 
   use Mouse;
   use HirakataPapark;
-  use Either;
+  use Option;
   use Smart::Args qw( args_pos );
   use aliased 'HirakataPapark::Model::Multilingual::Parks::MultilingualRowBuilder';
+  use namespace::autoclean;
 
   use constant BODY_TABLE_NAME => 'park';
 
@@ -36,13 +37,15 @@ package HirakataPapark::Model::Multilingual::Parks {
     my $sth = $dbh->prepare($select->as_sql);
     $sth->execute($select->bind);
     my $rows = $sth->fetchall_arrayref;
-    my $builder = MultilingualRowBuilder->new({
-      sth         => $sth,
-      row         => $rows->[0],
-      lang        => $lang,
-      tables_meta => $self->tables_meta,
+    option( $rows->[0] )->map(sub ($row) {
+      my $builder = MultilingualRowBuilder->new({
+        sth         => $sth,
+        row         => $rows->[0],
+        lang        => $lang,
+        tables_meta => $self->tables_meta,
+      });
+      $builder->build;
     });
-    $builder->build;
   }
 
   __PACKAGE__->meta->make_immutable;

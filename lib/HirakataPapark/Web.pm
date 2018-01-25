@@ -119,6 +119,7 @@ package HirakataPapark::Web {
           $park->get( '/tagger/:park_id'      )->to(action => 'tagger');
           $park->post('/add-tag/:park_id'     )->to(action => 'add_tag');
           $park->get( '/editer/:park_id'      )->to(action => 'editer');
+          $park->post('/edit/:park_id'        )->to(action => 'edit');
           $park->get( '/image-poster/:park_id')->to(action => 'image_poster');
           $park->post('/post-image/:park_id'  )->to(action => 'post_image');
         }

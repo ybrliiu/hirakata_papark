@@ -10,7 +10,7 @@ package HirakataPapark::Service::User::Park::Editer::LangRecordValidator {
     MIN_NAME_LEN    => 3,
     MAX_NAME_LEN    => 30,
     MIN_ADDRESS_LEN => 7,
-    MAX_ADDRESS_LEN => 40,
+    MAX_ADDRESS_LEN => 60,
     MIN_EXPLAIN_LEN => 0,
     MAX_EXPLAIN_LEN => 200,
   };

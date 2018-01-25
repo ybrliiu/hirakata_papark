@@ -20,10 +20,16 @@ package HirakataPapark::Container::Model {
           HirakataPapark::Model::Parks::Images
           HirakataPapark::Model::Parks::Stars
           HirakataPapark::Model::Parks::Tags
+          HirakataPapark::Model::Multilingual::Parks
+          HirakataPapark::Model::MultilingualDelegator::Parks::Parks
           HirakataPapark::Model::MultilingualDelegator::Parks::Parks
           HirakataPapark::Model::MultilingualDelegator::Parks::Plants
           HirakataPapark::Model::MultilingualDelegator::Parks::Equipments
           HirakataPapark::Model::MultilingualDelegator::Parks::SurroundingFacilities
+          HirakataPapark::Model::Users::ParkEditHistories::Park
+          HirakataPapark::Model::Users::ParkEditHistories::Plants
+          HirakataPapark::Model::Users::ParkEditHistories::Equipment
+          HirakataPapark::Model::Users::ParkEditHistories::SurroundingFacility
         )
       ) {
         load $pkg_name;
