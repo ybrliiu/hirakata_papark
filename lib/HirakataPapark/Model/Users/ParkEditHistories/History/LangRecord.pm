@@ -5,6 +5,7 @@ package HirakataPapark::Model::Users::ParkEditHistories::History::LangRecord {
   use Option;
   use Mojo::Util;
   use HirakataPapark::Util;
+  use namespace::autoclean;
 
   # constant
   requires qw( COLUMN_NAMES );
