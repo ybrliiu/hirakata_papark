@@ -2,6 +2,7 @@ package HirakataPapark::Web::Controller::AuthedUser::Park {
 
   use Mojo::Base 'HirakataPapark::Web::Controller';
   use HirakataPapark;
+  use HirakataPapark::Types;
   use Option;
   use HirakataPapark::Validator::Params;
   use HirakataPapark::Service::User::Park::StarHandler::Handler;
@@ -147,9 +148,16 @@ package HirakataPapark::Web::Controller::AuthedUser::Park {
     $self->parks_model->get_row_by_id($park_id)->match(
       Some => sub ($park) {
         my $lang_dict = EditerMessageData->instance->message_data($self->lang);
+        my $duplicate_columns = do {
+          my $foreign_lang = HirakataPapark::Types->FOREIGN_LANGS->[0];
+          my $model =
+            $self->model('HirakataPapark::Model::MultilingualDelegator::Parks::Parks');
+          $model->model($foreign_lang)->tables_meta->duplicate_columns_with_body_table;
+        };
         $self->stash({
-          park      => $park,
-          lang_dict => $lang_dict,
+          park              => $park,
+          lang_dict         => $lang_dict,
+          duplicate_columns => $duplicate_columns,
         });
         $self->render;
       },

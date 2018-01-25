@@ -7,4 +7,5 @@ module.exports = {
   parkTagger: require('./user/park-tagger'),
   parkImagePoster: require('./user/park-image-poster'),
   myPage: require('./user/mypage'),
+  park: require('./user/park'),
 };

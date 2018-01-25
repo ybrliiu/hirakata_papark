@@ -1,6 +1,23 @@
 % layout "default_${lang}";
 
 % my $current_func = $lang_dict->get_func('current')->get;
+
+% my $lang_text_field = begin
+  % my ($lang, $keyword) = @_;
+  <div class="left-align">
+    % my $word = $lang_dict->get_word($keyword)->get;
+    <p><%= $word %></p>
+    <p class="current-value">
+      <%= $current_func->($word) %> : <%= $park->$keyword %>
+    </p>
+    <lang-text-field
+      lang="<%= $lang %>"
+      name="<%= $keyword %>"
+      default-value="<%= $park->$keyword %>">
+    </lang-text-field>
+  </div>
+% end
+
 % my $text_field = begin
   % my $keyword = shift;
   <div class="left-align">
@@ -9,26 +26,39 @@
     <p class="current-value">
       <%= $current_func->($word) %> : <%= $park->$keyword %>
     </p>
-    <input type="text" v-model="name">
+    <text-field name="<%= $keyword %>" default-value="<%= $park->$keyword %>"></text-field>
   </div>
 % end
 
-<div class="container">
+<div class="container" id="v-park-editer" v-cloak>
   <div class="card single-content">
     <div class="card-content center-align" id="v-park-image-poster">
       <h2 class="card-title">
         <%= $lang_dict->get_func('editing')->get->($park->name) %>
       </h2>
-      <%= $text_field->('name') %>
+      <%= $lang_text_field->($lang, 'name') %>
       <%= $text_field->('zipcode') %>
-      <%= $text_field->('address') %>
+      <%= $lang_text_field->($lang, 'address') %>
       <%= $text_field->('x') %>
       <%= $text_field->('y') %>
       <%= $text_field->('area') %>
       <%= $text_field->('is_evacuation_area') %>
-      <%= $text_field->('explain') %>
-      % for my $lang ( HirakataPapark::Type->other_langs($lang) ) {
+      <%= $lang_text_field->($lang, 'explain') %>
+      % for my $lang ( HirakataPapark::Types->other_langs($lang)->@* ) {
+        % for my $column (@$duplicate_columns) {
+          <%= $lang_text_field->($lang, $column->name) %>
+        % }
       % }
+      <editer-button url="<%= url_for "/$lang/user/park/edit/" . $park->id %>">
+      </editer-button>
     </div>
   </div>
 </div>
+
+<script>
+'use strict';
+window.addEventListener('load', function () {
+  hirakataPapark.user().park().editer();
+});
+</script>
+
