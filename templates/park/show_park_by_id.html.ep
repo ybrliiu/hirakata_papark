@@ -105,9 +105,11 @@
           <div class="col l6 s12">
             <h3>
               <%= $details_title %>
+              % $maybe_user->map(sub {
               <a href="<%= url_for "/$lang/user/park/editer/" . $park->id %>">
                 <i class="material-icons small">edit</i>
               </a>
+              % });
             </h3>
             <p><%= $lang_dict->get_word('address')->get %> : 〒<%= $park->zipcode %> <%= $park->address %></p>
             <p><%= $lang_dict->get_word('latitude')->get %> : <%= $park->y %>, <%= $lang_dict->get_word('longitude')->get %> : <%= $park->x %>
