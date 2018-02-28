@@ -7,6 +7,37 @@ package HirakataPapark::DB::Schema {
   database 'PostgreSQL';
 
   default_not_null;
+ 
+=head1
+  create_table equipment => columns {
+    string id => primary_key;
+    string 'ja_name';
+    string 'en_name';
+  };
+
+  create_table surrounding_facility => columns {
+    string id => primary_key;
+    string 'ja_name';
+    string 'en_name';
+  };
+
+  create_table plant => columns {
+    string id => primary_key;
+    string 'ja_name';
+    string 'en_name';
+  };
+
+  create_table park_equipment => columns {
+    integer 'id' => ( primary_key, auto_increment );
+    integer 'park_id';
+    string 'equipment_id';
+    integer 'num'             => ( default => 1 );
+    integer 'recommended_age' => ( default => 0 );
+    string 'comment';
+    add_unique_index 'park_equipment_unique' => [ 'park_id', 'equipment_id' ];
+    foreign_key park_id => ( park => 'id' );
+  };
+=cut
 
   create_table park => columns {
     integer 'id' => (primary_key, auto_increment);
